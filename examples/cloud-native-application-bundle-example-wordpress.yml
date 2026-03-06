@@ -1,0 +1,93 @@
+schemaVersion: v1
+name: my-wordpress-bundle
+version: 1.2.3
+description: A complete WordPress installation with MySQL database
+keywords:
+  - wordpress
+  - blog
+  - cms
+  - mysql
+maintainers:
+  - name: Jane Developer
+    email: jane@example.com
+    url: https://example.com/maintainers/jane
+license: Apache-2.0
+invocationImages:
+  - imageType: oci
+    image: example.com/my-wordpress-bundle:1.2.3
+    contentDigest: sha256:abc123def456...
+    size: 52428800
+    mediaType: application/vnd.oci.image.manifest.v1+json
+    labels:
+      org.opencontainers.image.title: WordPress Bundle Installer
+images:
+  wordpress:
+    imageType: oci
+    image: wordpress:6.0
+    description: WordPress application image
+    contentDigest: sha256:wordpress123...
+  mysql:
+    imageType: oci
+    image: mysql:8.0
+    description: MySQL database image
+    contentDigest: sha256:mysql456...
+credentials:
+  db-password:
+    description: Password for the MySQL database
+    env: MYSQL_PASSWORD
+    required: true
+  admin-key:
+    description: Admin API key for WordPress
+    path: /cnab/app/credentials/admin-key
+    required: false
+    applyTo:
+      - install
+      - upgrade
+parameters:
+  site-name:
+    definition: site-name-def
+    description: The name of your WordPress site
+    destination:
+      env: WORDPRESS_SITE_NAME
+    required: true
+  replica-count:
+    definition: replica-count-def
+    description: Number of WordPress replicas to deploy
+    destination:
+      env: REPLICA_COUNT
+    applyTo:
+      - install
+      - upgrade
+definitions:
+  site-name-def:
+    type: string
+    minLength: 1
+    maxLength: 100
+    default: My WordPress Site
+  replica-count-def:
+    type: integer
+    minimum: 1
+    maximum: 10
+    default: 2
+  db-connection-def:
+    type: string
+    description: Database connection string
+outputs:
+  db-connection-string:
+    definition: db-connection-def
+    description: MySQL connection string for the application
+    path: /cnab/app/outputs/db-connection
+    applyTo:
+      - install
+actions:
+  io.example.backup:
+    description: Creates a backup of the WordPress database and files
+    modifies: false
+    stateless: false
+  io.example.restore:
+    description: Restores WordPress from a backup
+    modifies: true
+custom:
+  io.example.metadata:
+    category: cms
+    tier: standard

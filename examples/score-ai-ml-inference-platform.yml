@@ -1,0 +1,374 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: ml-inference-service
+  annotations:
+    app.kubernetes.io/component: inference
+    app.kubernetes.io/part-of: ml-platform
+    ml.company.io/model-name: product-recommendations
+    ml.company.io/model-version: "4.2.1"
+    ml.company.io/framework: pytorch
+    gpu.company.io/required: "true"
+service:
+  ports:
+    http:
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+    grpc:
+      port: 8081
+      targetPort: 8081
+      protocol: TCP
+    metrics:
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+    admin:
+      port: 8082
+      targetPort: 8082
+      protocol: TCP
+containers:
+  model-server:
+    image: myacr.azurecr.io/ml-serving/inference-server:4.2.1
+    command:
+      - python
+      - -m
+      - inference_server
+    args:
+      - --config=/etc/model-server/config.yaml
+      - --model-path=/models/current
+      - --http-port=8080
+      - --grpc-port=8081
+      - --metrics-port=9090
+      - --admin-port=8082
+    variables:
+      MODEL_NAME: product-recommendations
+      MODEL_VERSION: "4.2.1"
+      PYTORCH_CUDA_ALLOC_CONF: max_split_size_mb:512
+      CUDA_VISIBLE_DEVICES: "0"
+      OMP_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
+      TOKENIZERS_PARALLELISM: "false"
+      MODEL_REGISTRY_URL: ${resources.model-registry.url}
+      MODEL_REGISTRY_TOKEN: ${resources.model-registry-credentials.token}
+      FEATURE_STORE_HOST: ${resources.feature-store.host}
+      FEATURE_STORE_PORT: ${resources.feature-store.port}
+      CACHE_REDIS_HOST: ${resources.inference-cache.host}
+      CACHE_REDIS_PORT: ${resources.inference-cache.port}
+      CACHE_TTL_SECONDS: "300"
+      MAX_BATCH_SIZE: "32"
+      MAX_QUEUE_DELAY_MS: "100"
+      REQUEST_TIMEOUT_MS: "5000"
+      DB_CONNECTION_STRING: ${resources.prediction-log-db.connection_string}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${resources.observability.otlp_endpoint}
+      OTEL_SERVICE_NAME: ml-inference-service
+      LOG_LEVEL: INFO
+      PYTHONUNBUFFERED: "1"
+    files:
+      /etc/model-server/config.yaml:
+        content: |
+          server:
+            name: ml-inference-service
+            version: 4.2.1
+          
+          model:
+            name: product-recommendations
+            version: 4.2.1
+            type: pytorch
+            inputSchema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                product_ids:
+                  type: array
+                  items:
+                    type: string
+                context:
+                  type: object
+            outputSchema:
+              type: object
+              properties:
+                recommendations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product_id:
+                        type: string
+                      score:
+                        type: number
+                confidence:
+                  type: number
+          
+          inference:
+            batchSize: 32
+            maxQueueDelay: 100ms
+            timeout: 5s
+            warmup:
+              enabled: true
+              samples: 100
+          
+          caching:
+            enabled: true
+            ttl: 300s
+            keyPrefix: "rec:v4:"
+          
+          featureStore:
+            enabled: true
+            features:
+              - user_embeddings
+              - product_embeddings
+              - user_history
+              - trending_products
+          
+          monitoring:
+            metrics:
+              enabled: true
+              histogramBuckets:
+                - 0.005
+                - 0.01
+                - 0.025
+                - 0.05
+                - 0.1
+                - 0.25
+                - 0.5
+                - 1.0
+            logging:
+              predictionSampling: 0.01
+              errorLogging: true
+        mode: "0644"
+      /etc/model-server/labels.json:
+        source: ./config/labels.json
+        mode: "0644"
+        noExpand: true
+    volumes:
+      /models/current:
+        source: ${resources.model-storage.source}
+        path: product-recommendations/v4.2.1
+        readOnly: true
+      /models/cache:
+        source: ${resources.model-cache.source}
+        readOnly: false
+      /data/features:
+        source: ${resources.feature-cache.source}
+        readOnly: false
+    resources:
+      requests:
+        memory: 8Gi
+        cpu: "4"
+      limits:
+        memory: 32Gi
+        cpu: "8"
+    readinessProbe:
+      httpGet:
+        path: /v1/health/ready
+        port: 8082
+        scheme: HTTP
+        httpHeaders:
+          - name: Accept
+            value: application/json
+    livenessProbe:
+      httpGet:
+        path: /v1/health/live
+        port: 8082
+        scheme: HTTP
+  request-router:
+    image: envoyproxy/envoy:v1.28.0
+    args:
+      - --config-path=/etc/envoy/envoy.yaml
+      - --log-level=info
+    files:
+      /etc/envoy/envoy.yaml:
+        content: |
+          static_resources:
+            listeners:
+              - name: http_listener
+                address:
+                  socket_address:
+                    address: 0.0.0.0
+                    port_value: 8080
+                filter_chains:
+                  - filters:
+                      - name: envoy.filters.network.http_connection_manager
+                        typed_config:
+                          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                          stat_prefix: ingress_http
+                          route_config:
+                            name: local_route
+                            virtual_hosts:
+                              - name: inference
+                                domains: ["*"]
+                                routes:
+                                  - match:
+                                      prefix: "/v1/predict"
+                                    route:
+                                      cluster: model_server
+                                      timeout: 10s
+                                    request_headers_to_add:
+                                      - header:
+                                          key: X-Request-Start
+                                          value: "%START_TIME%"
+                          http_filters:
+                            - name: envoy.filters.http.router
+                              typed_config:
+                                "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+            clusters:
+              - name: model_server
+                connect_timeout: 1s
+                type: STATIC
+                lb_policy: ROUND_ROBIN
+                load_assignment:
+                  cluster_name: model_server
+                  endpoints:
+                    - lb_endpoints:
+                        - endpoint:
+                            address:
+                              socket_address:
+                                address: 127.0.0.1
+                                port_value: 8080
+        mode: "0644"
+    resources:
+      requests:
+        memory: 64M
+        cpu: 100m
+      limits:
+        memory: 256M
+        cpu: 500m
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8001
+        scheme: HTTP
+  ab-controller:
+    image: myacr.azurecr.io/ml-serving/ab-controller:1.5.0
+    variables:
+      EXPERIMENT_CONFIG_PATH: /etc/experiments/config.yaml
+      MODEL_SERVER_ENDPOINT: http://127.0.0.1:8082
+      METRICS_ENDPOINT: ${resources.observability.metrics_endpoint}
+      EXPERIMENT_DB_URL: ${resources.experiment-db.connection_string}
+    files:
+      /etc/experiments/config.yaml:
+        content: |
+          experiments:
+            - name: recommendation-algorithm-v4
+              enabled: true
+              variants:
+                - name: control
+                  weight: 80
+                  config:
+                    algorithm: collaborative-filtering
+                - name: treatment
+                  weight: 20
+                  config:
+                    algorithm: transformer-based
+              metrics:
+                - name: click_through_rate
+                  type: ratio
+                - name: conversion_rate
+                  type: ratio
+                - name: latency_p99
+                  type: percentile
+                  percentile: 99
+        mode: "0644"
+    resources:
+      requests:
+        memory: 128M
+        cpu: 100m
+      limits:
+        memory: 256M
+        cpu: 250m
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 8090
+        scheme: HTTP
+    livenessProbe:
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - test -f /tmp/healthy
+resources:
+  model-registry:
+    type: service
+    id: ml-platform.model-registry
+    metadata:
+      annotations:
+        ml.company.io/component: registry
+    params:
+      version: "2.0"
+  model-registry-credentials:
+    type: secret
+    id: ml-platform.registry-auth
+    params:
+      keys:
+        - token
+        - refreshToken
+  feature-store:
+    type: service
+    class: feast
+    id: ml-platform.feature-store
+    params:
+      offlineStore: bigquery
+      onlineStore: redis
+  inference-cache:
+    type: redis
+    class: cluster
+    id: ml-platform.inference-cache
+    params:
+      version: "7.2"
+      maxMemoryPolicy: volatile-lru
+      maxMemory: 4gb
+  prediction-log-db:
+    type: postgres
+    class: analytics
+    id: ml-platform.predictions
+    metadata:
+      annotations:
+        analytics.company.io/retention: "90d"
+    params:
+      version: "15"
+      extensions:
+        - timescaledb
+      partitioning:
+        type: time
+        interval: daily
+  experiment-db:
+    type: postgres
+    class: standard
+    id: ml-platform.experiments
+    params:
+      version: "15"
+      size: small
+  model-storage:
+    type: volume
+    class: nfs
+    id: ml-platform.models
+    metadata:
+      annotations:
+        storage.company.io/backup: "true"
+    params:
+      size: 500Gi
+      accessMode: ReadOnlyMany
+  model-cache:
+    type: volume
+    class: ssd
+    params:
+      size: 100Gi
+      accessMode: ReadWriteOnce
+  feature-cache:
+    type: volume
+    class: ephemeral
+    params:
+      size: 20Gi
+  observability:
+    type: service
+    id: shared.observability
+    params:
+      traces: true
+      metrics: true
+      logs: true
+      customMetrics:
+        - prediction_latency
+        - batch_size
+        - cache_hit_rate

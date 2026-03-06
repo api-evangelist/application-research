@@ -1,0 +1,546 @@
+environment:
+  properties:
+    compute:
+      kind: kubernetes
+      namespace: ecommerce-prod
+      identity:
+        kind: azure.com.workload
+        oidcIssuer: >-
+          https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/
+        resource: >-
+          /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ecommerce-identity
+    providers:
+      azure:
+        scope: >-
+          /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg
+      aws:
+        scope: /planes/aws/aws/accounts/123456789012/regions/us-east-1
+    recipes:
+      Applications.Datastores/redisCaches:
+        default:
+          templateKind: bicep
+          templatePath: ghcr.io/myorg/recipes/redis:1.0.0
+          parameters:
+            sku: Premium
+            capacity: 2
+      Applications.Datastores/mongoDatabases:
+        default:
+          templateKind: terraform
+          templatePath: Azure/cosmosdb/azurerm
+          templateVersion: 3.0.0
+          parameters:
+            consistency_level: Session
+            failover_priority: 0
+      Applications.Messaging/rabbitMQQueues:
+        default:
+          templateKind: bicep
+          templatePath: ghcr.io/myorg/recipes/rabbitmq:2.1.0
+          plainHttp: false
+    recipeConfig:
+      terraform:
+        authentication:
+          git:
+            pat:
+              github.com:
+                secret: >-
+                  /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/git-credentials
+        providers:
+          azurerm:
+            - subscriptionId: 00000000-0000-0000-0000-000000000000
+              secrets:
+                client_secret:
+                  source: >-
+                    /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/azure-credentials
+                  key: clientSecret
+      bicep:
+        authentication:
+          ghcr.io:
+            secret: >-
+              /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/registry-credentials
+      env:
+        TF_LOG: INFO
+        ARM_USE_MSI: 'true'
+    extensions:
+      - kind: kubernetesMetadata
+        annotations:
+          prometheus.io/scrape: 'true'
+          prometheus.io/port: '9090'
+        labels:
+          team: platform
+          cost-center: engineering
+    simulated: false
+  location: eastus
+  tags:
+    environment: production
+    project: ecommerce
+    owner: platform-team
+application:
+  properties:
+    environment: >-
+      /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+    extensions:
+      - kind: kubernetesNamespace
+        namespace: ecommerce-app
+      - kind: kubernetesMetadata
+        annotations:
+          app.kubernetes.io/managed-by: radius
+        labels:
+          app.kubernetes.io/name: ecommerce-platform
+          app.kubernetes.io/version: 2.5.0
+  location: eastus
+  tags:
+    application: ecommerce-platform
+    version: 2.5.0
+containers:
+  orderService:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      container:
+        image: ghcr.io/myorg/order-service:2.5.0
+        imagePullPolicy: IfNotPresent
+        env:
+          ASPNETCORE_ENVIRONMENT:
+            value: Production
+          LOG_LEVEL:
+            value: Information
+          DB_PASSWORD:
+            valueFrom:
+              secretRef:
+                source: >-
+                  /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/db-secrets
+                key: password
+        ports:
+          http:
+            containerPort: 8080
+            protocol: TCP
+            scheme: http
+            port: 80
+          grpc:
+            containerPort: 9090
+            protocol: TCP
+        readinessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /health/ready
+          headers:
+            X-Health-Check: readiness
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 3
+          timeoutSeconds: 3
+        livenessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /health/live
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 5
+        volumes:
+          config:
+            kind: persistent
+            source: >-
+              /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/volumes/order-config
+            mountPath: /app/config
+            permission: read
+          temp:
+            kind: ephemeral
+            managedStore: memory
+            mountPath: /tmp
+        command:
+          - dotnet
+        args:
+          - OrderService.dll
+          - '--urls'
+          - http://+:8080
+        workingDir: /app
+      connections:
+        mongodb:
+          source: >-
+            /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/mongoDatabases/orders-db
+          disableDefaultEnvVars: false
+          iam:
+            kind: azure
+            roles:
+              - DocumentDB Account Contributor
+        redis:
+          source: >-
+            /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/redisCaches/session-cache
+        rabbitmq:
+          source: >-
+            /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Messaging/rabbitMQQueues/order-events
+      identity:
+        kind: azure.com.workload
+        oidcIssuer: >-
+          https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/
+        resource: >-
+          /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/order-service-identity
+      extensions:
+        - kind: daprSidecar
+          appId: order-service
+          appPort: 8080
+          config: tracing-config
+          protocol: http
+        - kind: manualScaling
+          replicas: 3
+        - kind: kubernetesMetadata
+          annotations:
+            sidecar.istio.io/inject: 'true'
+          labels:
+            app: order-service
+            version: v2
+      resourceProvisioning: internal
+      restartPolicy: Always
+      runtimes:
+        kubernetes:
+          base: |-
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: order-service
+            spec:
+              selector:
+                matchLabels:
+                  app: order-service
+          pod:
+            nodeSelector:
+              kubernetes.io/os: linux
+              node-type: compute
+            tolerations:
+              - key: workload
+                operator: Equal
+                value: high-memory
+                effect: NoSchedule
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                  - weight: 100
+                    podAffinityTerm:
+                      labelSelector:
+                        matchLabels:
+                          app: order-service
+                      topologyKey: kubernetes.io/hostname
+    location: eastus
+    tags:
+      service: order-service
+      tier: backend
+  apiGateway:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      container:
+        image: ghcr.io/myorg/api-gateway:2.5.0
+        imagePullPolicy: Always
+        ports:
+          http:
+            containerPort: 8080
+            protocol: TCP
+            scheme: https
+            port: 443
+        readinessProbe:
+          kind: tcp
+          containerPort: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          kind: exec
+          command: /bin/sh -c 'curl -f http://localhost:8080/health || exit 1'
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          failureThreshold: 5
+      connections:
+        orderService:
+          source: >-
+            /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService
+      extensions:
+        - kind: manualScaling
+          replicas: 2
+      restartPolicy: Always
+    location: eastus
+    tags:
+      service: api-gateway
+      tier: frontend
+gateway:
+  properties:
+    application: >-
+      /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+    internal: false
+    hostname:
+      fullyQualifiedHostname: api.ecommerce.example.com
+    routes:
+      - path: /api/orders
+        destination: >-
+          /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService
+        replacePrefix: /orders
+        enableWebsockets: false
+        timeoutPolicy:
+          request: 30s
+          backendRequest: 25s
+      - path: /api/products
+        destination: http://product-service:8080
+        enableWebsockets: false
+        timeoutPolicy:
+          request: 15s
+      - path: /ws
+        destination: http://notification-service:8080
+        enableWebsockets: true
+    tls:
+      sslPassthrough: false
+      minimumProtocolVersion: '1.2'
+      certificateFrom: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/tls-cert
+  location: eastus
+  tags:
+    component: ingress
+    tier: edge
+secretStores:
+  dbSecrets:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      type: generic
+      data:
+        username:
+          encoding: raw
+          value: ecommerce_admin
+        password:
+          encoding: base64
+          value: c3VwZXJzZWNyZXRwYXNzd29yZA==
+    location: eastus
+    tags:
+      secret-type: database
+  tlsCert:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      type: certificate
+      resource: >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.KeyVault/vaults/ecommerce-kv
+      data:
+        tls.crt:
+          valueFrom:
+            name: api-certificate
+            version: latest
+        tls.key:
+          valueFrom:
+            name: api-certificate-key
+            version: latest
+    location: eastus
+    tags:
+      secret-type: tls
+  azureCredentials:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      type: azureWorkloadIdentity
+      data:
+        clientId:
+          encoding: raw
+          value: 00000000-0000-0000-0000-000000000000
+        tenantId:
+          encoding: raw
+          value: 00000000-0000-0000-0000-000000000000
+    location: eastus
+volumes:
+  orderConfig:
+    properties:
+      kind: azure.com.keyvault
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resource: >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.KeyVault/vaults/ecommerce-config-kv
+      secrets:
+        api-key:
+          name: order-service-api-key
+          version: v1
+          alias: api-key.txt
+          encoding: utf-8
+        signing-key:
+          name: jwt-signing-key
+          alias: signing-key.pem
+          encoding: base64
+      certificates:
+        client-cert:
+          name: client-certificate
+          alias: client.pfx
+          format: pfx
+          certType: certificate
+      keys:
+        encryption-key:
+          name: data-encryption-key
+          alias: encryption.key
+    location: eastus
+    tags:
+      volume-type: config
+datastores:
+  ordersDb:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resourceProvisioning: recipe
+      recipe:
+        name: default
+        parameters:
+          databaseName: orders
+          throughput: 4000
+    location: eastus
+    tags:
+      datastore: mongodb
+      purpose: orders
+  sessionCache:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resourceProvisioning: manual
+      host: ecommerce-redis.redis.cache.windows.net
+      port: 6380
+      tls: true
+      username: default
+      secrets:
+        connectionString: >-
+          ecommerce-redis.redis.cache.windows.net:6380,password=xxxx,ssl=True,abortConnect=False
+        password: supersecretpassword
+      resources:
+        - id: >-
+            /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.Cache/redis/ecommerce-redis
+    location: eastus
+    tags:
+      datastore: redis
+      purpose: session-cache
+messaging:
+  orderEvents:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resourceProvisioning: recipe
+      recipe:
+        name: default
+        parameters:
+          queueName: order-events
+          durable: true
+    location: eastus
+    tags:
+      messaging: rabbitmq
+      purpose: order-events
+dapr:
+  stateStore:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resourceProvisioning: manual
+      type: state.redis
+      version: v1
+      metadata:
+        redisHost:
+          value: ecommerce-redis.redis.cache.windows.net:6380
+        redisPassword:
+          secretKeyRef:
+            name: redis-password
+            key: password
+        enableTLS:
+          value: 'true'
+        actorStateStore:
+          value: 'true'
+      auth:
+        secretStore: order-secrets
+      resources:
+        - id: >-
+            /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.Cache/redis/ecommerce-redis
+    location: eastus
+    tags:
+      dapr-component: state-store
+  pubSub:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resourceProvisioning: manual
+      type: pubsub.rabbitmq
+      version: v1
+      metadata:
+        host:
+          value: amqps://ecommerce-rabbitmq.servicebus.windows.net:5671
+        durable:
+          value: 'true'
+        deletedWhenUnused:
+          value: 'false'
+        autoAck:
+          value: 'false'
+      resources:
+        - id: >-
+            /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Messaging/rabbitMQQueues/order-events
+    location: eastus
+    tags:
+      dapr-component: pubsub
+  secretStore:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resourceProvisioning: manual
+      type: secretstores.azure.keyvault
+      version: v1
+      metadata:
+        vaultName:
+          value: ecommerce-secrets-kv
+        azureClientId:
+          value: 00000000-0000-0000-0000-000000000000
+    location: eastus
+    tags:
+      dapr-component: secret-store
+  configStore:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+      resourceProvisioning: manual
+      type: configuration.azure.appconfig
+      version: v1
+      metadata:
+        host:
+          value: https://ecommerce-config.azconfig.io
+        maxRetries:
+          value: '3'
+        retryDelay:
+          value: 5s
+      auth:
+        secretStore: order-secrets
+    location: eastus
+    tags:
+      dapr-component: config-store
+extender:
+  properties:
+    environment: >-
+      /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+    application: >-
+      /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+    resourceProvisioning: recipe
+    recipe:
+      name: stripe-gateway
+      parameters:
+        apiVersion: '2023-10-16'
+        webhookEndpoint: /api/webhooks/stripe
+    stripeAccountId: acct_xxxxx
+    enabledPaymentMethods:
+      - card
+      - sepa_debit
+      - ideal
+    secrets:
+      apiKey: sk_live_xxxxx
+      webhookSecret: whsec_xxxxx
+  location: eastus
+  tags:
+    extender: payment-gateway
+    provider: stripe

@@ -1,0 +1,156 @@
+components:
+  - name: github.com/ailab.org/model-training-pipeline
+    version: 4.2.0
+    provider:
+      name: ailab
+      labels:
+        - name: department
+          value: research
+        - name: cost-center
+          value: ml-ops
+    labels:
+      - name: gpu-required
+        value: 'true'
+      - name: framework
+        value: pytorch
+    sources:
+      - name: training-scripts
+        type: git
+        input:
+          type: dir
+          path: ./ml/training
+          compress: true
+          excludeFiles:
+            - '**/__pycache__/**'
+            - '*.pyc'
+            - .pytest_cache/**
+            - data/**
+      - name: pipeline-config
+        type: yaml
+        input:
+          type: spiff
+          path: ./config/pipeline.yaml
+          values:
+            batch_size: 32
+            epochs: 100
+            learning_rate: 0.001
+          libraries:
+            - ./spiff-lib/helpers.yaml
+    resources:
+      - name: trainer-image
+        type: ociImage
+        relation: local
+        input:
+          type: docker
+          path: ./docker/trainer
+          repository: gcr.io/ailab/model-trainer
+        labels:
+          - name: cuda-version
+            value: '12.1'
+          - name: python-version
+            value: '3.11'
+        srcRefs:
+          - identitySelector:
+              name: training-scripts
+            labels:
+              - name: source-type
+                value: application
+      - name: base-model
+        type: ociArtifact
+        version: 1.0.0
+        relation: external
+        access:
+          type: ociArtifact
+          imageReference: gcr.io/ml-models/bert-base-uncased:v1.0.0
+      - name: training-data
+        type: dataset
+        relation: external
+        access:
+          type: s3
+          region: us-west-2
+          bucket: ailab-datasets
+          key: nlp/training-v4.2.0.tar.gz
+          mediaType: application/x-tar+gzip
+      - name: kubeflow-pipeline
+        type: kfpPipeline
+        relation: local
+        input:
+          type: utf8
+          formattedJson:
+            apiVersion: argoproj.io/v1alpha1
+            kind: Workflow
+            metadata:
+              name: training-pipeline
+          mediaType: application/json
+      - name: monitoring-dashboard
+        type: json
+        relation: local
+        input:
+          type: file
+          path: ./dashboards/training-metrics.json
+          mediaType: application/json
+    componentReferences:
+      - name: data-preprocessing
+        componentName: github.com/ailab.org/data-pipeline
+        version: 2.1.5
+        extraIdentity:
+          stage: preprocessing
+      - name: model-registry
+        componentName: github.com/ailab.org/mlflow-server
+        version: 2.9.0
+  - name: github.com/ailab.org/inference-service
+    version: 3.0.1
+    provider: ailab
+    labels:
+      - name: serving-framework
+        value: triton
+    sources:
+      - name: inference-api
+        type: git
+        input:
+          type: dir
+          path: ./ml/inference
+          compress: true
+    resources:
+      - name: triton-server
+        type: ociImage
+        relation: local
+        input:
+          type: docker
+          path: ./docker/triton-custom
+          repository: gcr.io/ailab/triton-inference
+      - name: model-artifacts
+        type: ociBlob
+        version: 3.0.1
+        relation: local
+        access:
+          type: ociBlob
+          imageReference: gcr.io/ailab/model-artifacts
+          digest: >-
+            sha256:41029839fa6ad57a33a4fe85a9f7c7127d37e42d6947317488b5de4c5dbeb20e
+          mediaType: application/x-tar+gzip
+          size: 524288000
+      - name: grpc-api-spec
+        type: protobuf
+        relation: local
+        input:
+          type: file
+          path: ./proto/inference.proto
+          mediaType: application/x-protobuf
+      - name: performance-benchmark
+        type: executable
+        relation: local
+        input:
+          type: wget
+          url: https://storage.ailab.org/benchmarks/inference-bench-v3.tar.gz
+          mediaType: application/x-tar+gzip
+    componentReferences:
+      - name: trained-model
+        componentName: github.com/ailab.org/model-training-pipeline
+        version: 4.2.0
+        labels:
+          - name: artifact-type
+            value: trained-model
+      - name: monitoring-stack
+        componentName: github.com/ailab.org/prometheus-grafana
+        version: 1.0.0

@@ -1,0 +1,555 @@
+$schema: https://open-resource-discovery.org/spec-v1/interfaces/Document.schema.json#
+openResourceDiscovery: '1.12'
+description: ORD Document for Industrial IoT Platform APIs, Events, and Data Products
+perspective: system-version
+policyLevels:
+  - sap:core:v1
+  - sap.iot:iot-compliance:v1
+describedSystemType:
+  systemNamespace: sap.iot
+  correlationIds:
+    - sap.cld:systemRole:IOT_PLATFORM
+describedSystemVersion:
+  version: 3.5.0
+  title: SAP IoT Platform 3.5
+vendors:
+  - ordId: 'sap:vendor:SAP:'
+    title: SAP SE
+  - ordId: 'siemens:vendor:Siemens:'
+    title: Siemens AG
+    partners:
+      - 'sap:vendor:SAP:'
+products:
+  - ordId: 'sap:product:IoTPlatform:'
+    title: SAP IoT Platform
+    shortDescription: Enterprise IoT platform for industrial applications
+    description: >-
+      SAP IoT Platform provides connectivity, data ingestion, device management,
+      and analytics capabilities for industrial IoT scenarios.
+    vendor: 'sap:vendor:SAP:'
+packages:
+  - ordId: sap.iot:package:DeviceManagement:v1
+    title: Device Management Package
+    shortDescription: APIs for IoT device lifecycle management
+    description: >-
+      Complete set of APIs and events for managing IoT devices, including
+      registration, configuration, firmware updates, and health monitoring.
+    version: 1.8.0
+    vendor: 'sap:vendor:SAP:'
+    partOfProducts:
+      - 'sap:product:IoTPlatform:'
+    packageLinks:
+      - type: client-registration
+        url: https://iot.sap.com/developer/register
+    lineOfBusiness:
+      - Manufacturing
+      - Asset Management
+    industry:
+      - Automotive
+      - Industrial Machinery and Components
+      - Utilities
+    tags:
+      - iot
+      - devices
+      - edge
+  - ordId: sap.iot:package:TimeSeries:v2
+    title: Time Series Data Package
+    shortDescription: APIs for sensor time series data
+    description: >-
+      High-performance APIs for ingesting, querying, and analyzing IoT sensor
+      time series data at scale.
+    version: 2.0.0
+    vendor: 'sap:vendor:SAP:'
+    partOfProducts:
+      - 'sap:product:IoTPlatform:'
+    tags:
+      - timeseries
+      - sensors
+      - analytics
+  - ordId: sap.iot:package:DigitalTwin:v1
+    title: Digital Twin Package
+    shortDescription: Digital twin modeling and simulation
+    description: >-
+      APIs for creating and managing digital twin models of physical assets,
+      including property synchronization and simulation capabilities.
+    version: 1.2.0
+    vendor: 'sap:vendor:SAP:'
+    partOfProducts:
+      - 'sap:product:IoTPlatform:'
+    runtimeRestriction: sap.iot
+    tags:
+      - digital-twin
+      - simulation
+consumptionBundles:
+  - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+    title: IoT Platform API Bundle
+    shortDescription: Standard API access bundle
+    description: >-
+      OAuth 2.0 protected access to all IoT Platform APIs with standard rate
+      limits.
+    version: 1.0.0
+    credentialExchangeStrategies:
+      - type: custom
+        customType: sap.iot:oauth2-jwt:v1
+        customDescription: OAuth 2.0 with JWT bearer tokens for IoT Platform access
+    visibility: public
+  - ordId: sap.iot:consumptionBundle:HighVolumeIngestion:v1
+    title: High Volume Ingestion Bundle
+    shortDescription: Optimized for high-throughput data ingestion
+    description: >-
+      Special consumption bundle with enhanced rate limits for high-volume
+      sensor data ingestion scenarios.
+    version: 1.0.0
+    visibility: internal
+groupTypes:
+  - groupTypeId: sap.iot:capability-area
+    title: IoT Capability Area
+    description: Logical grouping of IoT platform capabilities
+  - groupTypeId: sap.iot:use-case
+    title: IoT Use Case
+    description: Grouping by supported IoT use case scenarios
+groups:
+  - groupId: sap.iot:capability-area:sap.iot:Connectivity
+    groupTypeId: sap.iot:capability-area
+    title: Connectivity
+  - groupId: sap.iot:capability-area:sap.iot:Analytics
+    groupTypeId: sap.iot:capability-area
+    title: Analytics
+  - groupId: sap.iot:use-case:sap.iot:PredictiveMaintenance
+    groupTypeId: sap.iot:use-case
+    title: Predictive Maintenance
+    description: Resources supporting predictive maintenance use cases
+entityTypes:
+  - ordId: sap.iot:entityType:Device:v1
+    localId: Device
+    title: IoT Device
+    shortDescription: Physical IoT device or gateway
+    description: >-
+      Represents a physical IoT device or gateway that connects to the platform
+      and sends sensor data.
+    version: 1.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    tags:
+      - device
+      - hardware
+  - ordId: sap.iot:entityType:Sensor:v1
+    localId: Sensor
+    title: Sensor
+    shortDescription: Data-producing sensor on a device
+    description: >-
+      Represents a sensor attached to an IoT device that produces measurement
+      data.
+    version: 1.0.0
+    level: sub-entity
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    relatedEntityTypes:
+      - ordId: sap.iot:entityType:Device:v1
+        relationType: part-of
+  - ordId: sap.iot:entityType:Measurement:v1
+    localId: Measurement
+    title: Sensor Measurement
+    shortDescription: Time-stamped sensor reading
+    description: >-
+      A single time-stamped measurement value from a sensor, including metadata
+      about measurement quality.
+    version: 1.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.iot:package:TimeSeries:v2
+  - ordId: sap.iot:entityType:DigitalTwin:v1
+    localId: DigitalTwin
+    title: Digital Twin
+    shortDescription: Virtual representation of a physical asset
+    description: >-
+      A digital twin is a virtual model of a physical asset that mirrors its
+      state, behavior, and lifecycle.
+    version: 1.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.iot:package:DigitalTwin:v1
+  - ordId: sap.iot:entityType:Alert:v1
+    localId: Alert
+    title: IoT Alert
+    shortDescription: System or threshold alert
+    description: >-
+      An alert triggered by threshold violations, anomaly detection, or system
+      events.
+    version: 1.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+apiResources:
+  - ordId: sap.iot:apiResource:DeviceManagementAPI:v1
+    localId: DeviceManagementAPI
+    title: Device Management API
+    shortDescription: REST API for device lifecycle operations
+    description: >-
+      Comprehensive API for managing IoT device registration, configuration,
+      authentication credentials, and firmware lifecycle.
+    version: 1.5.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    partOfGroups:
+      - sap.iot:capability-area:sap.iot:Connectivity
+    partOfConsumptionBundles:
+      - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+    apiProtocol: rest
+    direction: inbound
+    entryPoints:
+      - /api/v1/devices
+    resourceDefinitions:
+      - type: openapi-v3.1+
+        mediaType: application/json
+        url: /api/v1/devices/openapi.json
+    exposedEntityTypes:
+      - ordId: sap.iot:entityType:Device:v1
+      - ordId: sap.iot:entityType:Sensor:v1
+    apiResourceLinks:
+      - type: api-documentation
+        url: https://help.sap.com/iot/device-api
+      - type: console
+        url: https://iot.sap.com/api-explorer/devices
+    implementationStandard: custom
+    customImplementationStandard: sap.iot:device-management-standard:v1
+    customImplementationStandardDescription: SAP IoT Device Management standard API contract
+    tags:
+      - devices
+      - management
+  - ordId: sap.iot:apiResource:TimeSeriesIngestion:v2
+    localId: TimeSeriesIngestion
+    title: Time Series Ingestion API
+    shortDescription: High-throughput sensor data ingestion
+    description: >-
+      Optimized REST API for ingesting high-volume sensor time series data with
+      batch support and compression.
+    version: 2.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:TimeSeries:v2
+    partOfGroups:
+      - sap.iot:capability-area:sap.iot:Connectivity
+    partOfConsumptionBundles:
+      - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+      - ordId: sap.iot:consumptionBundle:HighVolumeIngestion:v1
+    defaultConsumptionBundle: sap.iot:consumptionBundle:HighVolumeIngestion:v1
+    apiProtocol: rest
+    direction: inbound
+    entryPoints:
+      - /api/v2/timeseries/ingest
+    resourceDefinitions:
+      - type: openapi-v3
+        mediaType: application/json
+        url: /api/v2/timeseries/ingest/openapi.json
+    exposedEntityTypes:
+      - ordId: sap.iot:entityType:Measurement:v1
+    supportedUseCases:
+      - streaming
+    tags:
+      - ingestion
+      - timeseries
+      - high-performance
+  - ordId: sap.iot:apiResource:TimeSeriesQuery:v2
+    localId: TimeSeriesQuery
+    title: Time Series Query API
+    shortDescription: Query and aggregate sensor data
+    description: >-
+      API for querying time series data with support for aggregations,
+      downsampling, and time-based filtering.
+    version: 2.1.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:TimeSeries:v2
+    partOfGroups:
+      - sap.iot:capability-area:sap.iot:Analytics
+      - sap.iot:use-case:sap.iot:PredictiveMaintenance
+    partOfConsumptionBundles:
+      - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+    apiProtocol: graphql
+    direction: inbound
+    entryPoints:
+      - /api/v2/timeseries/query
+    resourceDefinitions:
+      - type: graphql-sdl
+        mediaType: text/plain
+        url: /api/v2/timeseries/query/schema.graphql
+    exposedEntityTypes:
+      - ordId: sap.iot:entityType:Measurement:v1
+    supportedUseCases:
+      - data-federation
+    tags:
+      - query
+      - analytics
+      - graphql
+  - ordId: sap.iot:apiResource:DigitalTwinAPI:v1
+    localId: DigitalTwinAPI
+    title: Digital Twin API
+    shortDescription: Manage digital twin models
+    description: >-
+      API for creating, updating, and querying digital twin instances and their
+      property values.
+    version: 1.0.0
+    releaseStatus: beta
+    visibility: public
+    partOfPackage: sap.iot:package:DigitalTwin:v1
+    partOfConsumptionBundles:
+      - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+    apiProtocol: rest
+    direction: inbound
+    entryPoints:
+      - /api/v1/digitaltwins
+    resourceDefinitions:
+      - type: openapi-v3
+        mediaType: application/json
+        url: /api/v1/digitaltwins/openapi.json
+    exposedEntityTypes:
+      - ordId: sap.iot:entityType:DigitalTwin:v1
+    compatibleWith:
+      - azure:apiResource:DigitalTwinsAPI:v1
+  - ordId: sap.iot:apiResource:MCPAgent:v1
+    localId: MCPAgent
+    title: IoT Platform MCP Agent
+    shortDescription: Model Context Protocol agent for AI integration
+    description: >-
+      MCP-compliant agent interface enabling AI assistants to interact with IoT
+      platform data and operations.
+    version: 1.0.0
+    releaseStatus: beta
+    visibility: public
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    partOfConsumptionBundles:
+      - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+    apiProtocol: mcp
+    direction: inbound
+    entryPoints:
+      - /mcp/v1
+    tags:
+      - ai
+      - mcp
+      - agent
+eventResources:
+  - ordId: sap.iot:eventResource:DeviceEvents:v1
+    localId: DeviceEvents
+    title: Device Lifecycle Events
+    shortDescription: Events for device status changes
+    description: >-
+      Events emitted when devices connect, disconnect, update configuration, or
+      change status.
+    version: 1.2.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    partOfGroups:
+      - sap.iot:capability-area:sap.iot:Connectivity
+    resourceDefinitions:
+      - type: asyncapi-v2
+        mediaType: application/json
+        url: /events/devices/asyncapi.json
+    exposedEntityTypes:
+      - ordId: sap.iot:entityType:Device:v1
+    eventResourceLinks:
+      - type: api-documentation
+        url: https://help.sap.com/iot/events
+  - ordId: sap.iot:eventResource:AlertEvents:v1
+    localId: AlertEvents
+    title: Alert Events
+    shortDescription: Real-time alert notifications
+    description: >-
+      Events emitted when alerts are triggered, acknowledged, or resolved based
+      on threshold rules or anomaly detection.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    partOfGroups:
+      - sap.iot:use-case:sap.iot:PredictiveMaintenance
+    resourceDefinitions:
+      - type: asyncapi-v2
+        mediaType: application/json
+        url: /events/alerts/asyncapi.json
+    exposedEntityTypes:
+      - ordId: sap.iot:entityType:Alert:v1
+  - ordId: sap.iot:eventResource:MeasurementStream:v1
+    localId: MeasurementStream
+    title: Measurement Stream
+    shortDescription: Real-time sensor data stream
+    description: >-
+      WebSocket-based streaming of sensor measurements for real-time dashboards
+      and processing.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:TimeSeries:v2
+    resourceDefinitions:
+      - type: asyncapi-v2
+        mediaType: application/json
+        url: /events/measurements/asyncapi.json
+    exposedEntityTypes:
+      - ordId: sap.iot:entityType:Measurement:v1
+capabilities:
+  - ordId: sap.iot:capability:EdgeProcessing:v1
+    localId: EdgeProcessing
+    title: Edge Processing Capability
+    shortDescription: Process data at the edge
+    description: >-
+      Capability to deploy and execute data processing rules on edge gateways
+      for low-latency processing and reduced bandwidth.
+    type: custom
+    customType: sap.iot:edge-capability:v1
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    definitions:
+      - type: custom
+        customType: sap.iot:edge-spec:v1
+        mediaType: application/json
+        url: /capabilities/edge-processing.json
+    links:
+      - title: Edge Gateway Documentation
+        url: https://help.sap.com/iot/edge
+  - ordId: sap.iot:capability:AnomalyDetection:v1
+    localId: AnomalyDetection
+    title: ML Anomaly Detection
+    shortDescription: Machine learning-based anomaly detection
+    description: >-
+      Built-in machine learning capability for detecting anomalies in sensor
+      time series data.
+    type: custom
+    customType: sap.iot:ml-capability:v1
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:TimeSeries:v2
+    partOfGroups:
+      - sap.iot:use-case:sap.iot:PredictiveMaintenance
+    relatedEntityTypes:
+      - sap.iot:entityType:Measurement:v1
+      - sap.iot:entityType:Alert:v1
+dataProducts:
+  - ordId: sap.iot:dataProduct:AssetPerformance:v1
+    localId: AssetPerformance
+    title: Asset Performance Analytics
+    shortDescription: KPIs and insights for asset performance
+    description: >-
+      Data product providing asset health scores, utilization metrics, failure
+      predictions, and maintenance recommendations based on IoT sensor data.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:TimeSeries:v2
+    partOfGroups:
+      - sap.iot:use-case:sap.iot:PredictiveMaintenance
+    type: derived
+    category: analytical
+    responsible: sap:ach:IOT-ANA
+    inputPorts:
+      - ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
+    outputPorts:
+      - ordId: sap.iot:apiResource:TimeSeriesQuery:v2
+    entityTypes:
+      - sap.iot:entityType:Measurement:v1
+      - sap.iot:entityType:Device:v1
+    dataProductLinks:
+      - type: support
+        url: https://support.sap.com/iot
+    lineOfBusiness:
+      - Asset Management
+      - Manufacturing
+    industry:
+      - Automotive
+      - Industrial Machinery and Components
+  - ordId: sap.iot:dataProduct:RawSensorData:v1
+    localId: RawSensorData
+    title: Raw Sensor Data Lake
+    shortDescription: Unprocessed sensor measurements
+    description: >-
+      Primary data product providing access to raw, unprocessed sensor
+      measurements for custom analytics and machine learning model training.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:TimeSeries:v2
+    type: primary
+    category: business-object
+    responsible: sap:ach:IOT-DATA
+    outputPorts:
+      - ordId: sap.iot:apiResource:TimeSeriesQuery:v2
+      - ordId: sap.iot:eventResource:MeasurementStream:v1
+    entityTypes:
+      - sap.iot:entityType:Measurement:v1
+integrationDependencies:
+  - ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
+    localId: SensorDataIngestion
+    title: Sensor Data Ingestion
+    shortDescription: Integration for sensor data input
+    description: >-
+      Integration dependency describing the requirements for ingesting sensor
+      data from edge devices and gateways.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:TimeSeries:v2
+    mandatory: true
+    aspects:
+      - title: Time Series Ingestion
+        description: API endpoint for sensor data ingestion
+        mandatory: true
+        supportMultipleProviders: true
+        apiResources:
+          - ordId: sap.iot:apiResource:TimeSeriesIngestion:v2
+            minVersion: 2.0.0
+      - title: Device Events
+        description: Events for device connectivity status
+        mandatory: false
+        supportMultipleProviders: true
+        eventResources:
+          - ordId: sap.iot:eventResource:DeviceEvents:v1
+            minVersion: 1.0.0
+            subset:
+              - eventType: sap.iot.Device.Connected.v1
+              - eventType: sap.iot.Device.Disconnected.v1
+  - ordId: sap.iot:integrationDependency:ERPIntegration:v1
+    localId: ERPIntegration
+    title: ERP System Integration
+    shortDescription: Integration with SAP S/4HANA
+    description: >-
+      Optional integration with SAP S/4HANA for synchronizing asset master data
+      and maintenance orders.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.iot:package:DeviceManagement:v1
+    mandatory: false
+    aspects:
+      - title: Equipment Master Data
+        description: Synchronize equipment data from S/4HANA
+        mandatory: true
+        supportMultipleProviders: false
+        apiResources:
+          - ordId: sap.s4:apiResource:EquipmentAPI:v1
+            minVersion: 1.0.0
+        eventResources:
+          - ordId: sap.s4:eventResource:EquipmentEvents:v1
+            minVersion: 1.0.0
+            systemTypeRestriction:
+              - sap.s4
+    relatedIntegrationDependencies:
+      - sap.s4:integrationDependency:IoTPlatformSync:v1
+tombstones:
+  - ordId: sap.iot:apiResource:LegacyIngestion:v1
+    removalDate: '2024-06-30T00:00:00Z'
+    description: >-
+      Replaced by Time Series Ingestion API v2 with improved performance and
+      batch support
+  - groupId: sap.iot:capability-area:sap.iot:LegacyConnectivity
+    removalDate: '2024-03-01T00:00:00Z'
+    description: Merged into Connectivity capability area

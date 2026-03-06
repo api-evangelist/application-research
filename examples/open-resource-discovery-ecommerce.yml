@@ -1,0 +1,318 @@
+$schema: https://open-resource-discovery.org/spec-v1/interfaces/Document.schema.json#
+openResourceDiscovery: '1.12'
+description: ORD Document describing the SAP Commerce Cloud APIs, Events, and Data Products
+perspective: system-version
+policyLevel: sap:core:v1
+describedSystemType:
+  systemNamespace: sap.commerce
+  correlationIds:
+    - sap.cld:systemRole:COMMERCE_CLOUD
+describedSystemVersion:
+  version: 2024.1.0
+  title: SAP Commerce Cloud 2024.1
+vendors:
+  - ordId: 'sap:vendor:SAP:'
+    title: SAP SE
+products:
+  - ordId: 'sap:product:CommerceCloud:'
+    title: SAP Commerce Cloud
+    shortDescription: Enterprise-grade e-commerce platform for B2B and B2C businesses
+    vendor: 'sap:vendor:SAP:'
+packages:
+  - ordId: sap.commerce:package:OrderManagement:v1
+    title: Order Management Package
+    shortDescription: APIs and events for managing customer orders
+    description: >-
+      This package contains all resources related to order management, including
+      order creation, updates, fulfillment tracking, and order-related events.
+    version: 1.5.0
+    vendor: 'sap:vendor:SAP:'
+    partOfProducts:
+      - 'sap:product:CommerceCloud:'
+    licenseType: Apache-2.0
+    packageLinks:
+      - type: license
+        url: https://www.apache.org/licenses/LICENSE-2.0
+      - type: support
+        url: https://support.sap.com/commerce
+    tags:
+      - orders
+      - e-commerce
+      - fulfillment
+    countries:
+      - US
+      - DE
+      - GB
+      - FR
+    lineOfBusiness:
+      - Commerce
+      - Sales
+    industry:
+      - Retail
+      - Consumer Products
+  - ordId: sap.commerce:package:ProductCatalog:v1
+    title: Product Catalog Package
+    shortDescription: APIs for product and catalog management
+    description: >-
+      Complete set of APIs for managing products, categories, pricing, and
+      inventory in the commerce platform.
+    version: 2.1.0
+    vendor: 'sap:vendor:SAP:'
+    partOfProducts:
+      - 'sap:product:CommerceCloud:'
+    tags:
+      - products
+      - catalog
+      - pricing
+consumptionBundles:
+  - ordId: sap.commerce:consumptionBundle:OrderAPIs:v1
+    title: Order Management API Bundle
+    shortDescription: Bundle for consuming order management APIs
+    description: >-
+      This consumption bundle provides access to all order management APIs using
+      OAuth 2.0 authentication.
+    version: 1.0.0
+    credentialExchangeStrategies:
+      - type: custom
+        customType: sap.commerce:oauth2-client-credentials:v1
+        customDescription: OAuth 2.0 client credentials flow for API access
+        callbackUrl: https://commerce.example.com/oauth/token
+    links:
+      - title: Authentication Guide
+        url: https://help.sap.com/commerce/auth
+groupTypes:
+  - groupTypeId: sap.commerce:domain
+    title: Commerce Domain
+    description: Logical grouping of resources by business domain within SAP Commerce Cloud
+groups:
+  - groupId: sap.commerce:domain:sap.commerce:OrderManagement
+    groupTypeId: sap.commerce:domain
+    title: Order Management Domain
+  - groupId: sap.commerce:domain:sap.commerce:ProductCatalog
+    groupTypeId: sap.commerce:domain
+    title: Product Catalog Domain
+entityTypes:
+  - ordId: sap.commerce:entityType:Order:v1
+    localId: Order
+    title: Order
+    shortDescription: Represents a customer order in the commerce system
+    description: >-
+      An order is a request by a customer to purchase products or services. It
+      contains line items, shipping information, and payment details.
+    version: 1.2.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.commerce:package:OrderManagement:v1
+    partOfGroups:
+      - sap.commerce:domain:sap.commerce:OrderManagement
+  - ordId: sap.commerce:entityType:OrderItem:v1
+    localId: OrderItem
+    title: Order Item
+    shortDescription: Line item within an order
+    description: >-
+      Represents a single product or service line within a customer order,
+      including quantity and pricing.
+    version: 1.0.0
+    level: sub-entity
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.commerce:package:OrderManagement:v1
+    relatedEntityTypes:
+      - ordId: sap.commerce:entityType:Order:v1
+        relationType: part-of
+  - ordId: sap.commerce:entityType:Product:v1
+    localId: Product
+    title: Product
+    shortDescription: A product available for purchase
+    description: >-
+      Represents a sellable item in the product catalog with attributes like
+      name, description, pricing, and availability.
+    version: 2.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.commerce:package:ProductCatalog:v1
+    partOfGroups:
+      - sap.commerce:domain:sap.commerce:ProductCatalog
+apiResources:
+  - ordId: sap.commerce:apiResource:OrdersAPI:v1
+    localId: OrdersAPI
+    title: Orders API
+    shortDescription: RESTful API for order management operations
+    description: >-
+      This API provides endpoints for creating, reading, updating, and managing
+      customer orders. It supports order lifecycle management including
+      cancellation and fulfillment tracking.
+    version: 1.3.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.commerce:package:OrderManagement:v1
+    partOfGroups:
+      - sap.commerce:domain:sap.commerce:OrderManagement
+    partOfConsumptionBundles:
+      - ordId: sap.commerce:consumptionBundle:OrderAPIs:v1
+    apiProtocol: rest
+    direction: inbound
+    entryPoints:
+      - /api/v1/orders
+    resourceDefinitions:
+      - type: openapi-v3
+        mediaType: application/json
+        url: /api/v1/orders/openapi.json
+        accessStrategies:
+          - type: open
+    exposedEntityTypes:
+      - ordId: sap.commerce:entityType:Order:v1
+      - ordId: sap.commerce:entityType:OrderItem:v1
+    supportedUseCases:
+      - snapshot
+      - incremental
+    apiResourceLinks:
+      - type: api-documentation
+        url: https://api.sap.com/commerce/orders
+      - type: console
+        url: https://api.sap.com/commerce/orders/tryout
+    extensible:
+      supported: automatic
+      description: >-
+        Custom fields added to the Order entity are automatically exposed
+        through this API.
+    changelogEntries:
+      - version: 1.3.0
+        releaseStatus: active
+        date: '2024-09-15'
+        description: Added batch order creation endpoint
+      - version: 1.2.0
+        releaseStatus: active
+        date: '2024-06-01'
+        description: Added order cancellation support
+    tags:
+      - orders
+      - crud
+  - ordId: sap.commerce:apiResource:ProductCatalogOData:v2
+    localId: ProductCatalogOData
+    title: Product Catalog OData API
+    shortDescription: OData V4 API for product catalog access
+    description: >-
+      Provides OData-compliant access to the product catalog including products,
+      categories, pricing, and inventory levels.
+    version: 2.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.commerce:package:ProductCatalog:v1
+    partOfGroups:
+      - sap.commerce:domain:sap.commerce:ProductCatalog
+    apiProtocol: odata-v4
+    direction: inbound
+    entryPoints:
+      - /odata/v4/catalog
+    resourceDefinitions:
+      - type: edmx
+        mediaType: application/xml
+        url: /odata/v4/catalog/$metadata
+    exposedEntityTypes:
+      - ordId: sap.commerce:entityType:Product:v1
+    supportedUseCases:
+      - data-federation
+    tags:
+      - products
+      - catalog
+      - odata
+eventResources:
+  - ordId: sap.commerce:eventResource:OrderEvents:v1
+    localId: OrderEvents
+    title: Order Events
+    shortDescription: Events emitted during order lifecycle
+    description: >-
+      This event resource contains all events related to order processing,
+      including order creation, status changes, and fulfillment updates.
+    version: 1.1.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.commerce:package:OrderManagement:v1
+    partOfGroups:
+      - sap.commerce:domain:sap.commerce:OrderManagement
+    resourceDefinitions:
+      - type: asyncapi-v2
+        mediaType: application/json
+        url: /events/orders/asyncapi.json
+    exposedEntityTypes:
+      - ordId: sap.commerce:entityType:Order:v1
+    eventResourceLinks:
+      - type: api-documentation
+        url: https://help.sap.com/commerce/events
+    tags:
+      - events
+      - orders
+      - async
+capabilities:
+  - ordId: sap.commerce:capability:OrderExtensibility:v1
+    localId: OrderExtensibility
+    title: Order Extensibility
+    shortDescription: Capability to extend order entity with custom fields
+    description: >-
+      This capability allows customers to add custom fields to orders which are
+      automatically exposed through APIs and events.
+    type: custom
+    customType: sap.commerce:extensibility:v1
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.commerce:package:OrderManagement:v1
+    relatedEntityTypes:
+      - sap.commerce:entityType:Order:v1
+    definitions:
+      - type: custom
+        customType: sap.commerce:extensibility-spec:v1
+        mediaType: application/json
+        url: /capabilities/order-extensibility.json
+dataProducts:
+  - ordId: sap.commerce:dataProduct:OrderAnalytics:v1
+    localId: OrderAnalytics
+    title: Order Analytics
+    shortDescription: Analytical data product for order insights
+    description: >-
+      This data product provides aggregated order data optimized for analytics,
+      including sales metrics, order trends, and customer behavior patterns.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.commerce:package:OrderManagement:v1
+    type: derived
+    category: analytical
+    responsible: sap:ach:COMMERCE-ANALYTICS
+    outputPorts:
+      - ordId: sap.commerce:apiResource:OrdersAPI:v1
+    entityTypes:
+      - sap.commerce:entityType:Order:v1
+    dataProductLinks:
+      - type: support
+        url: https://support.sap.com/commerce/dataproducts
+    lineOfBusiness:
+      - Commerce
+      - Sales
+    industry:
+      - Retail
+integrationDependencies:
+  - ordId: sap.commerce:integrationDependency:PaymentGateway:v1
+    localId: PaymentGateway
+    title: Payment Gateway Integration
+    shortDescription: Integration with external payment providers
+    description: >-
+      This integration dependency describes the requirements for connecting SAP
+      Commerce Cloud with external payment gateway services for processing
+      payments.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.commerce:package:OrderManagement:v1
+    mandatory: false
+    aspects:
+      - title: Payment Processing API
+        description: API for submitting and managing payment transactions
+        mandatory: true
+        supportMultipleProviders: true
+        apiResources:
+          - ordId: sap.commerce:apiResource:PaymentCallback:v1
+            minVersion: 1.0.0

@@ -1,0 +1,182 @@
+schemaVersion: v1
+name: ml-inference-service
+version: 2.0.1-beta.1
+description: Deploy a TensorFlow model with Redis cache and monitoring
+keywords:
+  - machine-learning
+  - tensorflow
+  - inference
+  - api
+maintainers:
+  - name: ML Platform Team
+    email: ml-team@acme.corp
+  - name: DevOps Team
+    url: https://acme.corp/teams/devops
+license: MIT
+invocationImages:
+  - imageType: oci
+    image: acme.azurecr.io/ml-bundle-installer:2.0.1-beta.1
+    contentDigest: sha256:fedcba987654...
+    size: 104857600
+    mediaType: application/vnd.oci.image.manifest.v1+json
+images:
+  inference-server:
+    imageType: oci
+    image: tensorflow/serving:2.12.0-gpu
+    description: TensorFlow Serving for model inference
+    contentDigest: sha256:tf789abc...
+    size: 2147483648
+    labels:
+      component: inference
+      gpu-enabled: 'true'
+  redis-cache:
+    imageType: oci
+    image: redis:7-alpine
+    description: Redis cache for prediction results
+    contentDigest: sha256:redis321...
+  prometheus:
+    imageType: oci
+    image: prom/prometheus:v2.45.0
+    description: Metrics collection and monitoring
+credentials:
+  model-storage-key:
+    description: Access key for model storage bucket
+    path: /cnab/app/credentials/storage-key.json
+    required: true
+    applyTo:
+      - install
+      - upgrade
+      - io.acme.model-update
+  registry-auth:
+    description: Container registry authentication
+    env: REGISTRY_AUTH_TOKEN
+    required: false
+  tls-certificate:
+    description: TLS certificate for HTTPS endpoints
+    path: /cnab/app/credentials/tls.crt
+    required: false
+  tls-key:
+    description: TLS private key
+    path: /cnab/app/credentials/tls.key
+    required: false
+parameters:
+  model-name:
+    definition: model-name-def
+    description: Name of the ML model to deploy
+    destination:
+      env: MODEL_NAME
+    required: true
+  model-version:
+    definition: model-version-def
+    description: Version of the model to deploy
+    destination:
+      env: MODEL_VERSION
+    required: true
+  enable-gpu:
+    definition: boolean-def
+    description: Enable GPU acceleration for inference
+    destination:
+      env: ENABLE_GPU
+    applyTo:
+      - install
+      - upgrade
+  max-batch-size:
+    definition: batch-size-def
+    description: Maximum batch size for inference requests
+    destination:
+      env: MAX_BATCH_SIZE
+  cache-ttl:
+    definition: cache-ttl-def
+    description: Cache TTL in seconds for prediction results
+    destination:
+      env: CACHE_TTL_SECONDS
+  deployment-region:
+    definition: region-def
+    description: Cloud region for deployment
+    destination:
+      path: /cnab/app/config/region.txt
+    required: true
+definitions:
+  model-name-def:
+    type: string
+    pattern: ^[a-z0-9-]+$
+    minLength: 3
+    maxLength: 50
+  model-version-def:
+    type: string
+    pattern: ^v[0-9]+\.[0-9]+\.[0-9]+$
+    examples:
+      - v1.0.0
+      - v2.3.1
+  boolean-def:
+    type: boolean
+    default: false
+  batch-size-def:
+    type: integer
+    minimum: 1
+    maximum: 128
+    default: 32
+  cache-ttl-def:
+    type: integer
+    minimum: 60
+    maximum: 86400
+    default: 3600
+  region-def:
+    type: string
+    enum:
+      - us-east-1
+      - us-west-2
+      - eu-west-1
+      - ap-southeast-1
+  endpoint-url-def:
+    type: string
+    format: uri
+  metrics-def:
+    type: object
+    properties:
+      requests_per_second:
+        type: number
+      average_latency_ms:
+        type: number
+outputs:
+  inference-endpoint:
+    definition: endpoint-url-def
+    description: HTTP endpoint for model inference
+    path: /cnab/app/outputs/inference-endpoint
+  metrics-endpoint:
+    definition: endpoint-url-def
+    description: Prometheus metrics endpoint
+    path: /cnab/app/outputs/metrics-endpoint
+    applyTo:
+      - install
+      - upgrade
+  deployment-metrics:
+    definition: metrics-def
+    description: Performance metrics from deployment
+    path: /cnab/app/outputs/metrics.json
+actions:
+  io.acme.model-update:
+    description: Update the ML model without full redeployment
+    modifies: true
+    stateless: false
+  io.acme.health-check:
+    description: Check health of all service components
+    modifies: false
+    stateless: true
+  io.acme.scale:
+    description: Scale inference replicas up or down
+    modifies: true
+  io.acme.benchmark:
+    description: Run performance benchmarks on the deployed model
+    modifies: false
+requiredExtensions:
+  - io.cnab.dependencies
+  - io.cnab.parameter-sources
+custom:
+  io.acme.deployment:
+    cloud-provider: aws
+    service-tier: premium
+    auto-scaling: true
+  io.acme.compliance:
+    data-classification: confidential
+    gdpr-compliant: true

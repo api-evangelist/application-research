@@ -1,0 +1,463 @@
+environment:
+  properties:
+    compute:
+      kind: kubernetes
+      namespace: iot-platform
+      identity:
+        kind: aws.com.irsa
+        oidcIssuer: >-
+          https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+        resource: arn:aws:iam::123456789012:role/iot-platform-role
+    providers:
+      aws:
+        scope: /planes/aws/aws/accounts/123456789012/regions/us-west-2
+    recipes:
+      Applications.Datastores/mongoDatabases:
+        timeseries:
+          templateKind: terraform
+          templatePath: registry.terraform.io/mongodb/atlas
+          templateVersion: 1.12.0
+          parameters:
+            cluster_type: REPLICASET
+            provider_instance_size_name: M30
+            mongo_db_major_version: '6.0'
+      Applications.Datastores/redisCaches:
+        stream-cache:
+          templateKind: terraform
+          templatePath: registry.terraform.io/hashicorp/aws
+          templateVersion: 5.0.0
+          parameters:
+            node_type: cache.r6g.large
+            num_cache_clusters: 3
+            automatic_failover_enabled: true
+    recipeConfig:
+      terraform:
+        authentication:
+          git:
+            pat:
+              gitlab.com:
+                secret: >-
+                  /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/secretStores/gitlab-pat
+        providers:
+          aws:
+            - region: us-west-2
+              secrets:
+                access_key:
+                  source: >-
+                    /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/secretStores/aws-creds
+                  key: accessKeyId
+                secret_key:
+                  source: >-
+                    /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/secretStores/aws-creds
+                  key: secretAccessKey
+          mongodbatlas:
+            - public_key: atlas-public-key
+              secrets:
+                private_key:
+                  source: >-
+                    /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/secretStores/atlas-creds
+                  key: privateKey
+      env:
+        AWS_REGION: us-west-2
+        TF_VAR_environment: production
+      envSecrets:
+        MONGODB_ATLAS_PRIVATE_KEY:
+          source: >-
+            /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/secretStores/atlas-creds
+          key: privateKey
+    extensions:
+      - kind: kubernetesMetadata
+        annotations:
+          iam.amazonaws.com/role: arn:aws:iam::123456789012:role/iot-platform-role
+        labels:
+          platform: iot
+          managed-by: radius
+  location: us-west-2
+  tags:
+    environment: production
+    platform: iot
+    region: us-west-2
+application:
+  properties:
+    environment: >-
+      /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/environments/prod
+    extensions:
+      - kind: kubernetesNamespace
+        namespace: iot-data-platform
+  location: us-west-2
+  tags:
+    application: iot-data-platform
+    version: 3.1.0
+containers:
+  deviceIngestion:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      container:
+        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/device-ingestion:3.1.0
+        imagePullPolicy: Always
+        env:
+          KAFKA_BOOTSTRAP_SERVERS:
+            value: kafka-cluster.iot-platform.svc.cluster.local:9092
+          DEVICE_REGISTRY_URL:
+            value: http://device-registry:8080
+          MAX_BATCH_SIZE:
+            value: '1000'
+          BATCH_TIMEOUT_MS:
+            value: '5000'
+          AWS_SECRET_ACCESS_KEY:
+            valueFrom:
+              secretRef:
+                source: >-
+                  /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/secretStores/aws-creds
+                key: secretAccessKey
+        ports:
+          mqtt:
+            containerPort: 1883
+            protocol: TCP
+          mqtts:
+            containerPort: 8883
+            protocol: TCP
+          http:
+            containerPort: 8080
+            protocol: TCP
+            scheme: http
+          metrics:
+            containerPort: 9090
+            protocol: TCP
+        readinessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /ready
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          kind: tcp
+          containerPort: 1883
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          failureThreshold: 3
+        volumes:
+          device-certs:
+            kind: persistent
+            source: >-
+              /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/volumes/device-certificates
+            mountPath: /certs
+            permission: read
+          message-buffer:
+            kind: ephemeral
+            managedStore: disk
+            mountPath: /buffer
+      connections:
+        timeseriesDb:
+          source: >-
+            /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Datastores/mongoDatabases/timeseries-db
+        streamCache:
+          source: >-
+            /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Datastores/redisCaches/stream-cache
+      identity:
+        kind: aws.com.irsa
+        oidcIssuer: >-
+          https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+        resource: arn:aws:iam::123456789012:role/device-ingestion-role
+      extensions:
+        - kind: manualScaling
+          replicas: 5
+        - kind: kubernetesMetadata
+          annotations:
+            prometheus.io/scrape: 'true'
+            prometheus.io/port: '9090'
+            prometheus.io/path: /metrics
+          labels:
+            app: device-ingestion
+            tier: ingestion
+      restartPolicy: Always
+      runtimes:
+        kubernetes:
+          pod:
+            serviceAccountName: device-ingestion-sa
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+              fsGroup: 2000
+            resources:
+              requests:
+                memory: 512Mi
+                cpu: 500m
+              limits:
+                memory: 2Gi
+                cpu: 2000m
+            topologySpreadConstraints:
+              - maxSkew: 1
+                topologyKey: topology.kubernetes.io/zone
+                whenUnsatisfiable: ScheduleAnyway
+                labelSelector:
+                  matchLabels:
+                    app: device-ingestion
+    location: us-west-2
+    tags:
+      service: device-ingestion
+      tier: ingestion
+  streamProcessor:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      container:
+        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/stream-processor:3.1.0
+        imagePullPolicy: IfNotPresent
+        env:
+          FLINK_PARALLELISM:
+            value: '4'
+          CHECKPOINT_INTERVAL_MS:
+            value: '60000'
+          STATE_BACKEND:
+            value: rocksdb
+        ports:
+          web:
+            containerPort: 8081
+            protocol: TCP
+            scheme: http
+          rpc:
+            containerPort: 6123
+            protocol: TCP
+          blob:
+            containerPort: 6124
+            protocol: TCP
+        readinessProbe:
+          kind: httpGet
+          containerPort: 8081
+          path: /overview
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          kind: httpGet
+          containerPort: 8081
+          path: /overview
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          failureThreshold: 5
+        volumes:
+          checkpoints:
+            kind: persistent
+            source: >-
+              /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/volumes/flink-checkpoints
+            mountPath: /checkpoints
+            permission: write
+      connections:
+        timeseriesDb:
+          source: >-
+            /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Datastores/mongoDatabases/timeseries-db
+      extensions:
+        - kind: manualScaling
+          replicas: 4
+      restartPolicy: OnFailure
+    location: us-west-2
+    tags:
+      service: stream-processor
+      tier: processing
+  alertEngine:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      container:
+        image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/alert-engine:3.1.0
+        env:
+          ALERT_EVALUATION_INTERVAL:
+            value: 10s
+          SNS_TOPIC_ARN:
+            value: arn:aws:sns:us-west-2:123456789012:iot-alerts
+        ports:
+          http:
+            containerPort: 8080
+            protocol: TCP
+        readinessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /health
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      connections:
+        timeseriesDb:
+          source: >-
+            /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Datastores/mongoDatabases/timeseries-db
+          iam:
+            kind: aws
+            roles:
+              - arn:aws:iam::123456789012:policy/DocumentDBReadOnly
+        alertQueue:
+          source: >-
+            /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Messaging/rabbitMQQueues/alert-notifications
+      extensions:
+        - kind: daprSidecar
+          appId: alert-engine
+          appPort: 8080
+          protocol: http
+        - kind: manualScaling
+          replicas: 2
+      restartPolicy: Always
+    location: us-west-2
+    tags:
+      service: alert-engine
+      tier: alerting
+gateway:
+  properties:
+    application: >-
+      /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+    internal: false
+    hostname:
+      prefix: iot-api
+    routes:
+      - path: /devices
+        destination: >-
+          /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/containers/deviceIngestion
+        timeoutPolicy:
+          request: 60s
+          backendRequest: 55s
+      - path: /alerts
+        destination: >-
+          /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/containers/alertEngine
+        timeoutPolicy:
+          request: 30s
+      - path: /stream
+        destination: >-
+          /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/containers/deviceIngestion
+        enableWebsockets: true
+    tls:
+      minimumProtocolVersion: '1.3'
+      certificateFrom: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/secretStores/iot-tls-cert
+  location: us-west-2
+  tags:
+    component: api-gateway
+secretStores:
+  awsCreds:
+    properties:
+      type: awsIRSA
+      data:
+        roleArn:
+          encoding: raw
+          value: arn:aws:iam::123456789012:role/iot-platform-role
+    location: us-west-2
+  atlasCreds:
+    properties:
+      type: generic
+      data:
+        publicKey:
+          encoding: raw
+          value: atlas-public-key
+        privateKey:
+          encoding: base64
+          value: YXRsYXMtcHJpdmF0ZS1rZXk=
+    location: us-west-2
+datastores:
+  timeseriesDb:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      resourceProvisioning: recipe
+      recipe:
+        name: timeseries
+        parameters:
+          databaseName: iot_timeseries
+          collectionName: device_readings
+          shardKey: deviceId
+          timeField: timestamp
+    location: us-west-2
+    tags:
+      datastore: mongodb-timeseries
+  streamCache:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      resourceProvisioning: recipe
+      recipe:
+        name: stream-cache
+        parameters:
+          clusterMode: enabled
+          numShards: 2
+          replicasPerShard: 2
+    location: us-west-2
+    tags:
+      datastore: redis-cluster
+messaging:
+  alertNotifications:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      resourceProvisioning: manual
+      host: iot-rabbitmq.us-west-2.amazonaws.com
+      port: 5671
+      queue: alert-notifications
+      vHost: iot
+      tls: true
+      username: iot-alerts-user
+      secrets:
+        password: rabbitmq-secret-password
+        uri: >-
+          amqps://iot-alerts-user:password@iot-rabbitmq.us-west-2.amazonaws.com:5671/iot
+      resources:
+        - id: >-
+            arn:aws:mq:us-west-2:123456789012:broker:iot-rabbitmq:b-xxxx-xxxx-xxxx
+    location: us-west-2
+    tags:
+      messaging: rabbitmq
+      queue: alert-notifications
+dapr:
+  stateStore:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      resourceProvisioning: manual
+      type: state.aws.dynamodb
+      version: v1
+      metadata:
+        table:
+          value: iot-device-state
+        region:
+          value: us-west-2
+        partitionKey:
+          value: deviceId
+    location: us-west-2
+  pubSub:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+      resourceProvisioning: manual
+      type: pubsub.aws.snssqs
+      version: v1
+      metadata:
+        region:
+          value: us-west-2
+        messageVisibilityTimeout:
+          value: '60'
+        messageRetryLimit:
+          value: '3'
+    location: us-west-2
+extender:
+  properties:
+    environment: >-
+      /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/environments/prod
+    application: >-
+      /planes/radius/local/resourceGroups/iot-rg/providers/Applications.Core/applications/iot-data-platform
+    resourceProvisioning: manual
+    iotHubEndpoint: iot-hub.us-west-2.amazonaws.com
+    deviceProvisioningService: dps.us-west-2.amazonaws.com
+    firmwareUpdateBucket: s3://iot-firmware-updates-bucket
+    secrets:
+      iotHubConnectionString: >-
+        HostName=iot-hub.us-west-2.amazonaws.com;SharedAccessKeyName=iothubowner;SharedAccessKey=xxxx
+  location: us-west-2
+  tags:
+    extender: iot-hub
+    provider: aws

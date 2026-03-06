@@ -1,0 +1,212 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: ecommerce-frontend
+  annotations:
+    app.kubernetes.io/part-of: ecommerce-platform
+    app.kubernetes.io/version: "2.5.0"
+    team.company.io/owner: frontend-team
+    deployment.company.io/tier: production
+service:
+  ports:
+    web:
+      port: 443
+      targetPort: 8080
+      protocol: TCP
+    metrics:
+      port: 9090
+      targetPort: 9090
+      protocol: TCP
+containers:
+  frontend:
+    image: ghcr.io/myorg/ecommerce-frontend:2.5.0
+    command:
+      - /usr/bin/node
+    args:
+      - server.js
+      - --config=/etc/app/config.json
+      - --log-level=info
+    variables:
+      NODE_ENV: production
+      API_BASE_URL: https://api.ecommerce.example.com
+      CACHE_TTL: "3600"
+      SESSION_SECRET: ${resources.session-secrets.secret}
+      DATABASE_URL: ${resources.postgres-db.connection_string}
+      REDIS_HOST: ${resources.cache.host}
+      REDIS_PORT: ${resources.cache.port}
+      STORAGE_BUCKET: ${resources.object-storage.bucket}
+      CDN_URL: https://cdn.ecommerce.example.com
+      FEATURE_FLAGS_ENDPOINT: ${resources.feature-flags.endpoint}
+    files:
+      /etc/app/config.json:
+        content: |
+          {
+            "appName": "E-Commerce Frontend",
+            "version": "2.5.0",
+            "features": {
+              "darkMode": true,
+              "recommendations": true,
+              "liveChat": false
+            },
+            "analytics": {
+              "enabled": true,
+              "sampleRate": 0.1
+            }
+          }
+        mode: "0644"
+      /etc/app/locales/en.json:
+        source: ./locales/en.json
+        mode: "0644"
+      /etc/ssl/certs/internal-ca.crt:
+        source: ./certs/internal-ca.crt
+        mode: "0444"
+        noExpand: true
+      /etc/app/banner.png:
+        binaryContent: iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==
+        mode: "0644"
+    volumes:
+      /data/uploads:
+        source: ${resources.uploads-volume.source}
+        readOnly: false
+      /data/static:
+        source: ${resources.static-assets.source}
+        path: assets/v2
+        readOnly: true
+    resources:
+      requests:
+        memory: 256M
+        cpu: 250m
+      limits:
+        memory: 1Gi
+        cpu: "1"
+    readinessProbe:
+      httpGet:
+        path: /health/ready
+        port: 8080
+        scheme: HTTP
+        httpHeaders:
+          - name: X-Health-Check
+            value: readiness
+    livenessProbe:
+      httpGet:
+        path: /health/live
+        port: 8080
+        scheme: HTTP
+  nginx-sidecar:
+    image: nginx:1.25-alpine
+    variables:
+      NGINX_WORKER_PROCESSES: "auto"
+      NGINX_WORKER_CONNECTIONS: "1024"
+    files:
+      /etc/nginx/nginx.conf:
+        content: |
+          worker_processes auto;
+          events {
+            worker_connections 1024;
+          }
+          http {
+            upstream frontend {
+              server 127.0.0.1:8080;
+            }
+            server {
+              listen 443 ssl;
+              ssl_certificate /etc/ssl/certs/tls.crt;
+              ssl_certificate_key /etc/ssl/private/tls.key;
+              location / {
+                proxy_pass http://frontend;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+              }
+              location /static/ {
+                alias /data/static/;
+                expires 1y;
+              }
+            }
+          }
+        mode: "0644"
+    volumes:
+      /data/static:
+        source: ${resources.static-assets.source}
+        path: assets/v2
+        readOnly: true
+      /etc/ssl/certs:
+        source: ${resources.tls-certs.source}
+        path: certs
+        readOnly: true
+      /etc/ssl/private:
+        source: ${resources.tls-certs.source}
+        path: keys
+        readOnly: true
+    resources:
+      requests:
+        memory: 64M
+        cpu: 50m
+      limits:
+        memory: 128M
+        cpu: 200m
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 443
+        scheme: HTTPS
+resources:
+  postgres-db:
+    type: postgres
+    class: managed
+    id: ecommerce.products
+    metadata:
+      annotations:
+        backup.company.io/enabled: "true"
+        backup.company.io/retention: "30d"
+    params:
+      version: "15"
+      size: large
+      highAvailability: true
+      extensions:
+        - pg_trgm
+        - uuid-ossp
+  cache:
+    type: redis
+    class: cluster
+    id: ecommerce.session-cache
+    params:
+      version: "7.2"
+      maxMemoryPolicy: allkeys-lru
+      clusterMode: true
+  session-secrets:
+    type: secret
+    id: ecommerce.session
+    params:
+      keys:
+        - secret
+        - encryptionKey
+  object-storage:
+    type: s3
+    class: standard
+    id: ecommerce.assets
+    params:
+      versioning: true
+      lifecycle:
+        - prefix: temp/
+          expirationDays: 7
+  uploads-volume:
+    type: volume
+    class: ssd
+    params:
+      size: 50Gi
+      accessMode: ReadWriteMany
+  static-assets:
+    type: volume
+    class: standard
+    id: ecommerce.static
+    params:
+      size: 10Gi
+      accessMode: ReadOnlyMany
+  tls-certs:
+    type: secret
+    class: tls
+    id: ecommerce.tls
+  feature-flags:
+    type: service
+    id: shared.feature-flags
+    params:
+      environment: production

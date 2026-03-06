@@ -1,0 +1,77 @@
+aid: cloud-native-application-bundle
+name: Cloud Native Application Bundle
+type: Index
+description: |-
+  Cloud Native Application Bundles (CNAB) are a package format specification that describes a technology for bundling, installing, and managing distributed applications, that are by design, cloud agnostic.
+tags:
+  - Applications
+created: '2025-12-17'
+modified: '2026-01-15'
+url: https://github.com/naftiko-capabilities/applications/blob/main/indexes/cloud-native-application-bundle.yml
+specificationVersion: '0.19'
+
+apis:
+
+- aid: cloud-native-application-bundle:cloud-native-application-bundle
+  name: Cloud Native Application Bundle Sandbox API
+  description: This is meant to provide a sandbox for the specification.
+  humanURL: https://github.com/naftiko-capabilities/applications/
+  baseURL: http://localhost:8080/rest/
+  tags:
+    - Applications
+    - Sandbox
+  properties:
+
+    - type: Documentation
+      url: https://github.com/naftiko-capabilities/applications/
+    - type: OpenAPI
+      url: https://github.com/naftiko-capabilities/applications/blob/main/openapi/cloud-native-application-bundle-openapi.yml
+
+    - type: Examples
+      url: https://github.com/naftiko-capabilities/applications/blob/main/examples/cloud-native-application-bundle-example-cassandra-cluster.yml  
+    - type: Examples
+      url: https://github.com/naftiko-capabilities/applications/blob/main/examples/cloud-native-application-bundle-example-inference.yml 
+    - type: Examples
+      url: https://github.com/naftiko-capabilities/applications/blob/main/examples/cloud-native-application-bundle-example-wordpress.yml
+
+  contact:
+    - FN: Kin Lane
+      email: kinlane@naftiko.io
+
+common:
+
+  - type: Website
+    url: https://cnab.io/
+  - type: GitHubOrganization
+    url: https://github.com/cnabio/
+  - type: GitHubRepo
+    url: https://github.com/cnabio/cnab-spec
+  - type: Schema
+    url: https://cnab.io/schema/cnab-core-1.0/bundle.schema.json
+  - type: License
+    url: https://github.com/cnabio/cnab-spec/blob/main/LICENSE
+  - type: Contributing
+    url: https://github.com/cnabio/cnab-spec/blob/main/CONTRIBUTING.md
+  - type: Meetings
+    url: https://cnab.io/community-meetings/
+  - type: MeetingNotes
+    url: https://hackmd.io/s/SyGcBcwQ4#
+  - type: SlackChannel
+    url: https://github.com/cnabio/cnab-spec?tab=readme-ov-file#meetings
+  - type: MailingList
+    url: https://lists.jointdevelopment.org/g/CNAB-Main
+  - type: Tools
+    url: https://cnab.io/community-projects/
+  - type: Community
+    url: https://github.com/cnabio/community
+  - type: Resources
+    url: https://cnab.io/resources/
+  - type: Governance
+    url: https://github.com/cnabio/community/blob/main/governance.md
+  - type: Registries
+    url: https://cnab.io/registries/    
+
+maintainers:
+
+  - FN: Kin Lane
+    email: kinlane@naftiko.io

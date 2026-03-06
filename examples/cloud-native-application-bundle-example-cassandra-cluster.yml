@@ -1,0 +1,282 @@
+schemaVersion: v1
+name: cassandra-cluster
+version: 3.11.0
+description: >-
+  High-availability Cassandra cluster with backup automation and monitoring
+  dashboard
+keywords:
+  - database
+  - cassandra
+  - nosql
+  - distributed
+  - high-availability
+maintainers:
+  - name: Database Reliability Engineering
+    email: dre@enterprise.io
+    url: https://enterprise.io/teams/dre
+license: Apache-2.0
+invocationImages:
+  - imageType: oci
+    image: enterprise.io/bundles/cassandra-operator:3.11.0
+    contentDigest: sha256:9876abcd5432...
+    size: 157286400
+    mediaType: application/vnd.oci.image.manifest.v1+json
+    labels:
+      org.opencontainers.image.authors: DRE Team
+      org.opencontainers.image.version: 3.11.0
+images:
+  cassandra-node:
+    imageType: oci
+    image: cassandra:4.1.3
+    description: Apache Cassandra database node
+    contentDigest: sha256:cassandra999...
+    size: 524288000
+    labels:
+      role: database
+      cluster-ready: 'true'
+  backup-agent:
+    imageType: oci
+    image: enterprise.io/cassandra-backup:2.5.0
+    description: Automated backup and restore agent
+    contentDigest: sha256:backup777...
+  monitoring-dashboard:
+    imageType: oci
+    image: grafana/grafana:10.1.0
+    description: Grafana dashboard for cluster monitoring
+  metrics-exporter:
+    imageType: oci
+    image: enterprise.io/cassandra-exporter:1.3.2
+    description: Prometheus metrics exporter for Cassandra
+credentials:
+  cassandra-admin-password:
+    description: Administrator password for Cassandra cluster
+    env: CASSANDRA_ADMIN_PASSWORD
+    required: true
+  backup-storage-credentials:
+    description: Cloud storage credentials for backups
+    path: /cnab/app/credentials/backup-creds.json
+    required: true
+    applyTo:
+      - install
+      - upgrade
+      - io.enterprise.backup
+      - io.enterprise.restore
+  ssl-keystore:
+    description: Java keystore for SSL/TLS encryption
+    path: /cnab/app/credentials/keystore.jks
+    required: false
+  ssl-truststore:
+    description: Java truststore for SSL/TLS validation
+    path: /cnab/app/credentials/truststore.jks
+    required: false
+  grafana-admin-password:
+    description: Admin password for Grafana dashboard
+    env: GF_SECURITY_ADMIN_PASSWORD
+    required: false
+parameters:
+  cluster-name:
+    definition: cluster-name-def
+    description: Unique name for the Cassandra cluster
+    destination:
+      env: CLUSTER_NAME
+    required: true
+  node-count:
+    definition: node-count-def
+    description: Number of Cassandra nodes in the cluster
+    destination:
+      env: NODE_COUNT
+    required: true
+    applyTo:
+      - install
+      - upgrade
+      - io.enterprise.scale
+  replication-factor:
+    definition: replication-factor-def
+    description: Default replication factor for keyspaces
+    destination:
+      env: REPLICATION_FACTOR
+  node-memory-gb:
+    definition: memory-def
+    description: Memory allocation per node in GB
+    destination:
+      env: NODE_MEMORY_GB
+  node-cpu-cores:
+    definition: cpu-def
+    description: CPU cores per node
+    destination:
+      env: NODE_CPU_CORES
+  datacenter-name:
+    definition: datacenter-name-def
+    description: Logical datacenter name
+    destination:
+      path: /cnab/app/config/datacenter.txt
+    required: true
+  enable-authentication:
+    definition: boolean-def
+    description: Enable password authentication
+    destination:
+      env: ENABLE_AUTH
+  enable-encryption:
+    definition: boolean-def
+    description: Enable client-to-node encryption
+    destination:
+      env: ENABLE_ENCRYPTION
+  backup-schedule:
+    definition: cron-def
+    description: Cron expression for automated backups
+    destination:
+      env: BACKUP_CRON_SCHEDULE
+    applyTo:
+      - install
+      - upgrade
+  backup-retention-days:
+    definition: retention-def
+    description: Number of days to retain backups
+    destination:
+      env: BACKUP_RETENTION_DAYS
+definitions:
+  cluster-name-def:
+    type: string
+    pattern: ^[a-zA-Z][a-zA-Z0-9-]*$
+    minLength: 3
+    maxLength: 48
+    examples:
+      - production-cluster
+      - dev-cluster-01
+  node-count-def:
+    type: integer
+    minimum: 3
+    maximum: 100
+    default: 3
+    description: Must be at least 3 for high availability
+  replication-factor-def:
+    type: integer
+    minimum: 1
+    maximum: 5
+    default: 3
+  memory-def:
+    type: integer
+    minimum: 8
+    maximum: 256
+    default: 32
+    multipleOf: 4
+  cpu-def:
+    type: integer
+    minimum: 2
+    maximum: 64
+    default: 8
+    multipleOf: 2
+  datacenter-name-def:
+    type: string
+    pattern: ^DC[0-9]+$
+    examples:
+      - DC1
+      - DC2
+      - DC3
+  boolean-def:
+    type: boolean
+    default: true
+  cron-def:
+    type: string
+    pattern: >-
+      ^(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every
+      (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|(\d+([/\-])\d+)|\d+|\*) ?){5,7})$
+    default: 0 2 * * *
+    examples:
+      - 0 2 * * *
+      - 0 */6 * * *
+  retention-def:
+    type: integer
+    minimum: 1
+    maximum: 365
+    default: 30
+  cluster-info-def:
+    type: object
+    properties:
+      endpoints:
+        type: array
+        items:
+          type: string
+      datacenter:
+        type: string
+      node_count:
+        type: integer
+  connection-string-def:
+    type: string
+outputs:
+  cluster-info:
+    definition: cluster-info-def
+    description: Cluster connection information and topology
+    path: /cnab/app/outputs/cluster-info.json
+  cql-connection-string:
+    definition: connection-string-def
+    description: CQL connection string for applications
+    path: /cnab/app/outputs/connection-string
+  grafana-url:
+    definition: connection-string-def
+    description: URL for Grafana monitoring dashboard
+    path: /cnab/app/outputs/grafana-url
+    applyTo:
+      - install
+  backup-location:
+    definition: connection-string-def
+    description: Cloud storage location for backups
+    path: /cnab/app/outputs/backup-location
+    applyTo:
+      - install
+      - io.enterprise.backup
+actions:
+  io.enterprise.backup:
+    description: Create an immediate full backup of the cluster
+    modifies: false
+    stateless: false
+    title: Backup Cluster
+  io.enterprise.restore:
+    description: Restore cluster from a backup snapshot
+    modifies: true
+    stateless: false
+    title: Restore from Backup
+  io.enterprise.scale:
+    description: Add or remove nodes from the cluster
+    modifies: true
+    stateless: false
+    title: Scale Cluster
+  io.enterprise.repair:
+    description: Run nodetool repair across all nodes
+    modifies: true
+    stateless: false
+    title: Repair Cluster
+  io.enterprise.compact:
+    description: Run compaction on all nodes
+    modifies: true
+    stateless: false
+    title: Compact Data
+  io.enterprise.health-check:
+    description: Comprehensive health check of all cluster components
+    modifies: false
+    stateless: true
+    title: Health Check
+  io.enterprise.rolling-restart:
+    description: Perform a rolling restart of cluster nodes
+    modifies: true
+    stateless: false
+    title: Rolling Restart
+requiredExtensions:
+  - io.cnab.dependencies
+  - io.cnab.status
+custom:
+  io.enterprise.sla:
+    availability-target: 99.99%
+    support-tier: enterprise
+    maintenance-window: Sunday 02:00-06:00 UTC
+  io.enterprise.cost:
+    estimated-monthly-cost-usd: 5000
+    cost-center: engineering-infrastructure
+  io.enterprise.compliance:
+    encryption-at-rest: true
+    encryption-in-transit: true
+    audit-logging: true
+    compliance-frameworks:
+      - SOC2
+      - HIPAA
+      - GDPR

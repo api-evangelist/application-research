@@ -1,0 +1,112 @@
+meta:
+  schemaVersion: v2
+component:
+  name: github.com/acme.org/web-application
+  version: 2.5.1
+  creationTime: '2025-01-13T10:30:00Z'
+  provider:
+    name: acme
+    labels:
+      - name: team
+        value: platform-engineering
+  repositoryContexts:
+    - type: ociRegistry
+      baseUrl: ghcr.io/acme
+      componentNameMapping: urlPath
+  labels:
+    - name: app.kubernetes.io/name
+      value: web-application
+    - name: environment
+      value: production
+      signing: true
+  sources:
+    - name: application-source
+      type: git
+      version: 2.5.1
+      access:
+        type: gitHub
+        repoUrl: https://github.com/acme-org/web-application
+        commit: a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7
+      labels:
+        - name: language
+          value: javascript
+    - name: deployment-manifests
+      type: helmChart
+      version: 1.2.0
+      access:
+        type: helm
+        helmRepository: https://charts.acme.org
+        helmChart: web-app:1.2.0
+  resources:
+    - name: frontend-image
+      type: ociImage
+      version: 2.5.1
+      relation: local
+      access:
+        type: ociArtifact
+        imageReference: >-
+          ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
+      labels:
+        - name: component
+          value: frontend
+      digest:
+        hashAlgorithm: SHA-256
+        normalisationAlgorithm: ociArtifactDigest/v1
+        value: 4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
+    - name: backend-image
+      type: ociImage
+      version: 2.5.1
+      relation: local
+      access:
+        type: ociArtifact
+        imageReference: ghcr.io/acme-org/web-app-backend:2.5.1
+      srcRefs:
+        - identitySelector:
+            name: application-source
+    - name: nginx-proxy
+      type: ociImage
+      version: 1.25.4
+      relation: external
+      access:
+        type: ociArtifact
+        imageReference: nginx:1.25.4
+    - name: helm-chart
+      type: helmChart
+      relation: local
+      access:
+        type: localBlob
+        localReference: >-
+          sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291
+        mediaType: application/x-tar+gzip
+        referenceName: web-app-chart
+    - name: configuration
+      type: json
+      relation: local
+      access:
+        type: localBlob
+        localReference: config.json
+        mediaType: application/json
+  componentReferences:
+    - name: database
+      componentName: github.com/acme.org/postgresql-cluster
+      version: 15.2.0
+      labels:
+        - name: dependency-type
+          value: runtime
+    - name: redis-cache
+      componentName: github.com/acme.org/redis
+      version: 7.0.5
+      digest:
+        hashAlgorithm: SHA-256
+        normalisationAlgorithm: jsonNormalisation/v1
+        value: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+signatures:
+  - name: acme-signing-authority
+    digest:
+      hashAlgorithm: SHA-256
+      normalisationAlgorithm: jsonNormalisation/v1
+      value: 7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730
+    signature:
+      algorithm: RSASSA-PSS-SHA256
+      value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+      mediaType: application/vnd.ocm.signature.rsa

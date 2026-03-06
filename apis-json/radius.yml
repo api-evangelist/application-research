@@ -1,0 +1,100 @@
+aid: radius
+name: Radius
+type: Index
+description: |-
+  Radius is an open-source, cloud-native, application platform that enables developers and the operators that support them to define, deploy, and collaborate on cloud-native applications across public clouds and private infrastructure
+tags:
+  - Applications
+created: '2025-12-17'
+modified: '2026-01-15'
+url: https://github.com/naftiko-capabilities/applications/blob/main/indexes/radius.yml
+specificationVersion: '0.19'
+apis:
+
+  - aid: radius:radius
+    name: Radius API
+    description: An API for the Radius specification.
+    humanURL: https://docs.radapp.io/reference/api/
+    tags:
+      - Applications
+    properties:
+      - type: Documentation
+        url: https://docs.radapp.io/reference/api/
+          
+  - aid: radius:radius-sandbox
+    name: Cloud Native Application Bundle Sandbox API
+    description: This is meant to provide a sandbox for the specification.
+    humanURL: https://github.com/naftiko-capabilities/applications/
+    baseURL: http://localhost:8080/rest/
+    tags:
+      - Applications
+      - Sandbox
+    properties:
+
+      - type: Documentation
+        url: https://github.com/naftiko-capabilities/applications/
+      - type: OpenAPI
+        url: https://github.com/naftiko-capabilities/applications/blob/main/openapi/cloud-native-application-bundle-openapi.yml
+
+      - type: Examples
+        url: https://github.com/naftiko-capabilities/applications/blob/main/examples/radius-ecommerce-microservice.yml
+      - type: Examples
+        url: https://github.com/naftiko-capabilities/applications/blob/main/examples/radius-iot-data-processing.yml
+      - type: Examples
+        url: https://github.com/naftiko-capabilities/applications/blob/main/examples/radius-multi-cloud-ci-cd-platform.yml
+
+common:
+
+  - type: Website
+    url: https://radapp.io/
+  - type: Documentation
+    url: https://docs.radapp.io/
+  - type: CNCFProject
+    url: https://www.cncf.io/projects/radius/
+  - type: GettingStarted
+    url: https://docs.radapp.io/quick-start/
+  - type: Concepts
+    url: https://docs.radapp.io/concepts/
+  - type: Tutorials
+    url: https://docs.radapp.io/tutorials/
+  - type: Guides
+    url: https://docs.radapp.io/guides/
+  - type: Recipes
+    url: https://github.com/radius-project/recipes
+  - type: Samples
+    url: https://github.com/radius-project/samples
+  - type: CLI
+    url: https://docs.radapp.io/guides/tooling/rad-cli/
+  - type: VSCode
+    url: https://docs.radapp.io/guides/tooling/vscode/
+  - type: Dashboard
+    url: https://docs.radapp.io/guides/tooling/dashboard/
+  - type: Press
+    url: https://docs.radapp.io/community/media-coverage/
+  - type: Blog
+    url: https://blog.radapp.io/posts
+  - type: Discord
+    url: https://discord.com/channels/1113519723347456110/1114312962929348668
+  - type: Community
+    url: https://github.com/radius-project/community
+  - type: CommunityMeetings
+    url: https://github.com/radius-project/community?tab=readme-ov-file#community-meetings
+  - type: Youtube
+    url: https://www.youtube.com/@radapp_io
+  - type: Threads
+    url: https://www.threads.com/@radapp_io
+  - type: GitHubOrganization
+    url: https://github.com/radius-project
+  - type: GitHubRepository
+    url: https://github.com/radius-project/radius
+  - type: Schema
+    url: https://docs.radapp.io/reference/resource-schema/
+  - type: ConfigurationFile
+    url: https://docs.radapp.io/reference/config/
+  - type: Trademark
+    url: https://www.linuxfoundation.org/legal/trademark-usage
+
+maintainers:
+
+  - FN: Kin Lane
+    email: kinlane@naftiko.io

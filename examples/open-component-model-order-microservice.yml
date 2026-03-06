@@ -1,0 +1,152 @@
+components:
+  - name: github.com/enterprise.io/order-service
+    version: 3.1.0
+    provider: enterprise
+    labels:
+      - name: service-mesh
+        value: istio
+      - name: tier
+        value: critical
+    sources:
+      - name: service-code
+        type: git
+        input:
+          type: dir
+          path: ./services/order-service
+          compress: true
+          preserveDir: false
+          excludeFiles:
+            - '*.test.js'
+            - node_modules/**
+            - .git/**
+    resources:
+      - name: service-image
+        type: ociImage
+        relation: local
+        input:
+          type: docker
+          path: ./services/order-service
+          repository: ghcr.io/enterprise/order-service
+        labels:
+          - name: build-tool
+            value: docker
+      - name: api-spec
+        type: openapi
+        relation: local
+        input:
+          type: file
+          path: ./api/order-service-v3.yaml
+          mediaType: application/yaml
+      - name: database-migrations
+        type: directory
+        relation: local
+        input:
+          type: dir
+          path: ./migrations
+          compress: true
+          mediaType: application/x-tar+gzip
+    componentReferences:
+      - name: shared-library
+        componentName: github.com/enterprise.io/common-lib
+        version: 2.0.1
+  - name: github.com/enterprise.io/payment-service
+    version: 2.8.3
+    provider:
+      name: enterprise
+      labels:
+        - name: compliance
+          value: pci-dss
+    sources:
+      - name: payment-source
+        type: git
+        input:
+          type: dir
+          path: ./services/payment-service
+          compress: true
+          followSymlinks: false
+    resources:
+      - name: payment-processor
+        type: ociImage
+        relation: local
+        input:
+          type: dockermulti
+          variants:
+            - linux/amd64
+            - linux/arm64
+          repository: ghcr.io/enterprise/payment-service
+        srcRefs:
+          - identitySelector:
+              name: payment-source
+      - name: stripe-sdk
+        type: npmPackage
+        relation: external
+        version: 14.5.0
+        access:
+          type: npm
+          registry: https://registry.npmjs.org
+          package: stripe
+          version: 14.5.0
+      - name: encryption-keys
+        type: secret
+        relation: local
+        input:
+          type: binary
+          data: YmFzZTY0ZW5jb2RlZGRhdGFoZXJl
+          mediaType: application/octet-stream
+          compress: false
+      - name: helm-deployment
+        type: helmChart
+        relation: local
+        input:
+          type: helm
+          path: ./charts/payment-service
+          version: 2.8.3
+    componentReferences:
+      - name: encryption-lib
+        componentName: github.com/enterprise.io/crypto-lib
+        version: 1.5.2
+        extraIdentity:
+          platform: go
+      - name: audit-service
+        componentName: github.com/enterprise.io/audit-logger
+        version: 3.0.0
+  - name: github.com/enterprise.io/notification-service
+    version: 1.9.0-rc.2
+    provider: enterprise
+    sources:
+      - name: notification-code
+        type: git
+        access:
+          type: gitHub
+          repoUrl: github.com/enterprise-io/notification-service
+          ref: refs/tags/v1.9.0-rc.2
+          commit: b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7
+    resources:
+      - name: notifier-image
+        type: ociImage
+        relation: local
+        input:
+          type: ociArtifact
+          path: ./build/notification-service.tar
+          repository: ghcr.io/enterprise/notification-service
+      - name: email-templates
+        type: directory
+        relation: local
+        input:
+          type: dir
+          path: ./templates/email
+          mediaType: text/html
+          compress: true
+          includeFiles:
+            - '**/*.html'
+            - '**/*.css'
+      - name: sms-gateway-config
+        type: yaml
+        relation: local
+        input:
+          type: utf8
+          yaml:
+            provider: twilio
+            region: us-east-1
+            retries: 3
+          mediaType: application/yaml

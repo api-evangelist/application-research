@@ -1,0 +1,4213 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Radius API Schemas (Complete)
+description: >-
+  JSON Schema (Draft 2020-12) definitions extracted from Applications.Core,
+  Applications.Dapr, Applications.Messaging, Applications.Datastores, and
+  Universal Control Plane OpenAPI specifications version 2023-10-01-preview
+$defs:
+  ACIRuntimeProperties:
+    type: object
+    description: The runtime configuration properties for Kubernetes
+    properties:
+      gatewayID:
+        type: string
+        description: The ID of the gateway that is providing L7 traffic for the container
+  ApplicationGraphConnection:
+    type: object
+    description: Describes the connection between two resources.
+    properties:
+      id:
+        type: string
+        description: 'The resource ID '
+      direction:
+        $ref: '#/$defs/Direction'
+        description: >-
+          The direction of the connection. 'Outbound' indicates this connection
+          specifies the ID of the destination and 'Inbound' indicates indicates
+          this connection specifies the ID of the source.
+    required:
+      - id
+      - direction
+  ApplicationGraphOutputResource:
+    type: object
+    description: Describes an output resource that comprises an application graph resource.
+    properties:
+      id:
+        type: string
+        description: The resource ID.
+      type:
+        type: string
+        description: The resource type.
+      name:
+        type: string
+        description: The resource name.
+    required:
+      - id
+      - type
+      - name
+  ApplicationGraphResource:
+    type: object
+    description: Describes a resource in the application graph.
+    properties:
+      id:
+        type: string
+        description: The resource ID.
+      type:
+        type: string
+        description: The resource type.
+      name:
+        type: string
+        description: The resource name.
+      outputResources:
+        type: array
+        description: The resources that comprise this resource.
+        items:
+          $ref: '#/$defs/ApplicationGraphOutputResource'
+      connections:
+        type: array
+        description: The connections between resources in the application graph.
+        items:
+          $ref: '#/$defs/ApplicationGraphConnection'
+      provisioningState:
+        type: string
+        description: provisioningState of this resource.
+    required:
+      - id
+      - type
+      - name
+      - outputResources
+      - connections
+      - provisioningState
+  ApplicationGraphResponse:
+    type: object
+    description: Describes the application architecture and its dependencies.
+    properties:
+      resources:
+        type: array
+        description: The resources in the application graph.
+        items:
+          $ref: '#/$defs/ApplicationGraphResource'
+    required:
+      - resources
+  ApplicationProperties:
+    type: object
+    description: Application properties
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the application
+          is linked to
+      extensions:
+        type: array
+        description: The application extension.
+        items:
+          $ref: '#/$defs/Extension'
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+    required:
+      - environment
+  ApplicationResource:
+    type: object
+    description: Radius Application resource
+    properties:
+      properties:
+        $ref: '#/$defs/ApplicationProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  ApplicationResourceListResult:
+    type: object
+    description: The response of a ApplicationResource list operation.
+    properties:
+      value:
+        type: array
+        description: The ApplicationResource items on this page
+        items:
+          $ref: '#/$defs/ApplicationResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  ApplicationResourceUpdate:
+    type: object
+    description: Radius Application resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  AuthConfig:
+    type: object
+    description: >-
+      Authentication information used to access private Terraform module
+      sources. Supported module sources: Git.
+    properties:
+      git:
+        $ref: '#/$defs/GitAuthConfig'
+        description: >-
+          Authentication information used to access private Terraform modules
+          from Git repository sources.
+  AzureContainerInstanceCompute:
+    type: object
+    description: The Azure container instance compute configuration
+    properties:
+      kind:
+        type: string
+        enum:
+          - aci
+      resourceGroup:
+        type: string
+        description: The resource group to use for the environment.
+      resourceId:
+        type: string
+        description: The resource id of the compute resource for application environment.
+      identity:
+        $ref: '#/$defs/IdentitySettings'
+        description: Configuration for supported external identity providers
+    required:
+      - kind
+  AzureContainerInstanceExtension:
+    type: object
+    description: >-
+      Azure container instance resource group extension of a
+      environment/application resource.
+    properties:
+      kind:
+        type: string
+        enum:
+          - aci
+      resourceGroup:
+        type: string
+        description: The resource group of the application environment.
+    required:
+      - kind
+      - resourceGroup
+  AzureKeyVaultVolumeProperties:
+    type: object
+    description: Represents Azure Key Vault Volume properties
+    properties:
+      kind:
+        type: string
+        enum:
+          - azure.com.keyvault
+      certificates:
+        type: object
+        description: The KeyVault certificates that this volume exposes
+        additionalProperties:
+          $ref: '#/$defs/CertificateObjectProperties'
+      keys:
+        type: object
+        description: The KeyVault keys that this volume exposes
+        additionalProperties:
+          $ref: '#/$defs/KeyObjectProperties'
+      resource:
+        type: string
+        description: The ID of the keyvault to use for this volume resource
+      secrets:
+        type: object
+        description: The KeyVault secrets that this volume exposes
+        additionalProperties:
+          $ref: '#/$defs/SecretObjectProperties'
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the application
+          is linked to
+      application:
+        type: string
+        description: Fully qualified resource ID for the application
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+    required:
+      - kind
+      - resource
+      - application
+  BicepConfigProperties:
+    type: object
+    description: >-
+      Configuration for Bicep Recipes. Controls how Bicep plans and applies
+      templates as part of Recipe deployment.
+    properties:
+      authentication:
+        type: object
+        description: >-
+          Authentication information used to access private bicep registries,
+          which is a map of registry hostname to secret config that contains
+          credential information.
+        additionalProperties:
+          $ref: '#/$defs/RegistrySecretConfig'
+  BicepRecipeProperties:
+    type: object
+    description: Represents Bicep recipe properties.
+    properties:
+      templateKind:
+        type: string
+        enum:
+          - bicep
+      plainHttp:
+        type: boolean
+        description: >-
+          Connect to the Bicep registry using HTTP (not-HTTPS). This should be
+          used when the registry is known not to support HTTPS, for example in a
+          locally-hosted registry. Defaults to false (use HTTPS/TLS).
+      templatePath:
+        type: string
+        description: >-
+          Path to the template provided by the recipe. Currently only link to
+          Azure Container Registry is supported.
+      parameters:
+        type: object
+        description: Key/value parameters to pass to the recipe template at deployment.
+    required:
+      - templateKind
+      - templatePath
+  CertificateFormats:
+    type: string
+    description: Represents certificate formats
+    enum:
+      - pem
+      - pfx
+  CertificateObjectProperties:
+    type: object
+    description: Represents certificate object properties
+    properties:
+      alias:
+        type: string
+        description: File name when written to disk
+      encoding:
+        type: string
+        description: Encoding format. Default utf-8
+        default: utf-8
+        enum:
+          - utf-8
+          - hex
+          - base64
+      format:
+        type: string
+        description: Certificate format. Default pem
+        default: pem
+        enum:
+          - pem
+          - pfx
+      name:
+        type: string
+        description: The name of the certificate
+      certType:
+        $ref: '#/$defs/CertificateTypes'
+        description: >-
+          Certificate object type to be downloaded - the certificate itself,
+          private key or public key of the certificate
+      version:
+        type: string
+        description: Certificate version
+    required:
+      - name
+  CertificateTypes:
+    type: string
+    description: Represents certificate types
+    enum:
+      - certificate
+      - privatekey
+      - publickey
+  ConnectionProperties:
+    type: object
+    description: Connection Properties
+    properties:
+      source:
+        type: string
+        description: The source of the connection
+      disableDefaultEnvVars:
+        type: boolean
+        description: default environment variable override
+      iam:
+        $ref: '#/$defs/IamProperties'
+        description: iam properties
+    required:
+      - source
+  Container:
+    type: object
+    description: Definition of a container
+    properties:
+      image:
+        type: string
+        description: The registry and image to download and run in your container
+      imagePullPolicy:
+        $ref: '#/$defs/ImagePullPolicy'
+        description: The pull policy for the container image
+      env:
+        type: object
+        description: environment
+        additionalProperties:
+          $ref: '#/$defs/EnvironmentVariable'
+      ports:
+        type: object
+        description: container ports
+        additionalProperties:
+          $ref: '#/$defs/ContainerPortProperties'
+      readinessProbe:
+        $ref: '#/$defs/HealthProbeProperties'
+        description: readiness probe properties
+      livenessProbe:
+        $ref: '#/$defs/HealthProbeProperties'
+        description: liveness probe properties
+      volumes:
+        type: object
+        description: container volumes
+        additionalProperties:
+          $ref: '#/$defs/Volume'
+      command:
+        type: array
+        description: Entrypoint array. Overrides the container image's ENTRYPOINT
+        items:
+          type: string
+      args:
+        type: array
+        description: Arguments to the entrypoint. Overrides the container image's CMD
+        items:
+          type: string
+      workingDir:
+        type: string
+        description: Working directory for the container
+    required:
+      - image
+  ContainerPortProperties:
+    type: object
+    description: Specifies a listening port for the container
+    properties:
+      containerPort:
+        type: integer
+        format: int32
+        description: The listening port number
+      protocol:
+        $ref: '#/$defs/PortProtocol'
+        description: Protocol in use by the port
+      scheme:
+        type: string
+        description: >-
+          Specifies the URL scheme of the communication protocol. Consumers can
+          use the scheme to construct a URL. The value defaults to 'http' or
+          'https' depending on the port value
+      port:
+        type: integer
+        format: int32
+        description: >-
+          Specifies the port that will be exposed by this container. Must be set
+          when value different from containerPort is desired
+    required:
+      - containerPort
+  ContainerProperties:
+    type: object
+    description: Container properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the application
+          is linked to
+      application:
+        type: string
+        description: Fully qualified resource ID for the application
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      container:
+        $ref: '#/$defs/Container'
+        description: Definition of a container.
+      connections:
+        type: object
+        description: Specifies a connection to another resource.
+        additionalProperties:
+          $ref: '#/$defs/ConnectionProperties'
+      identity:
+        $ref: '#/$defs/IdentitySettings'
+        description: Configuration for supported external identity providers
+      extensions:
+        type: array
+        description: Extensions spec of the resource
+        items:
+          $ref: '#/$defs/Extension'
+      resourceProvisioning:
+        $ref: '#/$defs/ContainerResourceProvisioning'
+        description: >-
+          Specifies how the underlying container resource is provisioned and
+          managed.
+      resources:
+        type: array
+        description: A collection of references to resources associated with the container
+        items:
+          $ref: '#/$defs/ResourceReference'
+      restartPolicy:
+        $ref: '#/$defs/RestartPolicy'
+        description: The restart policy for the underlying container
+      runtimes:
+        $ref: '#/$defs/RuntimesProperties'
+        description: Specifies Runtime-specific functionality
+    required:
+      - application
+      - container
+  ContainerResource:
+    type: object
+    description: >-
+      Concrete tracked resource types can be created by aliasing this type using
+      a specific property type.
+    properties:
+      properties:
+        $ref: '#/$defs/ContainerProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  ContainerResourceListResult:
+    type: object
+    description: The response of a ContainerResource list operation.
+    properties:
+      value:
+        type: array
+        description: The ContainerResource items on this page
+        items:
+          $ref: '#/$defs/ContainerResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  ContainerResourceProvisioning:
+    type: string
+    description: >-
+      Specifies how the underlying service/resource is provisioned and managed.
+      Available values are 'internal', where Radius manages the lifecycle of the
+      resource internally, and 'manual', where a user manages the resource.
+    enum:
+      - internal
+      - manual
+  ContainerResourceUpdate:
+    type: object
+    description: >-
+      Concrete tracked resource types can be created by aliasing this type using
+      a specific property type.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  DaprSidecarExtension:
+    type: object
+    description: Specifies the resource should have a Dapr sidecar injected
+    properties:
+      kind:
+        type: string
+        enum:
+          - daprSidecar
+      appPort:
+        type: integer
+        format: int32
+        description: >-
+          The Dapr appPort. Specifies the internal listening port for the
+          application to handle requests from the Dapr sidecar. 
+      appId:
+        type: string
+        description: >-
+          The Dapr appId. Specifies the identifier used by Dapr for service
+          invocation.
+      config:
+        type: string
+        description: Specifies the Dapr configuration to use for the resource.
+      protocol:
+        $ref: '#/$defs/DaprSidecarExtensionProtocol'
+        description: Specifies the Dapr app-protocol to use for the resource.
+    required:
+      - kind
+      - appId
+  DaprSidecarExtensionProtocol:
+    type: string
+    description: The Dapr sidecar extension protocol
+    enum:
+      - http
+      - grpc
+  Direction:
+    type: string
+    description: The direction of a connection.
+    enum:
+      - Outbound
+      - Inbound
+  EnvironmentCompute:
+    type: object
+    description: Represents backing compute resource
+    properties:
+      kind:
+        type: string
+        description: Discriminator property for EnvironmentCompute.
+      resourceId:
+        type: string
+        description: The resource id of the compute resource for application environment.
+      identity:
+        $ref: '#/$defs/IdentitySettings'
+        description: Configuration for supported external identity providers
+    required:
+      - kind
+  EnvironmentProperties:
+    type: object
+    description: Environment properties
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      compute:
+        $ref: '#/$defs/EnvironmentCompute'
+        description: The compute resource used by application environment.
+      providers:
+        $ref: '#/$defs/Providers'
+        description: Cloud providers configuration for the environment.
+      simulated:
+        type: boolean
+        description: Simulated environment.
+      recipes:
+        type: object
+        description: Specifies Recipes linked to the Environment.
+        additionalProperties:
+          additionalProperties:
+            $ref: '#/$defs/RecipeProperties'
+          type: object
+      recipeConfig:
+        $ref: '#/$defs/RecipeConfigProperties'
+        description: >-
+          Configuration for Recipes. Defines how each type of Recipe should be
+          configured and run.
+      extensions:
+        type: array
+        description: The environment extension.
+        items:
+          $ref: '#/$defs/Extension'
+    required:
+      - compute
+  EnvironmentResource:
+    type: object
+    description: The environment resource
+    properties:
+      properties:
+        $ref: '#/$defs/EnvironmentProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  EnvironmentResourceListResult:
+    type: object
+    description: The response of a EnvironmentResource list operation.
+    properties:
+      value:
+        type: array
+        description: The EnvironmentResource items on this page
+        items:
+          $ref: '#/$defs/EnvironmentResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  EnvironmentResourceUpdate:
+    type: object
+    description: The environment resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  EnvironmentVariable:
+    type: object
+    description: Environment variables type
+    properties:
+      value:
+        type: string
+        description: The value of the environment variable
+      valueFrom:
+        $ref: '#/$defs/EnvironmentVariableReference'
+        description: The reference to the variable
+  EnvironmentVariableReference:
+    type: object
+    description: The reference to the variable
+    properties:
+      secretRef:
+        $ref: '#/$defs/SecretReference'
+        description: The secret reference
+    required:
+      - secretRef
+  EnvironmentVariables:
+    type: object
+    description: >-
+      The environment variables injected during Terraform Recipe execution for
+      the recipes in the environment.
+    additionalProperties:
+      type: string
+  EphemeralVolume:
+    type: object
+    description: Specifies an ephemeral volume for a container
+    properties:
+      kind:
+        type: string
+        enum:
+          - ephemeral
+      managedStore:
+        $ref: '#/$defs/ManagedStore'
+        description: Backing store for the ephemeral volume
+      mountPath:
+        type: string
+        description: The path where the volume is mounted
+    required:
+      - kind
+      - managedStore
+  ExecHealthProbeProperties:
+    type: object
+    description: Specifies the properties for readiness/liveness probe using an executable
+    properties:
+      kind:
+        type: string
+        enum:
+          - exec
+      command:
+        type: string
+        description: Command to execute to probe readiness/liveness
+      initialDelaySeconds:
+        type: number
+        format: float
+        description: Initial delay in seconds before probing for readiness/liveness
+      failureThreshold:
+        type: number
+        format: float
+        description: >-
+          Threshold number of times the probe fails after which a failure would
+          be reported
+      periodSeconds:
+        type: number
+        format: float
+        description: Interval for the readiness/liveness probe in seconds
+      timeoutSeconds:
+        type: number
+        format: float
+        description: >-
+          Number of seconds after which the readiness/liveness probe times out.
+          Defaults to 5 seconds
+        default: 5
+    required:
+      - kind
+      - command
+  ExtenderListSecretResponse:
+    type: object
+    description: Response for list secrets API call
+    additionalProperties: {}
+  ExtenderProperties:
+    type: object
+    description: ExtenderResource portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      secrets:
+        type: object
+        description: The secrets for referenced resource
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the extender portable resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+    additionalProperties: {}
+  ExtenderResource:
+    type: object
+    description: ExtenderResource portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/ExtenderProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  ExtenderResourceListResult:
+    type: object
+    description: The response of a ExtenderResource list operation.
+    properties:
+      value:
+        type: array
+        description: The ExtenderResource items on this page
+        items:
+          $ref: '#/$defs/ExtenderResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  ExtenderResourceUpdate:
+    type: object
+    description: ExtenderResource portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  Extension:
+    type: object
+    description: Extension of a environment/application resource.
+    properties:
+      kind:
+        type: string
+        description: Discriminator property for Extension.
+    required:
+      - kind
+  GatewayHostname:
+    type: object
+    description: >-
+      Declare hostname information for the Gateway. Leaving the hostname empty
+      auto-assigns one: mygateway.myapp.PUBLICHOSTNAMEORIP.nip.io.
+    properties:
+      prefix:
+        type: string
+        description: >-
+          Specify a prefix for the hostname:
+          myhostname.myapp.PUBLICHOSTNAMEORIP.nip.io. Mutually exclusive with
+          'fullyQualifiedHostname' and will be overridden if both are defined.
+      fullyQualifiedHostname:
+        type: string
+        description: >-
+          Specify a fully-qualified domain name: myapp.mydomain.com. Mutually
+          exclusive with 'prefix' and will take priority if both are defined.
+  GatewayProperties:
+    type: object
+    description: Gateway properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the application
+          is linked to
+      application:
+        type: string
+        description: Fully qualified resource ID for the application
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      internal:
+        type: boolean
+        description: >-
+          Sets Gateway to not be exposed externally (no public IP address
+          associated). Defaults to false (exposed to internet).
+      hostname:
+        $ref: '#/$defs/GatewayHostname'
+        description: >-
+          Declare hostname information for the Gateway. Leaving the hostname
+          empty auto-assigns one: mygateway.myapp.PUBLICHOSTNAMEORIP.nip.io.
+      routes:
+        type: array
+        description: Routes attached to this Gateway
+        items:
+          $ref: '#/$defs/GatewayRoute'
+      tls:
+        $ref: '#/$defs/GatewayTls'
+        description: TLS configuration for the Gateway.
+      url:
+        type: string
+        description: URL of the gateway resource. Readonly
+        readOnly: true
+    required:
+      - application
+      - routes
+  GatewayResource:
+    type: object
+    description: >-
+      Concrete tracked resource types can be created by aliasing this type using
+      a specific property type.
+    properties:
+      properties:
+        $ref: '#/$defs/GatewayProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  GatewayResourceListResult:
+    type: object
+    description: The response of a GatewayResource list operation.
+    properties:
+      value:
+        type: array
+        description: The GatewayResource items on this page
+        items:
+          $ref: '#/$defs/GatewayResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  GatewayResourceUpdate:
+    type: object
+    description: >-
+      Concrete tracked resource types can be created by aliasing this type using
+      a specific property type.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  GatewayRoute:
+    type: object
+    description: Route attached to Gateway
+    properties:
+      path:
+        type: string
+        description: The path to match the incoming request path on. Ex - /myservice.
+      destination:
+        type: string
+        description: The URL or id of the service to route to. Ex - 'http://myservice'.
+      replacePrefix:
+        type: string
+        description: >-
+          Optionally update the prefix when sending the request to the service.
+          Ex - replacePrefix: '/' and path: '/myservice' will transform
+          '/myservice/myroute' to '/myroute'
+      enableWebsockets:
+        type: boolean
+        description: Enables websocket support for the route. Defaults to false.
+      timeoutPolicy:
+        $ref: '#/$defs/GatewayRouteTimeoutPolicy'
+        description: The timeout policy for the route.
+  GatewayRouteTimeoutPolicy:
+    type: object
+    description: Gateway route timeout policy
+    properties:
+      request:
+        type: string
+        description: The request timeout in duration for the route. Defaults to 15 seconds.
+        pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
+      backendRequest:
+        type: string
+        description: >-
+          The backend request timeout in duration for the route. Cannot be
+          greater than the request timeout.
+        pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
+  GatewayTls:
+    type: object
+    description: TLS configuration definition for Gateway resource.
+    properties:
+      sslPassthrough:
+        type: boolean
+        description: >-
+          If true, gateway lets the https traffic sslPassthrough to the backend
+          servers for decryption.
+      minimumProtocolVersion:
+        type: string
+        description: TLS minimum protocol version (defaults to 1.2).
+        default: '1.2'
+        enum:
+          - '1.2'
+          - '1.3'
+      certificateFrom:
+        type: string
+        description: >-
+          The resource id for the secret containing the TLS certificate and key
+          for the gateway.
+  GitAuthConfig:
+    type: object
+    description: >-
+      Authentication information used to access private Terraform modules from
+      Git repository sources.
+    properties:
+      pat:
+        type: object
+        description: >-
+          Personal Access Token (PAT) configuration used to authenticate to Git
+          platforms.
+        additionalProperties:
+          $ref: '#/$defs/SecretConfig'
+  HealthProbeProperties:
+    type: object
+    description: Properties for readiness/liveness probe
+    properties:
+      kind:
+        type: string
+        description: Discriminator property for HealthProbeProperties.
+      initialDelaySeconds:
+        type: number
+        format: float
+        description: Initial delay in seconds before probing for readiness/liveness
+      failureThreshold:
+        type: number
+        format: float
+        description: >-
+          Threshold number of times the probe fails after which a failure would
+          be reported
+      periodSeconds:
+        type: number
+        format: float
+        description: Interval for the readiness/liveness probe in seconds
+      timeoutSeconds:
+        type: number
+        format: float
+        description: >-
+          Number of seconds after which the readiness/liveness probe times out.
+          Defaults to 5 seconds
+        default: 5
+    required:
+      - kind
+  HttpGetHealthProbeProperties:
+    type: object
+    description: Specifies the properties for readiness/liveness probe using HTTP Get
+    properties:
+      kind:
+        type: string
+        enum:
+          - httpGet
+      containerPort:
+        type: integer
+        format: int32
+        description: The listening port number
+      path:
+        type: string
+        description: The route to make the HTTP request on
+      headers:
+        type: object
+        description: Custom HTTP headers to add to the get request
+        additionalProperties:
+          type: string
+      initialDelaySeconds:
+        type: number
+        format: float
+        description: Initial delay in seconds before probing for readiness/liveness
+      failureThreshold:
+        type: number
+        format: float
+        description: >-
+          Threshold number of times the probe fails after which a failure would
+          be reported
+      periodSeconds:
+        type: number
+        format: float
+        description: Interval for the readiness/liveness probe in seconds
+      timeoutSeconds:
+        type: number
+        format: float
+        description: >-
+          Number of seconds after which the readiness/liveness probe times out.
+          Defaults to 5 seconds
+        default: 5
+    required:
+      - kind
+      - containerPort
+      - path
+  IAMKind:
+    type: string
+    description: The kind of IAM provider to configure
+    enum:
+      - azure
+      - string
+  IamProperties:
+    type: object
+    description: IAM properties
+    properties:
+      kind:
+        $ref: '#/$defs/IAMKind'
+        description: The kind of IAM provider to configure
+      roles:
+        type: array
+        description: RBAC permissions to be assigned on the source resource
+        items:
+          type: string
+    required:
+      - kind
+  IdentitySettingKind:
+    type: string
+    description: IdentitySettingKind is the kind of supported external identity setting
+    enum:
+      - undefined
+      - azure.com.workload
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+  IdentitySettings:
+    type: object
+    description: IdentitySettings is the external identity setting.
+    properties:
+      kind:
+        $ref: '#/$defs/IdentitySettingKind'
+        description: kind of identity setting
+      oidcIssuer:
+        type: string
+        description: The URI for your compute platform's OIDC issuer
+      resource:
+        type: string
+        description: The resource ID of the provisioned identity
+      managedIdentity:
+        type: array
+        description: The list of user assigned managed identities
+        items:
+          type: string
+    required:
+      - kind
+  ImagePullPolicy:
+    type: string
+    description: The image pull policy for the container
+    enum:
+      - Always
+      - IfNotPresent
+      - Never
+  KeyObjectProperties:
+    type: object
+    description: Represents key object properties
+    properties:
+      alias:
+        type: string
+        description: File name when written to disk
+      name:
+        type: string
+        description: The name of the key
+      version:
+        type: string
+        description: Key version
+    required:
+      - name
+  KubernetesCompute:
+    type: object
+    description: The Kubernetes compute configuration
+    properties:
+      kind:
+        type: string
+        enum:
+          - kubernetes
+      namespace:
+        type: string
+        description: The namespace to use for the environment.
+      resourceId:
+        type: string
+        description: The resource id of the compute resource for application environment.
+      identity:
+        $ref: '#/$defs/IdentitySettings'
+        description: Configuration for supported external identity providers
+    required:
+      - kind
+      - namespace
+  KubernetesMetadataExtension:
+    type: object
+    description: Kubernetes metadata extension of a environment/application resource.
+    properties:
+      kind:
+        type: string
+        enum:
+          - kubernetesMetadata
+      annotations:
+        type: object
+        description: >-
+          Annotations to be applied to the Kubernetes resources output by the
+          resource
+        additionalProperties:
+          type: string
+      labels:
+        type: object
+        description: >-
+          Labels to be applied to the Kubernetes resources output by the
+          resource
+        additionalProperties:
+          type: string
+    required:
+      - kind
+  KubernetesNamespaceExtension:
+    type: object
+    description: Kubernetes namespace extension of a environment/application resource.
+    properties:
+      kind:
+        type: string
+        enum:
+          - kubernetesNamespace
+      namespace:
+        type: string
+        description: The namespace of the application environment.
+    required:
+      - kind
+      - namespace
+  KubernetesPodSpec:
+    type: object
+    description: >-
+      A strategic merge patch that will be applied to the PodSpec object when
+      this container is being deployed.
+    additionalProperties: {}
+  KubernetesRuntimeProperties:
+    type: object
+    description: The runtime configuration properties for Kubernetes
+    properties:
+      base:
+        type: string
+        description: >-
+          The serialized YAML manifest which represents the base Kubernetes
+          resources to deploy, such as Deployment, Service, ServiceAccount,
+          Secrets, and ConfigMaps.
+      pod:
+        $ref: '#/$defs/KubernetesPodSpec'
+        description: >-
+          A strategic merge patch that will be applied to the PodSpec object
+          when this container is being deployed.
+  ManagedStore:
+    type: string
+    description: The managed store for the ephemeral volume
+    enum:
+      - memory
+      - disk
+  ManualScalingExtension:
+    type: object
+    description: ManualScaling Extension
+    properties:
+      kind:
+        type: string
+        enum:
+          - manualScaling
+      replicas:
+        type: integer
+        format: int32
+        description: Replica count.
+    required:
+      - kind
+      - replicas
+  OutputResource:
+    type: object
+    description: Properties of an output resource.
+    properties:
+      localId:
+        type: string
+        description: >-
+          The logical identifier scoped to the owning Radius resource. This is
+          only needed or used when a resource has a dependency relationship.
+          LocalIDs do not have any particular format or meaning beyond being
+          compared to determine dependency relationships.
+      id:
+        type: string
+        description: The UCP resource ID of the underlying resource.
+      radiusManaged:
+        type: boolean
+        description: >-
+          Determines whether Radius manages the lifecycle of the underlying
+          resource.
+  PersistentVolume:
+    type: object
+    description: Specifies a persistent volume for a container
+    properties:
+      kind:
+        type: string
+        enum:
+          - persistent
+      permission:
+        $ref: '#/$defs/VolumePermission'
+        description: Container read/write access to the volume
+      source:
+        type: string
+        description: The source of the volume
+      mountPath:
+        type: string
+        description: The path where the volume is mounted
+    required:
+      - kind
+      - source
+  PortProtocol:
+    type: string
+    description: The protocol in use by the port
+    enum:
+      - TCP
+      - UDP
+  ProviderConfigProperties:
+    type: object
+    description: >-
+      This configuration holds the necessary information to authenticate and
+      interact with a provider for the recipe execution.
+    properties:
+      secrets:
+        type: object
+        description: >-
+          Sensitive data in provider configuration can be stored as secrets. The
+          secrets are stored in Applications.Core/SecretStores resource.
+        additionalProperties:
+          $ref: '#/$defs/SecretReference'
+    additionalProperties: {}
+  Providers:
+    type: object
+    description: The Cloud providers configuration.
+    properties:
+      azure:
+        $ref: '#/$defs/ProvidersAzure'
+        description: The Azure cloud provider configuration.
+      aws:
+        $ref: '#/$defs/ProvidersAws'
+        description: The AWS cloud provider configuration.
+  ProvidersAws:
+    type: object
+    description: The AWS cloud provider definition.
+    properties:
+      scope:
+        type: string
+        description: >-
+          Target scope for AWS resources to be deployed into.  For example:
+          '/planes/aws/aws/accounts/000000000000/regions/us-west-2'.
+    required:
+      - scope
+  ProvidersAzure:
+    type: object
+    description: The Azure cloud provider definition.
+    properties:
+      scope:
+        type: string
+        description: >-
+          Target scope for Azure resources to be deployed into.  For example:
+          '/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testGroup'.
+    required:
+      - scope
+  ProvisioningState:
+    type: string
+    description: Provisioning state of the resource at the time the operation was called
+    enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+    readOnly: true
+  Recipe:
+    type: object
+    description: >-
+      The recipe used to automatically deploy underlying infrastructure for a
+      portable resource
+    properties:
+      name:
+        type: string
+        description: The name of the recipe within the environment to use
+      parameters:
+        type: object
+        description: Key/value parameters to pass into the recipe at deployment
+    required:
+      - name
+  RecipeConfigProperties:
+    type: object
+    description: >-
+      Configuration for Recipes. Defines how each type of Recipe should be
+      configured and run.
+    properties:
+      terraform:
+        $ref: '#/$defs/TerraformConfigProperties'
+        description: >-
+          Configuration for Terraform Recipes. Controls how Terraform plans and
+          applies templates as part of Recipe deployment.
+      bicep:
+        $ref: '#/$defs/BicepConfigProperties'
+        description: >-
+          Configuration for Bicep Recipes. Controls how Bicep plans and applies
+          templates as part of Recipe deployment.
+      env:
+        $ref: '#/$defs/EnvironmentVariables'
+        description: >-
+          Environment variables injected during recipe execution for the recipes
+          in the environment, currently supported for Terraform recipes.
+      envSecrets:
+        type: object
+        description: >-
+          Environment variables containing sensitive information can be stored
+          as secrets. The secrets are stored in Applications.Core/SecretStores
+          resource.
+        additionalProperties:
+          $ref: '#/$defs/SecretReference'
+  RecipeGetMetadata:
+    type: object
+    description: Represents the request body of the getmetadata action.
+    properties:
+      resourceType:
+        type: string
+        description: >-
+          Type of the resource this recipe can be consumed by. For example:
+          'Applications.Datastores/mongoDatabases'.
+      name:
+        type: string
+        description: The name of the recipe registered to the environment.
+    required:
+      - resourceType
+      - name
+  RecipeGetMetadataResponse:
+    type: object
+    description: The properties of a Recipe linked to an Environment.
+    properties:
+      templateKind:
+        type: string
+        description: >-
+          The format of the template provided by the recipe. Allowed values:
+          bicep, terraform.
+      templatePath:
+        type: string
+        description: >-
+          The path to the template provided by the recipe. Currently only link
+          to Azure Container Registry is supported.
+      templateVersion:
+        type: string
+        description: >-
+          The version of the template to deploy. For Terraform recipes using a
+          module registry this is required, but must be omitted for other module
+          sources.
+      parameters:
+        type: object
+        description: The key/value parameters to pass to the recipe template at deployment.
+      plainHttp:
+        type: boolean
+        description: >-
+          Connect to the Bicep registry using HTTP (not-HTTPS). This should be
+          used when the registry is known not to support HTTPS, for example in a
+          locally-hosted registry. Defaults to false (use HTTPS/TLS).
+    required:
+      - templateKind
+      - templatePath
+      - parameters
+  RecipeProperties:
+    type: object
+    description: >-
+      Format of the template provided by the recipe. Allowed values: bicep,
+      terraform.
+    properties:
+      templateKind:
+        type: string
+        description: Discriminator property for RecipeProperties.
+      templatePath:
+        type: string
+        description: >-
+          Path to the template provided by the recipe. Currently only link to
+          Azure Container Registry is supported.
+      parameters:
+        type: object
+        description: Key/value parameters to pass to the recipe template at deployment.
+    required:
+      - templateKind
+      - templatePath
+  RecipeStatus:
+    type: object
+    description: Recipe status at deployment time for a resource.
+    properties:
+      templateKind:
+        type: string
+        description: >-
+          TemplateKind is the kind of the recipe template used by the portable
+          resource upon deployment.
+      templatePath:
+        type: string
+        description: >-
+          TemplatePath is the path of the recipe consumed by the portable
+          resource upon deployment.
+      templateVersion:
+        type: string
+        description: TemplateVersion is the version number of the template.
+    required:
+      - templateKind
+      - templatePath
+  RegistrySecretConfig:
+    type: object
+    description: >-
+      Registry Secret Configuration used to authenticate to private bicep
+      registries.
+    properties:
+      secret:
+        type: string
+        description: >-
+          The ID of an Applications.Core/SecretStore resource containing
+          credential information used to authenticate private container
+          registry.The keys in the secretstore depends on the type.
+  ResourceProvisioning:
+    type: string
+    description: >-
+      Specifies how the underlying service/resource is provisioned and managed.
+      Available values are 'recipe', where Radius manages the lifecycle of the
+      resource through a Recipe, and 'manual', where a user manages the resource
+      and provides the values.
+    enum:
+      - recipe
+      - manual
+  ResourceReference:
+    type: object
+    description: Describes a reference to an existing resource
+    properties:
+      id:
+        type: string
+        description: Resource id of an existing resource
+    required:
+      - id
+  ResourceStatus:
+    type: object
+    description: Status of a resource.
+    properties:
+      compute:
+        $ref: '#/$defs/EnvironmentCompute'
+        description: The compute resource associated with the resource.
+      recipe:
+        $ref: '#/$defs/RecipeStatus'
+        description: The recipe data at the time of deployment
+        readOnly: true
+      outputResources:
+        type: array
+        description: Properties of an output resource
+        items:
+          $ref: '#/$defs/OutputResource'
+  RestartPolicy:
+    type: string
+    description: Restart policy for the container
+    enum:
+      - Always
+      - OnFailure
+      - Never
+  RuntimesProperties:
+    type: object
+    description: The properties for runtime configuration
+    properties:
+      kubernetes:
+        $ref: '#/$defs/KubernetesRuntimeProperties'
+        description: The runtime configuration properties for Kubernetes
+      aci:
+        $ref: '#/$defs/ACIRuntimeProperties'
+        description: The runtime configuration properties for ACI
+  SecretConfig:
+    type: object
+    description: >-
+      Personal Access Token (PAT) configuration used to authenticate to Git
+      platforms.
+    properties:
+      secret:
+        type: string
+        description: >-
+          The ID of an Applications.Core/SecretStore resource containing the Git
+          platform personal access token (PAT). The secret store must have a
+          secret named 'pat', containing the PAT value. A secret named
+          'username' is optional, containing the username associated with the
+          pat. By default no username is specified.
+  SecretObjectProperties:
+    type: object
+    description: Represents secret object properties
+    properties:
+      alias:
+        type: string
+        description: File name when written to disk
+      encoding:
+        type: string
+        description: Encoding format. Default utf-8
+        default: utf-8
+        enum:
+          - utf-8
+          - hex
+          - base64
+      name:
+        type: string
+        description: The name of the secret
+      version:
+        type: string
+        description: secret version
+    required:
+      - name
+  SecretReference:
+    type: object
+    description: >-
+      This secret is used within a recipe. Secrets are encrypted, often have
+      fine-grained access control, auditing and are recommended to be used to
+      hold sensitive data.
+    properties:
+      source:
+        type: string
+        description: >-
+          The ID of an Applications.Core/SecretStore resource containing
+          sensitive data required for recipe execution.
+      key:
+        type: string
+        description: The key for the secret in the secret store.
+    required:
+      - source
+      - key
+  SecretStoreDataType:
+    type: string
+    description: The type of SecretStore data
+    enum:
+      - generic
+      - certificate
+      - basicAuthentication
+      - azureWorkloadIdentity
+      - awsIRSA
+  SecretStoreListSecretsResult:
+    type: object
+    description: The list of secrets
+    properties:
+      type:
+        $ref: '#/$defs/SecretStoreDataType'
+        description: The type of secret store data
+      data:
+        type: object
+        description: An object to represent key-value type secrets
+        additionalProperties:
+          $ref: '#/$defs/SecretValueProperties'
+    required:
+      - type
+      - data
+  SecretStoreProperties:
+    type: object
+    description: The properties of SecretStore
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the application
+          is linked to
+      application:
+        type: string
+        description: Fully qualified resource ID for the application
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      type:
+        type: string
+        description: The type of secret store data
+        default: generic
+        enum:
+          - generic
+          - certificate
+          - basicAuthentication
+          - azureWorkloadIdentity
+          - awsIRSA
+      data:
+        type: object
+        description: An object to represent key-value type secrets
+        additionalProperties:
+          $ref: '#/$defs/SecretValueProperties'
+      resource:
+        type: string
+        description: The resource id of external secret store.
+    required:
+      - data
+  SecretStoreResource:
+    type: object
+    description: >-
+      Concrete tracked resource types can be created by aliasing this type using
+      a specific property type.
+    properties:
+      properties:
+        $ref: '#/$defs/SecretStoreProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  SecretStoreResourceListResult:
+    type: object
+    description: The response of a SecretStoreResource list operation.
+    properties:
+      value:
+        type: array
+        description: The SecretStoreResource items on this page
+        items:
+          $ref: '#/$defs/SecretStoreResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  SecretStoreResourceUpdate:
+    type: object
+    description: >-
+      Concrete tracked resource types can be created by aliasing this type using
+      a specific property type.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  SecretValueEncoding:
+    type: string
+    description: The type of SecretValue Encoding
+    enum:
+      - raw
+      - base64
+  SecretValueProperties:
+    type: object
+    description: The properties of SecretValue
+    properties:
+      encoding:
+        type: string
+        description: The encoding of value
+        default: raw
+        enum:
+          - raw
+          - base64
+      value:
+        type: string
+        format: password
+        description: The value of secret.
+      valueFrom:
+        $ref: '#/$defs/ValueFromProperties'
+        description: The referenced secret in properties.resource
+  TcpHealthProbeProperties:
+    type: object
+    description: Specifies the properties for readiness/liveness probe using TCP
+    properties:
+      kind:
+        type: string
+        enum:
+          - tcp
+      containerPort:
+        type: integer
+        format: int32
+        description: The listening port number
+      initialDelaySeconds:
+        type: number
+        format: float
+        description: Initial delay in seconds before probing for readiness/liveness
+      failureThreshold:
+        type: number
+        format: float
+        description: >-
+          Threshold number of times the probe fails after which a failure would
+          be reported
+      periodSeconds:
+        type: number
+        format: float
+        description: Interval for the readiness/liveness probe in seconds
+      timeoutSeconds:
+        type: number
+        format: float
+        description: >-
+          Number of seconds after which the readiness/liveness probe times out.
+          Defaults to 5 seconds
+        default: 5
+    required:
+      - kind
+      - containerPort
+  TerraformConfigProperties:
+    type: object
+    description: >-
+      Configuration for Terraform Recipes. Controls how Terraform plans and
+      applies templates as part of Recipe deployment.
+    properties:
+      authentication:
+        $ref: '#/$defs/AuthConfig'
+        description: >-
+          Authentication information used to access private Terraform module
+          sources. Supported module sources: Git.
+      providers:
+        type: object
+        description: >-
+          Configuration for Terraform Recipe Providers. Controls how Terraform
+          interacts with cloud providers, SaaS providers, and other APIs. For
+          more information, please see:
+          https://developer.hashicorp.com/terraform/language/providers/configuration.
+        additionalProperties:
+          items:
+            $ref: '#/$defs/ProviderConfigProperties'
+          type: array
+  TerraformRecipeProperties:
+    type: object
+    description: Represents Terraform recipe properties.
+    properties:
+      templateKind:
+        type: string
+        enum:
+          - terraform
+      templateVersion:
+        type: string
+        description: >-
+          Version of the template to deploy. For Terraform recipes using a
+          module registry this is required, but must be omitted for other module
+          sources.
+      templatePath:
+        type: string
+        description: >-
+          Path to the template provided by the recipe. Currently only link to
+          Azure Container Registry is supported.
+      parameters:
+        type: object
+        description: Key/value parameters to pass to the recipe template at deployment.
+    required:
+      - templateKind
+      - templatePath
+  TlsMinVersion:
+    type: string
+    description: Tls Minimum versions for Gateway resource.
+    enum:
+      - '1.2'
+      - '1.3'
+  ValueFromProperties:
+    type: object
+    description: The Secret value source properties
+    properties:
+      name:
+        type: string
+        description: The name of the referenced secret.
+      version:
+        type: string
+        description: The version of the referenced secret.
+    required:
+      - name
+  Volume:
+    type: object
+    description: Specifies a volume for a container
+    properties:
+      kind:
+        type: string
+        description: Discriminator property for Volume.
+      mountPath:
+        type: string
+        description: The path where the volume is mounted
+    required:
+      - kind
+  VolumePermission:
+    type: string
+    description: The persistent volume permission
+    enum:
+      - read
+      - write
+  VolumeProperties:
+    type: object
+    description: Volume properties
+    properties:
+      kind:
+        type: string
+        description: Discriminator property for VolumeProperties.
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the application
+          is linked to
+      application:
+        type: string
+        description: Fully qualified resource ID for the application
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+    required:
+      - kind
+      - application
+  VolumeResource:
+    type: object
+    description: Radius Volume resource.
+    properties:
+      properties:
+        $ref: '#/$defs/VolumeProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  VolumeResourceListResult:
+    type: object
+    description: The response of a VolumeResource list operation.
+    properties:
+      value:
+        type: array
+        description: The VolumeResource items on this page
+        items:
+          $ref: '#/$defs/VolumeResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  VolumeResourceUpdate:
+    type: object
+    description: Radius Volume resource.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  VolumeSecretEncodings:
+    type: string
+    description: Represents secret encodings
+    enum:
+      - utf-8
+      - hex
+      - base64
+  DaprConfigurationStoreProperties:
+    type: object
+    description: Dapr configuration store portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      componentName:
+        type: string
+        description: >-
+          The name of the Dapr component object. Use this value in your code
+          when interacting with the Dapr client to use the Dapr component.
+        readOnly: true
+      metadata:
+        type: object
+        description: >-
+          The metadata for Dapr resource which must match the values specified
+          in Dapr component spec
+        additionalProperties:
+          $ref: '#/$defs/MetadataValue'
+      type:
+        type: string
+        description: >-
+          Dapr component type which must matches the format used by Dapr
+          Kubernetes configuration format
+      version:
+        type: string
+        description: Dapr component version
+      auth:
+        $ref: '#/$defs/DaprResourceAuth'
+        description: The name of the Dapr component to be used as a secret store
+      resources:
+        type: array
+        description: >-
+          A collection of references to resources associated with the
+          configuration store
+        items:
+          $ref: '#/$defs/ResourceReference'
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  DaprConfigurationStoreResource:
+    type: object
+    description: Dapr configuration store portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/DaprConfigurationStoreProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  DaprConfigurationStoreResourceListResult:
+    type: object
+    description: The response of a DaprConfigurationStoreResource list operation.
+    properties:
+      value:
+        type: array
+        description: The DaprConfigurationStoreResource items on this page
+        items:
+          $ref: '#/$defs/DaprConfigurationStoreResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  DaprConfigurationStoreResourceUpdate:
+    type: object
+    description: Dapr configuration store portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  DaprPubSubBrokerProperties:
+    type: object
+    description: Dapr PubSubBroker portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      componentName:
+        type: string
+        description: >-
+          The name of the Dapr component object. Use this value in your code
+          when interacting with the Dapr client to use the Dapr component.
+        readOnly: true
+      metadata:
+        type: object
+        description: >-
+          The metadata for Dapr resource which must match the values specified
+          in Dapr component spec
+        additionalProperties:
+          $ref: '#/$defs/MetadataValue'
+      type:
+        type: string
+        description: >-
+          Dapr component type which must matches the format used by Dapr
+          Kubernetes configuration format
+      version:
+        type: string
+        description: Dapr component version
+      auth:
+        $ref: '#/$defs/DaprResourceAuth'
+        description: The name of the Dapr component to be used as a secret store
+      resources:
+        type: array
+        description: >-
+          A collection of references to resources associated with the
+          pubSubBroker
+        items:
+          $ref: '#/$defs/ResourceReference'
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  DaprPubSubBrokerResource:
+    type: object
+    description: Dapr PubSubBroker portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/DaprPubSubBrokerProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  DaprPubSubBrokerResourceListResult:
+    type: object
+    description: The response of a DaprPubSubBrokerResource list operation.
+    properties:
+      value:
+        type: array
+        description: The DaprPubSubBrokerResource items on this page
+        items:
+          $ref: '#/$defs/DaprPubSubBrokerResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  DaprPubSubBrokerResourceUpdate:
+    type: object
+    description: Dapr PubSubBroker portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  DaprResourceAuth:
+    type: object
+    description: Authentication properties for a Dapr component object
+    properties:
+      secretStore:
+        type: string
+        description: Secret store to fetch secrets from
+  DaprSecretStoreProperties:
+    type: object
+    description: Dapr SecretStore portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      componentName:
+        type: string
+        description: >-
+          The name of the Dapr component object. Use this value in your code
+          when interacting with the Dapr client to use the Dapr component.
+        readOnly: true
+      metadata:
+        type: object
+        description: >-
+          The metadata for Dapr resource which must match the values specified
+          in Dapr component spec
+        additionalProperties:
+          $ref: '#/$defs/MetadataValue'
+      type:
+        type: string
+        description: >-
+          Dapr component type which must matches the format used by Dapr
+          Kubernetes configuration format
+      version:
+        type: string
+        description: Dapr component version
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  DaprSecretStoreResource:
+    type: object
+    description: Dapr SecretStore portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/DaprSecretStoreProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  DaprSecretStoreResourceListResult:
+    type: object
+    description: The response of a DaprSecretStoreResource list operation.
+    properties:
+      value:
+        type: array
+        description: The DaprSecretStoreResource items on this page
+        items:
+          $ref: '#/$defs/DaprSecretStoreResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  DaprSecretStoreResourceUpdate:
+    type: object
+    description: Dapr SecretStore portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  DaprStateStoreProperties:
+    type: object
+    description: Dapr StateStore portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      componentName:
+        type: string
+        description: >-
+          The name of the Dapr component object. Use this value in your code
+          when interacting with the Dapr client to use the Dapr component.
+        readOnly: true
+      metadata:
+        type: object
+        description: >-
+          The metadata for Dapr resource which must match the values specified
+          in Dapr component spec
+        additionalProperties:
+          $ref: '#/$defs/MetadataValue'
+      type:
+        type: string
+        description: >-
+          Dapr component type which must matches the format used by Dapr
+          Kubernetes configuration format
+      version:
+        type: string
+        description: Dapr component version
+      auth:
+        $ref: '#/$defs/DaprResourceAuth'
+        description: The name of the Dapr component to be used as a secret store
+      resources:
+        type: array
+        description: >-
+          A collection of references to resources associated with the state
+          store
+        items:
+          $ref: '#/$defs/ResourceReference'
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  DaprStateStoreResource:
+    type: object
+    description: Dapr StateStore portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/DaprStateStoreProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  DaprStateStoreResourceListResult:
+    type: object
+    description: The response of a DaprStateStoreResource list operation.
+    properties:
+      value:
+        type: array
+        description: The DaprStateStoreResource items on this page
+        items:
+          $ref: '#/$defs/DaprStateStoreResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  DaprStateStoreResourceUpdate:
+    type: object
+    description: Dapr StateStore portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  MetadataValue:
+    type: object
+    description: A single metadata for a Dapr component object
+    properties:
+      value:
+        type: string
+        description: The plain text value of the metadata
+      secretKeyRef:
+        $ref: '#/$defs/MetadataValueFromSecret'
+        description: A reference of a value in a secret store component
+  MetadataValueFromSecret:
+    type: object
+    description: A reference of a value in a secret store component.
+    properties:
+      name:
+        type: string
+        description: Secret name in the secret store component
+      key:
+        type: string
+        description: >-
+          The field to select in the secret value. If the secret value is a
+          string, it should be equal to the secret name
+    required:
+      - name
+      - key
+  NonRedundantDaprResourceProperties:
+    type: object
+    description: The base properties of a Dapr component object.
+    properties:
+      componentName:
+        type: string
+        description: >-
+          The name of the Dapr component object. Use this value in your code
+          when interacting with the Dapr client to use the Dapr component.
+        readOnly: true
+      metadata:
+        type: object
+        description: >-
+          The metadata for Dapr resource which must match the values specified
+          in Dapr component spec
+        additionalProperties:
+          $ref: '#/$defs/MetadataValue'
+      type:
+        type: string
+        description: >-
+          Dapr component type which must matches the format used by Dapr
+          Kubernetes configuration format
+      version:
+        type: string
+        description: Dapr component version
+  AWSCredentialKind:
+    type: string
+    description: AWS credential kind
+    enum:
+      - AccessKey
+      - IRSA
+  ApiVersionNameString:
+    type: string
+    description: 'The resource type API version. Example: ''2023-10-01-preview''.'
+    maxLength: 63
+    pattern: ^\d{4}-\d{2}-\d{2}(-preview)?$
+  ApiVersionProperties:
+    type: object
+    description: The properties of an API version.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      schema:
+        type: object
+        description: Schema is the schema for the resource type.
+        additionalProperties: {}
+  ApiVersionResource:
+    type: object
+    description: >-
+      The resource type for defining an API version of a resource type supported
+      by the containing resource provider.
+    properties:
+      properties:
+        $ref: '#/$defs/ApiVersionProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+  ApiVersionResourceListResult:
+    type: object
+    description: The response of a ApiVersionResource list operation.
+    properties:
+      value:
+        type: array
+        description: The ApiVersionResource items on this page
+        items:
+          $ref: '#/$defs/ApiVersionResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  AwsAccessKeyCredentialProperties:
+    type: object
+    description: AWS credential properties for Access Key
+    properties:
+      kind:
+        type: string
+        enum:
+          - AccessKey
+      accessKeyId:
+        type: string
+        format: password
+        description: Access key ID for AWS identity
+      secretAccessKey:
+        type: string
+        format: password
+        description: Secret Access Key for AWS identity
+      storage:
+        $ref: '#/$defs/CredentialStorageProperties'
+        description: The storage properties
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+    required:
+      - kind
+      - accessKeyId
+      - secretAccessKey
+      - storage
+  AwsCredentialProperties:
+    type: object
+    description: AWS Credential properties
+    properties:
+      kind:
+        $ref: '#/$defs/AWSCredentialKind'
+        description: The AWS credential kind
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+    required:
+      - kind
+  AwsCredentialResource:
+    type: object
+    description: >-
+      Concrete tracked resource types can be created by aliasing this type using
+      a specific property type.
+    properties:
+      properties:
+        $ref: '#/$defs/AwsCredentialProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  AwsCredentialResourceListResult:
+    type: object
+    description: The response of a AwsCredentialResource list operation.
+    properties:
+      value:
+        type: array
+        description: The AwsCredentialResource items on this page
+        items:
+          $ref: '#/$defs/AwsCredentialResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  AwsCredentialResourceTagsUpdate:
+    type: object
+    description: The type used for updating tags in AwsCredentialResource resources.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  AwsIRSACredentialProperties:
+    type: object
+    description: AWS credential properties for IAM Roles for Service Accounts (IRSA)
+    properties:
+      kind:
+        type: string
+        enum:
+          - IRSA
+      roleARN:
+        type: string
+        description: RoleARN for AWS IRSA identity
+      storage:
+        $ref: '#/$defs/CredentialStorageProperties'
+        description: The storage properties
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+    required:
+      - kind
+      - roleARN
+      - storage
+  AwsPlaneResource:
+    type: object
+    description: The AWS plane resource
+    properties:
+      properties:
+        $ref: '#/$defs/AwsPlaneResourceProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  AwsPlaneResourceListResult:
+    type: object
+    description: The response of a AwsPlaneResource list operation.
+    properties:
+      value:
+        type: array
+        description: The AwsPlaneResource items on this page
+        items:
+          $ref: '#/$defs/AwsPlaneResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  AwsPlaneResourceProperties:
+    type: object
+    description: The Plane properties.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+  AwsPlaneResourceTagsUpdate:
+    type: object
+    description: The type used for updating tags in AwsPlaneResource resources.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  AzureCredentialKind:
+    type: string
+    description: Azure credential kinds supported.
+    enum:
+      - ServicePrincipal
+      - WorkloadIdentity
+  AzureCredentialProperties:
+    type: object
+    description: The base properties of Azure Credential
+    properties:
+      kind:
+        $ref: '#/$defs/AzureCredentialKind'
+        description: The kind of Azure credential
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+    required:
+      - kind
+  AzureCredentialResource:
+    type: object
+    description: Represents Azure Credential Resource
+    properties:
+      properties:
+        $ref: '#/$defs/AzureCredentialProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  AzureCredentialResourceListResult:
+    type: object
+    description: The response of a AzureCredentialResource list operation.
+    properties:
+      value:
+        type: array
+        description: The AzureCredentialResource items on this page
+        items:
+          $ref: '#/$defs/AzureCredentialResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  AzureCredentialResourceTagsUpdate:
+    type: object
+    description: The type used for updating tags in AzureCredentialResource resources.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  AzurePlaneResource:
+    type: object
+    description: The Azure plane resource.
+    properties:
+      properties:
+        $ref: '#/$defs/AzurePlaneResourceProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  AzurePlaneResourceListResult:
+    type: object
+    description: The response of a AzurePlaneResource list operation.
+    properties:
+      value:
+        type: array
+        description: The AzurePlaneResource items on this page
+        items:
+          $ref: '#/$defs/AzurePlaneResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  AzurePlaneResourceProperties:
+    type: object
+    description: The Plane properties.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      url:
+        type: string
+        description: The URL used to proxy requests.
+    required:
+      - url
+  AzurePlaneResourceTagsUpdate:
+    type: object
+    description: The type used for updating tags in AzurePlaneResource resources.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  AzureServicePrincipalProperties:
+    type: object
+    description: The properties of Azure Service Principal credential storage
+    properties:
+      kind:
+        type: string
+        enum:
+          - ServicePrincipal
+      clientId:
+        type: string
+        description: clientId for ServicePrincipal
+      clientSecret:
+        type: string
+        description: secret for ServicePrincipal
+      tenantId:
+        type: string
+        description: tenantId for ServicePrincipal
+      storage:
+        $ref: '#/$defs/CredentialStorageProperties'
+        description: The storage properties
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+    required:
+      - kind
+      - clientId
+      - clientSecret
+      - tenantId
+      - storage
+  AzureWorkloadIdentityProperties:
+    type: object
+    description: The properties of Azure Workload Identity credential storage
+    properties:
+      kind:
+        type: string
+        enum:
+          - WorkloadIdentity
+      clientId:
+        type: string
+        description: clientId for WorkloadIdentity
+      tenantId:
+        type: string
+        description: tenantId for WorkloadIdentity
+      storage:
+        $ref: '#/$defs/CredentialStorageProperties'
+        description: The storage properties
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+    required:
+      - kind
+      - clientId
+      - tenantId
+      - storage
+  Capability:
+    type: string
+    description: >-
+      A capability defines the behaviors and features that a resource type
+      supports.
+    maxLength: 63
+    pattern: ^[A-Za-z][A-Za-z0-9]*$
+  CredentialStorageKind:
+    type: string
+    description: Credential store kinds supported.
+    enum:
+      - Internal
+      - string
+  CredentialStorageProperties:
+    type: object
+    description: The base credential storage properties
+    properties:
+      kind:
+        $ref: '#/$defs/CredentialStorageKind'
+        description: The kind of credential storage
+    required:
+      - kind
+  GenericPlaneResource:
+    type: object
+    description: The generic representation of a plane resource
+    properties:
+      properties:
+        $ref: '#/$defs/GenericPlaneResourceProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  GenericPlaneResourceListResult:
+    type: object
+    description: The response of a GenericPlaneResource list operation.
+    properties:
+      value:
+        type: array
+        description: The GenericPlaneResource items on this page
+        items:
+          $ref: '#/$defs/GenericPlaneResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  GenericPlaneResourceProperties:
+    type: object
+    description: The properties of the generic representation of a plane resource.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+  GenericResource:
+    type: object
+    description: Represents resource data.
+    properties:
+      name:
+        $ref: '#/$defs/ResourceNameString'
+        description: The name of resource
+        readOnly: true
+      properties:
+        $ref: '#/$defs/ResourceProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+    required:
+      - name
+  GenericResourceListResult:
+    type: object
+    description: The response of a GenericResource list operation.
+    properties:
+      value:
+        type: array
+        description: The GenericResource items on this page
+        items:
+          $ref: '#/$defs/GenericResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  InternalCredentialStorageProperties:
+    type: object
+    description: Internal credential storage properties
+    properties:
+      kind:
+        type: string
+        enum:
+          - Internal
+      secretName:
+        type: string
+        description: The name of secret stored.
+        readOnly: true
+    required:
+      - kind
+      - secretName
+  LocationNameString:
+    type: string
+    description: 'The resource provider location name. Example: ''eastus''.'
+    maxLength: 63
+    pattern: ^[A-Za-z][A-Za-z0-9]*$
+  LocationProperties:
+    type: object
+    description: The properties of a location.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      address:
+        type: string
+        description: Address of a resource provider implementation.
+      resourceTypes:
+        type: object
+        description: Configuration for resource types supported by the location.
+        additionalProperties:
+          $ref: '#/$defs/LocationResourceType'
+  LocationResource:
+    type: object
+    description: >-
+      The resource type for defining a location of the containing resource
+      provider. The location resource represents a logical location where the
+      resource provider operates.
+    properties:
+      properties:
+        $ref: '#/$defs/LocationProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+  LocationResourceListResult:
+    type: object
+    description: The response of a LocationResource list operation.
+    properties:
+      value:
+        type: array
+        description: The LocationResource items on this page
+        items:
+          $ref: '#/$defs/LocationResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  LocationResourceType:
+    type: object
+    description: The configuration for a resource type in a specific location.
+    properties:
+      apiVersions:
+        type: object
+        description: >-
+          The configuration for API versions of a resource type supported by the
+          location.
+        additionalProperties:
+          $ref: '#/$defs/LocationResourceTypeApiVersion'
+  LocationResourceTypeApiVersion:
+    type: object
+    description: The configuration for an API version of an resource type.
+  PagedResourceProviderSummary:
+    type: object
+    description: Paged collection of ResourceProviderSummary items
+    properties:
+      value:
+        type: array
+        description: The ResourceProviderSummary items on this page
+        items:
+          $ref: '#/$defs/ResourceProviderSummary'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  PlaneNameParameter:
+    type: object
+    description: The Plane Name parameter.
+    properties:
+      planeName:
+        $ref: '#/$defs/ResourceNameString'
+        description: The name of the plane
+    required:
+      - planeName
+  RadiusPlaneResource:
+    type: object
+    description: The Radius plane resource.
+    properties:
+      properties:
+        $ref: '#/$defs/RadiusPlaneResourceProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  RadiusPlaneResourceListResult:
+    type: object
+    description: The response of a RadiusPlaneResource list operation.
+    properties:
+      value:
+        type: array
+        description: The RadiusPlaneResource items on this page
+        items:
+          $ref: '#/$defs/RadiusPlaneResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  RadiusPlaneResourceProperties:
+    type: object
+    description: The Plane properties.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      resourceProviders:
+        type: object
+        description: Resource Providers for UCP Native Plane
+        additionalProperties:
+          type: string
+    required:
+      - resourceProviders
+  RadiusPlaneResourceTagsUpdate:
+    type: object
+    description: The type used for updating tags in RadiusPlaneResource resources.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  ResourceGroupProperties:
+    type: object
+    description: The resource group resource properties
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+  ResourceGroupResource:
+    type: object
+    description: The resource group resource
+    properties:
+      properties:
+        $ref: '#/$defs/ResourceGroupProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+  ResourceGroupResourceListResult:
+    type: object
+    description: The response of a ResourceGroupResource list operation.
+    properties:
+      value:
+        type: array
+        description: The ResourceGroupResource items on this page
+        items:
+          $ref: '#/$defs/ResourceGroupResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  ResourceGroupResourceTagsUpdate:
+    type: object
+    description: The type used for updating tags in ResourceGroupResource resources.
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  ResourceNameString:
+    type: string
+    description: The resource name
+    maxLength: 63
+    pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+  ResourceProperties:
+    type: object
+    description: The resource properties
+  ResourceProviderNamespaceString:
+    type: string
+    description: 'The resource provider namespace. Example: ''Applications.Datastores''.'
+    maxLength: 63
+    pattern: >-
+      ^([A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9]))\.([A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9]))?$
+  ResourceProviderProperties:
+    type: object
+    description: The properties of a resource provider.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+  ResourceProviderResource:
+    type: object
+    description: The resource type for defining a resource provider.
+    properties:
+      properties:
+        $ref: '#/$defs/ResourceProviderProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+  ResourceProviderResourceListResult:
+    type: object
+    description: The response of a ResourceProviderResource list operation.
+    properties:
+      value:
+        type: array
+        description: The ResourceProviderResource items on this page
+        items:
+          $ref: '#/$defs/ResourceProviderResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  ResourceProviderSummary:
+    type: object
+    description: >-
+      The summary of a resource provider configuration. This type is optimized
+      for querying resource providers and supported types.
+    properties:
+      name:
+        $ref: '#/$defs/ResourceProviderNamespaceString'
+        description: The resource provider name.
+      locations:
+        type: object
+        description: The resource provider locations.
+        additionalProperties:
+          $ref: '#/$defs/ResourceProviderSummaryLocation'
+      resourceTypes:
+        type: object
+        description: The resource types supported by the resource provider.
+        additionalProperties:
+          $ref: '#/$defs/ResourceProviderSummaryResourceType'
+    required:
+      - name
+      - locations
+      - resourceTypes
+  ResourceProviderSummaryLocation:
+    type: object
+    description: The configuration of a resource provider in a specific location.
+  ResourceProviderSummaryResourceType:
+    type: object
+    description: A resource type and its versions.
+    properties:
+      apiVersions:
+        type: object
+        description: API versions supported by the resource type.
+        additionalProperties:
+          $ref: '#/$defs/ResourceTypeSummaryResultApiVersion'
+      capabilities:
+        type: array
+        description: The resource type capabilities.
+        items:
+          $ref: '#/$defs/Capability'
+      defaultApiVersion:
+        type: string
+        description: The default api version for the resource type.
+      description:
+        type: string
+        description: Description of the resource type.
+    required:
+      - apiVersions
+  ResourceTypeNameString:
+    type: string
+    description: 'The resource type name. Example: ''redisCaches''.'
+    maxLength: 63
+    pattern: ^([A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9]))$
+  ResourceTypeProperties:
+    type: object
+    description: The properties of a resource type.
+    properties:
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      capabilities:
+        type: array
+        description: The resource type capabilities.
+        items:
+          $ref: '#/$defs/Capability'
+      defaultApiVersion:
+        $ref: '#/$defs/ApiVersionNameString'
+        description: The default api version for the resource type.
+      description:
+        type: string
+        description: Description of the resource type.
+  ResourceTypeResource:
+    type: object
+    description: >-
+      The resource type for defining a resource type supported by the containing
+      resource provider.
+    properties:
+      properties:
+        $ref: '#/$defs/ResourceTypeProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+  ResourceTypeResourceListResult:
+    type: object
+    description: The response of a ResourceTypeResource list operation.
+    properties:
+      value:
+        type: array
+        description: The ResourceTypeResource items on this page
+        items:
+          $ref: '#/$defs/ResourceTypeResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  ResourceTypeSummaryResultApiVersion:
+    type: object
+    description: The configuration of a resource type API version.
+    properties:
+      schema:
+        type: object
+        description: Schema holds the resource type definitions for this API version.
+        additionalProperties: {}
+  RabbitMQListSecretsResult:
+    type: object
+    description: The secret values for the given RabbitMQQueue resource
+    properties:
+      password:
+        type: string
+        description: The password used to connect to the RabbitMQ instance
+      uri:
+        type: string
+        description: >-
+          The connection URI of the RabbitMQ instance. Generated automatically
+          from host, port, SSL, username, password, and vhost. Can be overridden
+          with a custom value
+  RabbitMQQueueProperties:
+    type: object
+    description: RabbitMQQueue portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      secrets:
+        $ref: '#/$defs/RabbitMQSecrets'
+        description: The secrets to connect to the RabbitMQ instance
+      queue:
+        type: string
+        description: The name of the queue
+      host:
+        type: string
+        description: The hostname of the RabbitMQ instance
+      port:
+        type: integer
+        format: int32
+        description: The port of the RabbitMQ instance. Defaults to 5672
+      vHost:
+        type: string
+        description: >-
+          The RabbitMQ virtual host (vHost) the client will connect to. Defaults
+          to no vHost.
+      username:
+        type: string
+        description: The username to use when connecting to the RabbitMQ instance
+      resources:
+        type: array
+        description: List of the resource IDs that support the rabbitMQ resource
+        items:
+          $ref: '#/$defs/ResourceReference'
+      tls:
+        type: boolean
+        description: Specifies whether to use SSL when connecting to the RabbitMQ instance
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  RabbitMQQueueResource:
+    type: object
+    description: RabbitMQQueue portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/RabbitMQQueueProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  RabbitMQQueueResourceListResult:
+    type: object
+    description: The response of a RabbitMQQueueResource list operation.
+    properties:
+      value:
+        type: array
+        description: The RabbitMQQueueResource items on this page
+        items:
+          $ref: '#/$defs/RabbitMQQueueResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  RabbitMQQueueResourceUpdate:
+    type: object
+    description: RabbitMQQueue portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  RabbitMQSecrets:
+    type: object
+    description: The connection secrets properties to the RabbitMQ instance
+    properties:
+      password:
+        type: string
+        description: The password used to connect to the RabbitMQ instance
+      uri:
+        type: string
+        description: >-
+          The connection URI of the RabbitMQ instance. Generated automatically
+          from host, port, SSL, username, password, and vhost. Can be overridden
+          with a custom value
+  MongoDatabaseListSecretsResult:
+    type: object
+    description: The secret values for the given MongoDatabase resource
+    properties:
+      password:
+        type: string
+        description: Password to use when connecting to the target Mongo database
+      connectionString:
+        type: string
+        description: Connection string used to connect to the target Mongo database
+  MongoDatabaseProperties:
+    type: object
+    description: MongoDatabase portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      secrets:
+        $ref: '#/$defs/MongoDatabaseSecrets'
+        description: Secret values provided for the resource
+      host:
+        type: string
+        description: Host name of the target Mongo database
+      port:
+        type: integer
+        format: int32
+        description: Port value of the target Mongo database
+      database:
+        type: string
+        description: Database name of the target Mongo database
+      resources:
+        type: array
+        description: List of the resource IDs that support the MongoDB resource
+        items:
+          $ref: '#/$defs/ResourceReference'
+      username:
+        type: string
+        description: Username to use when connecting to the target Mongo database
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  MongoDatabaseResource:
+    type: object
+    description: MongoDatabase portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/MongoDatabaseProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  MongoDatabaseResourceListResult:
+    type: object
+    description: The response of a MongoDatabaseResource list operation.
+    properties:
+      value:
+        type: array
+        description: The MongoDatabaseResource items on this page
+        items:
+          $ref: '#/$defs/MongoDatabaseResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  MongoDatabaseResourceUpdate:
+    type: object
+    description: MongoDatabase portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  MongoDatabaseSecrets:
+    type: object
+    description: The secret values for the given MongoDatabase resource
+    properties:
+      password:
+        type: string
+        description: Password to use when connecting to the target Mongo database
+      connectionString:
+        type: string
+        description: Connection string used to connect to the target Mongo database
+  RedisCacheListSecretsResult:
+    type: object
+    description: The secret values for the given RedisCache resource
+    properties:
+      connectionString:
+        type: string
+        description: The connection string used to connect to the Redis cache
+      password:
+        type: string
+        description: The password for this Redis cache instance
+      url:
+        type: string
+        description: The URL used to connect to the Redis cache
+  RedisCacheProperties:
+    type: object
+    description: RedisCache portable resource properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      secrets:
+        $ref: '#/$defs/RedisCacheSecrets'
+        description: Secrets provided by resource
+      host:
+        type: string
+        description: The host name of the target Redis cache
+      port:
+        type: integer
+        format: int32
+        description: The port value of the target Redis cache
+      username:
+        type: string
+        description: The username for Redis cache
+      tls:
+        type: boolean
+        description: Specifies whether to enable SSL connections to the Redis cache
+      resources:
+        type: array
+        description: List of the resource IDs that support the Redis resource
+        items:
+          $ref: '#/$defs/ResourceReference'
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  RedisCacheResource:
+    type: object
+    description: RedisCache portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/RedisCacheProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  RedisCacheResourceListResult:
+    type: object
+    description: The response of a RedisCacheResource list operation.
+    properties:
+      value:
+        type: array
+        description: The RedisCacheResource items on this page
+        items:
+          $ref: '#/$defs/RedisCacheResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  RedisCacheResourceUpdate:
+    type: object
+    description: RedisCache portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  RedisCacheSecrets:
+    type: object
+    description: The secret values for the given RedisCache resource
+    properties:
+      connectionString:
+        type: string
+        description: The connection string used to connect to the Redis cache
+      password:
+        type: string
+        description: The password for this Redis cache instance
+      url:
+        type: string
+        description: The URL used to connect to the Redis cache
+  SqlDatabaseListSecretsResult:
+    type: object
+    description: The secret values for the given SqlDatabase resource
+    properties:
+      password:
+        type: string
+        description: Password to use when connecting to the target Sql database
+      connectionString:
+        type: string
+        description: Connection string used to connect to the target Sql database
+  SqlDatabaseProperties:
+    type: object
+    description: SqlDatabase properties
+    properties:
+      environment:
+        type: string
+        description: >-
+          Fully qualified resource ID for the environment that the portable
+          resource is linked to
+      application:
+        type: string
+        description: >-
+          Fully qualified resource ID for the application that the portable
+          resource is consumed by (if applicable)
+      provisioningState:
+        $ref: '#/$defs/ProvisioningState'
+        description: The status of the asynchronous operation.
+        readOnly: true
+      status:
+        $ref: '#/$defs/ResourceStatus'
+        description: Status of a resource.
+        readOnly: true
+      database:
+        type: string
+        description: The name of the Sql database.
+      server:
+        type: string
+        description: The fully qualified domain name of the Sql database.
+      port:
+        type: integer
+        format: int32
+        description: Port value of the target Sql database
+      username:
+        type: string
+        description: Username to use when connecting to the target Sql database
+      resources:
+        type: array
+        description: List of the resource IDs that support the SqlDatabase resource
+        items:
+          $ref: '#/$defs/ResourceReference'
+      secrets:
+        $ref: '#/$defs/SqlDatabaseSecrets'
+        description: Secret values provided for the resource
+      recipe:
+        $ref: '#/$defs/Recipe'
+        description: >-
+          The recipe used to automatically deploy underlying infrastructure for
+          the resource
+      resourceProvisioning:
+        $ref: '#/$defs/ResourceProvisioning'
+        description: >-
+          Specifies how the underlying service/resource is provisioned and
+          managed.
+    required:
+      - environment
+  SqlDatabaseResource:
+    type: object
+    description: SqlDatabase portable resource
+    properties:
+      properties:
+        $ref: '#/$defs/SqlDatabaseProperties'
+        description: The resource-specific properties for this resource.
+      id:
+        type: string
+        readOnly: true
+        description: Fully qualified resource ID for the resource.
+      name:
+        type: string
+        readOnly: true
+        description: The name of the resource
+      type:
+        type: string
+        readOnly: true
+        description: The type of the resource.
+      systemData:
+        type: object
+        readOnly: true
+        description: >-
+          Azure Resource Manager metadata containing createdBy and modifiedBy
+          information.
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+      location:
+        type: string
+        description: The geo-location where the resource lives
+    required:
+      - properties
+      - location
+  SqlDatabaseResourceListResult:
+    type: object
+    description: The response of a SqlDatabaseResource list operation.
+    properties:
+      value:
+        type: array
+        description: The SqlDatabaseResource items on this page
+        items:
+          $ref: '#/$defs/SqlDatabaseResource'
+      nextLink:
+        type: string
+        format: uri
+        description: The link to the next page of items
+    required:
+      - value
+  SqlDatabaseResourceUpdate:
+    type: object
+    description: SqlDatabase portable resource
+    properties:
+      tags:
+        type: object
+        description: Resource tags.
+        additionalProperties:
+          type: string
+  SqlDatabaseSecrets:
+    type: object
+    description: The secret values for the given SqlDatabase resource
+    properties:
+      password:
+        type: string
+        description: Password to use when connecting to the target Sql database
+      connectionString:
+        type: string
+        description: Connection string used to connect to the target Sql database

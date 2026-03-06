@@ -1,0 +1,382 @@
+$schema: https://open-resource-discovery.org/spec-v1/interfaces/Document.schema.json#
+openResourceDiscovery: '1.12'
+description: ORD Document for SAP SuccessFactors Employee Central APIs and Events
+perspective: system-instance
+policyLevel: sap:core:v1
+describedSystemInstance:
+  baseUrl: https://api.successfactors.com
+  localId: sf-tenant-12345
+  correlationIds:
+    - sap.cld:tenant:12345
+describedSystemType:
+  systemNamespace: sap.successfactors
+  correlationIds:
+    - sap.cld:systemRole:SF_EC
+vendors:
+  - ordId: 'sap:vendor:SAP:'
+    title: SAP SE
+    partners:
+      - 'microsoft:vendor:Microsoft:'
+products:
+  - ordId: 'sap:product:SuccessFactors:'
+    title: SAP SuccessFactors
+    shortDescription: Cloud-based human capital management suite
+    vendor: 'sap:vendor:SAP:'
+    parent: 'sap:product:HXM:'
+  - ordId: 'sap:product:HXM:'
+    title: SAP Human Experience Management
+    shortDescription: Complete HXM suite
+    vendor: 'sap:vendor:SAP:'
+packages:
+  - ordId: sap.successfactors:package:EmployeeCentral:v2
+    title: Employee Central Package
+    shortDescription: Core HR and employee data management
+    description: >-
+      Comprehensive package containing APIs and events for managing employee
+      data, organizational structures, and HR processes.
+    version: 2.3.0
+    vendor: 'sap:vendor:SAP:'
+    partOfProducts:
+      - 'sap:product:SuccessFactors:'
+    packageLinks:
+      - type: terms-of-service
+        url: https://www.sap.com/legal/terms-of-use
+    supportInfo: For support, please use component `LOD-SF-EC` in SAP Support Portal.
+    lineOfBusiness:
+      - Human Resources
+    industry:
+      - Professional Services
+      - High Tech
+      - Healthcare
+    tags:
+      - hr
+      - employee
+      - workforce
+  - ordId: sap.successfactors:package:TimeManagement:v1
+    title: Time Management Package
+    shortDescription: Time tracking and absence management
+    description: >-
+      APIs and events for managing employee time records, absences, and time-off
+      requests.
+    version: 1.5.0
+    vendor: 'sap:vendor:SAP:'
+    partOfProducts:
+      - 'sap:product:SuccessFactors:'
+    lineOfBusiness:
+      - Human Resources
+    tags:
+      - time
+      - absence
+      - leave
+consumptionBundles:
+  - ordId: sap.successfactors:consumptionBundle:ODataAPIs:v1
+    title: OData API Access Bundle
+    shortDescription: OAuth 2.0 protected OData API access
+    description: >-
+      This bundle provides access to all OData APIs using OAuth 2.0 SAML Bearer
+      assertion flow.
+    version: 1.0.0
+    credentialExchangeStrategies:
+      - type: custom
+        customType: sap.successfactors:saml-bearer:v1
+        customDescription: SAML 2.0 Bearer Assertion flow for API authentication
+groupTypes:
+  - groupTypeId: sap.successfactors:module
+    title: SuccessFactors Module
+    description: Grouping by SuccessFactors product module
+groups:
+  - groupId: sap.successfactors:module:sap.successfactors:EmployeeCentral
+    groupTypeId: sap.successfactors:module
+    title: Employee Central Module
+  - groupId: sap.successfactors:module:sap.successfactors:TimeOff
+    groupTypeId: sap.successfactors:module
+    title: Time Off Module
+entityTypes:
+  - ordId: sap.successfactors:entityType:Employee:v1
+    localId: Employee
+    correlationIds:
+      - sap.odm:entityType:WorkforcePerson
+    title: Employee
+    shortDescription: Core employee record
+    description: >-
+      Represents an employee in the organization with personal information,
+      employment details, and organizational assignments.
+    version: 1.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+    relatedEntityTypes:
+      - ordId: sap.odm:entityType:WorkforcePerson:v1
+        relationType: can-share-identity
+    extensible:
+      supported: manual
+      description: >-
+        Custom fields can be added via the Metadata Framework (MDF). See
+        [documentation](https://help.sap.com/successfactors/mdf).
+  - ordId: sap.successfactors:entityType:Position:v1
+    localId: Position
+    title: Position
+    shortDescription: Organizational position
+    description: >-
+      Represents a position within the organizational structure that can be
+      filled by an employee.
+    version: 1.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+  - ordId: sap.successfactors:entityType:TimeAccount:v1
+    localId: TimeAccount
+    title: Time Account
+    shortDescription: Employee time balance account
+    description: >-
+      Represents an employee's time-off balance for a specific time-off type
+      like vacation or sick leave.
+    version: 1.0.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.successfactors:package:TimeManagement:v1
+  - ordId: sap.successfactors:entityType:TimeOffRequest:v1
+    localId: TimeOffRequest
+    title: Time Off Request
+    shortDescription: Employee absence request
+    description: >-
+      Represents a request by an employee to take time off, including approval
+      workflow status.
+    version: 1.1.0
+    level: aggregate
+    visibility: public
+    releaseStatus: active
+    partOfPackage: sap.successfactors:package:TimeManagement:v1
+apiResources:
+  - ordId: sap.successfactors:apiResource:EmployeeOData:v2
+    localId: EmployeeCentralOData
+    correlationIds:
+      - sap.s4:communicationScenario:SAP_COM_0008
+    title: Employee Central OData API
+    shortDescription: OData V2 API for employee data
+    description: >-
+      Provides OData access to employee master data, employment information, and
+      organizational assignments. Supports complex queries and filtering.
+    version: 2.5.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+    partOfGroups:
+      - sap.successfactors:module:sap.successfactors:EmployeeCentral
+    partOfConsumptionBundles:
+      - ordId: sap.successfactors:consumptionBundle:ODataAPIs:v1
+    apiProtocol: odata-v2
+    direction: inbound
+    entryPoints:
+      - /odata/v2
+    resourceDefinitions:
+      - type: edmx
+        mediaType: application/xml
+        url: /odata/v2/$metadata
+    entityTypeMappings:
+      - apiModelSelectors:
+          - type: odata
+            entitySetName: EmpEmployment
+          - type: odata
+            entitySetName: EmpJob
+        entityTypeTargets:
+          - ordId: sap.successfactors:entityType:Employee:v1
+      - apiModelSelectors:
+          - type: odata
+            entitySetName: Position
+        entityTypeTargets:
+          - ordId: sap.successfactors:entityType:Position:v1
+    responsible: sap:ach:LOD-SF-EC
+    supportedUseCases:
+      - data-federation
+      - snapshot
+    apiResourceLinks:
+      - type: api-documentation
+        url: https://api.sap.com/successfactors/employee-central
+    extensible:
+      supported: automatic
+      description: MDF custom fields are automatically exposed in the API.
+    systemInstanceAware: true
+    changelogEntries:
+      - version: 2.5.0
+        releaseStatus: active
+        date: '2024-10-01'
+        description: Added support for global assignments
+  - ordId: sap.successfactors:apiResource:TimeOffAPI:v1
+    localId: TimeOffAPI
+    title: Time Off API
+    shortDescription: REST API for time-off management
+    description: >-
+      API for managing employee time-off requests, approvals, and time account
+      balances.
+    version: 1.2.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.successfactors:package:TimeManagement:v1
+    partOfGroups:
+      - sap.successfactors:module:sap.successfactors:TimeOff
+    partOfConsumptionBundles:
+      - ordId: sap.successfactors:consumptionBundle:ODataAPIs:v1
+    apiProtocol: rest
+    direction: inbound
+    entryPoints:
+      - /api/v1/timeoff
+    resourceDefinitions:
+      - type: openapi-v3
+        mediaType: application/json
+        url: /api/v1/timeoff/openapi.json
+    exposedEntityTypes:
+      - ordId: sap.successfactors:entityType:TimeOffRequest:v1
+      - ordId: sap.successfactors:entityType:TimeAccount:v1
+  - ordId: sap.successfactors:apiResource:LegacyEmployeeAPI:v1
+    localId: LegacyEmployeeAPI
+    title: Employee API (Legacy)
+    shortDescription: Deprecated employee API
+    description: Legacy SOAP-based employee API. Please migrate to the OData API.
+    version: 1.0.0
+    releaseStatus: deprecated
+    deprecationDate: '2023-06-01T00:00:00Z'
+    sunsetDate: '2025-12-31T00:00:00Z'
+    successors:
+      - sap.successfactors:apiResource:EmployeeOData:v2
+    visibility: public
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+    apiProtocol: soap-inbound
+    direction: inbound
+    entryPoints:
+      - /soap/employee
+    resourceDefinitions:
+      - type: wsdl-v1
+        mediaType: application/xml
+        url: /soap/employee?wsdl
+eventResources:
+  - ordId: sap.successfactors:eventResource:EmployeeEvents:v1
+    localId: EmployeeEvents
+    title: Employee Lifecycle Events
+    shortDescription: Events for employee data changes
+    description: >-
+      CloudEvents-compliant event resource for employee lifecycle events
+      including hire, termination, and data changes.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+    partOfGroups:
+      - sap.successfactors:module:sap.successfactors:EmployeeCentral
+    resourceDefinitions:
+      - type: asyncapi-v2
+        mediaType: application/json
+        url: /events/employee/asyncapi.json
+    exposedEntityTypes:
+      - ordId: sap.successfactors:entityType:Employee:v1
+    eventResourceLinks:
+      - type: api-documentation
+        url: https://help.sap.com/successfactors/events
+  - ordId: sap.successfactors:eventResource:TimeOffEvents:v1
+    localId: TimeOffEvents
+    title: Time Off Events
+    shortDescription: Events for time-off workflow
+    description: >-
+      Events emitted during time-off request lifecycle including submission,
+      approval, and rejection.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.successfactors:package:TimeManagement:v1
+    resourceDefinitions:
+      - type: asyncapi-v2
+        mediaType: application/json
+        url: /events/timeoff/asyncapi.json
+    exposedEntityTypes:
+      - ordId: sap.successfactors:entityType:TimeOffRequest:v1
+capabilities:
+  - ordId: sap.successfactors:capability:MDIIntegration:v1
+    localId: MDIIntegration
+    title: Master Data Integration Capability
+    shortDescription: Integration with SAP Master Data Integration
+    description: >-
+      This capability enables bidirectional synchronization of workforce data
+      with SAP Master Data Integration (MDI) service.
+    type: sap.mdo:mdi-capability:v1
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+    relatedEntityTypes:
+      - sap.successfactors:entityType:Employee:v1
+    definitions:
+      - type: sap.mdo:mdi-capability-definition:v1
+        mediaType: application/json
+        url: /capabilities/mdi-capability.json
+dataProducts:
+  - ordId: sap.successfactors:dataProduct:WorkforceAnalytics:v1
+    localId: WorkforceAnalytics
+    title: Workforce Analytics
+    shortDescription: HR analytics and workforce insights
+    description: >-
+      Comprehensive workforce analytics data product providing headcount,
+      turnover, diversity metrics, and workforce planning insights.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+    type: derived
+    category: analytical
+    responsible: sap:ach:LOD-SF-PLT-ANA
+    inputPorts:
+      - ordId: sap.successfactors:integrationDependency:EmployeeDataIngestion:v1
+    outputPorts:
+      - ordId: sap.successfactors:apiResource:EmployeeOData:v2
+    entityTypes:
+      - sap.successfactors:entityType:Employee:v1
+      - sap.successfactors:entityType:Position:v1
+    lineOfBusiness:
+      - Human Resources
+integrationDependencies:
+  - ordId: sap.successfactors:integrationDependency:EmployeeDataIngestion:v1
+    localId: EmployeeDataIngestion
+    title: Employee Data Ingestion
+    shortDescription: Integration for ingesting employee data
+    description: >-
+      Integration dependency for receiving employee master data from source HR
+      systems.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: internal
+    partOfPackage: sap.successfactors:package:EmployeeCentral:v2
+    mandatory: false
+    aspects:
+      - title: Employee Data API
+        description: API for receiving employee data updates
+        mandatory: true
+        supportMultipleProviders: false
+        eventResources:
+          - ordId: sap.successfactors:eventResource:EmployeeEvents:v1
+            minVersion: 1.0.0
+  - ordId: sap.successfactors:integrationDependency:PayrollIntegration:v1
+    localId: PayrollIntegration
+    title: Payroll System Integration
+    shortDescription: Integration with payroll systems
+    description: >-
+      Integration dependency for connecting with external payroll systems to
+      exchange compensation and time data.
+    version: 1.0.0
+    releaseStatus: active
+    visibility: public
+    partOfPackage: sap.successfactors:package:TimeManagement:v1
+    mandatory: false
+    aspects:
+      - title: Time Data Export
+        description: Export of approved time data to payroll
+        mandatory: true
+        supportMultipleProviders: false
+        apiResources:
+          - ordId: sap.successfactors:apiResource:TimeOffAPI:v1
+            minVersion: 1.0.0
+tombstones:
+  - ordId: sap.successfactors:apiResource:OldTimeAPI:v1
+    removalDate: '2024-01-15T00:00:00Z'
+    description: Replaced by the new Time Off API v1

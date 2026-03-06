@@ -1,0 +1,633 @@
+environment:
+  properties:
+    compute:
+      kind: aci
+      resourceGroup: cicd-rg
+      resourceId: >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.ContainerInstance/containerGroups/cicd-workers
+      identity:
+        kind: systemAssignedUserAssigned
+        resource: >-
+          /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cicd-identity
+        managedIdentity:
+          - >-
+            /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cicd-identity
+          - >-
+            /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/registry-puller
+    providers:
+      azure:
+        scope: >-
+          /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg
+    recipes:
+      Applications.Datastores/sqlDatabases:
+        default:
+          templateKind: bicep
+          templatePath: ghcr.io/myorg/recipes/azure-sql:1.5.0
+          parameters:
+            skuName: S2
+            maxSizeBytes: 268435456000
+            zoneRedundant: true
+      Applications.Datastores/redisCaches:
+        premium:
+          templateKind: bicep
+          templatePath: ghcr.io/myorg/recipes/azure-redis:2.0.0
+          parameters:
+            sku: Premium
+            family: P
+            capacity: 1
+    recipeConfig:
+      bicep:
+        authentication:
+          ghcr.io:
+            secret: >-
+              /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/secretStores/ghcr-creds
+          myacr.azurecr.io:
+            secret: >-
+              /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/secretStores/acr-creds
+      env:
+        AZURE_SUBSCRIPTION_ID: 00000000-0000-0000-0000-000000000000
+        AZURE_LOCATION: westus2
+    extensions:
+      - kind: aci
+        resourceGroup: cicd-workers-rg
+      - kind: kubernetesMetadata
+        annotations:
+          azure.workload.identity/use: 'true'
+        labels:
+          azure.workload.identity/use: 'true'
+    simulated: false
+  location: westus2
+  tags:
+    environment: production
+    platform: cicd
+    cost-center: engineering
+application:
+  properties:
+    environment: >-
+      /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+    extensions:
+      - kind: kubernetesNamespace
+        namespace: cicd-platform
+      - kind: aci
+        resourceGroup: cicd-app-rg
+  location: westus2
+  tags:
+    application: cicd-platform
+    version: 4.2.0
+containers:
+  buildController:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      container:
+        image: myacr.azurecr.io/build-controller:4.2.0
+        imagePullPolicy: Always
+        env:
+          BUILD_QUEUE_CONNECTION:
+            valueFrom:
+              secretRef:
+                source: >-
+                  /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/secretStores/queue-secrets
+                key: connectionString
+          ARTIFACT_STORAGE_ACCOUNT:
+            value: cicdartifacts
+          MAX_CONCURRENT_BUILDS:
+            value: '50'
+          BUILD_TIMEOUT_MINUTES:
+            value: '120'
+        ports:
+          http:
+            containerPort: 8080
+            protocol: TCP
+            scheme: https
+            port: 443
+          grpc:
+            containerPort: 9090
+            protocol: TCP
+          metrics:
+            containerPort: 9100
+            protocol: TCP
+        readinessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /healthz/ready
+          headers:
+            Authorization: Bearer health-check-token
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /healthz/live
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 10
+        volumes:
+          build-cache:
+            kind: persistent
+            source: >-
+              /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/volumes/build-cache
+            mountPath: /cache
+            permission: write
+          config:
+            kind: persistent
+            source: >-
+              /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/volumes/controller-config
+            mountPath: /etc/build-controller
+            permission: read
+          workspace:
+            kind: ephemeral
+            managedStore: disk
+            mountPath: /workspace
+        command:
+          - /build-controller
+        args:
+          - '--config=/etc/build-controller/config.yaml'
+          - '--log-level=info'
+          - '--metrics-addr=:9100'
+        workingDir: /app
+      connections:
+        buildDb:
+          source: >-
+            /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Datastores/sqlDatabases/build-metadata
+          iam:
+            kind: azure
+            roles:
+              - SQL DB Contributor
+              - SQL Server Contributor
+        cacheRedis:
+          source: >-
+            /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Datastores/redisCaches/build-cache
+        artifactQueue:
+          source: >-
+            /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Messaging/rabbitMQQueues/artifact-events
+      identity:
+        kind: azure.com.workload
+        oidcIssuer: >-
+          https://westus2.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/
+        resource: >-
+          /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/build-controller-identity
+      extensions:
+        - kind: daprSidecar
+          appId: build-controller
+          appPort: 8080
+          config: observability-config
+          protocol: grpc
+        - kind: manualScaling
+          replicas: 3
+        - kind: kubernetesMetadata
+          annotations:
+            azure.workload.identity/client-id: 00000000-0000-0000-0000-000000000000
+            azure.workload.identity/tenant-id: 00000000-0000-0000-0000-000000000000
+          labels:
+            app: build-controller
+            component: controller
+      resourceProvisioning: internal
+      restartPolicy: Always
+      runtimes:
+        kubernetes:
+          base: |-
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: build-controller
+            spec:
+              strategy:
+                type: RollingUpdate
+                rollingUpdate:
+                  maxSurge: 1
+                  maxUnavailable: 0
+          pod:
+            serviceAccountName: build-controller-sa
+            priorityClassName: high-priority
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000
+              fsGroup: 2000
+              seccompProfile:
+                type: RuntimeDefault
+            containers:
+              - name: build-controller
+                resources:
+                  requests:
+                    memory: 1Gi
+                    cpu: 1000m
+                  limits:
+                    memory: 4Gi
+                    cpu: 4000m
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  readOnlyRootFilesystem: true
+                  capabilities:
+                    drop:
+                      - ALL
+        aci:
+          gatewayID: >-
+            /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/gateways/cicd-gateway
+    location: westus2
+    tags:
+      service: build-controller
+      tier: control-plane
+  buildWorker:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: manual
+      container:
+        image: myacr.azurecr.io/build-worker:4.2.0
+        imagePullPolicy: Always
+        env:
+          CONTROLLER_ENDPOINT:
+            value: grpc://build-controller:9090
+          DOCKER_HOST:
+            value: tcp://localhost:2375
+          BUILDKIT_HOST:
+            value: tcp://localhost:1234
+        ports:
+          http:
+            containerPort: 8080
+            protocol: TCP
+        readinessProbe:
+          kind: exec
+          command: /bin/sh -c 'test -f /ready && curl -f http://localhost:8080/ready'
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /health
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          failureThreshold: 5
+          timeoutSeconds: 10
+        volumes:
+          docker-socket:
+            kind: persistent
+            source: >-
+              /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/volumes/docker-socket
+            mountPath: /var/run/docker.sock
+            permission: write
+          workspace:
+            kind: ephemeral
+            managedStore: disk
+            mountPath: /workspace
+      resources:
+        - id: >-
+            /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.ContainerInstance/containerGroups/build-workers
+      extensions:
+        - kind: manualScaling
+          replicas: 10
+      restartPolicy: OnFailure
+    location: westus2
+    tags:
+      service: build-worker
+      tier: worker
+  artifactServer:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      container:
+        image: myacr.azurecr.io/artifact-server:4.2.0
+        env:
+          STORAGE_BACKEND:
+            value: azure-blob
+          STORAGE_CONTAINER:
+            value: artifacts
+        ports:
+          http:
+            containerPort: 8080
+            protocol: TCP
+            scheme: https
+            port: 443
+        readinessProbe:
+          kind: httpGet
+          containerPort: 8080
+          path: /ready
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      connections:
+        cacheRedis:
+          source: >-
+            /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Datastores/redisCaches/build-cache
+      extensions:
+        - kind: manualScaling
+          replicas: 2
+      restartPolicy: Always
+    location: westus2
+    tags:
+      service: artifact-server
+      tier: storage
+gateway:
+  properties:
+    application: >-
+      /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+    internal: false
+    hostname:
+      fullyQualifiedHostname: builds.mycompany.com
+    routes:
+      - path: /api/builds
+        destination: >-
+          /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/containers/buildController
+        replacePrefix: /builds
+        timeoutPolicy:
+          request: 300s
+          backendRequest: 290s
+      - path: /api/artifacts
+        destination: >-
+          /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/containers/artifactServer
+        replacePrefix: /artifacts
+        timeoutPolicy:
+          request: 600s
+      - path: /ws/builds
+        destination: >-
+          /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/containers/buildController
+        replacePrefix: /ws
+        enableWebsockets: true
+    tls:
+      sslPassthrough: false
+      minimumProtocolVersion: '1.2'
+      certificateFrom: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/secretStores/wildcard-tls
+  location: westus2
+  tags:
+    component: gateway
+    tier: edge
+secretStores:
+  queueSecrets:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      type: generic
+      data:
+        connectionString:
+          encoding: base64
+          value: RW5kcG9pbnQ9c2IuLi4=
+    location: westus2
+  ghcrCreds:
+    properties:
+      type: basicAuthentication
+      data:
+        username:
+          encoding: raw
+          value: cicd-robot
+        password:
+          encoding: base64
+          value: Z2hwX3h4eHh4eHh4
+    location: westus2
+  wildcardTls:
+    properties:
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      type: certificate
+      resource: >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.KeyVault/vaults/cicd-certs
+      data:
+        tls.crt:
+          valueFrom:
+            name: wildcard-cert
+            version: latest
+        tls.key:
+          valueFrom:
+            name: wildcard-cert-key
+            version: latest
+    location: westus2
+volumes:
+  buildCache:
+    properties:
+      kind: azure.com.keyvault
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resource: >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.KeyVault/vaults/cicd-cache-kv
+      secrets:
+        cache-key:
+          name: build-cache-key
+          alias: cache.key
+          encoding: base64
+    location: westus2
+  controllerConfig:
+    properties:
+      kind: azure.com.keyvault
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resource: >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.KeyVault/vaults/cicd-config-kv
+      secrets:
+        controller-config:
+          name: controller-config
+          alias: config.yaml
+          encoding: utf-8
+      certificates:
+        signing-cert:
+          name: code-signing-cert
+          alias: signing.pem
+          format: pem
+          certType: certificate
+    location: westus2
+datastores:
+  buildMetadata:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: recipe
+      recipe:
+        name: default
+        parameters:
+          databaseName: build_metadata
+          collation: SQL_Latin1_General_CP1_CI_AS
+    location: westus2
+    tags:
+      datastore: sql-database
+      purpose: build-metadata
+  buildCache:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: recipe
+      recipe:
+        name: premium
+        parameters:
+          enableNonSslPort: false
+          minimumTlsVersion: '1.2'
+    location: westus2
+    tags:
+      datastore: redis
+      purpose: build-cache
+messaging:
+  artifactEvents:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: manual
+      host: cicd-messaging.servicebus.windows.net
+      port: 5671
+      queue: artifact-events
+      vHost: /
+      tls: true
+      username: artifact-publisher
+      secrets:
+        password: servicebus-secret
+        uri: >-
+          amqps://artifact-publisher:password@cicd-messaging.servicebus.windows.net:5671/
+      resources:
+        - id: >-
+            /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cicd-rg/providers/Microsoft.ServiceBus/namespaces/cicd-messaging
+    location: westus2
+    tags:
+      messaging: servicebus
+      queue: artifact-events
+dapr:
+  stateStore:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: manual
+      type: state.azure.tablestorage
+      version: v1
+      metadata:
+        accountName:
+          value: cicdstatestore
+        tableName:
+          value: buildstate
+        accountKey:
+          secretKeyRef:
+            name: storage-key
+            key: accountKey
+      auth:
+        secretStore: build-secrets
+    location: westus2
+  pubSub:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: manual
+      type: pubsub.azure.servicebus
+      version: v1
+      metadata:
+        connectionString:
+          secretKeyRef:
+            name: servicebus-connection
+            key: connectionString
+        maxActiveMessages:
+          value: '100'
+        maxConcurrentHandlers:
+          value: '10'
+      auth:
+        secretStore: build-secrets
+    location: westus2
+  secretStore:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: manual
+      type: secretstores.azure.keyvault
+      version: v1
+      metadata:
+        vaultName:
+          value: cicd-secrets-kv
+        azureEnvironment:
+          value: AZUREPUBLICCLOUD
+    location: westus2
+  configStore:
+    properties:
+      environment: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+      application: >-
+        /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+      resourceProvisioning: manual
+      type: configuration.azure.appconfig
+      version: v1
+      metadata:
+        host:
+          value: https://cicd-config.azconfig.io
+        subscribeEnabled:
+          value: 'true'
+    location: westus2
+extender:
+  properties:
+    environment: >-
+      /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+    application: >-
+      /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+    resourceProvisioning: recipe
+    recipe:
+      name: github-integration
+      parameters:
+        appId: '12345'
+        installationId: '67890'
+        webhookSecret: webhook-secret-value
+    githubAppPrivateKey: |-
+      -----BEGIN RSA PRIVATE KEY-----
+      ...
+      -----END RSA PRIVATE KEY-----
+    enabledRepositories:
+      - myorg/repo1
+      - myorg/repo2
+      - myorg/repo3
+    secrets:
+      appPrivateKey: '-----BEGIN RSA PRIVATE KEY-----...'
+  location: westus2
+  tags:
+    extender: github-integration
+    provider: github
+awsPlane:
+  properties: {}
+  location: global
+  tags:
+    plane: aws
+azurePlane:
+  properties:
+    url: https://management.azure.com
+  location: global
+  tags:
+    plane: azure
+radiusPlane:
+  properties:
+    resourceProviders:
+      Applications.Core: http://applications-rp.radius-system:8080
+      Applications.Dapr: http://applications-rp.radius-system:8080
+      Applications.Datastores: http://applications-rp.radius-system:8080
+      Applications.Messaging: http://applications-rp.radius-system:8080
+  location: global
+  tags:
+    plane: radius
+resourceGroup:
+  properties: {}
+  location: westus2
+  tags:
+    resource-group: cicd-rg
+    environment: production
+azureCredential:
+  properties:
+    kind: WorkloadIdentity
+    clientId: 00000000-0000-0000-0000-000000000000
+    tenantId: 00000000-0000-0000-0000-000000000000
+    storage:
+      kind: Internal
+      secretName: azure-workload-identity
+  location: westus2
+  tags:
+    credential: azure-workload-identity
+awsCredential:
+  properties:
+    kind: IRSA
+    roleARN: arn:aws:iam::123456789012:role/cicd-cross-account-role
+    storage:
+      kind: Internal
+      secretName: aws-irsa-credentials
+  location: us-west-2
+  tags:
+    credential: aws-irsa

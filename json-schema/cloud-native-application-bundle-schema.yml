@@ -1,0 +1,694 @@
+$id: https://cnab.io/v1/merged.schema.json
+$schema: http://json-schema.org/draft-07/schema#
+title: CNAB Merged Schema - Complete CNAB Specification
+description: >-
+  Combined schema for CNAB Bundle Descriptor, Claim, Claim Result, Dependencies,
+  Parameter Sources, Relocation Mapping, Status, and core definitions
+  meta-schema
+definitions:
+  schemaArray:
+    type: array
+    minItems: 1
+    items:
+      $ref: '#'
+  nonNegativeIntegder:
+    type: integer
+    minimum: 0
+  nonNegativeIntegerDefault0:
+    allOf:
+      - $ref: '#/definitions/nonNegativeInteger'
+      - default: 0
+  simpleTypes:
+    enum:
+      - array
+      - boolean
+      - integer
+      - 'null'
+      - object
+      - string
+  stringArray:
+    type: array
+    items:
+      type: string
+    uniqueItems: true
+    default: []
+  sequence:
+    type: array
+    description: >-
+      Defines the criteria for sequencing bundles in a pre-defined order. The
+      sequence for each occurrence is a way for the bundle to reference the
+      order of a dependency
+    items:
+      type: string
+  dependencyRequires:
+    type: object
+    description: >-
+      Defines the criteria for the dependent bundle. The key for each dependency
+      is a way for the bundle to reference the dependency
+    patternProperties:
+      .*:
+        $ref: '#/definitions/dependency'
+    minProperties: 1
+  dependency:
+    type: object
+    properties:
+      bundle:
+        type: string
+        description: A reference to a bundle in the format REGISTRY/NAME.
+      version:
+        $ref: '#/definitions/dependencyVersion'
+    additionalProperties: false
+    required:
+      - bundle
+  dependencyVersion:
+    type: object
+    description: >-
+      A set of criteria applied to the bundle version when selecting an
+      acceptable version of the bundle.
+    properties:
+      ranges:
+        type: array
+        description: >-
+          An array of allowed version ranges. Versions are specified using
+          semver, with or without a leading 'v'. An x in the place of the minor
+          or patch place can be used to specify a wildcard. Ranges can be
+          specified by separating the two versions with a dash, the dash must be
+          surrounded by spaces in order to disambiguate from prerelease tags.
+        items:
+          type: string
+        minItems: 1
+      prereleases:
+        type: boolean
+        description: Specifies if prerelease versions of the bundle are allowed.
+        default: false
+    additionalProperties: false
+    minProperties: 1
+  parameterSource:
+    type: object
+    description: Defines how a parameter value should be sourced
+    properties:
+      priority:
+        type: array
+        description: >-
+          Array of source types in the priority order that they should be used
+          to populated the parameter
+        items:
+          type: string
+          enum:
+            - output
+        minItems: 1
+      sources:
+        type: object
+        description: >-
+          A map of key/value pairs of a source type and definition for the
+          parameter value
+        properties:
+          output:
+            $ref: '#/definitions/parameterSourceOutput'
+        additionalProperties: false
+        minProperties: 1
+    minProperties: 1
+    additionalProperties: false
+  parameterSourceOutput:
+    type: object
+    description: Specifies that the source of the parameter is an output
+    properties:
+      name:
+        type: string
+        description: The name of the source output
+        minLength: 1
+    additionalProperties: false
+    required:
+      - name
+  relocationMapping:
+    type: object
+    description: >-
+      A mapping of original image references to their relocated destinations.
+      Used when images need to be relocated to different registries.
+    additionalProperties:
+      type: string
+  statusComponent:
+    type: object
+    description: Represents the status of a component in a CNAB installation
+    properties:
+      status:
+        description: >-
+          string identifying the status of a component (Ready, Pending, Failed
+          are well known values)
+        type: string
+      message:
+        description: details about the current status
+        type: string
+      components:
+        type: object
+        description: Nested components with their own status
+        additionalProperties:
+          $ref: '#/definitions/statusComponent'
+    additionalProperties: true
+  credential:
+    description: >-
+      Credential defines a particular credential, and where it should be placed
+      in the invocation image
+    properties:
+      description:
+        description: A user-friendly description of this credential
+        type: string
+      applyTo:
+        description: An optional exhaustive list of actions handling this credential
+        items:
+          type: string
+        type: array
+      env:
+        description: >-
+          The environment variable name, such as MY_VALUE, into which the
+          credential will be placed
+        type: string
+      path:
+        description: >-
+          The path inside of the invocation image where credentials will be
+          mounted
+        type: string
+      required:
+        default: false
+        description: >-
+          Indicates whether this credential must be supplied. By default,
+          credentials are optional.
+        type: boolean
+    type: object
+  image:
+    description: An application image for this CNAB bundle
+    properties:
+      contentDigest:
+        description: >-
+          A cryptographic hash digest of the contents of the image that can be
+          used to validate the image. This may be interpreted differently based
+          on imageType
+        type: string
+      description:
+        description: A description of the purpose of this image
+        type: string
+      image:
+        description: >-
+          A resolvable reference to the image. This may be interpreted
+          differently based on imageType, but the default is to treat this as an
+          OCI image
+        type: string
+      imageType:
+        default: oci
+        description: The type of image. If this is not specified, 'oci' is assumed
+        type: string
+      labels:
+        description: Key/value pairs that used to specify identifying attributes of images
+        type: object
+        additionalProperties:
+          type: string
+      mediaType:
+        description: The media type of the image
+        type: string
+      size:
+        description: The image size in bytes
+        type: integer
+    required:
+      - image
+    type: object
+  invocationImage:
+    description: A bootstrapping image for the CNAB bundle.
+    properties:
+      contentDigest:
+        description: >-
+          A cryptographic hash digest of the contents of the image that can be
+          used to validate the image. This may be interpreted differently based
+          on imageType
+        type: string
+      image:
+        description: >-
+          A resolvable reference to the image. This may be interpreted
+          differently based on imageType, but the default is to treat this as an
+          OCI image
+        type: string
+      imageType:
+        default: oci
+        description: The type of image. If this is not specified, 'oci' is assumed
+        type: string
+      labels:
+        description: >-
+          Key/value pairs that used to specify identifying attributes of
+          invocation images
+        type: object
+        additionalProperties:
+          type: string
+      mediaType:
+        description: The media type of the image
+        type: string
+      size:
+        description: The image size in bytes
+        type: integer
+    required:
+      - image
+    type: object
+  bundleOutput:
+    description: >-
+      A value that is produced by running an invocation image (bundle
+      definition)
+    properties:
+      applyTo:
+        description: An optional exhaustive list of actions producing this output
+        items:
+          type: string
+        type: array
+      definition:
+        description: >-
+          The name of a definition that describes the schema structure of this
+          output
+        type: string
+      description:
+        $ref: http://json-schema.org/draft-07/schema#/properties/description
+      path:
+        description: The path inside of the invocation image where output will be written
+        pattern: ^/cnab/app/outputs/.+$
+        type: string
+    required:
+      - definition
+      - path
+    type: object
+  claimResultOutput:
+    description: A value that is produced by running an invocation image (claim result)
+    type: object
+    properties:
+      contentDigest:
+        description: >-
+          A cryptographic hash digest of the contents of the output that can be
+          used to validate the output
+        type: string
+    additionalProperties: true
+  parameter:
+    description: A parameter that can be passed into the invocation image
+    properties:
+      applyTo:
+        description: An optional exhaustive list of actions handling this parameter
+        items:
+          type: string
+        type: array
+      definition:
+        description: >-
+          The name of a definition that describes the schema structure of this
+          parameter
+        type: string
+      description:
+        $ref: http://json-schema.org/draft-07/schema#/properties/description
+      destination:
+        properties:
+          env:
+            description: >-
+              The environment variable name, such as MY_VALUE, in which the
+              parameter value is stored
+            type: string
+          path:
+            description: >-
+              The path inside of the invocation image where parameter data is
+              mounted
+            type: string
+        type: object
+      required:
+        default: false
+        description: >-
+          Indicates whether this parameter must be supplied. By default,
+          parameters are optional.
+        type: boolean
+    required:
+      - definition
+      - destination
+    type: object
+  bundle:
+    description: Cloud Native Application - Core version 1 - Bundle Descriptor
+    type: object
+    additionalProperties: false
+    properties:
+      actions:
+        additionalProperties:
+          properties:
+            description:
+              description: A description of the purpose of this action
+              type: string
+            title:
+              description: A human-readable name for this action
+              type: string
+            modifies:
+              description: >-
+                Must be set to true if the action can change any resource
+                managed by this bundle
+              type: boolean
+            stateless:
+              default: 'false'
+              description: >-
+                Indicates that the action is purely informational, that
+                credentials are not required, and that the runtime should not
+                keep track of its invocation
+              type: boolean
+          type: object
+        description: >-
+          Custom actions that can be triggered on this bundle, action name
+          should be namespaced and use reverse DNS notation
+        type: object
+      credentials:
+        additionalProperties:
+          $ref: '#/definitions/credential'
+        description: Credentials to be injected into the invocation image
+        type: object
+      custom:
+        $comment: reserved for custom extensions
+        type: object
+        additionalProperties: true
+      definitions:
+        additionalProperties:
+          $ref: '#/definitions/definitionsMetaSchema'
+        type: object
+      description:
+        description: A description of this bundle, intended for users
+        type: string
+      images:
+        additionalProperties:
+          $ref: '#/definitions/image'
+        description: Images that are used by this bundle
+        type: object
+      invocationImages:
+        description: The array of invocation image definitions for this bundle
+        items:
+          $ref: '#/definitions/invocationImage'
+        type: array
+      keywords:
+        description: A list of keywords describing the bundle, intended for users
+        items:
+          type: string
+        type: array
+      license:
+        description: The SPDX license code or proprietary license name for this bundle
+        type: string
+      maintainers:
+        description: A list of parties responsible for this bundle, with contact info
+        items:
+          description: An object that describes a maintainer
+          properties:
+            email:
+              description: Email address of responsible party
+              type: string
+            name:
+              description: Name of party reponsible for this bundle
+              type: string
+            url:
+              description: >-
+                URL of the responsible party, perhaps containing additional
+                contact info
+              type: string
+          required:
+            - name
+          type: object
+        type: array
+      name:
+        description: The name of this bundle
+        type: string
+      outputs:
+        additionalProperties:
+          $ref: '#/definitions/bundleOutput'
+        description: Values that are produced by executing the invocation image
+        type: object
+      parameters:
+        additionalProperties:
+          $ref: '#/definitions/parameter'
+        description: Parameters that can be injected into the invocation image
+        type: object
+      requiredExtensions:
+        description: A collection of extensions required for this bundle.
+        type: array
+        additionalProperties:
+          type: string
+      schemaVersion:
+        description: >-
+          The version of the CNAB specification. This should always be the
+          string 'v1' for this schema version.
+        type: string
+      version:
+        description: A SemVer2 version for this bundle
+        pattern: >-
+          v?([0-9]+)(\.[0-9]+)?(\.[0-9]+)?(-([0-9A-Za-z\-]+(\.[0-9A-Za-z\-]+)*))?(\+([0-9A-Za-z\-]+(\.[0-9A-Za-z\-]+)*))?
+        type: string
+    required:
+      - invocationImages
+      - name
+      - schemaVersion
+      - version
+  claim:
+    description: CNAB Claim
+    type: object
+    additionalProperties: false
+    properties:
+      action:
+        description: >-
+          the name of the action. One of the built-ins (install, uninstall,
+          upgrade) or a custom action.
+        type: string
+      bundle:
+        $ref: '#/definitions/bundle'
+        description: The bundle descriptor
+      bundleReference:
+        description: A canonical reference to the bundle used in the last action
+        type: string
+      created:
+        description: >-
+          The date created, as an ISO-8601 Extended Format date string, as
+          specified in the ECMAScript standard
+        type: string
+      custom:
+        $comment: reserved for custom extensions
+      id:
+        description: the ID (a ULID)
+        type: string
+      installation:
+        description: the name of the installation
+        type: string
+      parameters:
+        description: key/value pairs of parameter name to parameter value.
+        type: object
+      revision:
+        description: the revision ID (ideally a ULID)
+        type: string
+    required:
+      - action
+      - bundle
+      - created
+      - id
+      - installation
+      - revision
+  claimResult:
+    description: CNAB Claim Result
+    type: object
+    additionalProperties: false
+    properties:
+      claimId:
+        description: The claim ID
+        type: string
+      id:
+        description: The ID (a ULID)
+        type: string
+      message:
+        description: The last message from the invocation image or runtime
+        type: string
+      created:
+        description: >-
+          The date created, as an ISO-8601 Extended Format date string, as
+          specified in the ECMAScript standard
+        type: string
+      custom:
+        $comment: reserved for custom extensions
+      outputs:
+        additionalProperties:
+          $ref: '#/definitions/claimResultOutput'
+        description: Map of outputs generated by the operation.
+        type: object
+      status:
+        description: The status of the operation
+        enum:
+          - canceled
+          - failed
+          - succeeded
+          - pending
+          - running
+          - unknown
+        type: string
+    required:
+      - claimId
+      - id
+      - created
+      - status
+  definitionsMetaSchema:
+    title: Core schema meta-schema
+    type:
+      - object
+      - boolean
+    properties:
+      $id:
+        type: string
+        format: uri-reference
+      $schema:
+        type: string
+        format: uri
+      $ref:
+        type: string
+        format: uri-reference
+      $comment:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      default: true
+      readOnly:
+        type: boolean
+        default: false
+      examples:
+        type: array
+        items: true
+      multipleOf:
+        type: integer
+        exclusiveMinimum: 0
+      maximum:
+        type: integer
+      exclusiveMaximum:
+        type: integer
+      minimum:
+        type: integer
+      exclusiveMinimum:
+        type: integer
+      maxLength:
+        $ref: '#/definitions/nonNegativeInteger'
+      minLength:
+        $ref: '#/definitions/nonNegativeIntegerDefault0'
+      pattern:
+        type: string
+        format: regex
+      additionalItems:
+        $ref: '#'
+      items:
+        anyOf:
+          - $ref: '#'
+          - $ref: '#/definitions/schemaArray'
+        default: true
+      maxItems:
+        $ref: '#/definitions/nonNegativeInteger'
+      minItems:
+        $ref: '#/definitions/nonNegativeIntegerDefault0'
+      uniqueItems:
+        type: boolean
+        default: false
+      contains:
+        $ref: '#'
+      maxProperties:
+        $ref: '#/definitions/nonNegativeInteger'
+      minProperties:
+        $ref: '#/definitions/nonNegativeIntegerDefault0'
+      required:
+        $ref: '#/definitions/stringArray'
+      additionalProperties:
+        $ref: '#'
+      definitions:
+        type: object
+        additionalProperties:
+          $ref: '#'
+        default: {}
+      properties:
+        type: object
+        additionalProperties:
+          $ref: '#'
+        default: {}
+      patternProperties:
+        type: object
+        additionalProperties:
+          $ref: '#'
+        propertyNames:
+          format: regex
+        default: {}
+      dependencies:
+        type: object
+        additionalProperties:
+          anyOf:
+            - $ref: '#'
+            - $ref: '#/definitions/stringArray'
+      propertyNames:
+        $ref: '#'
+      const: true
+      enum:
+        type: array
+        items: true
+        minItems: 1
+        uniqueItems: true
+      type:
+        anyOf:
+          - $ref: '#/definitions/simpleTypes'
+          - type: array
+            items:
+              $ref: '#/definitions/simpleTypes'
+            minItems: 1
+            uniqueItems: true
+      format:
+        type: string
+      contentMediaType:
+        type: string
+      contentEncoding:
+        type: string
+      if:
+        $ref: '#'
+      then:
+        $ref: '#'
+      else:
+        $ref: '#'
+      allOf:
+        $ref: '#/definitions/schemaArray'
+      anyOf:
+        $ref: '#/definitions/schemaArray'
+      oneOf:
+        $ref: '#/definitions/schemaArray'
+      not:
+        $ref: '#'
+    default: true
+  dependencies:
+    title: CNAB Dependencies
+    type: object
+    properties:
+      requires:
+        $ref: '#/definitions/dependencyRequires'
+    additionalProperties: false
+    minProperties: 1
+  parameterSources:
+    title: CNAB Parameter Sources Extension
+    type: object
+    description: Key/value pairs of parameter sources where the key is the parameter name
+    additionalProperties:
+      $ref: '#/definitions/parameterSource'
+    minProperties: 1
+  status:
+    title: CNAB Status
+    type: object
+    description: Represents the overall status of a CNAB installation and its components
+    properties:
+      status:
+        description: >-
+          string identifying the status of a component (Ready, Pending, Failed
+          are well known values)
+        type: string
+      message:
+        description: details about the current status
+        type: string
+      components:
+        type: object
+        description: Map of component names to their status
+        additionalProperties:
+          $ref: '#/definitions/statusComponent'
+    additionalProperties: true
+oneOf:
+  - $ref: '#/definitions/bundle'
+  - $ref: '#/definitions/claim'
+  - $ref: '#/definitions/claimResult'
+  - $ref: '#/definitions/dependencies'
+  - $ref: '#/definitions/parameterSources'
+  - $ref: '#/definitions/relocationMapping'
+  - $ref: '#/definitions/status'
