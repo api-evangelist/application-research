@@ -1,0 +1,27 @@
+aid: application-research
+name: Application Research
+description: >-
+  Application Research is a research initiative focused on creating a
+  project-agnostic specification for declaring a service's integration
+  dependencies, allowing application deployment teams to understand what other
+  services (APIs, databases, caches, blob stores, message buses, etc.) must be
+  available for an application to run successfully.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Research
+  - Specifications
+  - Application Dependencies
+  - Integration
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/application-research/refs/heads/main/apis.yml
+created: '2026-03-16'
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis: []
+common:
+  - type: GitHub Organization
+    url: https://github.com/api-evangelist
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
