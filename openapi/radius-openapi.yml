@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Radius API
+  title: Application Research Radius API
   description: |
     OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables 
     developers to define, deploy, and collaborate on cloud-native applications across public 
@@ -51,7 +51,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/applications:
     get:
       tags: [Applications]
-      summary: List applications
+      summary: Application Research List applications
       operationId: Applications_List
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -73,7 +73,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/applications/{applicationName}:
     get:
       tags: [Applications]
-      summary: Get application
+      summary: Application Research Get application
       operationId: Applications_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -94,7 +94,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     put:
       tags: [Applications]
-      summary: Create or update application
+      summary: Application Research Create or update application
       operationId: Applications_CreateOrUpdate
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -127,7 +127,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     delete:
       tags: [Applications]
-      summary: Delete application
+      summary: Application Research Delete application
       operationId: Applications_Delete
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -145,7 +145,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/environments:
     get:
       tags: [Environments]
-      summary: List environments
+      summary: Application Research List environments
       operationId: Environments_List
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -167,7 +167,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/environments/{environmentName}:
     get:
       tags: [Environments]
-      summary: Get environment
+      summary: Application Research Get environment
       operationId: Environments_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -188,7 +188,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     put:
       tags: [Environments]
-      summary: Create or update environment
+      summary: Application Research Create or update environment
       operationId: Environments_CreateOrUpdate
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -221,7 +221,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     delete:
       tags: [Environments]
-      summary: Delete environment
+      summary: Application Research Delete environment
       operationId: Environments_Delete
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -239,7 +239,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers:
     get:
       tags: [Containers]
-      summary: List containers
+      summary: Application Research List containers
       operationId: Containers_List
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -261,7 +261,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers/{containerName}:
     get:
       tags: [Containers]
-      summary: Get container
+      summary: Application Research Get container
       operationId: Containers_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -282,7 +282,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     put:
       tags: [Containers]
-      summary: Create or update container
+      summary: Application Research Create or update container
       operationId: Containers_CreateOrUpdate
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -315,7 +315,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     delete:
       tags: [Containers]
-      summary: Delete container
+      summary: Application Research Delete container
       operationId: Containers_Delete
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -333,7 +333,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/gateways/{gatewayName}:
     get:
       tags: [Gateways]
-      summary: Get gateway
+      summary: Application Research Get gateway
       operationId: Gateways_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -354,7 +354,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     put:
       tags: [Gateways]
-      summary: Create or update gateway
+      summary: Application Research Create or update gateway
       operationId: Gateways_CreateOrUpdate
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -389,7 +389,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/secretStores/{secretStoreName}:
     get:
       tags: [SecretStores]
-      summary: Get secret store
+      summary: Application Research Get secret store
       operationId: SecretStores_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -410,7 +410,7 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
     put:
       tags: [SecretStores]
-      summary: Create or update secret store
+      summary: Application Research Create or update secret store
       operationId: SecretStores_CreateOrUpdate
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -445,7 +445,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/volumes/{volumeName}:
     get:
       tags: [Volumes]
-      summary: Get volume
+      summary: Application Research Get volume
       operationId: Volumes_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -468,7 +468,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/extenders/{extenderName}:
     get:
       tags: [Extenders]
-      summary: Get extender
+      summary: Application Research Get extender
       operationId: Extenders_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -488,10 +488,10 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/mongoDatabases/{mongoDatabaseName}:
-    get:
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/mongoDatabases/{mongoDatabaseName}
+  : get:
       tags: [Datastores]
-      summary: Get MongoDB database
+      summary: Application Research Get MongoDB database
       operationId: MongoDatabases_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -511,10 +511,10 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/redisCaches/{redisCacheName}:
-    get:
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/redisCaches/{redisCacheName}
+  : get:
       tags: [Datastores]
-      summary: Get Redis cache
+      summary: Application Research Get Redis cache
       operationId: RedisCaches_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -534,10 +534,10 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/sqlDatabases/{sqlDatabaseName}:
-    get:
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/sqlDatabases/{sqlDatabaseName}
+  : get:
       tags: [Datastores]
-      summary: Get SQL database
+      summary: Application Research Get SQL database
       operationId: SqlDatabases_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -557,10 +557,10 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Messaging/rabbitMQQueues/{rabbitMQQueueName}:
-    get:
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Messaging/rabbitMQQueues/{rabbitMQQueueName}
+  : get:
       tags: [Messaging]
-      summary: Get RabbitMQ queue
+      summary: Application Research Get RabbitMQ queue
       operationId: RabbitMQQueues_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -583,7 +583,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/stateStores/{stateStoreName}:
     get:
       tags: [Dapr]
-      summary: Get Dapr state store
+      summary: Application Research Get Dapr state store
       operationId: DaprStateStores_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -606,7 +606,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/pubSubBrokers/{pubSubBrokerName}:
     get:
       tags: [Dapr]
-      summary: Get Dapr pub/sub broker
+      summary: Application Research Get Dapr pub/sub broker
       operationId: DaprPubSubBrokers_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -626,10 +626,10 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/secretStores/{daprSecretStoreName}:
-    get:
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/secretStores/{daprSecretStoreName}
+  : get:
       tags: [Dapr]
-      summary: Get Dapr secret store
+      summary: Application Research Get Dapr secret store
       operationId: DaprSecretStores_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -649,10 +649,10 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/configurationStores/{configurationStoreName}:
-    get:
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/configurationStores/{configurationStoreName}
+  : get:
       tags: [Dapr]
-      summary: Get Dapr configuration store
+      summary: Application Research Get Dapr configuration store
       operationId: DaprConfigurationStores_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -675,7 +675,7 @@ paths:
   /planes/radius/{planeName}:
     get:
       tags: [Planes]
-      summary: Get Radius plane
+      summary: Application Research Get Radius plane
       operationId: RadiusPlanes_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -696,7 +696,7 @@ paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}:
     get:
       tags: [ResourceGroups]
-      summary: Get resource group
+      summary: Application Research Get resource group
       operationId: ResourceGroups_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -718,7 +718,7 @@ paths:
   /planes/azure/{planeName}/providers/System.Azure/credentials/{credentialName}:
     get:
       tags: [Credentials]
-      summary: Get Azure credential
+      summary: Application Research Get Azure credential
       operationId: AzureCredentials_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'
@@ -740,7 +740,7 @@ paths:
   /planes/aws/{planeName}/providers/System.AWS/credentials/{credentialName}:
     get:
       tags: [Credentials]
-      summary: Get AWS credential
+      summary: Application Research Get AWS credential
       operationId: AwsCredentials_Get
       parameters:
         - $ref: '#/components/parameters/PlaneNameParameter'

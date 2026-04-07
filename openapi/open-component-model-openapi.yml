@@ -1,10 +1,10 @@
 openapi: 3.1.0
 info:
-  title: Open Component Model API
+  title: Application Research Open Component Model API
   version: 1.0.0
   description: |
     API for managing Open Component Model (OCM) component descriptors and configurations.
-    
+
     The Open Component Model provides a standard for describing software components,
     their resources, sources, and dependencies in a technology-agnostic way.
   contact:
@@ -37,7 +37,7 @@ paths:
     get:
       tags:
         - Components
-      summary: List component descriptors
+      summary: Application Research List component descriptors
       operationId: listComponents
       parameters:
         - $ref: '#/components/parameters/LimitParam'
@@ -61,7 +61,7 @@ paths:
     post:
       tags:
         - Components
-      summary: Create a component descriptor
+      summary: Application Research Create a component descriptor
       operationId: createComponent
       requestBody:
         required: true
@@ -96,7 +96,7 @@ paths:
     get:
       tags:
         - Components
-      summary: Get a component descriptor by name
+      summary: Application Research Get a component descriptor by name
       operationId: getComponent
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -118,7 +118,7 @@ paths:
     put:
       tags:
         - Components
-      summary: Update a component descriptor
+      summary: Application Research Update a component descriptor
       operationId: updateComponent
       requestBody:
         required: true
@@ -149,7 +149,7 @@ paths:
     delete:
       tags:
         - Components
-      summary: Delete a component descriptor
+      summary: Application Research Delete a component descriptor
       operationId: deleteComponent
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -168,7 +168,7 @@ paths:
     get:
       tags:
         - Components
-      summary: List all versions of a component
+      summary: Application Research List all versions of a component
       operationId: listComponentVersions
       responses:
         '200':
@@ -192,7 +192,7 @@ paths:
     get:
       tags:
         - Resources
-      summary: List resources for a component
+      summary: Application Research List resources for a component
       operationId: listComponentResources
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -214,7 +214,7 @@ paths:
     post:
       tags:
         - Resources
-      summary: Add a resource to a component
+      summary: Application Research Add a resource to a component
       operationId: addComponentResource
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -254,7 +254,7 @@ paths:
     get:
       tags:
         - Resources
-      summary: Get a specific resource
+      summary: Application Research Get a specific resource
       operationId: getComponentResource
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -276,7 +276,7 @@ paths:
     delete:
       tags:
         - Resources
-      summary: Remove a resource from a component
+      summary: Application Research Remove a resource from a component
       operationId: deleteComponentResource
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -295,7 +295,7 @@ paths:
     get:
       tags:
         - Sources
-      summary: List sources for a component
+      summary: Application Research List sources for a component
       operationId: listComponentSources
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -317,7 +317,7 @@ paths:
     post:
       tags:
         - Sources
-      summary: Add a source to a component
+      summary: Application Research Add a source to a component
       operationId: addComponentSource
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -354,7 +354,7 @@ paths:
     get:
       tags:
         - Components
-      summary: List component references
+      summary: Application Research List component references
       operationId: listComponentReferences
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -376,7 +376,7 @@ paths:
     post:
       tags:
         - Components
-      summary: Add a component reference
+      summary: Application Research Add a component reference
       operationId: addComponentReference
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -413,7 +413,7 @@ paths:
     get:
       tags:
         - Signatures
-      summary: List signatures for a component
+      summary: Application Research List signatures for a component
       operationId: listComponentSignatures
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -435,7 +435,7 @@ paths:
     post:
       tags:
         - Signatures
-      summary: Sign a component
+      summary: Application Research Sign a component
       operationId: signComponent
       parameters:
         - $ref: '#/components/parameters/VersionQueryParam'
@@ -469,7 +469,7 @@ paths:
     post:
       tags:
         - Signatures
-      summary: Verify a component signature
+      summary: Application Research Verify a component signature
       operationId: verifyComponentSignature
       parameters:
         - $ref: '#/components/parameters/ComponentNameParam'
@@ -505,7 +505,7 @@ paths:
     get:
       tags:
         - Configurations
-      summary: List component configurations
+      summary: Application Research List component configurations
       operationId: listConfigurations
       parameters:
         - $ref: '#/components/parameters/LimitParam'
@@ -526,7 +526,7 @@ paths:
     post:
       tags:
         - Configurations
-      summary: Create a component configuration
+      summary: Application Research Create a component configuration
       operationId: createConfiguration
       requestBody:
         required: true
@@ -561,7 +561,7 @@ paths:
     get:
       tags:
         - Configurations
-      summary: Get a configuration by ID
+      summary: Application Research Get a configuration by ID
       operationId: getConfiguration
       responses:
         '200':
@@ -581,7 +581,7 @@ paths:
     delete:
       tags:
         - Configurations
-      summary: Delete a configuration
+      summary: Application Research Delete a configuration
       operationId: deleteConfiguration
       responses:
         '204':
@@ -595,7 +595,7 @@ paths:
     post:
       tags:
         - Components
-      summary: Transfer components between repositories
+      summary: Application Research Transfer components between repositories
       operationId: transferComponents
       requestBody:
         required: true

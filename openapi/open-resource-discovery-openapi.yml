@@ -1,12 +1,12 @@
 openapi: 3.1.0
 info:
-  title: Open Resource Discovery (ORD) API
+  title: Application Research Open Resource Discovery (ORD) API
   version: 1.12.0
   description: |
     The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers 
     for ORD resources and taxonomy. This API enables discovery and management of API resources, 
     event resources, data products, entity types, capabilities, and integration dependencies.
-    
+
     ORD enables machine-readable self-description of systems and their capabilities, supporting
     automated discovery, integration, and governance of enterprise APIs and services.
   contact:
@@ -53,7 +53,7 @@ paths:
     get:
       tags:
         - ORD Documents
-      summary: List all ORD Documents
+      summary: Application Research List all ORD Documents
       description: Retrieves a list of all available ORD Documents
       operationId: listOrdDocuments
       parameters:
@@ -80,7 +80,7 @@ paths:
     post:
       tags:
         - ORD Documents
-      summary: Create a new ORD Document
+      summary: Application Research Create a new ORD Document
       description: Creates a new ORD Document with the provided resources and taxonomy
       operationId: createOrdDocument
       requestBody:
@@ -117,7 +117,7 @@ paths:
     get:
       tags:
         - ORD Documents
-      summary: Get an ORD Document by ID
+      summary: Application Research Get an ORD Document by ID
       description: Retrieves a specific ORD Document by its identifier
       operationId: getOrdDocument
       parameters:
@@ -140,7 +140,7 @@ paths:
     put:
       tags:
         - ORD Documents
-      summary: Update an ORD Document
+      summary: Application Research Update an ORD Document
       description: Updates an existing ORD Document
       operationId: updateOrdDocument
       parameters:
@@ -174,7 +174,7 @@ paths:
     delete:
       tags:
         - ORD Documents
-      summary: Delete an ORD Document
+      summary: Application Research Delete an ORD Document
       description: Deletes an ORD Document
       operationId: deleteOrdDocument
       parameters:
@@ -191,7 +191,7 @@ paths:
     get:
       tags:
         - Packages
-      summary: List all Packages
+      summary: Application Research List all Packages
       description: Retrieves a list of all Packages across all ORD Documents
       operationId: listPackages
       parameters:
@@ -217,7 +217,7 @@ paths:
     get:
       tags:
         - Packages
-      summary: Get a Package by ORD ID
+      summary: Application Research Get a Package by ORD ID
       description: Retrieves a specific Package by its ORD ID
       operationId: getPackage
       parameters:
@@ -241,7 +241,7 @@ paths:
     get:
       tags:
         - API Resources
-      summary: List all API Resources
+      summary: Application Research List all API Resources
       description: Retrieves a list of all API Resources across all ORD Documents
       operationId: listApiResources
       parameters:
@@ -269,7 +269,7 @@ paths:
     get:
       tags:
         - API Resources
-      summary: Get an API Resource by ORD ID
+      summary: Application Research Get an API Resource by ORD ID
       description: Retrieves a specific API Resource by its ORD ID
       operationId: getApiResource
       parameters:
@@ -293,7 +293,7 @@ paths:
     get:
       tags:
         - API Resources
-      summary: Get API Resource Definitions
+      summary: Application Research Get API Resource Definitions
       description: Retrieves all resource definitions for a specific API Resource
       operationId: getApiResourceDefinitions
       parameters:
@@ -319,7 +319,7 @@ paths:
     get:
       tags:
         - Event Resources
-      summary: List all Event Resources
+      summary: Application Research List all Event Resources
       description: Retrieves a list of all Event Resources across all ORD Documents
       operationId: listEventResources
       parameters:
@@ -346,7 +346,7 @@ paths:
     get:
       tags:
         - Event Resources
-      summary: Get an Event Resource by ORD ID
+      summary: Application Research Get an Event Resource by ORD ID
       description: Retrieves a specific Event Resource by its ORD ID
       operationId: getEventResource
       parameters:
@@ -370,7 +370,7 @@ paths:
     get:
       tags:
         - Entity Types
-      summary: List all Entity Types
+      summary: Application Research List all Entity Types
       description: Retrieves a list of all Entity Types across all ORD Documents
       operationId: listEntityTypes
       parameters:
@@ -397,7 +397,7 @@ paths:
     get:
       tags:
         - Entity Types
-      summary: Get an Entity Type by ORD ID
+      summary: Application Research Get an Entity Type by ORD ID
       description: Retrieves a specific Entity Type by its ORD ID
       operationId: getEntityType
       parameters:
@@ -421,7 +421,7 @@ paths:
     get:
       tags:
         - Data Products
-      summary: List all Data Products
+      summary: Application Research List all Data Products
       description: Retrieves a list of all Data Products across all ORD Documents
       operationId: listDataProducts
       parameters:
@@ -448,7 +448,7 @@ paths:
     get:
       tags:
         - Data Products
-      summary: Get a Data Product by ORD ID
+      summary: Application Research Get a Data Product by ORD ID
       description: Retrieves a specific Data Product by its ORD ID
       operationId: getDataProduct
       parameters:
@@ -472,7 +472,7 @@ paths:
     get:
       tags:
         - Capabilities
-      summary: List all Capabilities
+      summary: Application Research List all Capabilities
       description: Retrieves a list of all Capabilities across all ORD Documents
       operationId: listCapabilities
       parameters:
@@ -498,7 +498,7 @@ paths:
     get:
       tags:
         - Capabilities
-      summary: Get a Capability by ORD ID
+      summary: Application Research Get a Capability by ORD ID
       description: Retrieves a specific Capability by its ORD ID
       operationId: getCapability
       parameters:
@@ -522,7 +522,7 @@ paths:
     get:
       tags:
         - Integration Dependencies
-      summary: List all Integration Dependencies
+      summary: Application Research List all Integration Dependencies
       description: Retrieves a list of all Integration Dependencies across all ORD Documents
       operationId: listIntegrationDependencies
       parameters:
@@ -548,7 +548,7 @@ paths:
     get:
       tags:
         - Integration Dependencies
-      summary: Get an Integration Dependency by ORD ID
+      summary: Application Research Get an Integration Dependency by ORD ID
       description: Retrieves a specific Integration Dependency by its ORD ID
       operationId: getIntegrationDependency
       parameters:
@@ -572,7 +572,7 @@ paths:
     get:
       tags:
         - Consumption Bundles
-      summary: List all Consumption Bundles
+      summary: Application Research List all Consumption Bundles
       description: Retrieves a list of all Consumption Bundles across all ORD Documents
       operationId: listConsumptionBundles
       parameters:
@@ -598,7 +598,7 @@ paths:
     get:
       tags:
         - Consumption Bundles
-      summary: Get a Consumption Bundle by ORD ID
+      summary: Application Research Get a Consumption Bundle by ORD ID
       description: Retrieves a specific Consumption Bundle by its ORD ID
       operationId: getConsumptionBundle
       parameters:
@@ -622,7 +622,7 @@ paths:
     get:
       tags:
         - Products
-      summary: List all Products
+      summary: Application Research List all Products
       description: Retrieves a list of all Products across all ORD Documents
       operationId: listProducts
       parameters:
@@ -648,7 +648,7 @@ paths:
     get:
       tags:
         - Products
-      summary: Get a Product by ORD ID
+      summary: Application Research Get a Product by ORD ID
       description: Retrieves a specific Product by its ORD ID
       operationId: getProduct
       parameters:
@@ -672,7 +672,7 @@ paths:
     get:
       tags:
         - Vendors
-      summary: List all Vendors
+      summary: Application Research List all Vendors
       description: Retrieves a list of all Vendors across all ORD Documents
       operationId: listVendors
       parameters:
@@ -697,7 +697,7 @@ paths:
     get:
       tags:
         - Vendors
-      summary: Get a Vendor by ORD ID
+      summary: Application Research Get a Vendor by ORD ID
       description: Retrieves a specific Vendor by its ORD ID
       operationId: getVendor
       parameters:
@@ -721,7 +721,7 @@ paths:
     get:
       tags:
         - Groups
-      summary: List all Groups
+      summary: Application Research List all Groups
       description: Retrieves a list of all Groups across all ORD Documents
       operationId: listGroups
       parameters:
@@ -747,7 +747,7 @@ paths:
     get:
       tags:
         - Groups
-      summary: Get a Group by Group ID
+      summary: Application Research Get a Group by Group ID
       description: Retrieves a specific Group by its Group ID
       operationId: getGroup
       parameters:
@@ -771,7 +771,7 @@ paths:
     get:
       tags:
         - Groups
-      summary: List all Group Types
+      summary: Application Research List all Group Types
       description: Retrieves a list of all Group Types across all ORD Documents
       operationId: listGroupTypes
       parameters:
@@ -796,7 +796,7 @@ paths:
     get:
       tags:
         - Groups
-      summary: Get a Group Type by Group Type ID
+      summary: Application Research Get a Group Type by Group Type ID
       description: Retrieves a specific Group Type by its Group Type ID
       operationId: getGroupType
       parameters:

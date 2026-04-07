@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Score Workload Specification API
+  title: Application Research Score Workload Specification API
   description: |
     API for managing Score workload specifications. Score is a platform-agnostic 
     workload specification that enables developers to define their workloads once 
@@ -30,7 +30,7 @@ paths:
     get:
       tags:
         - Workloads
-      summary: List all workloads
+      summary: Application Research List all workloads
       description: Retrieves a list of all Score workload specifications
       operationId: listWorkloads
       parameters:
@@ -55,7 +55,7 @@ paths:
     post:
       tags:
         - Workloads
-      summary: Create a new workload
+      summary: Application Research Create a new workload
       description: Creates a new Score workload specification
       operationId: createWorkload
       requestBody:
@@ -95,7 +95,7 @@ paths:
     get:
       tags:
         - Workloads
-      summary: Get a specific workload
+      summary: Application Research Get a specific workload
       description: Retrieves a Score workload specification by name
       operationId: getWorkload
       parameters:
@@ -125,7 +125,7 @@ paths:
     put:
       tags:
         - Workloads
-      summary: Update a workload
+      summary: Application Research Update a workload
       description: Updates an existing Score workload specification
       operationId: updateWorkload
       parameters:
@@ -162,7 +162,7 @@ paths:
     delete:
       tags:
         - Workloads
-      summary: Delete a workload
+      summary: Application Research Delete a workload
       description: Deletes a Score workload specification
       operationId: deleteWorkload
       parameters:
@@ -179,7 +179,7 @@ paths:
     get:
       tags:
         - Workloads
-      summary: List containers in a workload
+      summary: Application Research List containers in a workload
       description: Retrieves all containers defined in a workload
       operationId: listWorkloadContainers
       parameters:
@@ -203,7 +203,7 @@ paths:
     get:
       tags:
         - Workloads
-      summary: List resources in a workload
+      summary: Application Research List resources in a workload
       description: Retrieves all resource dependencies defined in a workload
       operationId: listWorkloadResources
       parameters:
@@ -227,7 +227,7 @@ paths:
     post:
       tags:
         - Validation
-      summary: Validate a workload specification
+      summary: Application Research Validate a workload specification
       description: Validates a Score workload specification without creating it
       operationId: validateWorkload
       requestBody:
@@ -1087,7 +1087,7 @@ components:
                     parallelism: 4
                     batchSize: 1000
                     flushInterval: 5s
-                  
+
                   kafka:
                     consumer:
                       autoOffsetReset: earliest
@@ -1097,7 +1097,7 @@ components:
                       acks: all
                       retries: 3
                       compressionType: snappy
-                  
+
                   processing:
                     transforms:
                       - name: parse-json
@@ -1120,7 +1120,7 @@ components:
                           groupBy:
                             - country
                             - device_type
-                  
+
                   output:
                     formats:
                       - parquet
@@ -1354,7 +1354,7 @@ components:
                   server:
                     name: ml-inference-service
                     version: 4.2.1
-                  
+
                   model:
                     name: product-recommendations
                     version: 4.2.1
@@ -1384,7 +1384,7 @@ components:
                                 type: number
                         confidence:
                           type: number
-                  
+
                   inference:
                     batchSize: 32
                     maxQueueDelay: 100ms
@@ -1392,12 +1392,12 @@ components:
                     warmup:
                       enabled: true
                       samples: 100
-                  
+
                   caching:
                     enabled: true
                     ttl: 300s
                     keyPrefix: "rec:v4:"
-                  
+
                   featureStore:
                     enabled: true
                     features:
@@ -1405,7 +1405,7 @@ components:
                       - product_embeddings
                       - user_history
                       - trending_products
-                  
+
                   monitoring:
                     metrics:
                       enabled: true
