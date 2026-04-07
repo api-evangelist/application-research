@@ -20,11 +20,11 @@ servers:
     description: Staging API
 
 tags:
-  - name: Workloads
-    description: Score workload management operations
   - name: Validation
     description: Workload validation operations
 
+  - name: Workloads
+    description: Score workload management operations
 paths:
   /workloads:
     get:

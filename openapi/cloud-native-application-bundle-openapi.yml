@@ -23,10 +23,10 @@ servers:
 tags:
   - name: Bundles
     description: Operations for managing CNAB bundle descriptors
-  - name: Claims
-    description: Operations for managing installation claims
   - name: Claim Results
     description: Operations for managing claim execution results
+  - name: Claims
+    description: Operations for managing installation claims
   - name: Status
     description: Operations for querying installation status
 

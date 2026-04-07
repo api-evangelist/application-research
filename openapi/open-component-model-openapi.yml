@@ -27,11 +27,11 @@ tags:
     description: Operations for managing component configurations
   - name: Resources
     description: Operations for managing component resources
-  - name: Sources
-    description: Operations for managing component sources
   - name: Signatures
     description: Operations for component signing and verification
 
+  - name: Sources
+    description: Operations for managing component sources
 paths:
   /components:
     get:

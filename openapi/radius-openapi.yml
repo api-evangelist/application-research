@@ -24,29 +24,29 @@ tags:
     description: Application resource operations
   - name: Containers
     description: Container resource operations
-  - name: Environments
-    description: Environment resource operations
-  - name: Gateways
-    description: Gateway resource operations
-  - name: SecretStores
-    description: Secret store operations
-  - name: Volumes
-    description: Volume resource operations
-  - name: Extenders
-    description: Extender portable resource operations
+  - name: Credentials
+    description: Credential management operations
+
   - name: Dapr
     description: Dapr component operations
   - name: Datastores
     description: Datastore portable resource operations
+  - name: Environments
+    description: Environment resource operations
+  - name: Extenders
+    description: Extender portable resource operations
+  - name: Gateways
+    description: Gateway resource operations
   - name: Messaging
     description: Messaging portable resource operations
   - name: Planes
     description: Plane management operations
   - name: ResourceGroups
     description: Resource group operations
-  - name: Credentials
-    description: Credential management operations
-
+  - name: SecretStores
+    description: Secret store operations
+  - name: Volumes
+    description: Volume resource operations
 paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/applications:
     get:

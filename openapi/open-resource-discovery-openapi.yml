@@ -23,31 +23,31 @@ servers:
     description: Sandbox server
 
 tags:
+  - name: API Resources
+    description: API Resource operations
+  - name: Capabilities
+    description: Capability operations
+  - name: Consumption Bundles
+    description: Consumption Bundle operations
+  - name: Data Products
+    description: Data Product operations
+  - name: Entity Types
+    description: Entity Type operations
+  - name: Event Resources
+    description: Event Resource operations
+  - name: Groups
+    description: Group and Group Type operations
+
+  - name: Integration Dependencies
+    description: Integration Dependency operations
   - name: ORD Documents
     description: Operations for ORD Document management
   - name: Packages
     description: Package management operations
-  - name: API Resources
-    description: API Resource operations
-  - name: Event Resources
-    description: Event Resource operations
-  - name: Entity Types
-    description: Entity Type operations
-  - name: Data Products
-    description: Data Product operations
-  - name: Capabilities
-    description: Capability operations
-  - name: Integration Dependencies
-    description: Integration Dependency operations
-  - name: Consumption Bundles
-    description: Consumption Bundle operations
   - name: Products
     description: Product operations
   - name: Vendors
     description: Vendor operations
-  - name: Groups
-    description: Group and Group Type operations
-
 paths:
   /documents:
     get:
