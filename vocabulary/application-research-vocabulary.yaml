@@ -1,0 +1,192 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: Application Research
+  description: >-
+    Vocabulary for application dependency specification research, covering operational
+    dimensions of five workload specification formats (Score, CNAB, OCM, ORD, Radius)
+    and their key concepts for declaring service integration dependencies.
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - name: Score Workload Specification API
+      namespace: score
+      version: "1.0.0"
+      baseUrl: "https://api.score.dev/v1"
+      status: active
+    - name: Cloud Native Application Bundle API
+      namespace: cnab
+      version: "1.0.0"
+      baseUrl: "https://api.cnab.io/v1"
+      status: active
+    - name: Open Component Model API
+      namespace: ocm
+      version: "1.0.0"
+      baseUrl: "https://ocm.software/api/v1"
+      status: active
+    - name: Open Resource Discovery API
+      namespace: ord
+      version: "1.0.0"
+      baseUrl: "https://api.open-resource-discovery.org/v1"
+      status: active
+    - name: Radius Application Platform API
+      namespace: radius
+      version: "1.0.0"
+      baseUrl: "https://api.radapp.io/v1"
+      status: active
+
+  resources:
+    - name: workloads
+      description: Application workload specifications and deployments
+      api: Score Workload Specification API
+      actions:
+        - list
+        - create
+        - get
+        - update
+        - delete
+    - name: components
+      description: Software components in a system landscape
+      api: Open Component Model API
+      actions:
+        - list
+        - create
+        - get
+    - name: bundles
+      description: Cloud Native Application Bundles (CNAB)
+      api: Cloud Native Application Bundle API
+      actions:
+        - list
+        - install
+        - upgrade
+        - uninstall
+    - name: applications
+      description: Radius application definitions with dependencies
+      api: Radius Application Platform API
+      actions:
+        - list
+        - create
+        - get
+        - delete
+    - name: resource-definitions
+      description: Open Resource Discovery resource type definitions
+      api: Open Resource Discovery API
+      actions:
+        - list
+        - create
+        - get
+
+  actions:
+    - name: list
+      httpMethod: GET
+      pattern: read
+    - name: create
+      httpMethod: POST
+      pattern: write
+    - name: get
+      httpMethod: GET
+      pattern: read
+    - name: update
+      httpMethod: PUT
+      pattern: write
+    - name: delete
+      httpMethod: DELETE
+      pattern: destructive
+    - name: install
+      httpMethod: POST
+      pattern: write
+    - name: upgrade
+      httpMethod: PUT
+      pattern: write
+    - name: uninstall
+      httpMethod: DELETE
+      pattern: destructive
+
+  schemas:
+    core:
+      - name: Score
+        description: Score platform-agnostic workload specification
+      - name: CloudNativeApplicationBundle
+        description: CNAB bundle descriptor for packaging cloud-native apps
+      - name: OpenComponentModel
+        description: OCM component descriptor for software supply chain
+      - name: OpenResourceDiscovery
+        description: ORD resource type definitions for API metadata
+      - name: Radius
+        description: Radius application and resource definitions
+
+  parameters:
+    identifiers:
+      - name: workloadId
+        description: Unique identifier for a workload specification
+      - name: componentId
+        description: Unique identifier for a software component
+      - name: bundleId
+        description: Unique identifier for a CNAB bundle
+    filters:
+      - name: namespace
+        description: Kubernetes or application namespace filter
+      - name: platform
+        description: Target deployment platform filter
+
+  enums:
+    workloadKinds:
+      - Score
+      - Workload
+      - Bundle
+      - Component
+      - Application
+    dependencyTypes:
+      - database
+      - cache
+      - messageQueue
+      - blobStore
+      - api
+      - service
+    platforms:
+      - kubernetes
+      - docker
+      - helm
+      - terraform
+      - aws
+      - azure
+      - gcp
+
+  authentication:
+    schemes:
+      - type: bearer
+        description: Bearer token authentication for API access
+
+capability:
+  workflows: []
+  personas: []
+  domains:
+    - name: Workload Specification
+      description: Defining platform-agnostic application workload requirements
+      resources:
+        - workloads
+    - name: Dependency Declaration
+      description: Declaring service dependencies (databases, caches, queues) needed by applications
+      resources:
+        - applications
+        - components
+    - name: Artifact Distribution
+      description: Packaging and distributing application bundles
+      resources:
+        - bundles
+
+  namespaces: []
+  binds: []
+
+crossReference:
+  - resource: workloads
+    operations:
+      - listWorkloads
+      - createWorkload
+      - getWorkload
+      - updateWorkload
+      - deleteWorkload
+    workflows: []
+    personas: []

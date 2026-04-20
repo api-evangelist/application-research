@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "name": "open-component-model",
+  "description": "Merged Open Component Model schema combining component-descriptor-v2 and component-configuration"
+}

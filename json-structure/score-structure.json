@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "name": "Score schema",
+  "description": "Score workload specification",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "description": "The declared Score Specification version.",
+      "type": "string",
+      "pattern": "^score\\.dev/v1b1$"
+    },
+    "metadata": {
+      "description": "The metadata description of the Workload.",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "description": "A string that can describe the Workload. This must be a valid RFC1123 Label Name of up to 63 characters, including a-z, 0-9, '-' but may not start or end with '-'.",
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 63,
+          "pattern": "^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+        },
+        "annotations": {
+          "description": "Annotations that apply to the Workload. The annotation can contain A-Z, a-z, 0-9, and '-' and may contain an optional /-separated RFC1123 Host Name prefix.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "minLength": 2,
+            "maxLength": 316,
+            "pattern": "^(([a-z0-9][a-z0-9-]{0,61}[a-z0-9])(\\.[a-z0-9][a-z0-9-]{0,61}[a-z0-9])*/)?[A-Za-z0-9][A-Za-z0-9._-]{0,61}[A-Za-z0-9]$"
+          }
+        }
+      }
+    },
+    "service": {
+      "description": "The service that the workload provides.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ports": {
+          "description": "The set of named network ports published by the service. The service name must be a valid RFC1123 Label Name of up to 63 characters, including a-z, 0-9, '-' but may not start or end with '-'.",
+          "type": "object",
+          "propertyNames": {
+            "minLength": 2,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/servicePort"
+          }
+        }
+      }
+    },
+    "containers": {
+      "description": "The set of named containers in the Workload. The container name must be a valid RFC1123 Label Name of up to 63 characters, including a-z, 0-9, '-' but may not start or end with '-'.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/container"
+      },
+      "propertyNames": {
+        "minLength": 2,
+        "maxLength": 63,
+        "pattern": "^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+      }
+    },
+    "resources": {
+      "description": "The Resource dependencies needed by the Workload. The resource name must be a valid RFC1123 Label Name of up to 63 characters, including a-z, 0-9, '-' but may not start or end with '-'.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/resource"
+      },
+      "propertyNames": {
+        "minLength": 2,
+        "maxLength": 63,
+        "pattern": "^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "name": "CNAB Merged Schema - Complete CNAB Specification",
+  "description": "Combined schema for CNAB Bundle Descriptor, Claim, Claim Result, Dependencies, Parameter Sources, Relocation Mapping, Status, and core definitions meta-schema"
+}

@@ -1,72 +1,181 @@
-# Application Dependencies Research
-This is a research contribution to the [Initiative: Specification for declaring application integration dependencies #1797](https://github.com/cncf/toc/issues/1797), which is focused upon the following:
+# Application Research (application-research)
+Application Research is a topic collection focused on specifications for declaring application service integration dependencies. It covers five specification formats: Score (platform-agnostic workload specs), Cloud Native Application Bundle (CNAB), Open Component Model (OCM), Open Resource Discovery (ORD), and Radius — all aimed at enabling deployment teams to understand what services (APIs, databases, caches, message buses, blob stores) an application requires.
 
-> Create a project-agnostic specification that for declaring a service's dependencies, so that it could indicate to an application deployment team what other services must be readily available for the application to run successfully - e.g. APIs, databases, caches, blob stores, message buses, etc. 
+**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/application-research/refs/heads/main/apis.yml)
 
-> This is not meant to replace conversations between application engineers and production support. Rather, it's meant to give them a standardized reference that they can use to enable their discussion.
+**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
 
-> The benefit of a spec is that it could also be leveraged for other use cases, such as guaranteeing abstraction coverage in Dapr, or for integration mocking in Microcks. Furthermore, it can support security efforts that are focused on expected application behavior, such as Software Bill of Behavior (SBOB) initiatives.
+## Tags:
 
-## Specifications
-Alongside [complementary work I am doing on interface dependencies](https://github.com/naftiko/interfaces) I wanted to evaluate the five top specifications this group initiative is focusing on, resulting in my profiling the operations, schema, and dependencies for each.
+ - Application Dependencies, Cloud Native, Integration, Research, Specifications, Workload Specifications
 
-- [Cloud Native Application Bundle](cloud-native-application-bundle.md)
-- [Open Component Model](open-component-model.md)
-- [Open Resource Discovery](open-resource-discovery.md)
-- [Radius](radius.md)
-- [Score](score.md)
+## Timestamps
 
-My goal as an outsider was to get my head wrapped around how each of these specifications work, and what the operations, governance, and other aspects of the schema and tooling around them operate, to understand the overlap and differences in how they address dependencies.
+- **Created:** 2026-03-16
+- **Modified:** 2026-04-19
 
-## Process
-I know nothing about any of these specifications, but have a lot of experience with "applications", as it pertains to their interfaces, so I tackled this research in the following ways:
+## APIs
 
-- **JSON Schema** - I pulled the JSON Schema across all specifications to get the core properties of each.
-- **Specification Priorities** - I summarized what the priorities were when it comes to each specification's properties.
-- **Operational Priorities** - I summarized what the priorities were when it came to the operations behind each specification.
-- **Examples** - I generated examples of each of the specifications using the JSON Schema and Claude to produce.
-- **Mock APIs** - I generated OpenAPI using the JSON Schema and the Example, so I could play with each using Microcks.
-- **APIs.json Index** - I produced an index for each specification that provides machine-readable overview of each spec.
-- **Dependencies** - I evaluated the approach of each spec in regards to dependencies and then [generated a comparison](dependencies-comparison.md).
-- **Recommendations** - I summarize my recommendations regarding what I think should occur based upon initiative goals.
+### Score Workload Specification API
+Score is a platform-agnostic workload specification that enables developers to define their workloads once and deploy them across multiple platforms including Kubernetes, Docker, and Helm.
 
-I will continue to iterate on this work as it is relevant to the interface specifications I am working on, and how we are approaching the defining of business capabilities, but will share my findings within this moment.
+**Human URL:** [https://score.dev](https://score.dev)
 
-## Summary
-Across these five specifications I have aggregated the operational and specification specific properties to better understand the common and overlapping aspects of what these specifications do and how they are managed.
+#### Tags:
 
-### Specification Priorities
-These are priorities aggregated across the specifications, identifying the important parts they share within the specifications themselves.
+ - Platform Agnostic, Score, Workload Specification
 
-> Annotations, APIs, Arguments, Bases, Bundles, Callbacks, Commands, Components, Configurations, Containers, Content, Context, Credentials, Custom, Data, Defaults, Definitions, Dependencies, Descriptions, Destinations, Digests, Directions, Encodings, Environments, Extensions, File systems, Formats, Generics, Groups, Headers, Hosts, Identifiers, Identities, Images, Inputs, Instances, Keys, Labels, Mappings, Maximums, Media, Metadata, Minimums, Multiples, Namespaces, Outputs, Parameters, Paths, Policies, Ports, Probes, Properties, Protocols, Providers, Readiness, Reads, References, References, Relations, Requests, Resources, Results, Runtimes, Schemes, Schemas, Selectors, Services, Sizes, Sources, Specifications, Statuses, Systems, Tags, Targets, Titles, Types, Updates, Variables, Versions, Volumes
+#### Properties
 
-This provides a top-level vocabulary that could be further used to begin working schema, mapping objects and properties, as well as helping inform a new schema work, and other areas alongside dependencies that are worth syncing.
+- [Documentation](https://docs.score.dev)
+- [OpenAPI](openapi/score-openapi.yml)
+- [JSONSchema](json-schema/score.yml)
+- [CodeExamples - E-Commerce Example](examples/score-ecommerce.yml)
+- [CodeExamples - AI/ML Inference Example](examples/score-ai-ml-inference-platform.yml)
+- [CodeExamples - Data Processing Example](examples/score-data-processing-pipeline.yml)
 
-### Operational Priorities
-These are the operational properties aggregated across all of the specifications, helping understand what is available in aggregate and may be helping drive adoption, or may also contribute to a lack of adoption when missing.
+### Cloud Native Application Bundle API
+CNAB (Cloud Native Application Bundle) is a specification for packaging and distributing cloud-native applications with full lifecycle management.
 
-> Adopters, API, Blog, Change Log, CLI, CNCF Project, Code of Conduct, Community, Community Meetings, Concepts, Contributing, Contributing Using Gen AI, Default Version, Dev Version, Discord, Documentation, Ecosystem, Emails, Examples, Extensions, FAQ, Getting Started, GitHub Organization, GitHub Repository, Governance, Guides, Help, Implementations, JSON Schema, License, Linting, Logos, Mailing List, Meeting Notes, OpenAPI, Platform Engineering, Policy Levels, Press, Recipes, Registries, Road Map, Samples, Schema, Security, Slack Channel, Specification, Steering Committee, Threads, Tools, Trademark, Tutorials, Use Cases, Videos, VSCode, Website, YouTube
+**Human URL:** [https://cnab.io](https://cnab.io)
 
-This provides a common vocabulary to describe how these projects are operating and investing in their communities, which can be more evenly applied across the specifications as well as any new ones created to augment.
+#### Tags:
 
-## Recommendations
-These are my current recommendations for the initiative based upon my brief look at the specifications, their ecosystem, and the overlap across them, which includes an acknowledgement that we all indeed live in an XKCD cartoon.
+ - Application Bundles, Cloud Native, Distribution
 
-- **Specification** - Create a new specification focused on application dependencies, which can be expressed as JSON or YAML.
-- **ABNF Grammar** - Create an [Augmented Backus-Naur Form (ABNF)](https://datatracker.ietf.org/doc/html/rfc5234) grammar to map new spec properties to existing spec properties.
-- **Converter** - Produce a converter for the ABNF grammar across the specifications, which can be used by any other tooling.
-- **Reference** - Publish documentation for specification and examples of as many types of dependencies as possible.
-- **Sandbox** - Provide OpenAPI, JSON Schema, and Microcks examples for reference architecture for application dependency sandbox.
-- **Services** - Provide a catalog of all the top services that are provided in reference architecture and sandbox.
-- **Tooling** - Provide a catalog of all the top tooling that are provided in reference architecture and sandbox.
-- **Experience** - Provide a developer experience that reflects the top operational priorities across the existing specifications.
-- **Governance** - Provide a set of Spectral or Vacuum rules that will govern all of the specifications for completeness.
+#### Properties
 
-I will be continuing this work with an emphasis on the [interface specifications](https://github.com/naftiko/interfaces) I am studying, but would be happy to continue providing feedback, and also would consider contributing to the specification in the areas of ABNF and Sandbox, with guidance on the other areas.
+- [Documentation](https://cnab.io/docs)
+- [OpenAPI](openapi/cloud-native-application-bundle-openapi.yml)
+- [JSONSchema](json-schema/cloud-native-application-bundle-schema.yml)
+- [CodeExamples - WordPress Bundle Example](examples/cloud-native-application-bundle-example-wordpress.yml)
+- [CodeExamples - Cassandra Cluster Example](examples/cloud-native-application-bundle-example-cassandra-cluster.yml)
 
-[Naftiko](https://naftiko.io) would be interested in contributing work when it comes to the available services and tooling, and help coordinate research and conversations to understand what different companies are using to help further contribute to a reference implementation and open-source sandbox implementations of those references.
+### Open Component Model API
+Open Component Model (OCM) provides a standard for describing software components in a supply chain.
 
-## Support
-If you have any questions or have any comments please submit an issue or email kinlane@naftiko.io, and I am happy to answer any questions or point you to other resources.
+**Human URL:** [https://ocm.software](https://ocm.software)
 
-![XKCD](xkcd.png "XKCD")
+#### Tags:
+
+ - Component Model, Software Supply Chain, Software Components
+
+#### Properties
+
+- [Documentation](https://ocm.software/docs)
+- [OpenAPI](openapi/open-component-model-openapi.yml)
+- [JSONSchema](json-schema/open-component-model.yml)
+- [CodeExamples - Web Application Example](examples/open-component-model-example-web-application.yml)
+
+### Open Resource Discovery API
+Open Resource Discovery (ORD) is a protocol for machine-readable resource and capability discovery.
+
+**Human URL:** [https://sap.github.io/open-resource-discovery/](https://sap.github.io/open-resource-discovery/)
+
+#### Tags:
+
+ - API Discovery, Metadata, Resource Discovery
+
+#### Properties
+
+- [Documentation](https://sap.github.io/open-resource-discovery/)
+- [OpenAPI](openapi/open-resource-discovery-openapi.yml)
+- [JSONSchema](json-schema/open-resource-discovery.yml)
+- [CodeExamples - E-Commerce Discovery Example](examples/open-resource-discovery-ecommerce.yml)
+
+### Radius Application Platform API
+Radius is an open-source, cloud-agnostic application platform for defining and deploying applications with their dependencies portably across cloud providers.
+
+**Human URL:** [https://radapp.io](https://radapp.io)
+
+#### Tags:
+
+ - Application Platform, Cloud Agnostic, Radius
+
+#### Properties
+
+- [Documentation](https://docs.radapp.io)
+- [OpenAPI](openapi/radius-openapi.yml)
+- [JSONSchema](json-schema/radius.yml)
+- [CodeExamples - E-Commerce Microservice Example](examples/radius-ecommerce-microservice.yml)
+
+## Common Properties
+
+- [GitHubOrganization](https://github.com/api-evangelist)
+
+## Features
+
+| Name | Description |
+|------|-------------|
+| Platform-Agnostic Workload Specs | Score enables defining workloads once and deploying across multiple platforms |
+| Application Bundle Packaging | CNAB provides standardized packaging and distribution of cloud-native applications |
+| Software Supply Chain Tracking | OCM enables tracking and verifying software components through delivery pipelines |
+| Automatic API Discovery | ORD enables machines to discover what resources and APIs an application exposes |
+| Cloud-Agnostic Dependency Declarations | Radius enables portable application definitions with dependency declarations across clouds |
+
+## Use Cases
+
+| Name | Description |
+|------|-------------|
+| Multi-Platform Deployment | Define an application once and deploy it across Kubernetes, Docker, or cloud platforms |
+| Dependency Documentation | Explicitly declare all required services (databases, caches, queues) for an application |
+| Software Supply Chain Security | Track and verify software component provenance and integrity |
+| API Landscape Discovery | Enable API management platforms to automatically discover application capabilities |
+| Cloud Migration | Move applications between cloud providers without rewriting configuration |
+
+## Integrations
+
+| Name | Description |
+|------|-------------|
+| Kubernetes | Primary deployment target for Score, CNAB, OCM, and Radius specs |
+| Helm | Score and CNAB support Helm-based deployment and chart generation |
+| Docker | Score workloads can be compiled to Docker Compose files |
+| Terraform | Radius integrates with Terraform for infrastructure provisioning |
+| ArgoCD | GitOps-based deployment of Score and CNAB bundles via ArgoCD |
+| Backstage | ORD integrations enable Backstage service catalog population |
+
+## Artifacts
+
+Machine-readable API specifications organized by format.
+
+### OpenAPI
+
+- [Score Workload Specification API](openapi/score-openapi.yml)
+- [Cloud Native Application Bundle API](openapi/cloud-native-application-bundle-openapi.yml)
+- [Open Component Model API](openapi/open-component-model-openapi.yml)
+- [Open Resource Discovery API](openapi/open-resource-discovery-openapi.yml)
+- [Radius Application Platform API](openapi/radius-openapi.yml)
+
+### JSON Schema
+
+- [Score Schema](json-schema/score.yml)
+- [Cloud Native Application Bundle Schema](json-schema/cloud-native-application-bundle-schema.yml)
+- [Open Component Model Schema](json-schema/open-component-model.yml)
+- [Open Resource Discovery Schema](json-schema/open-resource-discovery.yml)
+- [Radius Schema](json-schema/radius.yml)
+
+### JSON Structure
+
+- [Score Structure](json-structure/score-structure.json)
+- [Cloud Native Application Bundle Structure](json-structure/cloud-native-application-bundle-schema-structure.json)
+- [Open Component Model Structure](json-structure/open-component-model-structure.json)
+- [Open Resource Discovery Structure](json-structure/open-resource-discovery-structure.json)
+- [Radius Structure](json-structure/radius-structure.json)
+
+### JSON-LD
+
+- [Application Research Context](json-ld/application-research-context.jsonld)
+
+## Vocabulary
+
+- [Application Research Vocabulary](vocabulary/application-research-vocabulary.yaml) — Unified taxonomy mapping 5 resources, 8 actions, and 3 domains across 5 application dependency specification formats
+
+## Rules
+
+- [Application Research Spectral Rules](rules/application-research-spectral-rules.yml) — 20 rules across 7 categories enforcing application research API conventions
+
+## Maintainers
+
+**FN:** Kin Lane
+
+**Email:** kin@apievangelist.com

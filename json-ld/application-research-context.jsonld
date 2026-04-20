@@ -1,0 +1,82 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "appdeps": "https://application-research.dev/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "WorkloadSpec": "appdeps:WorkloadSpec",
+    "ServiceDependency": "appdeps:ServiceDependency",
+    "ComponentModel": "appdeps:ComponentModel",
+    "ResourceDiscovery": "appdeps:ResourceDiscovery",
+    "ApplicationBundle": "appdeps:ApplicationBundle",
+    "name": "schema:name",
+    "description": "schema:description",
+    "version": "schema:version",
+    "url": "schema:url",
+    "apiVersion": {
+      "@id": "appdeps:apiVersion",
+      "@type": "xsd:string"
+    },
+    "kind": {
+      "@id": "appdeps:kind",
+      "@type": "xsd:string"
+    },
+    "metadata": {
+      "@id": "appdeps:metadata",
+      "@type": "@id"
+    },
+    "spec": {
+      "@id": "appdeps:spec",
+      "@type": "@id"
+    },
+    "services": {
+      "@id": "appdeps:services",
+      "@container": "@set"
+    },
+    "dependencies": {
+      "@id": "appdeps:dependencies",
+      "@container": "@set"
+    },
+    "containers": {
+      "@id": "appdeps:containers",
+      "@container": "@set"
+    },
+    "resources": {
+      "@id": "appdeps:resources",
+      "@container": "@set"
+    },
+    "namespace": {
+      "@id": "appdeps:namespace",
+      "@type": "xsd:string"
+    },
+    "platform": {
+      "@id": "appdeps:platform",
+      "@type": "xsd:string"
+    },
+    "image": {
+      "@id": "appdeps:image",
+      "@type": "xsd:string"
+    },
+    "port": {
+      "@id": "appdeps:port",
+      "@type": "xsd:integer"
+    },
+    "replicas": {
+      "@id": "appdeps:replicas",
+      "@type": "xsd:integer"
+    },
+    "environment": {
+      "@id": "appdeps:environment",
+      "@container": "@set"
+    },
+    "labels": {
+      "@id": "appdeps:labels",
+      "@type": "@id"
+    },
+    "annotations": {
+      "@id": "appdeps:annotations",
+      "@type": "@id"
+    }
+  }
+}

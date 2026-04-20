@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "name": "Radius API Schemas (Complete)",
+  "description": "JSON Schema (Draft 2020-12) definitions extracted from Applications.Core, Applications.Dapr, Applications.Messaging, Applications.Datastores, and Universal Control Plane OpenAPI specifications version 2023-10-01-preview"
+}
