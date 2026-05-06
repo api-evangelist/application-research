@@ -4,107 +4,41 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Application Research
 providerId: application-research
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
-  - Application Dependencies
-  - Cloud Native
-  - Integration
-  - Research
-  - Specifications
-  - Workload Specifications
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Application Research API surface. Captures
-  per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values
-  to be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  - Open Source
+  - Specifications
+  - Cloud Native
+description: The Application Research index aggregates five open-source workload/component/discovery specifications
+  (Score, CNAB, OCM, ORD, Radius). These are specifications and OSS toolchains rather than hosted commercial
+  APIs; the base URLs in apis.yml are illustrative. There is no central rate-limited endpoint to govern.
+  When deployed against a self-hosted CLI or platform integration, throughput is bounded by the consuming
+  platform's capacity (Kubernetes API server, Helm, ArgoCD, Backstage, Terraform).
+notes: No public hosted APIs exist for these specs; rate limits do not apply.
+sources:
+  - https://score.dev
+  - https://cnab.io
+  - https://ocm.software
+  - https://sap.github.io/open-resource-discovery/
+  - https://radapp.io
+responseCodes: {}
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Score Workload Specification API
-      - Cloud Native Application Bundle API
-      - Open Component Model API
-      - Open Resource Discovery API
-      - Radius Application Platform API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Score Workload Specification API
-      - Cloud Native Application Bundle API
-      - Open Component Model API
-      - Open Resource Discovery API
-      - Radius Application Platform API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Score Workload Specification API
-      - Cloud Native Application Bundle API
-      - Open Component Model API
-      - Open Resource Discovery API
-      - Radius Application Platform API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Score Workload Specification API
-      - Cloud Native Application Bundle API
-      - Open Component Model API
-      - Open Resource Discovery API
-      - Radius Application Platform API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Score Workload Specification API
-      - Cloud Native Application Bundle API
-      - Open Component Model API
-      - Open Resource Discovery API
-      - Radius Application Platform API
+  - name: Specification toolchain throughput
+    scope: self-hosted
+    metric: varies
+    limit: bounded by consuming platform
+    notes: Score / CNAB / OCM / ORD / Radius are CLIs and SDKs; rate is bounded by the underlying Kubernetes
+      / Helm / Terraform / Backstage runtime, not by any hosted API.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Self-Hosted Capacity Planning
+    description: Rate-limit considerations are inherited from the platform consuming the specification
+      (Kubernetes API server, Helm registry, ArgoCD controller, Backstage), not from the specification
+      authors themselves.
+  - name: Registry Etiquette
+    description: When pulling CNAB bundles or OCM components from public registries (GitHub Container
+      Registry, Docker Hub, etc.), respect those registries' published rate limits.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
