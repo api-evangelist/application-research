@@ -1,0 +1,67 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Radius API — Planes
+  description: 'Application Research Radius API — Planes. 1 operations. Lead operation: Application Research Get Radius plane.
+    Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - Planes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: radius-planes
+    baseUri: https://management.radapp.io
+    description: Application Research Radius API — Planes business capability. Self-contained, no shared references.
+    resources:
+    - name: planes-radius-planeName
+      path: /planes/radius/{planeName}
+      operations:
+      - name: radiusplanesget
+        method: GET
+        description: Application Research Get Radius plane
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: radius-planes-rest
+    port: 8080
+    description: REST adapter for Application Research Radius API — Planes. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/planes/radius/{planename}
+      name: planes-radius-planename
+      description: REST surface for planes-radius-planeName.
+      operations:
+      - method: GET
+        name: radiusplanesget
+        description: Application Research Get Radius plane
+        call: radius-planes.radiusplanesget
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: radius-planes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Radius API — Planes. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: application-research-get-radius-plane
+      description: Application Research Get Radius plane
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: radius-planes.radiusplanesget
+      outputParameters:
+      - type: object
+        mapping: $.

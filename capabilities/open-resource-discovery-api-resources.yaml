@@ -1,0 +1,135 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Open Resource Discovery (ORD) API — API Resources
+  description: 'Application Research Open Resource Discovery (ORD) API — API Resources. 3 operations. Lead operation: Application
+    Research List all API Resources. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - API Resources
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: open-resource-discovery-api-resources
+    baseUri: https://api.example.com/ord/v1
+    description: Application Research Open Resource Discovery (ORD) API — API Resources business capability. Self-contained,
+      no shared references.
+    resources:
+    - name: api-resources
+      path: /api-resources
+      operations:
+      - name: listapiresources
+        method: GET
+        description: Application Research List all API Resources
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-resources-ordId
+      path: /api-resources/{ordId}
+      operations:
+      - name: getapiresource
+        method: GET
+        description: Application Research Get an API Resource by ORD ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-resources-ordId-definitions
+      path: /api-resources/{ordId}/definitions
+      operations:
+      - name: getapiresourcedefinitions
+        method: GET
+        description: Application Research Get API Resource Definitions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: open-resource-discovery-api-resources-rest
+    port: 8080
+    description: REST adapter for Application Research Open Resource Discovery (ORD) API — API Resources. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/api-resources
+      name: api-resources
+      description: REST surface for api-resources.
+      operations:
+      - method: GET
+        name: listapiresources
+        description: Application Research List all API Resources
+        call: open-resource-discovery-api-resources.listapiresources
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api-resources/{ordid}
+      name: api-resources-ordid
+      description: REST surface for api-resources-ordId.
+      operations:
+      - method: GET
+        name: getapiresource
+        description: Application Research Get an API Resource by ORD ID
+        call: open-resource-discovery-api-resources.getapiresource
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api-resources/{ordid}/definitions
+      name: api-resources-ordid-definitions
+      description: REST surface for api-resources-ordId-definitions.
+      operations:
+      - method: GET
+        name: getapiresourcedefinitions
+        description: Application Research Get API Resource Definitions
+        call: open-resource-discovery-api-resources.getapiresourcedefinitions
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: open-resource-discovery-api-resources-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Open Resource Discovery (ORD) API — API Resources. One tool per consumed
+      operation, routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-api
+      description: Application Research List all API Resources
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-api-resources.listapiresources
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-api-resource
+      description: Application Research Get an API Resource by ORD ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-api-resources.getapiresource
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-api-resource-2
+      description: Application Research Get API Resource Definitions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-api-resources.getapiresourcedefinitions
+      outputParameters:
+      - type: object
+        mapping: $.

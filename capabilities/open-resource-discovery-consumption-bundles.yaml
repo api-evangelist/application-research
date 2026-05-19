@@ -1,0 +1,104 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Open Resource Discovery (ORD) API — Consumption Bundles
+  description: 'Application Research Open Resource Discovery (ORD) API — Consumption Bundles. 2 operations. Lead operation:
+    Application Research List all Consumption Bundles. Self-contained Naftiko capability covering one Application Research
+    business surface.'
+  tags:
+  - Application Research
+  - Consumption Bundles
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: open-resource-discovery-consumption-bundles
+    baseUri: https://api.example.com/ord/v1
+    description: Application Research Open Resource Discovery (ORD) API — Consumption Bundles business capability. Self-contained,
+      no shared references.
+    resources:
+    - name: consumption-bundles
+      path: /consumption-bundles
+      operations:
+      - name: listconsumptionbundles
+        method: GET
+        description: Application Research List all Consumption Bundles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: consumption-bundles-ordId
+      path: /consumption-bundles/{ordId}
+      operations:
+      - name: getconsumptionbundle
+        method: GET
+        description: Application Research Get a Consumption Bundle by ORD ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: open-resource-discovery-consumption-bundles-rest
+    port: 8080
+    description: REST adapter for Application Research Open Resource Discovery (ORD) API — Consumption Bundles. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/consumption-bundles
+      name: consumption-bundles
+      description: REST surface for consumption-bundles.
+      operations:
+      - method: GET
+        name: listconsumptionbundles
+        description: Application Research List all Consumption Bundles
+        call: open-resource-discovery-consumption-bundles.listconsumptionbundles
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/consumption-bundles/{ordid}
+      name: consumption-bundles-ordid
+      description: REST surface for consumption-bundles-ordId.
+      operations:
+      - method: GET
+        name: getconsumptionbundle
+        description: Application Research Get a Consumption Bundle by ORD ID
+        call: open-resource-discovery-consumption-bundles.getconsumptionbundle
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: open-resource-discovery-consumption-bundles-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Open Resource Discovery (ORD) API — Consumption Bundles. One tool per
+      consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-consumption
+      description: Application Research List all Consumption Bundles
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-consumption-bundles.listconsumptionbundles
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-consumption-bundle
+      description: Application Research Get a Consumption Bundle by ORD ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-consumption-bundles.getconsumptionbundle
+      outputParameters:
+      - type: object
+        mapping: $.

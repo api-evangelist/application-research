@@ -1,0 +1,103 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Open Resource Discovery (ORD) API — Entity Types
+  description: 'Application Research Open Resource Discovery (ORD) API — Entity Types. 2 operations. Lead operation: Application
+    Research List all Entity Types. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - Entity Types
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: open-resource-discovery-entity-types
+    baseUri: https://api.example.com/ord/v1
+    description: Application Research Open Resource Discovery (ORD) API — Entity Types business capability. Self-contained,
+      no shared references.
+    resources:
+    - name: entity-types
+      path: /entity-types
+      operations:
+      - name: listentitytypes
+        method: GET
+        description: Application Research List all Entity Types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: entity-types-ordId
+      path: /entity-types/{ordId}
+      operations:
+      - name: getentitytype
+        method: GET
+        description: Application Research Get an Entity Type by ORD ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: open-resource-discovery-entity-types-rest
+    port: 8080
+    description: REST adapter for Application Research Open Resource Discovery (ORD) API — Entity Types. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/entity-types
+      name: entity-types
+      description: REST surface for entity-types.
+      operations:
+      - method: GET
+        name: listentitytypes
+        description: Application Research List all Entity Types
+        call: open-resource-discovery-entity-types.listentitytypes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/entity-types/{ordid}
+      name: entity-types-ordid
+      description: REST surface for entity-types-ordId.
+      operations:
+      - method: GET
+        name: getentitytype
+        description: Application Research Get an Entity Type by ORD ID
+        call: open-resource-discovery-entity-types.getentitytype
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: open-resource-discovery-entity-types-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Open Resource Discovery (ORD) API — Entity Types. One tool per consumed
+      operation, routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-entity
+      description: Application Research List all Entity Types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-entity-types.listentitytypes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-entity-type
+      description: Application Research Get an Entity Type by ORD ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-entity-types.getentitytype
+      outputParameters:
+      - type: object
+        mapping: $.

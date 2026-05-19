@@ -1,0 +1,198 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Open Resource Discovery (ORD) API — ORD Documents
+  description: 'Application Research Open Resource Discovery (ORD) API — ORD Documents. 5 operations. Lead operation: Application
+    Research List all ORD Documents. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - ORD Documents
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: open-resource-discovery-ord-documents
+    baseUri: https://api.example.com/ord/v1
+    description: Application Research Open Resource Discovery (ORD) API — ORD Documents business capability. Self-contained,
+      no shared references.
+    resources:
+    - name: documents
+      path: /documents
+      operations:
+      - name: listorddocuments
+        method: GET
+        description: Application Research List all ORD Documents
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createorddocument
+        method: POST
+        description: Application Research Create a new ORD Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: documents-documentId
+      path: /documents/{documentId}
+      operations:
+      - name: getorddocument
+        method: GET
+        description: Application Research Get an ORD Document by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateorddocument
+        method: PUT
+        description: Application Research Update an ORD Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteorddocument
+        method: DELETE
+        description: Application Research Delete an ORD Document
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: open-resource-discovery-ord-documents-rest
+    port: 8080
+    description: REST adapter for Application Research Open Resource Discovery (ORD) API — ORD Documents. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/documents
+      name: documents
+      description: REST surface for documents.
+      operations:
+      - method: GET
+        name: listorddocuments
+        description: Application Research List all ORD Documents
+        call: open-resource-discovery-ord-documents.listorddocuments
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createorddocument
+        description: Application Research Create a new ORD Document
+        call: open-resource-discovery-ord-documents.createorddocument
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/documents/{documentid}
+      name: documents-documentid
+      description: REST surface for documents-documentId.
+      operations:
+      - method: GET
+        name: getorddocument
+        description: Application Research Get an ORD Document by ID
+        call: open-resource-discovery-ord-documents.getorddocument
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateorddocument
+        description: Application Research Update an ORD Document
+        call: open-resource-discovery-ord-documents.updateorddocument
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteorddocument
+        description: Application Research Delete an ORD Document
+        call: open-resource-discovery-ord-documents.deleteorddocument
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: open-resource-discovery-ord-documents-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Open Resource Discovery (ORD) API — ORD Documents. One tool per consumed
+      operation, routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-ord
+      description: Application Research List all ORD Documents
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-ord-documents.listorddocuments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-create-new-ord
+      description: Application Research Create a new ORD Document
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: open-resource-discovery-ord-documents.createorddocument
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-ord-document
+      description: Application Research Get an ORD Document by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-ord-documents.getorddocument
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-update-ord-document
+      description: Application Research Update an ORD Document
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-ord-documents.updateorddocument
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-delete-ord-document
+      description: Application Research Delete an ORD Document
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: open-resource-discovery-ord-documents.deleteorddocument
+      outputParameters:
+      - type: object
+        mapping: $.

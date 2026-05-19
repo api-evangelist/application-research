@@ -1,0 +1,248 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research CNAB Bundle API — Bundles
+  description: 'Application Research CNAB Bundle API — Bundles. 6 operations. Lead operation: Application Research List all
+    bundles. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - Bundles
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-native-application-bundle-bundles
+    baseUri: https://api.example.com/v1
+    description: Application Research CNAB Bundle API — Bundles business capability. Self-contained, no shared references.
+    resources:
+    - name: bundles
+      path: /bundles
+      operations:
+      - name: listbundles
+        method: GET
+        description: Application Research List all bundles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: keyword
+          in: query
+          type: string
+          description: Filter bundles by keyword
+      - name: createbundle
+        method: POST
+        description: Application Research Create a new bundle
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: bundles-name
+      path: /bundles/{name}
+      operations:
+      - name: getbundle
+        method: GET
+        description: Application Research Get a bundle by name
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatebundle
+        method: PUT
+        description: Application Research Update an existing bundle
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletebundle
+        method: DELETE
+        description: Application Research Delete a bundle
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: bundles-name-actions-action
+      path: /bundles/{name}/actions/{action}
+      operations:
+      - name: executebundleaction
+        method: POST
+        description: Application Research Execute a bundle action
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-native-application-bundle-bundles-rest
+    port: 8080
+    description: REST adapter for Application Research CNAB Bundle API — Bundles. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/bundles
+      name: bundles
+      description: REST surface for bundles.
+      operations:
+      - method: GET
+        name: listbundles
+        description: Application Research List all bundles
+        call: cloud-native-application-bundle-bundles.listbundles
+        with:
+          keyword: rest.keyword
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createbundle
+        description: Application Research Create a new bundle
+        call: cloud-native-application-bundle-bundles.createbundle
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/bundles/{name}
+      name: bundles-name
+      description: REST surface for bundles-name.
+      operations:
+      - method: GET
+        name: getbundle
+        description: Application Research Get a bundle by name
+        call: cloud-native-application-bundle-bundles.getbundle
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatebundle
+        description: Application Research Update an existing bundle
+        call: cloud-native-application-bundle-bundles.updatebundle
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletebundle
+        description: Application Research Delete a bundle
+        call: cloud-native-application-bundle-bundles.deletebundle
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/bundles/{name}/actions/{action}
+      name: bundles-name-actions-action
+      description: REST surface for bundles-name-actions-action.
+      operations:
+      - method: POST
+        name: executebundleaction
+        description: Application Research Execute a bundle action
+        call: cloud-native-application-bundle-bundles.executebundleaction
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-native-application-bundle-bundles-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research CNAB Bundle API — Bundles. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-bundles
+      description: Application Research List all bundles
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-native-application-bundle-bundles.listbundles
+      with:
+        keyword: tools.keyword
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-create-new-bundle
+      description: Application Research Create a new bundle
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: cloud-native-application-bundle-bundles.createbundle
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-bundle-name
+      description: Application Research Get a bundle by name
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-native-application-bundle-bundles.getbundle
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-update-existing-bundle
+      description: Application Research Update an existing bundle
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cloud-native-application-bundle-bundles.updatebundle
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-delete-bundle
+      description: Application Research Delete a bundle
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cloud-native-application-bundle-bundles.deletebundle
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-execute-bundle-action
+      description: Application Research Execute a bundle action
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: cloud-native-application-bundle-bundles.executebundleaction
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

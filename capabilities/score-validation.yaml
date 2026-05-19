@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Score Workload Specification API — Validation
+  description: 'Application Research Score Workload Specification API — Validation. 1 operations. Lead operation: Application
+    Research Validate a workload specification. Self-contained Naftiko capability covering one Application Research business
+    surface.'
+  tags:
+  - Application Research
+  - Validation
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: score-validation
+    baseUri: https://api.score.dev/v1
+    description: Application Research Score Workload Specification API — Validation business capability. Self-contained, no
+      shared references.
+    resources:
+    - name: validate
+      path: /validate
+      operations:
+      - name: validateworkload
+        method: POST
+        description: Application Research Validate a workload specification
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: score-validation-rest
+    port: 8080
+    description: REST adapter for Application Research Score Workload Specification API — Validation. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/validate
+      name: validate
+      description: REST surface for validate.
+      operations:
+      - method: POST
+        name: validateworkload
+        description: Application Research Validate a workload specification
+        call: score-validation.validateworkload
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: score-validation-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Score Workload Specification API — Validation. One tool per consumed
+      operation, routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-validate-workload-specification
+      description: Application Research Validate a workload specification
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: score-validation.validateworkload
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

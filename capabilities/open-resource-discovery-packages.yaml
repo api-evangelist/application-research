@@ -1,0 +1,103 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Open Resource Discovery (ORD) API — Packages
+  description: 'Application Research Open Resource Discovery (ORD) API — Packages. 2 operations. Lead operation: Application
+    Research List all Packages. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - Packages
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: open-resource-discovery-packages
+    baseUri: https://api.example.com/ord/v1
+    description: Application Research Open Resource Discovery (ORD) API — Packages business capability. Self-contained, no
+      shared references.
+    resources:
+    - name: packages
+      path: /packages
+      operations:
+      - name: listpackages
+        method: GET
+        description: Application Research List all Packages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: packages-ordId
+      path: /packages/{ordId}
+      operations:
+      - name: getpackage
+        method: GET
+        description: Application Research Get a Package by ORD ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: open-resource-discovery-packages-rest
+    port: 8080
+    description: REST adapter for Application Research Open Resource Discovery (ORD) API — Packages. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/packages
+      name: packages
+      description: REST surface for packages.
+      operations:
+      - method: GET
+        name: listpackages
+        description: Application Research List all Packages
+        call: open-resource-discovery-packages.listpackages
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/packages/{ordid}
+      name: packages-ordid
+      description: REST surface for packages-ordId.
+      operations:
+      - method: GET
+        name: getpackage
+        description: Application Research Get a Package by ORD ID
+        call: open-resource-discovery-packages.getpackage
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: open-resource-discovery-packages-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Open Resource Discovery (ORD) API — Packages. One tool per consumed
+      operation, routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-packages
+      description: Application Research List all Packages
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-packages.listpackages
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-package-ord
+      description: Application Research Get a Package by ORD ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-packages.getpackage
+      outputParameters:
+      - type: object
+        mapping: $.

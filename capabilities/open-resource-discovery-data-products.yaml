@@ -1,0 +1,103 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Open Resource Discovery (ORD) API — Data Products
+  description: 'Application Research Open Resource Discovery (ORD) API — Data Products. 2 operations. Lead operation: Application
+    Research List all Data Products. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - Data Products
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: open-resource-discovery-data-products
+    baseUri: https://api.example.com/ord/v1
+    description: Application Research Open Resource Discovery (ORD) API — Data Products business capability. Self-contained,
+      no shared references.
+    resources:
+    - name: data-products
+      path: /data-products
+      operations:
+      - name: listdataproducts
+        method: GET
+        description: Application Research List all Data Products
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: data-products-ordId
+      path: /data-products/{ordId}
+      operations:
+      - name: getdataproduct
+        method: GET
+        description: Application Research Get a Data Product by ORD ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: open-resource-discovery-data-products-rest
+    port: 8080
+    description: REST adapter for Application Research Open Resource Discovery (ORD) API — Data Products. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/data-products
+      name: data-products
+      description: REST surface for data-products.
+      operations:
+      - method: GET
+        name: listdataproducts
+        description: Application Research List all Data Products
+        call: open-resource-discovery-data-products.listdataproducts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/data-products/{ordid}
+      name: data-products-ordid
+      description: REST surface for data-products-ordId.
+      operations:
+      - method: GET
+        name: getdataproduct
+        description: Application Research Get a Data Product by ORD ID
+        call: open-resource-discovery-data-products.getdataproduct
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: open-resource-discovery-data-products-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Open Resource Discovery (ORD) API — Data Products. One tool per consumed
+      operation, routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-data
+      description: Application Research List all Data Products
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-data-products.listdataproducts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-data-product
+      description: Application Research Get a Data Product by ORD ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-data-products.getdataproduct
+      outputParameters:
+      - type: object
+        mapping: $.

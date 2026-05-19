@@ -1,0 +1,67 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Radius API — ResourceGroups
+  description: 'Application Research Radius API — ResourceGroups. 1 operations. Lead operation: Application Research Get resource
+    group. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - ResourceGroups
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: radius-resourcegroups
+    baseUri: https://management.radapp.io
+    description: Application Research Radius API — ResourceGroups business capability. Self-contained, no shared references.
+    resources:
+    - name: planes-radius-planeName-resourceGroups-resourceGroupName
+      path: /planes/radius/{planeName}/resourceGroups/{resourceGroupName}
+      operations:
+      - name: resourcegroupsget
+        method: GET
+        description: Application Research Get resource group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: radius-resourcegroups-rest
+    port: 8080
+    description: REST adapter for Application Research Radius API — ResourceGroups. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/planes/radius/{planename}/resourcegroups/{resourcegroupname}
+      name: planes-radius-planename-resourcegroups-resourcegroupname
+      description: REST surface for planes-radius-planeName-resourceGroups-resourceGroupName.
+      operations:
+      - method: GET
+        name: resourcegroupsget
+        description: Application Research Get resource group
+        call: radius-resourcegroups.resourcegroupsget
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: radius-resourcegroups-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Radius API — ResourceGroups. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: application-research-get-resource-group
+      description: Application Research Get resource group
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: radius-resourcegroups.resourcegroupsget
+      outputParameters:
+      - type: object
+        mapping: $.

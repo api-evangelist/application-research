@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research CNAB Bundle API — Status
+  description: 'Application Research CNAB Bundle API — Status. 2 operations. Lead operation: Application Research List all
+    installations. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - Status
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-native-application-bundle-status
+    baseUri: https://api.example.com/v1
+    description: Application Research CNAB Bundle API — Status business capability. Self-contained, no shared references.
+    resources:
+    - name: installations
+      path: /installations
+      operations:
+      - name: listinstallations
+        method: GET
+        description: Application Research List all installations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: installations-name-status
+      path: /installations/{name}/status
+      operations:
+      - name: getinstallationstatus
+        method: GET
+        description: Application Research Get installation status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-native-application-bundle-status-rest
+    port: 8080
+    description: REST adapter for Application Research CNAB Bundle API — Status. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/installations
+      name: installations
+      description: REST surface for installations.
+      operations:
+      - method: GET
+        name: listinstallations
+        description: Application Research List all installations
+        call: cloud-native-application-bundle-status.listinstallations
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/installations/{name}/status
+      name: installations-name-status
+      description: REST surface for installations-name-status.
+      operations:
+      - method: GET
+        name: getinstallationstatus
+        description: Application Research Get installation status
+        call: cloud-native-application-bundle-status.getinstallationstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-native-application-bundle-status-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research CNAB Bundle API — Status. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-installations
+      description: Application Research List all installations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-native-application-bundle-status.listinstallations
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-installation-status
+      description: Application Research Get installation status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-native-application-bundle-status.getinstallationstatus
+      outputParameters:
+      - type: object
+        mapping: $.

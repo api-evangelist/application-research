@@ -1,0 +1,103 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Application Research Open Resource Discovery (ORD) API — Vendors
+  description: 'Application Research Open Resource Discovery (ORD) API — Vendors. 2 operations. Lead operation: Application
+    Research List all Vendors. Self-contained Naftiko capability covering one Application Research business surface.'
+  tags:
+  - Application Research
+  - Vendors
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPLICATION_RESEARCH_API_KEY: APPLICATION_RESEARCH_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: open-resource-discovery-vendors
+    baseUri: https://api.example.com/ord/v1
+    description: Application Research Open Resource Discovery (ORD) API — Vendors business capability. Self-contained, no
+      shared references.
+    resources:
+    - name: vendors
+      path: /vendors
+      operations:
+      - name: listvendors
+        method: GET
+        description: Application Research List all Vendors
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: vendors-ordId
+      path: /vendors/{ordId}
+      operations:
+      - name: getvendor
+        method: GET
+        description: Application Research Get a Vendor by ORD ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPLICATION_RESEARCH_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: open-resource-discovery-vendors-rest
+    port: 8080
+    description: REST adapter for Application Research Open Resource Discovery (ORD) API — Vendors. One Spectral-compliant
+      resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/vendors
+      name: vendors
+      description: REST surface for vendors.
+      operations:
+      - method: GET
+        name: listvendors
+        description: Application Research List all Vendors
+        call: open-resource-discovery-vendors.listvendors
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/vendors/{ordid}
+      name: vendors-ordid
+      description: REST surface for vendors-ordId.
+      operations:
+      - method: GET
+        name: getvendor
+        description: Application Research Get a Vendor by ORD ID
+        call: open-resource-discovery-vendors.getvendor
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: open-resource-discovery-vendors-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Application Research Open Resource Discovery (ORD) API — Vendors. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: application-research-list-all-vendors
+      description: Application Research List all Vendors
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-vendors.listvendors
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: application-research-get-vendor-ord
+      description: Application Research Get a Vendor by ORD ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: open-resource-discovery-vendors.getvendor
+      outputParameters:
+      - type: object
+        mapping: $.
