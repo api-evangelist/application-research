@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RabbitMQQueueProperties",
+  "title": "RabbitMQQueueProperties",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    },
+    "secrets": {
+      "$ref": "#/components/schemas/RabbitMQSecrets"
+    },
+    "queue": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "vHost": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ResourceReference"
+      }
+    },
+    "tls": {
+      "type": "boolean"
+    },
+    "recipe": {
+      "$ref": "#/components/schemas/Recipe"
+    },
+    "resourceProvisioning": {
+      "$ref": "#/components/schemas/ResourceProvisioning"
+    }
+  },
+  "required": [
+    "environment"
+  ]
+}

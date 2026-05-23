@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MetadataValue",
+  "title": "MetadataValue",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string"
+    },
+    "secretKeyRef": {
+      "$ref": "#/components/schemas/MetadataValueFromSecret"
+    }
+  }
+}

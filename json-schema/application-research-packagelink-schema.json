@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PackageLink",
+  "title": "Package Link",
+  "type": "object",
+  "required": [
+    "type",
+    "url"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "terms-of-service",
+        "license",
+        "client-registration",
+        "payment",
+        "sandbox",
+        "service-level-agreement",
+        "support",
+        "custom"
+      ]
+    },
+    "customType": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}

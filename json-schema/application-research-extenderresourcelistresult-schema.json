@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExtenderResourceListResult",
+  "title": "ExtenderResourceListResult",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtenderResource"
+      }
+    },
+    "nextLink": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "value"
+  ]
+}

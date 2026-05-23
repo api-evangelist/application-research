@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Service",
+  "title": "Service",
+  "type": "object",
+  "description": "The service that the workload provides",
+  "additionalProperties": false,
+  "properties": {
+    "ports": {
+      "$ref": "#/components/schemas/ServicePortMap"
+    }
+  }
+}

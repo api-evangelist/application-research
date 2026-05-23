@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SignatureRequest",
+  "title": "SignatureRequest",
+  "type": "object",
+  "description": "Request to sign a component",
+  "required": [
+    "name",
+    "algorithm"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Signature name"
+    },
+    "algorithm": {
+      "type": "string",
+      "description": "Signing algorithm",
+      "examples": [
+        "RSASSA-PSS-SHA256",
+        "ECDSA-SHA256"
+      ]
+    },
+    "privateKey": {
+      "type": "string",
+      "description": "Private key (PEM encoded)"
+    },
+    "certificate": {
+      "type": "string",
+      "description": "Certificate chain (PEM encoded)"
+    }
+  }
+}

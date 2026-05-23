@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AzureServicePrincipalProperties",
+  "title": "AzureServicePrincipalProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/AzureCredentialProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "ServicePrincipal"
+          ]
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "storage": {
+          "$ref": "#/components/schemas/CredentialStorageProperties"
+        }
+      },
+      "required": [
+        "kind",
+        "clientId",
+        "clientSecret",
+        "tenantId",
+        "storage"
+      ]
+    }
+  ]
+}

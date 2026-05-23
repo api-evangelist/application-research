@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ComponentDescriptor",
+  "title": "ComponentDescriptor",
+  "type": "object",
+  "description": "Complete component descriptor",
+  "required": [
+    "meta",
+    "component"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/components/schemas/Meta"
+    },
+    "component": {
+      "$ref": "#/components/schemas/Component"
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Signature"
+      }
+    },
+    "nestedDigests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/NestedComponentDigests"
+      }
+    }
+  }
+}

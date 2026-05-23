@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RedisCacheProperties",
+  "title": "RedisCacheProperties",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    },
+    "secrets": {
+      "$ref": "#/components/schemas/RedisCacheSecrets"
+    },
+    "host": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "username": {
+      "type": "string"
+    },
+    "tls": {
+      "type": "boolean"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ResourceReference"
+      }
+    },
+    "recipe": {
+      "$ref": "#/components/schemas/Recipe"
+    },
+    "resourceProvisioning": {
+      "$ref": "#/components/schemas/ResourceProvisioning"
+    }
+  },
+  "required": [
+    "environment"
+  ]
+}

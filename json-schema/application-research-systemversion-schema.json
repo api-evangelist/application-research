@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SystemVersion",
+  "title": "System Version",
+  "type": "object",
+  "description": "States the design-time version/release of a system instance",
+  "properties": {
+    "version": {
+      "$ref": "#/components/schemas/SemVer"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "correlationIds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CorrelationId"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    }
+  }
+}

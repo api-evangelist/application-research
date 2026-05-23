@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SignatureSpec",
+  "title": "SignatureSpec",
+  "type": "object",
+  "description": "Signature specification",
+  "required": [
+    "algorithm",
+    "value",
+    "mediaType"
+  ],
+  "properties": {
+    "algorithm": {
+      "type": "string",
+      "description": "Signature algorithm",
+      "examples": [
+        "RSASSA-PSS-SHA256",
+        "ECDSA-SHA256"
+      ]
+    },
+    "value": {
+      "type": "string",
+      "description": "The signature value"
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "Media type of the signature",
+      "examples": [
+        "application/vnd.ocm.signature.rsa"
+      ]
+    }
+  }
+}

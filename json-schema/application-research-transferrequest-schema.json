@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TransferRequest",
+  "title": "TransferRequest",
+  "type": "object",
+  "description": "Request to transfer components",
+  "required": [
+    "components",
+    "targetRepository"
+  ],
+  "properties": {
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/ComponentName"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          }
+        }
+      }
+    },
+    "sourceRepository": {
+      "$ref": "#/components/schemas/RepositoryContext"
+    },
+    "targetRepository": {
+      "$ref": "#/components/schemas/RepositoryContext"
+    },
+    "recursive": {
+      "type": "boolean",
+      "default": true,
+      "description": "Transfer referenced components"
+    }
+  }
+}

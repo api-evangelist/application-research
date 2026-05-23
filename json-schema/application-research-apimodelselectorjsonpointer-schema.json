@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiModelSelectorJsonPointer",
+  "title": "API Model Selector (JSON Pointer)",
+  "type": "object",
+  "required": [
+    "type",
+    "jsonPointer"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "json-pointer"
+    },
+    "jsonPointer": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

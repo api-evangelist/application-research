@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ResourceMap",
+  "title": "ResourceMap",
+  "type": "object",
+  "description": "The Resource dependencies needed by the Workload. Resource names must be valid RFC1123 Label Names.",
+  "propertyNames": {
+    "minLength": 2,
+    "maxLength": 63,
+    "pattern": "^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+  },
+  "additionalProperties": {
+    "$ref": "#/components/schemas/Resource"
+  }
+}

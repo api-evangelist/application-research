@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ServicePort",
+  "title": "ServicePort",
+  "type": "object",
+  "description": "The network port description",
+  "required": [
+    "port"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "port": {
+      "type": "integer",
+      "description": "The public service port",
+      "minimum": 1,
+      "maximum": 65535,
+      "examples": [
+        80,
+        443,
+        8080
+      ]
+    },
+    "protocol": {
+      "type": "string",
+      "description": "The transport level protocol. Defaults to TCP.",
+      "enum": [
+        "TCP",
+        "UDP"
+      ],
+      "default": "TCP"
+    },
+    "targetPort": {
+      "type": "integer",
+      "description": "The internal service port. This will default to 'port' if not provided.",
+      "minimum": 1,
+      "maximum": 65535
+    }
+  }
+}

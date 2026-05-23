@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DigestSpec",
+  "title": "DigestSpec",
+  "type": "object",
+  "description": "Cryptographic digest specification",
+  "required": [
+    "hashAlgorithm",
+    "normalisationAlgorithm",
+    "value"
+  ],
+  "properties": {
+    "hashAlgorithm": {
+      "type": "string",
+      "description": "Hash algorithm used",
+      "examples": [
+        "SHA-256",
+        "SHA-512"
+      ]
+    },
+    "normalisationAlgorithm": {
+      "type": "string",
+      "description": "Normalisation algorithm used",
+      "examples": [
+        "jsonNormalisation/v1",
+        "ociArtifactDigest/v1"
+      ]
+    },
+    "value": {
+      "type": "string",
+      "description": "The digest value"
+    }
+  }
+}

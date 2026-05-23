@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Label",
+  "title": "Label",
+  "type": "object",
+  "description": "A label with name-value pair",
+  "required": [
+    "name",
+    "value"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Label name"
+    },
+    "value": {},
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+$"
+    },
+    "signing": {
+      "type": "boolean",
+      "description": "Whether this label should be included in signing"
+    },
+    "merge": {
+      "$ref": "#/components/schemas/Merge"
+    }
+  }
+}

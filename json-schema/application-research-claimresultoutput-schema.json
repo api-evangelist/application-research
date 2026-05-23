@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClaimResultOutput",
+  "title": "ClaimResultOutput",
+  "type": "object",
+  "description": "An output value from a claim result",
+  "properties": {
+    "contentDigest": {
+      "type": "string",
+      "description": "A cryptographic hash digest of the output contents"
+    }
+  },
+  "additionalProperties": true
+}

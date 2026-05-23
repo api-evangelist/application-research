@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StatusComponent",
+  "title": "StatusComponent",
+  "type": "object",
+  "description": "Status of a component in a CNAB installation",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Status identifier"
+    },
+    "message": {
+      "type": "string",
+      "description": "Details about the current status"
+    },
+    "components": {
+      "type": "object",
+      "description": "Nested components with their own status",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/StatusComponent"
+      }
+    }
+  },
+  "additionalProperties": true
+}

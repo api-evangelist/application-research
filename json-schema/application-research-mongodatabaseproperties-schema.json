@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MongoDatabaseProperties",
+  "title": "MongoDatabaseProperties",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    },
+    "secrets": {
+      "$ref": "#/components/schemas/MongoDatabaseSecrets"
+    },
+    "host": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "database": {
+      "type": "string"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ResourceReference"
+      }
+    },
+    "username": {
+      "type": "string"
+    },
+    "recipe": {
+      "$ref": "#/components/schemas/Recipe"
+    },
+    "resourceProvisioning": {
+      "$ref": "#/components/schemas/ResourceProvisioning"
+    }
+  },
+  "required": [
+    "environment"
+  ]
+}

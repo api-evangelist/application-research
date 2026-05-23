@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WorkloadList",
+  "title": "WorkloadList",
+  "type": "object",
+  "description": "List of workloads response",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ScoreWorkload"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total number of workloads"
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Number of items per page"
+    },
+    "offset": {
+      "type": "integer",
+      "description": "Current offset"
+    }
+  }
+}

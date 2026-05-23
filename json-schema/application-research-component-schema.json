@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Component",
+  "title": "Component",
+  "type": "object",
+  "description": "Component definition",
+  "required": [
+    "name",
+    "version",
+    "provider"
+  ],
+  "properties": {
+    "name": {
+      "$ref": "#/components/schemas/ComponentName"
+    },
+    "version": {
+      "$ref": "#/components/schemas/Version"
+    },
+    "creationTime": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "repositoryContexts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/RepositoryContext"
+      }
+    },
+    "provider": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/components/schemas/Provider"
+        }
+      ]
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Source"
+      }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Resource"
+      }
+    },
+    "componentReferences": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ComponentReference"
+      }
+    }
+  }
+}

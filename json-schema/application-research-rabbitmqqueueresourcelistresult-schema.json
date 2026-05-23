@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RabbitMQQueueResourceListResult",
+  "title": "RabbitMQQueueResourceListResult",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/RabbitMQQueueResource"
+      }
+    },
+    "nextLink": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "value"
+  ]
+}

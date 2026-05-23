@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EnvironmentVariables",
+  "title": "EnvironmentVariables",
+  "type": "object",
+  "description": "The environment variables for the container",
+  "propertyNames": {
+    "minLength": 1,
+    "pattern": "^[^=]+$"
+  },
+  "additionalProperties": {
+    "type": "string"
+  }
+}

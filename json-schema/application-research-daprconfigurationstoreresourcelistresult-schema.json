@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DaprConfigurationStoreResourceListResult",
+  "title": "DaprConfigurationStoreResourceListResult",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/DaprConfigurationStoreResource"
+      }
+    },
+    "nextLink": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "value"
+  ]
+}

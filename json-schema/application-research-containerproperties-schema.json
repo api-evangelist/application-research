@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContainerProperties",
+  "title": "ContainerProperties",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    },
+    "container": {
+      "$ref": "#/components/schemas/Container"
+    },
+    "connections": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ConnectionProperties"
+      }
+    },
+    "identity": {
+      "$ref": "#/components/schemas/IdentitySettings"
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Extension"
+      }
+    },
+    "resourceProvisioning": {
+      "type": "string",
+      "enum": [
+        "internal",
+        "manual"
+      ]
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ResourceReference"
+      }
+    },
+    "restartPolicy": {
+      "type": "string",
+      "enum": [
+        "Always",
+        "OnFailure",
+        "Never"
+      ]
+    },
+    "runtimes": {
+      "$ref": "#/components/schemas/RuntimesProperties"
+    }
+  },
+  "required": [
+    "application",
+    "container"
+  ]
+}

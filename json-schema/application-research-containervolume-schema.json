@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContainerVolume",
+  "title": "ContainerVolume",
+  "type": "object",
+  "description": "Volume mount specification",
+  "additionalProperties": false,
+  "required": [
+    "source"
+  ],
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "The external volume reference"
+    },
+    "path": {
+      "type": "string",
+      "description": "An optional sub path in the volume"
+    },
+    "readOnly": {
+      "type": "boolean",
+      "description": "Indicates if the volume should be mounted in a read-only mode"
+    }
+  }
+}

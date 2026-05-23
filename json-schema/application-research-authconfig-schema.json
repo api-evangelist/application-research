@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AuthConfig",
+  "title": "AuthConfig",
+  "type": "object",
+  "properties": {
+    "git": {
+      "$ref": "#/components/schemas/GitAuthConfig"
+    }
+  }
+}

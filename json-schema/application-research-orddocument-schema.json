@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrdDocument",
+  "title": "ORD Document",
+  "type": "object",
+  "description": "The ORD Document serves as a wrapper for ORD resources and taxonomy, \nadding top-level information specific to the document and the system it describes.\n",
+  "required": [
+    "openResourceDiscovery"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "URL to the Open Resource Discovery document schema"
+    },
+    "openResourceDiscovery": {
+      "type": "string",
+      "description": "Version of the Open Resource Discovery specification",
+      "enum": [
+        "1.0",
+        "1.1",
+        "1.2",
+        "1.3",
+        "1.4",
+        "1.5",
+        "1.6",
+        "1.7",
+        "1.8",
+        "1.9",
+        "1.10",
+        "1.11",
+        "1.12"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional description of the ORD document itself (CommonMark)"
+    },
+    "perspective": {
+      "type": "string",
+      "description": "Describes the perspective of the ORD document",
+      "enum": [
+        "system-version",
+        "system-instance",
+        "system-independent"
+      ],
+      "default": "system-instance"
+    },
+    "describedSystemInstance": {
+      "$ref": "#/components/schemas/SystemInstance"
+    },
+    "describedSystemType": {
+      "$ref": "#/components/schemas/SystemType"
+    },
+    "describedSystemVersion": {
+      "$ref": "#/components/schemas/SystemVersion"
+    },
+    "policyLevel": {
+      "$ref": "#/components/schemas/PolicyLevel"
+    },
+    "customPolicyLevel": {
+      "$ref": "#/components/schemas/CustomPolicyLevel"
+    },
+    "policyLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PolicyLevelId"
+      }
+    },
+    "apiResources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiResource"
+      }
+    },
+    "eventResources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/EventResource"
+      }
+    },
+    "entityTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/EntityType"
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Capability"
+      }
+    },
+    "dataProducts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/DataProduct"
+      }
+    },
+    "integrationDependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/IntegrationDependency"
+      }
+    },
+    "vendors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Vendor"
+      }
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Product"
+      }
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Package"
+      }
+    },
+    "consumptionBundles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ConsumptionBundle"
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Group"
+      }
+    },
+    "groupTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GroupType"
+      }
+    },
+    "tombstones": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tombstone"
+      }
+    }
+  }
+}

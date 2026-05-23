@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HttpProbe",
+  "title": "HttpProbe",
+  "type": "object",
+  "description": "An HTTP probe details",
+  "additionalProperties": false,
+  "required": [
+    "port",
+    "path"
+  ],
+  "properties": {
+    "host": {
+      "type": "string",
+      "description": "Host name to connect to. Defaults to the workload IP. This is equivalent to a Host HTTP header.",
+      "minLength": 1
+    },
+    "scheme": {
+      "type": "string",
+      "description": "Scheme to use for connecting to the host (HTTP or HTTPS). Defaults to HTTP.",
+      "enum": [
+        "HTTP",
+        "HTTPS"
+      ],
+      "default": "HTTP"
+    },
+    "path": {
+      "type": "string",
+      "description": "The path to access on the HTTP server",
+      "examples": [
+        "/health",
+        "/ready",
+        "/health/live"
+      ]
+    },
+    "port": {
+      "type": "integer",
+      "description": "The port to access on the workload",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "httpHeaders": {
+      "type": "array",
+      "description": "Additional HTTP headers to send with the request",
+      "items": {
+        "$ref": "#/components/schemas/HttpHeader"
+      }
+    }
+  }
+}

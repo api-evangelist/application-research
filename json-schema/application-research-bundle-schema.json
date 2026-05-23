@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Bundle",
+  "title": "Bundle",
+  "type": "object",
+  "description": "Cloud Native Application Bundle Descriptor (CNAB v1)",
+  "required": [
+    "schemaVersion",
+    "name",
+    "version",
+    "invocationImages"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "The version of the CNAB specification",
+      "const": "v1"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of this bundle",
+      "examples": [
+        "my-wordpress-bundle"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "description": "A SemVer2 version for this bundle",
+      "pattern": "^v?([0-9]+)(\\.[0-9]+)?(\\.[0-9]+)?(-([0-9A-Za-z\\-]+(\\.[0-9A-Za-z\\-]+)*))?(\\+([0-9A-Za-z\\-]+(\\.[0-9A-Za-z\\-]+)*))?$",
+      "examples": [
+        "1.2.3",
+        "2.0.1-beta.1"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of this bundle, intended for users"
+    },
+    "keywords": {
+      "type": "array",
+      "description": "A list of keywords describing the bundle",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        [
+          "wordpress",
+          "blog",
+          "cms"
+        ]
+      ]
+    },
+    "maintainers": {
+      "type": "array",
+      "description": "A list of parties responsible for this bundle",
+      "items": {
+        "$ref": "#/components/schemas/Maintainer"
+      }
+    },
+    "license": {
+      "type": "string",
+      "description": "The SPDX license code or proprietary license name",
+      "examples": [
+        "Apache-2.0",
+        "MIT"
+      ]
+    },
+    "invocationImages": {
+      "type": "array",
+      "description": "The array of invocation image definitions",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/InvocationImage"
+      }
+    },
+    "images": {
+      "type": "object",
+      "description": "Images used by this bundle",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Image"
+      }
+    },
+    "credentials": {
+      "type": "object",
+      "description": "Credentials to be injected into the invocation image",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Credential"
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Parameters that can be injected into the invocation image",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Parameter"
+      }
+    },
+    "definitions": {
+      "type": "object",
+      "description": "JSON Schema definitions for parameters and outputs",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Definition"
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "description": "Values produced by executing the invocation image",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/BundleOutput"
+      }
+    },
+    "actions": {
+      "type": "object",
+      "description": "Custom actions that can be triggered on this bundle",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Action"
+      }
+    },
+    "requiredExtensions": {
+      "type": "array",
+      "description": "Extensions required for this bundle",
+      "items": {
+        "type": "string"
+      }
+    },
+    "custom": {
+      "type": "object",
+      "description": "Reserved for custom extensions",
+      "additionalProperties": true
+    }
+  }
+}

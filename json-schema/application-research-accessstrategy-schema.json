@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AccessStrategy",
+  "title": "Access Strategy",
+  "type": "object",
+  "description": "Defines the access strategy for accessing resource definitions",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "open",
+        "basic-auth",
+        "custom"
+      ]
+    },
+    "customType": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "customDescription": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

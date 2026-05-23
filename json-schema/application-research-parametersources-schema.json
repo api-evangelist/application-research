@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ParameterSources",
+  "title": "ParameterSources",
+  "type": "object",
+  "description": "CNAB Parameter Sources extension",
+  "additionalProperties": {
+    "$ref": "#/components/schemas/ParameterSource"
+  },
+  "minProperties": 1
+}

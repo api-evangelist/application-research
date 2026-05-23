@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EntityTypeCorrelationIdTarget",
+  "title": "Entity Type Target (Correlation ID)",
+  "type": "object",
+  "required": [
+    "correlationId"
+  ],
+  "properties": {
+    "correlationId": {
+      "$ref": "#/components/schemas/CorrelationId"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Parameter",
+  "title": "Parameter",
+  "type": "object",
+  "description": "A parameter that can be passed into the invocation image",
+  "required": [
+    "definition",
+    "destination"
+  ],
+  "properties": {
+    "definition": {
+      "type": "string",
+      "description": "The name of a definition describing the schema"
+    },
+    "description": {
+      "type": "string",
+      "description": "A user-friendly description of this parameter"
+    },
+    "destination": {
+      "$ref": "#/components/schemas/ParameterDestination"
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Indicates whether this parameter must be supplied",
+      "default": false
+    },
+    "applyTo": {
+      "type": "array",
+      "description": "An optional list of actions handling this parameter",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

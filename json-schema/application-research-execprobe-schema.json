@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExecProbe",
+  "title": "ExecProbe",
+  "type": "object",
+  "description": "An executable health probe",
+  "additionalProperties": false,
+  "required": [
+    "command"
+  ],
+  "properties": {
+    "command": {
+      "type": "array",
+      "description": "The command and arguments to execute within the container",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

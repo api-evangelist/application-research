@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SqlDatabaseProperties",
+  "title": "SqlDatabaseProperties",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    },
+    "database": {
+      "type": "string"
+    },
+    "server": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "username": {
+      "type": "string"
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ResourceReference"
+      }
+    },
+    "secrets": {
+      "$ref": "#/components/schemas/SqlDatabaseSecrets"
+    },
+    "recipe": {
+      "$ref": "#/components/schemas/Recipe"
+    },
+    "resourceProvisioning": {
+      "$ref": "#/components/schemas/ResourceProvisioning"
+    }
+  },
+  "required": [
+    "environment"
+  ]
+}

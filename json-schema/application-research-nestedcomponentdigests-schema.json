@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NestedComponentDigests",
+  "title": "NestedComponentDigests",
+  "type": "object",
+  "description": "Digests for nested components",
+  "required": [
+    "name",
+    "version"
+  ],
+  "properties": {
+    "name": {
+      "$ref": "#/components/schemas/ComponentName"
+    },
+    "version": {
+      "$ref": "#/components/schemas/Version"
+    },
+    "digest": {
+      "$ref": "#/components/schemas/DigestSpec"
+    },
+    "resourceDigests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/NestedDigestSpec"
+      }
+    }
+  }
+}

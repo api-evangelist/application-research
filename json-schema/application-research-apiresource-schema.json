@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiResource",
+  "title": "API Resource",
+  "type": "object",
+  "description": "High-level description of an exposed API",
+  "required": [
+    "ordId",
+    "title",
+    "shortDescription",
+    "description",
+    "version",
+    "releaseStatus",
+    "apiProtocol",
+    "visibility",
+    "partOfPackage"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "localId": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "correlationIds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CorrelationId"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "shortDescription": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partOfPackage": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "partOfGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GroupId"
+      }
+    },
+    "partOfConsumptionBundles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ConsumptionBundleReference"
+      }
+    },
+    "defaultConsumptionBundle": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "partOfProducts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\\-]+):()$",
+        "maxLength": 255
+      }
+    },
+    "version": {
+      "$ref": "#/components/schemas/SemVer"
+    },
+    "lastUpdate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "visibility": {
+      "$ref": "#/components/schemas/Visibility"
+    },
+    "releaseStatus": {
+      "$ref": "#/components/schemas/ReleaseStatus"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "minSystemVersion": {
+      "type": "string"
+    },
+    "deprecationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sunsetDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "successors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+        "maxLength": 255
+      }
+    },
+    "changelogEntries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ChangelogEntry"
+      }
+    },
+    "entryPoints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri-reference"
+      }
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "inbound",
+        "mixed",
+        "outbound"
+      ],
+      "default": "inbound"
+    },
+    "apiProtocol": {
+      "$ref": "#/components/schemas/ApiProtocol"
+    },
+    "resourceDefinitions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiResourceDefinition"
+      }
+    },
+    "implementationStandard": {
+      "type": "string"
+    },
+    "customImplementationStandard": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "customImplementationStandardDescription": {
+      "type": "string"
+    },
+    "compatibleWith": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$"
+      }
+    },
+    "responsible": {
+      "$ref": "#/components/schemas/CorrelationId"
+    },
+    "supportedUseCases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "data-federation",
+          "snapshot",
+          "incremental",
+          "streaming"
+        ]
+      }
+    },
+    "usage": {
+      "type": "string",
+      "enum": [
+        "external",
+        "local"
+      ],
+      "default": "external"
+    },
+    "entityTypeMappings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/EntityTypeMapping"
+      }
+    },
+    "exposedEntityTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExposedEntityType"
+      }
+    },
+    "apiResourceLinks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiEventResourceLink"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Link"
+      }
+    },
+    "extensible": {
+      "$ref": "#/components/schemas/Extensible"
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      }
+    },
+    "lineOfBusiness": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LineOfBusiness"
+      }
+    },
+    "industry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Industry"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    },
+    "policyLevel": {
+      "$ref": "#/components/schemas/PolicyLevel"
+    },
+    "customPolicyLevel": {
+      "$ref": "#/components/schemas/CustomPolicyLevel"
+    },
+    "policyLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PolicyLevelId"
+      }
+    },
+    "systemInstanceAware": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

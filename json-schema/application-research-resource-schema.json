@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Resource",
+  "title": "Resource",
+  "type": "object",
+  "description": "Component resource",
+  "required": [
+    "name",
+    "type"
+  ],
+  "properties": {
+    "name": {
+      "$ref": "#/components/schemas/ElementName"
+    },
+    "type": {
+      "type": "string",
+      "description": "Resource type",
+      "examples": [
+        "ociImage",
+        "helmChart",
+        "json",
+        "directory"
+      ]
+    },
+    "extraIdentity": {
+      "$ref": "#/components/schemas/IdentityAttribute"
+    },
+    "version": {
+      "$ref": "#/components/schemas/Version"
+    },
+    "relation": {
+      "type": "string",
+      "enum": [
+        "local",
+        "external"
+      ],
+      "default": "external"
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "srcRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/SrcRef"
+      }
+    },
+    "access": {
+      "$ref": "#/components/schemas/Access"
+    },
+    "input": {
+      "$ref": "#/components/schemas/Input"
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/components/schemas/DigestSpec"
+        }
+      ]
+    }
+  }
+}

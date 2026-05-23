@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BinaryInput",
+  "title": "BinaryInput",
+  "type": "object",
+  "description": "Binary data input",
+  "required": [
+    "type",
+    "data"
+  ],
+  "properties": {
+    "type": {
+      "const": "binary"
+    },
+    "data": {
+      "type": "string",
+      "description": "Base64-encoded data"
+    },
+    "mediaType": {
+      "type": "string"
+    },
+    "compress": {
+      "type": "boolean"
+    }
+  }
+}

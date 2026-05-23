@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DirInput",
+  "title": "DirInput",
+  "type": "object",
+  "description": "Directory input",
+  "required": [
+    "type",
+    "path"
+  ],
+  "properties": {
+    "type": {
+      "const": "dir"
+    },
+    "path": {
+      "type": "string"
+    },
+    "mediaType": {
+      "type": "string"
+    },
+    "compress": {
+      "type": "boolean"
+    },
+    "preserveDir": {
+      "type": "boolean"
+    },
+    "followSymlinks": {
+      "type": "boolean"
+    },
+    "excludeFiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "includeFiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

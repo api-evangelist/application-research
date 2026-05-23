@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EnvironmentCompute",
+  "title": "EnvironmentCompute",
+  "type": "object",
+  "description": "Represents backing compute resource",
+  "properties": {
+    "kind": {
+      "type": "string"
+    },
+    "resourceId": {
+      "type": "string"
+    },
+    "identity": {
+      "$ref": "#/components/schemas/IdentitySettings"
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "discriminator": {
+    "propertyName": "kind",
+    "mapping": {
+      "kubernetes": "#/components/schemas/KubernetesCompute",
+      "aci": "#/components/schemas/AzureContainerInstanceCompute"
+    }
+  }
+}

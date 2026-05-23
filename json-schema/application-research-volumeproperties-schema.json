@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VolumeProperties",
+  "title": "VolumeProperties",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string"
+    },
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    }
+  },
+  "required": [
+    "kind",
+    "application"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EventResourceIntegrationAspectSubset",
+  "title": "Event Resource Integration Aspect Subset",
+  "type": "object",
+  "required": [
+    "eventType"
+  ],
+  "properties": {
+    "eventType": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExtenderProperties",
+  "title": "ExtenderProperties",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    },
+    "secrets": {
+      "type": "object"
+    },
+    "recipe": {
+      "$ref": "#/components/schemas/Recipe"
+    },
+    "resourceProvisioning": {
+      "$ref": "#/components/schemas/ResourceProvisioning"
+    }
+  },
+  "required": [
+    "environment"
+  ],
+  "additionalProperties": true
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Utf8Input",
+  "title": "Utf8Input",
+  "type": "object",
+  "description": "UTF-8 text input",
+  "properties": {
+    "type": {
+      "const": "utf8"
+    },
+    "text": {
+      "type": "string"
+    },
+    "json": {
+      "type": "object"
+    },
+    "formattedJson": {
+      "type": "object"
+    },
+    "yaml": {
+      "type": "object"
+    },
+    "mediaType": {
+      "type": "string"
+    },
+    "compress": {
+      "type": "boolean"
+    }
+  }
+}

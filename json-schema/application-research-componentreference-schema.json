@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ComponentReference",
+  "title": "ComponentReference",
+  "type": "object",
+  "description": "Reference to another component",
+  "required": [
+    "name",
+    "componentName",
+    "version"
+  ],
+  "properties": {
+    "name": {
+      "$ref": "#/components/schemas/ElementName"
+    },
+    "componentName": {
+      "$ref": "#/components/schemas/ComponentName"
+    },
+    "version": {
+      "$ref": "#/components/schemas/Version"
+    },
+    "extraIdentity": {
+      "$ref": "#/components/schemas/IdentityAttribute"
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/components/schemas/DigestSpec"
+        }
+      ]
+    }
+  }
+}

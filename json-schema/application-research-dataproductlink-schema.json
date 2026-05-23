@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DataProductLink",
+  "title": "Data Product Link",
+  "type": "object",
+  "required": [
+    "type",
+    "url"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "payment",
+        "terms-of-use",
+        "service-level-agreement",
+        "support",
+        "custom"
+      ]
+    },
+    "customType": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri-reference"
+    }
+  }
+}

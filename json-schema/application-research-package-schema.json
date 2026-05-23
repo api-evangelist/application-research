@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Package",
+  "title": "Package",
+  "type": "object",
+  "description": "A Package organizes a set of related resources together by publishing and catalog presentation concerns.\n",
+  "required": [
+    "ordId",
+    "title",
+    "shortDescription",
+    "description",
+    "version",
+    "vendor"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255,
+      "description": "Stable, globally unique ORD ID for the package"
+    },
+    "localId": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "Locally unique ID for the package"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Human-readable title"
+    },
+    "shortDescription": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Plain text short description"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Full description in CommonMark (Markdown)"
+    },
+    "version": {
+      "$ref": "#/components/schemas/SemVer"
+    },
+    "policyLevel": {
+      "$ref": "#/components/schemas/PolicyLevel"
+    },
+    "customPolicyLevel": {
+      "$ref": "#/components/schemas/CustomPolicyLevel"
+    },
+    "policyLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PolicyLevelId"
+      }
+    },
+    "packageLinks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PackageLink"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Link"
+      }
+    },
+    "licenseType": {
+      "type": "string",
+      "minLength": 1,
+      "description": "SPDX License identifier"
+    },
+    "supportInfo": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Support information (CommonMark)"
+    },
+    "vendor": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\\-]+):()$",
+      "maxLength": 256,
+      "description": "Reference to vendor ORD ID"
+    },
+    "partOfProducts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\\-]+):()$",
+        "maxLength": 255
+      }
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      }
+    },
+    "lineOfBusiness": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LineOfBusiness"
+      }
+    },
+    "industry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Industry"
+      }
+    },
+    "runtimeRestriction": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[.][a-z0-9]+){1}$",
+      "description": "Runtime restriction system namespace"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    }
+  }
+}

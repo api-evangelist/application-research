@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EnvironmentVariable",
+  "title": "EnvironmentVariable",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "string"
+    },
+    "valueFrom": {
+      "$ref": "#/components/schemas/EnvironmentVariableReference"
+    }
+  }
+}

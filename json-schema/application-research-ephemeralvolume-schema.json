@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EphemeralVolume",
+  "title": "EphemeralVolume",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/Volume"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "ephemeral"
+          ]
+        },
+        "managedStore": {
+          "type": "string",
+          "enum": [
+            "memory",
+            "disk"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "managedStore"
+      ]
+    }
+  ]
+}

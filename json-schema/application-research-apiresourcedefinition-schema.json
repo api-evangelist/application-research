@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiResourceDefinition",
+  "title": "API Resource Definition",
+  "type": "object",
+  "description": "Link and categorization of a machine-readable API definition",
+  "required": [
+    "type",
+    "mediaType",
+    "url"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Type of the API Resource Definition",
+      "enum": [
+        "openapi-v2",
+        "openapi-v3",
+        "openapi-v3.1+",
+        "raml-v1",
+        "edmx",
+        "csdl-json",
+        "graphql-sdl",
+        "wsdl-v1",
+        "wsdl-v2",
+        "a2a-agent-card",
+        "sap-rfc-metadata-v1",
+        "sap-sql-api-definition-v1",
+        "sap-csn-interop-effective-v1",
+        "custom"
+      ]
+    },
+    "customType": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "mediaType": {
+      "type": "string",
+      "enum": [
+        "application/json",
+        "application/xml",
+        "text/yaml",
+        "text/plain",
+        "application/octet-stream"
+      ]
+    },
+    "url": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "accessStrategies": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/AccessStrategy"
+      }
+    }
+  }
+}

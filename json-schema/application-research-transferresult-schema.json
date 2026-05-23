@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TransferResult",
+  "title": "TransferResult",
+  "type": "object",
+  "description": "Result of transfer operation",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed"
+      ]
+    },
+    "transferId": {
+      "type": "string"
+    },
+    "componentsTransferred": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}

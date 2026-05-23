@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EventResource",
+  "title": "Event Resource",
+  "type": "object",
+  "description": "High-level description of a collection of related events",
+  "required": [
+    "ordId",
+    "title",
+    "shortDescription",
+    "description",
+    "version",
+    "visibility",
+    "partOfPackage",
+    "releaseStatus"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "localId": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "correlationIds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CorrelationId"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "shortDescription": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partOfPackage": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "partOfGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GroupId"
+      }
+    },
+    "partOfConsumptionBundles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ConsumptionBundleReference"
+      }
+    },
+    "defaultConsumptionBundle": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "partOfProducts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\\-]+):()$",
+        "maxLength": 255
+      }
+    },
+    "version": {
+      "$ref": "#/components/schemas/SemVer"
+    },
+    "lastUpdate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "visibility": {
+      "$ref": "#/components/schemas/Visibility"
+    },
+    "releaseStatus": {
+      "$ref": "#/components/schemas/ReleaseStatus"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "minSystemVersion": {
+      "type": "string"
+    },
+    "deprecationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sunsetDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "successors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+        "maxLength": 255
+      }
+    },
+    "changelogEntries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ChangelogEntry"
+      }
+    },
+    "resourceDefinitions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/EventResourceDefinition"
+      }
+    },
+    "implementationStandard": {
+      "type": "string"
+    },
+    "customImplementationStandard": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "customImplementationStandardDescription": {
+      "type": "string"
+    },
+    "compatibleWith": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$"
+      }
+    },
+    "responsible": {
+      "$ref": "#/components/schemas/CorrelationId"
+    },
+    "entityTypeMappings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/EntityTypeMapping"
+      }
+    },
+    "exposedEntityTypes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExposedEntityType"
+      }
+    },
+    "eventResourceLinks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiEventResourceLink"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Link"
+      }
+    },
+    "extensible": {
+      "$ref": "#/components/schemas/Extensible"
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      }
+    },
+    "lineOfBusiness": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LineOfBusiness"
+      }
+    },
+    "industry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Industry"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    },
+    "policyLevel": {
+      "$ref": "#/components/schemas/PolicyLevel"
+    },
+    "customPolicyLevel": {
+      "$ref": "#/components/schemas/CustomPolicyLevel"
+    },
+    "policyLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PolicyLevelId"
+      }
+    },
+    "systemInstanceAware": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

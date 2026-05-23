@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RadiusPlaneResourceProperties",
+  "title": "RadiusPlaneResourceProperties",
+  "type": "object",
+  "properties": {
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "resourceProviders": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "resourceProviders"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Vendor",
+  "title": "Vendor",
+  "type": "object",
+  "description": "The vendor of a product or package",
+  "required": [
+    "ordId",
+    "title"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+):(vendor):([a-zA-Z0-9._\\-]+):()$",
+      "maxLength": 255
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "partners": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\\-]+):()$"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    }
+  }
+}

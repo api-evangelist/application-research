@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Container",
+  "title": "Container",
+  "type": "object",
+  "properties": {
+    "image": {
+      "type": "string"
+    },
+    "imagePullPolicy": {
+      "type": "string",
+      "enum": [
+        "Always",
+        "IfNotPresent",
+        "Never"
+      ]
+    },
+    "env": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/EnvironmentVariable"
+      }
+    },
+    "ports": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ContainerPortProperties"
+      }
+    },
+    "readinessProbe": {
+      "$ref": "#/components/schemas/HealthProbeProperties"
+    },
+    "livenessProbe": {
+      "$ref": "#/components/schemas/HealthProbeProperties"
+    },
+    "volumes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Volume"
+      }
+    },
+    "command": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "args": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "workingDir": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "image"
+  ]
+}

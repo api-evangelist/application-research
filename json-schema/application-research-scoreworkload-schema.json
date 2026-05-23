@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScoreWorkload",
+  "title": "ScoreWorkload",
+  "type": "object",
+  "description": "Score workload specification",
+  "required": [
+    "apiVersion",
+    "metadata",
+    "containers"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "description": "The declared Score Specification version",
+      "pattern": "^score\\.dev/v1b1$",
+      "examples": [
+        "score.dev/v1b1"
+      ]
+    },
+    "metadata": {
+      "$ref": "#/components/schemas/WorkloadMetadata"
+    },
+    "service": {
+      "$ref": "#/components/schemas/Service"
+    },
+    "containers": {
+      "$ref": "#/components/schemas/ContainerMap"
+    },
+    "resources": {
+      "$ref": "#/components/schemas/ResourceMap"
+    }
+  }
+}

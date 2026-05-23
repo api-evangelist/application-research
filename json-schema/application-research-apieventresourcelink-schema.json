@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiEventResourceLink",
+  "title": "API/Event Resource Link",
+  "type": "object",
+  "required": [
+    "type",
+    "url"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "api-documentation",
+        "authentication",
+        "client-registration",
+        "console",
+        "payment",
+        "service-level-agreement",
+        "support",
+        "custom"
+      ]
+    },
+    "customType": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri-reference"
+    }
+  }
+}

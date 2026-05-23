@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IdentitySettingKind",
+  "title": "IdentitySettingKind",
+  "type": "string",
+  "description": "IdentitySettingKind is the kind of supported external identity setting",
+  "enum": [
+    "undefined",
+    "azure.com.workload",
+    "aws.com.irsa",
+    "userAssigned",
+    "systemAssigned",
+    "systemAssignedUserAssigned"
+  ]
+}

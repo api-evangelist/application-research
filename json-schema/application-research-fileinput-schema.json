@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FileInput",
+  "title": "FileInput",
+  "type": "object",
+  "description": "File input",
+  "required": [
+    "type",
+    "path"
+  ],
+  "properties": {
+    "type": {
+      "const": "file"
+    },
+    "path": {
+      "type": "string"
+    },
+    "mediaType": {
+      "type": "string"
+    },
+    "compress": {
+      "type": "boolean"
+    }
+  }
+}

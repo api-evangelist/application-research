@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/KubernetesCompute",
+  "title": "KubernetesCompute",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/EnvironmentCompute"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "kubernetes"
+          ]
+        },
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "namespace"
+      ]
+    }
+  ]
+}

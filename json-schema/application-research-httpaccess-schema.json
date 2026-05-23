@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HttpAccess",
+  "title": "HttpAccess",
+  "type": "object",
+  "description": "Generic HTTP access",
+  "required": [
+    "type",
+    "url"
+  ],
+  "properties": {
+    "type": {
+      "const": "http"
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

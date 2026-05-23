@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DependencyVersion",
+  "title": "DependencyVersion",
+  "type": "object",
+  "description": "Version criteria for selecting a dependency",
+  "minProperties": 1,
+  "properties": {
+    "ranges": {
+      "type": "array",
+      "description": "Array of allowed version ranges (semver format)",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "prereleases": {
+      "type": "boolean",
+      "description": "Whether prerelease versions are allowed",
+      "default": false
+    }
+  }
+}

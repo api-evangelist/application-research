@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Access",
+  "title": "Access",
+  "type": "object",
+  "description": "Access specification for resources and sources",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Access type identifier"
+    }
+  },
+  "discriminator": {
+    "propertyName": "type",
+    "mapping": {
+      "localBlob": "#/components/schemas/LocalBlobAccess",
+      "ociArtifact": "#/components/schemas/OciArtifactAccess",
+      "ociBlob": "#/components/schemas/OciBlobAccess",
+      "helm": "#/components/schemas/HelmAccess",
+      "gitHub": "#/components/schemas/GitHubAccess",
+      "github": "#/components/schemas/GitHubAccess",
+      "s3": "#/components/schemas/S3Access",
+      "npm": "#/components/schemas/NpmAccess",
+      "wget": "#/components/schemas/WgetAccess",
+      "http": "#/components/schemas/HttpAccess"
+    }
+  }
+}

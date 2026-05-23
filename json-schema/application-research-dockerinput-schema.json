@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DockerInput",
+  "title": "DockerInput",
+  "type": "object",
+  "description": "Docker image input",
+  "required": [
+    "type",
+    "path"
+  ],
+  "properties": {
+    "type": {
+      "const": "docker"
+    },
+    "path": {
+      "type": "string"
+    },
+    "repository": {
+      "type": "string"
+    }
+  }
+}

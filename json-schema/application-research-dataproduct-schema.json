@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DataProduct",
+  "title": "Data Product",
+  "type": "object",
+  "description": "A data set exposed for consumption outside the producing application",
+  "required": [
+    "ordId",
+    "type",
+    "category",
+    "title",
+    "shortDescription",
+    "description",
+    "version",
+    "releaseStatus",
+    "visibility",
+    "partOfPackage",
+    "responsible",
+    "outputPorts"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(dataProduct):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "localId": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "correlationIds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CorrelationId"
+      }
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "shortDescription": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partOfPackage": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "partOfGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GroupId"
+      }
+    },
+    "partOfProducts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\\-]+):()$",
+        "maxLength": 255
+      }
+    },
+    "version": {
+      "$ref": "#/components/schemas/SemVer"
+    },
+    "lastUpdate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "visibility": {
+      "$ref": "#/components/schemas/Visibility"
+    },
+    "releaseStatus": {
+      "$ref": "#/components/schemas/ReleaseStatus"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "minSystemVersion": {
+      "type": "string"
+    },
+    "lifecycleStatus": {
+      "type": "string",
+      "enum": [
+        "inactive",
+        "provisioning",
+        "active",
+        "deprovisioning",
+        "active-with-errors",
+        "provisioning-error",
+        "deprovisioning-error"
+      ]
+    },
+    "deprecationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sunsetDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "successors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(dataProduct):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+        "maxLength": 255
+      }
+    },
+    "changelogEntries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ChangelogEntry"
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "primary",
+        "derived"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "business-object",
+        "analytical",
+        "other"
+      ]
+    },
+    "entityTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+        "maxLength": 255
+      }
+    },
+    "inputPorts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/DataProductInputPort"
+      }
+    },
+    "outputPorts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/DataProductOutputPort"
+      }
+    },
+    "responsible": {
+      "$ref": "#/components/schemas/CorrelationId"
+    },
+    "dataProductLinks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/DataProductLink"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Link"
+      }
+    },
+    "industry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Industry"
+      }
+    },
+    "lineOfBusiness": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LineOfBusiness"
+      }
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    },
+    "policyLevel": {
+      "$ref": "#/components/schemas/PolicyLevel"
+    },
+    "customPolicyLevel": {
+      "$ref": "#/components/schemas/CustomPolicyLevel"
+    },
+    "policyLevels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PolicyLevelId"
+      }
+    },
+    "systemInstanceAware": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContainerProbe",
+  "title": "ContainerProbe",
+  "type": "object",
+  "description": "The probe may be defined as either http, command execution, or both. The execProbe should be preferred if the Score implementation supports both types.",
+  "additionalProperties": false,
+  "properties": {
+    "httpGet": {
+      "$ref": "#/components/schemas/HttpProbe"
+    },
+    "exec": {
+      "$ref": "#/components/schemas/ExecProbe"
+    }
+  }
+}

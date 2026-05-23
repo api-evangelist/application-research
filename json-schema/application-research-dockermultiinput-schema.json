@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DockerMultiInput",
+  "title": "DockerMultiInput",
+  "type": "object",
+  "description": "Multi-platform Docker image input",
+  "required": [
+    "type",
+    "variants"
+  ],
+  "properties": {
+    "type": {
+      "const": "dockermulti"
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "repository": {
+      "type": "string"
+    }
+  }
+}

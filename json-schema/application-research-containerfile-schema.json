@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContainerFile",
+  "title": "ContainerFile",
+  "type": "object",
+  "description": "The details of a file to mount in the container. One of 'source', 'content', or 'binaryContent' must be provided.",
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "content"
+      ]
+    },
+    {
+      "required": [
+        "binaryContent"
+      ]
+    },
+    {
+      "required": [
+        "source"
+      ]
+    }
+  ],
+  "properties": {
+    "mode": {
+      "type": "string",
+      "description": "The optional file access mode in octal encoding",
+      "pattern": "^0?[0-7]{3}$",
+      "examples": [
+        "0644",
+        "0600",
+        "0444"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "description": "The relative or absolute path to the content file",
+      "minLength": 1
+    },
+    "content": {
+      "type": "string",
+      "description": "The inline content for the file. Only supports valid utf-8."
+    },
+    "binaryContent": {
+      "type": "string",
+      "description": "Inline standard-base64 encoded content for the file. Does not support placeholder expansion.",
+      "contentEncoding": "base64"
+    },
+    "noExpand": {
+      "type": "boolean",
+      "description": "If set to true, the placeholders expansion will not occur in the contents of the file."
+    }
+  }
+}

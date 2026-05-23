@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BundleOutput",
+  "title": "BundleOutput",
+  "type": "object",
+  "description": "A value produced by running an invocation image",
+  "required": [
+    "definition",
+    "path"
+  ],
+  "properties": {
+    "definition": {
+      "type": "string",
+      "description": "The name of a definition describing the schema"
+    },
+    "description": {
+      "type": "string",
+      "description": "A user-friendly description of this output"
+    },
+    "path": {
+      "type": "string",
+      "description": "The path inside the invocation image where output is written",
+      "pattern": "^/cnab/app/outputs/.+$"
+    },
+    "applyTo": {
+      "type": "array",
+      "description": "An optional list of actions producing this output",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

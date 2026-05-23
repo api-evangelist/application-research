@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GatewayProperties",
+  "title": "GatewayProperties",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string"
+    },
+    "application": {
+      "type": "string"
+    },
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    },
+    "internal": {
+      "type": "boolean"
+    },
+    "hostname": {
+      "$ref": "#/components/schemas/GatewayHostname"
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GatewayRoute"
+      }
+    },
+    "tls": {
+      "$ref": "#/components/schemas/GatewayTls"
+    },
+    "url": {
+      "type": "string",
+      "readOnly": true
+    }
+  },
+  "required": [
+    "application",
+    "routes"
+  ]
+}

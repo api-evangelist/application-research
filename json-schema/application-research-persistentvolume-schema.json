@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PersistentVolume",
+  "title": "PersistentVolume",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/Volume"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "persistent"
+          ]
+        },
+        "permission": {
+          "type": "string",
+          "enum": [
+            "read",
+            "write"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "source"
+      ]
+    }
+  ]
+}

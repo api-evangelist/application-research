@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SystemType",
+  "title": "System Type",
+  "type": "object",
+  "description": "The abstract type of an application or service",
+  "properties": {
+    "systemNamespace": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[.][a-z0-9]+){1}$",
+      "maxLength": 32
+    },
+    "correlationIds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CorrelationId"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    }
+  }
+}

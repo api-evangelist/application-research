@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Claim",
+  "title": "Claim",
+  "type": "object",
+  "description": "CNAB Claim representing an installation action",
+  "required": [
+    "id",
+    "installation",
+    "action",
+    "bundle",
+    "revision",
+    "created"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The claim ID (ULID)"
+    },
+    "installation": {
+      "type": "string",
+      "description": "The name of the installation"
+    },
+    "action": {
+      "type": "string",
+      "description": "The name of the action (install, uninstall, upgrade, or custom)"
+    },
+    "bundle": {
+      "$ref": "#/components/schemas/Bundle"
+    },
+    "bundleReference": {
+      "type": "string",
+      "description": "A canonical reference to the bundle used"
+    },
+    "revision": {
+      "type": "string",
+      "description": "The revision ID (ULID)"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date created (ISO-8601)"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Key/value pairs of parameter name to value",
+      "additionalProperties": true
+    },
+    "custom": {
+      "type": "object",
+      "description": "Reserved for custom extensions",
+      "additionalProperties": true
+    }
+  }
+}

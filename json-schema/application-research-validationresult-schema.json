@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ValidationResult",
+  "title": "ValidationResult",
+  "type": "object",
+  "description": "Result of workload validation",
+  "properties": {
+    "valid": {
+      "type": "boolean",
+      "description": "Whether the workload is valid"
+    },
+    "errors": {
+      "type": "array",
+      "description": "List of validation errors",
+      "items": {
+        "$ref": "#/components/schemas/ValidationError"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "description": "List of validation warnings",
+      "items": {
+        "$ref": "#/components/schemas/ValidationWarning"
+      }
+    }
+  }
+}

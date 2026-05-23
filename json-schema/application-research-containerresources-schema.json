@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContainerResources",
+  "title": "ContainerResources",
+  "type": "object",
+  "description": "The compute resources for the container",
+  "additionalProperties": false,
+  "properties": {
+    "limits": {
+      "$ref": "#/components/schemas/ResourcesLimits"
+    },
+    "requests": {
+      "$ref": "#/components/schemas/ResourcesLimits"
+    }
+  }
+}

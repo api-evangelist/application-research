@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Image",
+  "title": "Image",
+  "type": "object",
+  "description": "An application image for this CNAB bundle",
+  "required": [
+    "image"
+  ],
+  "properties": {
+    "image": {
+      "type": "string",
+      "description": "A resolvable reference to the image"
+    },
+    "imageType": {
+      "type": "string",
+      "description": "The type of image",
+      "default": "oci"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the purpose of this image"
+    },
+    "contentDigest": {
+      "type": "string",
+      "description": "A cryptographic hash digest of the image contents"
+    },
+    "size": {
+      "type": "integer",
+      "description": "The image size in bytes"
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "The media type of the image"
+    },
+    "labels": {
+      "type": "object",
+      "description": "Key/value pairs for identifying attributes",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

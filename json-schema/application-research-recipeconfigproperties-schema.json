@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecipeConfigProperties",
+  "title": "RecipeConfigProperties",
+  "type": "object",
+  "properties": {
+    "terraform": {
+      "$ref": "#/components/schemas/TerraformConfigProperties"
+    },
+    "bicep": {
+      "$ref": "#/components/schemas/BicepConfigProperties"
+    },
+    "env": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "envSecrets": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/SecretReference"
+      }
+    }
+  }
+}

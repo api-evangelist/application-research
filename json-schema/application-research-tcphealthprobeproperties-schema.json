@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TcpHealthProbeProperties",
+  "title": "TcpHealthProbeProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/HealthProbeProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "tcp"
+          ]
+        },
+        "containerPort": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "kind",
+        "containerPort"
+      ]
+    }
+  ]
+}

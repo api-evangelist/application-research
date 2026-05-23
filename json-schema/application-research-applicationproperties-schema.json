@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApplicationProperties",
+  "title": "ApplicationProperties",
+  "type": "object",
+  "properties": {
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "environment": {
+      "type": "string",
+      "description": "Fully qualified resource ID for the environment"
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Extension"
+      }
+    },
+    "status": {
+      "$ref": "#/components/schemas/ResourceStatus",
+      "readOnly": true
+    }
+  },
+  "required": [
+    "environment"
+  ]
+}

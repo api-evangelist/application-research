@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VerificationRequest",
+  "title": "VerificationRequest",
+  "type": "object",
+  "description": "Request to verify a signature",
+  "required": [
+    "publicKey"
+  ],
+  "properties": {
+    "publicKey": {
+      "type": "string",
+      "description": "Public key (PEM encoded)"
+    },
+    "certificate": {
+      "type": "string",
+      "description": "Certificate for verification"
+    }
+  }
+}

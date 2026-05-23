@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HttpGetHealthProbeProperties",
+  "title": "HttpGetHealthProbeProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/HealthProbeProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "httpGet"
+          ]
+        },
+        "containerPort": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "path": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "containerPort",
+        "path"
+      ]
+    }
+  ]
+}

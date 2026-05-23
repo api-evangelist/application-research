@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/InvocationImage",
+  "title": "InvocationImage",
+  "type": "object",
+  "description": "A bootstrapping image for the CNAB bundle",
+  "required": [
+    "image"
+  ],
+  "properties": {
+    "image": {
+      "type": "string",
+      "description": "A resolvable reference to the image"
+    },
+    "imageType": {
+      "type": "string",
+      "description": "The type of image",
+      "default": "oci"
+    },
+    "contentDigest": {
+      "type": "string",
+      "description": "A cryptographic hash digest of the image contents"
+    },
+    "size": {
+      "type": "integer",
+      "description": "The image size in bytes"
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "The media type of the image"
+    },
+    "labels": {
+      "type": "object",
+      "description": "Key/value pairs for identifying attributes",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

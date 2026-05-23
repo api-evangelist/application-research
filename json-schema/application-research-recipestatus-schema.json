@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecipeStatus",
+  "title": "RecipeStatus",
+  "type": "object",
+  "description": "Recipe status at deployment time",
+  "properties": {
+    "templateKind": {
+      "type": "string"
+    },
+    "templatePath": {
+      "type": "string"
+    },
+    "templateVersion": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "templateKind",
+    "templatePath"
+  ]
+}

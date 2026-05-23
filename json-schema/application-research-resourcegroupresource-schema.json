@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ResourceGroupResource",
+  "title": "ResourceGroupResource",
+  "type": "object",
+  "properties": {
+    "properties": {
+      "$ref": "#/components/schemas/ResourceGroupProperties"
+    },
+    "id": {
+      "type": "string",
+      "readOnly": true
+    },
+    "name": {
+      "type": "string",
+      "readOnly": true
+    },
+    "type": {
+      "type": "string",
+      "readOnly": true
+    },
+    "systemData": {
+      "type": "object",
+      "readOnly": true
+    },
+    "tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "location": {
+      "type": "string"
+    }
+  }
+}

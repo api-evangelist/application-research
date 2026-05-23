@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Action",
+  "title": "Action",
+  "type": "object",
+  "description": "A custom action that can be triggered on the bundle",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "A human-readable name for this action"
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the purpose of this action"
+    },
+    "modifies": {
+      "type": "boolean",
+      "description": "Whether the action can change any managed resource"
+    },
+    "stateless": {
+      "type": "boolean",
+      "description": "Whether the action is purely informational",
+      "default": false
+    }
+  }
+}

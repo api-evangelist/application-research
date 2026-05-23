@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ElementName",
+  "title": "ElementName",
+  "type": "string",
+  "description": "Element name for resources and sources",
+  "minLength": 2,
+  "pattern": "^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$",
+  "examples": [
+    "frontend-image",
+    "backend-image",
+    "helm-chart"
+  ]
+}

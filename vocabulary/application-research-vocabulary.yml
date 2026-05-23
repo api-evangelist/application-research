@@ -1,0 +1,31 @@
+name: Application Research Domain Vocabulary
+provider: Application Research
+providerId: application-research
+description: Tag-derived vocabulary for the Application Research API surface; sourced from openapi/ tags.
+terms:
+- term: Applications
+  description: Application resource operations
+- term: Containers
+  description: Container resource operations
+- term: Credentials
+  description: Credential management operations
+- term: Dapr
+  description: Dapr component operations
+- term: Datastores
+  description: Datastore portable resource operations
+- term: Environments
+  description: Environment resource operations
+- term: Extenders
+  description: Extender portable resource operations
+- term: Gateways
+  description: Gateway resource operations
+- term: Messaging
+  description: Messaging portable resource operations
+- term: Planes
+  description: Plane management operations
+- term: ResourceGroups
+  description: Resource group operations
+- term: SecretStores
+  description: Secret store operations
+- term: Volumes
+  description: Volume resource operations

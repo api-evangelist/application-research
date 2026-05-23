@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OutputResource",
+  "title": "OutputResource",
+  "type": "object",
+  "description": "Properties of an output resource",
+  "properties": {
+    "localId": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "radiusManaged": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IdentityAttribute",
+  "title": "IdentityAttribute",
+  "type": "object",
+  "description": "Identity attributes for element identification",
+  "additionalProperties": {
+    "type": "string"
+  }
+}

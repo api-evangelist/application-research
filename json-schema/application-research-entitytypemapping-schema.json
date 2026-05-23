@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EntityTypeMapping",
+  "title": "Entity Type Mapping",
+  "type": "object",
+  "required": [
+    "entityTypeTargets"
+  ],
+  "properties": {
+    "apiModelSelectors": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ApiModelSelectorOData"
+          },
+          {
+            "$ref": "#/components/schemas/ApiModelSelectorJsonPointer"
+          }
+        ]
+      }
+    },
+    "entityTypeTargets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/EntityTypeOrdIdTarget"
+          },
+          {
+            "$ref": "#/components/schemas/EntityTypeCorrelationIdTarget"
+          }
+        ]
+      }
+    }
+  }
+}

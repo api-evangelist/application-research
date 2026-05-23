@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BicepRecipeProperties",
+  "title": "BicepRecipeProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/RecipeProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "templateKind": {
+          "type": "string",
+          "enum": [
+            "bicep"
+          ]
+        },
+        "plainHttp": {
+          "type": "boolean"
+        }
+      }
+    }
+  ]
+}

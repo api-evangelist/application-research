@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RelocationMapping",
+  "title": "RelocationMapping",
+  "type": "object",
+  "description": "Mapping of original image references to relocated destinations",
+  "additionalProperties": {
+    "type": "string"
+  }
+}

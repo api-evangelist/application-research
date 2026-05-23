@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NestedDigestSpec",
+  "title": "NestedDigestSpec",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "extraIdentity": {
+      "$ref": "#/components/schemas/IdentityAttribute"
+    },
+    "digest": {
+      "$ref": "#/components/schemas/DigestSpec"
+    }
+  }
+}

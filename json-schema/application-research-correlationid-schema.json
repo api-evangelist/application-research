@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CorrelationId",
+  "title": "CorrelationId",
+  "type": "string",
+  "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\\-\\/]+):([a-zA-Z0-9._\\-\\/]+)$",
+  "maxLength": 255,
+  "description": "Correlation ID for referencing related data"
+}

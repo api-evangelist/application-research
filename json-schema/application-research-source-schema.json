@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Source",
+  "title": "Source",
+  "type": "object",
+  "description": "Component source",
+  "required": [
+    "name",
+    "type"
+  ],
+  "properties": {
+    "name": {
+      "$ref": "#/components/schemas/ElementName"
+    },
+    "type": {
+      "type": "string",
+      "description": "Source type",
+      "examples": [
+        "git",
+        "helmChart",
+        "yaml"
+      ]
+    },
+    "extraIdentity": {
+      "$ref": "#/components/schemas/IdentityAttribute"
+    },
+    "version": {
+      "$ref": "#/components/schemas/Version"
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "access": {
+      "$ref": "#/components/schemas/Access"
+    },
+    "input": {
+      "$ref": "#/components/schemas/Input"
+    }
+  }
+}

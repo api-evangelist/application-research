@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecipeProperties",
+  "title": "RecipeProperties",
+  "type": "object",
+  "description": "Recipe properties",
+  "properties": {
+    "templateKind": {
+      "type": "string"
+    },
+    "templatePath": {
+      "type": "string"
+    },
+    "parameters": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "templateKind",
+    "templatePath"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/S3Access",
+  "title": "S3Access",
+  "type": "object",
+  "description": "Access to S3 object",
+  "required": [
+    "type",
+    "bucket",
+    "key",
+    "mediaType"
+  ],
+  "properties": {
+    "type": {
+      "const": "s3"
+    },
+    "region": {
+      "type": "string"
+    },
+    "bucket": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string"
+    },
+    "mediaType": {
+      "type": "string"
+    }
+  }
+}

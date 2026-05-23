@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EnvironmentProperties",
+  "title": "EnvironmentProperties",
+  "type": "object",
+  "properties": {
+    "provisioningState": {
+      "$ref": "#/components/schemas/ProvisioningState",
+      "readOnly": true
+    },
+    "compute": {
+      "$ref": "#/components/schemas/EnvironmentCompute"
+    },
+    "providers": {
+      "$ref": "#/components/schemas/Providers"
+    },
+    "simulated": {
+      "type": "boolean"
+    },
+    "recipes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/RecipeProperties"
+        }
+      }
+    },
+    "recipeConfig": {
+      "$ref": "#/components/schemas/RecipeConfigProperties"
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Extension"
+      }
+    }
+  },
+  "required": [
+    "compute"
+  ]
+}

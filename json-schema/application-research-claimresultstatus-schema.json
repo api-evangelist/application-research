@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClaimResultStatus",
+  "title": "ClaimResultStatus",
+  "type": "string",
+  "description": "The status of the operation",
+  "enum": [
+    "canceled",
+    "failed",
+    "succeeded",
+    "pending",
+    "running",
+    "unknown"
+  ]
+}

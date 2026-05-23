@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VersionListResponse",
+  "title": "VersionListResponse",
+  "type": "object",
+  "properties": {
+    "componentName": {
+      "$ref": "#/components/schemas/ComponentName"
+    },
+    "versions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Version"
+      }
+    }
+  }
+}

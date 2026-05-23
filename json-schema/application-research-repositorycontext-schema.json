@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RepositoryContext",
+  "title": "RepositoryContext",
+  "type": "object",
+  "description": "Repository context for component storage",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "ociRegistry",
+        "OCIRegistry"
+      ]
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "Base URL of the repository"
+    },
+    "componentNameMapping": {
+      "type": "string",
+      "enum": [
+        "urlPath",
+        "sha256-digest"
+      ]
+    }
+  }
+}

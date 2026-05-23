@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Capability",
+  "title": "Capability",
+  "type": "object",
+  "description": "Describes use-case specific capabilities, features, or configuration",
+  "required": [
+    "ordId",
+    "type",
+    "title",
+    "version",
+    "releaseStatus",
+    "visibility",
+    "partOfPackage"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(capability):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "localId": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "correlationIds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CorrelationId"
+      }
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the capability"
+    },
+    "customType": {
+      "$ref": "#/components/schemas/SpecificationId"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "shortDescription": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partOfPackage": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "partOfGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GroupId"
+      }
+    },
+    "version": {
+      "$ref": "#/components/schemas/SemVer"
+    },
+    "lastUpdate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "visibility": {
+      "$ref": "#/components/schemas/Visibility"
+    },
+    "releaseStatus": {
+      "$ref": "#/components/schemas/ReleaseStatus"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "minSystemVersion": {
+      "type": "string"
+    },
+    "relatedEntityTypes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$"
+      }
+    },
+    "definitions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CapabilityDefinition"
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Link"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Tag"
+      }
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    },
+    "documentationLabels": {
+      "$ref": "#/components/schemas/DocumentationLabels"
+    },
+    "systemInstanceAware": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

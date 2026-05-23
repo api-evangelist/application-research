@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiResourceIntegrationAspect",
+  "title": "API Resource Integration Aspect",
+  "type": "object",
+  "required": [
+    "ordId"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "minVersion": {
+      "$ref": "#/components/schemas/SemVer"
+    }
+  }
+}

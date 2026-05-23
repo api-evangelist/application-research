@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BundleListResponse",
+  "title": "BundleListResponse",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Bundle"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total number of bundles"
+    },
+    "limit": {
+      "type": "integer",
+      "description": "Number of items per page"
+    },
+    "offset": {
+      "type": "integer",
+      "description": "Current offset"
+    }
+  }
+}

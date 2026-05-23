@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ParameterDestination",
+  "title": "ParameterDestination",
+  "type": "object",
+  "description": "Where the parameter value should be placed",
+  "properties": {
+    "env": {
+      "type": "string",
+      "description": "The environment variable name for the parameter value"
+    },
+    "path": {
+      "type": "string",
+      "description": "The path inside the invocation image for the parameter"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExecHealthProbeProperties",
+  "title": "ExecHealthProbeProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/HealthProbeProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "exec"
+          ]
+        },
+        "command": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "command"
+      ]
+    }
+  ]
+}

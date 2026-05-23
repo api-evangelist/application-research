@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ActionExecutionRequest",
+  "title": "ActionExecutionRequest",
+  "type": "object",
+  "properties": {
+    "parameters": {
+      "type": "object",
+      "description": "Parameter values for the action",
+      "additionalProperties": true
+    },
+    "credentials": {
+      "type": "object",
+      "description": "Credential values for the action",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

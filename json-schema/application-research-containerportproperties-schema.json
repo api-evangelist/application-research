@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContainerPortProperties",
+  "title": "ContainerPortProperties",
+  "type": "object",
+  "properties": {
+    "containerPort": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "protocol": {
+      "type": "string",
+      "enum": [
+        "TCP",
+        "UDP"
+      ]
+    },
+    "scheme": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer",
+      "format": "int32"
+    }
+  },
+  "required": [
+    "containerPort"
+  ]
+}

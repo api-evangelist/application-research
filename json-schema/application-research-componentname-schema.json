@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ComponentName",
+  "title": "ComponentName",
+  "type": "string",
+  "description": "Fully qualified component name",
+  "maxLength": 255,
+  "pattern": "^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$",
+  "examples": [
+    "github.com/acme.org/web-application",
+    "github.com/ailab.org/model-training-pipeline"
+  ]
+}

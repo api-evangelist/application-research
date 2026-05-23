@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Providers",
+  "title": "Providers",
+  "type": "object",
+  "description": "The Cloud providers configuration",
+  "properties": {
+    "azure": {
+      "$ref": "#/components/schemas/ProvidersAzure"
+    },
+    "aws": {
+      "$ref": "#/components/schemas/ProvidersAws"
+    }
+  }
+}

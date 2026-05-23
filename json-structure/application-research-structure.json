@@ -1,0 +1,1237 @@
+{
+  "provider": "Application Research",
+  "providerId": "application-research",
+  "kind": "json-structure",
+  "description": "Structural overview of the Application Research API surface; extracted from openapi/.",
+  "schemaCount": 129,
+  "operationCount": 30,
+  "schemas": [
+    {
+      "name": "ProvisioningState",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ResourceProvisioning",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "IdentitySettingKind",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "IdentitySettings",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "ResourceReference",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "id"
+      ]
+    },
+    {
+      "name": "Recipe",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "RecipeStatus",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "templateKind",
+        "templatePath"
+      ]
+    },
+    {
+      "name": "OutputResource",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "ResourceStatus",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "SecretReference",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "source",
+        "key"
+      ]
+    },
+    {
+      "name": "EnvironmentCompute",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "KubernetesCompute",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "AzureContainerInstanceCompute",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Providers",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "ProvidersAzure",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "scope"
+      ]
+    },
+    {
+      "name": "ProvidersAws",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "scope"
+      ]
+    },
+    {
+      "name": "Extension",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "KubernetesMetadataExtension",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "KubernetesNamespaceExtension",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ManualScalingExtension",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "DaprSidecarExtension",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "AzureContainerInstanceExtension",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "RecipeProperties",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "templateKind",
+        "templatePath"
+      ]
+    },
+    {
+      "name": "BicepRecipeProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "TerraformRecipeProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "RecipeConfigProperties",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "TerraformConfigProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "BicepConfigProperties",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "AuthConfig",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "GitAuthConfig",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "SecretConfig",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "RegistrySecretConfig",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "ProviderConfigProperties",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "ApplicationProperties",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "ApplicationResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "ApplicationResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "EnvironmentProperties",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "compute"
+      ]
+    },
+    {
+      "name": "EnvironmentResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "EnvironmentResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "Container",
+      "type": "object",
+      "propertyCount": 10,
+      "required": [
+        "image"
+      ]
+    },
+    {
+      "name": "EnvironmentVariable",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "EnvironmentVariableReference",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "secretRef"
+      ]
+    },
+    {
+      "name": "ContainerPortProperties",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "containerPort"
+      ]
+    },
+    {
+      "name": "HealthProbeProperties",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "HttpGetHealthProbeProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "TcpHealthProbeProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ExecHealthProbeProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Volume",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "PersistentVolume",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "EphemeralVolume",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ConnectionProperties",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "source"
+      ]
+    },
+    {
+      "name": "IamProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "RuntimesProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "KubernetesRuntimeProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "ACIRuntimeProperties",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "ContainerProperties",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "application",
+        "container"
+      ]
+    },
+    {
+      "name": "ContainerResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "ContainerResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "GatewayHostname",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "GatewayRoute",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "GatewayRouteTimeoutPolicy",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "GatewayTls",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "GatewayProperties",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "application",
+        "routes"
+      ]
+    },
+    {
+      "name": "GatewayResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "GatewayResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "SecretValueProperties",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "ValueFromProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "SecretStoreProperties",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "data"
+      ]
+    },
+    {
+      "name": "SecretStoreResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "SecretStoreResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "CertificateObjectProperties",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "KeyObjectProperties",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "SecretObjectProperties",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "VolumeProperties",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "kind",
+        "application"
+      ]
+    },
+    {
+      "name": "AzureKeyVaultVolumeProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VolumeResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "VolumeResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "ExtenderProperties",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "ExtenderResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "ExtenderResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "MongoDatabaseSecrets",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "MongoDatabaseProperties",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "MongoDatabaseResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "MongoDatabaseResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "RedisCacheSecrets",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "RedisCacheProperties",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "RedisCacheResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "RedisCacheResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "SqlDatabaseSecrets",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "SqlDatabaseProperties",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "SqlDatabaseResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "SqlDatabaseResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "RabbitMQSecrets",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "RabbitMQQueueProperties",
+      "type": "object",
+      "propertyCount": 14,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "RabbitMQQueueResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "RabbitMQQueueResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "MetadataValue",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "MetadataValueFromSecret",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "name",
+        "key"
+      ]
+    },
+    {
+      "name": "DaprResourceAuth",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "DaprStateStoreProperties",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "DaprStateStoreResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "DaprStateStoreResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "DaprPubSubBrokerProperties",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "DaprPubSubBrokerResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "DaprPubSubBrokerResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "DaprSecretStoreProperties",
+      "type": "object",
+      "propertyCount": 10,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "DaprSecretStoreResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "DaprSecretStoreResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "DaprConfigurationStoreProperties",
+      "type": "object",
+      "propertyCount": 12,
+      "required": [
+        "environment"
+      ]
+    },
+    {
+      "name": "DaprConfigurationStoreResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "DaprConfigurationStoreResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "RadiusPlaneResourceProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "resourceProviders"
+      ]
+    },
+    {
+      "name": "RadiusPlaneResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "RadiusPlaneResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "ResourceGroupProperties",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "ResourceGroupResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "ResourceGroupResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "CredentialStorageProperties",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "InternalCredentialStorageProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "AzureCredentialProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "AzureServicePrincipalProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "AzureWorkloadIdentityProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "AzureCredentialResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "AzureCredentialResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "AwsCredentialProperties",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "kind"
+      ]
+    },
+    {
+      "name": "AwsAccessKeyCredentialProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "AwsIRSACredentialProperties",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "AwsCredentialResource",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "properties",
+        "location"
+      ]
+    },
+    {
+      "name": "AwsCredentialResourceListResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "value"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/applications",
+      "operationId": "Applications_List",
+      "summary": "Application Research List applications",
+      "tags": [
+        "Applications"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/applications/{applicationName}",
+      "operationId": "Applications_Get",
+      "summary": "Application Research Get application",
+      "tags": [
+        "Applications"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/applications/{applicationName}",
+      "operationId": "Applications_CreateOrUpdate",
+      "summary": "Application Research Create or update application",
+      "tags": [
+        "Applications"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/applications/{applicationName}",
+      "operationId": "Applications_Delete",
+      "summary": "Application Research Delete application",
+      "tags": [
+        "Applications"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/environments",
+      "operationId": "Environments_List",
+      "summary": "Application Research List environments",
+      "tags": [
+        "Environments"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/environments/{environmentName}",
+      "operationId": "Environments_Get",
+      "summary": "Application Research Get environment",
+      "tags": [
+        "Environments"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/environments/{environmentName}",
+      "operationId": "Environments_CreateOrUpdate",
+      "summary": "Application Research Create or update environment",
+      "tags": [
+        "Environments"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/environments/{environmentName}",
+      "operationId": "Environments_Delete",
+      "summary": "Application Research Delete environment",
+      "tags": [
+        "Environments"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers",
+      "operationId": "Containers_List",
+      "summary": "Application Research List containers",
+      "tags": [
+        "Containers"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers/{containerName}",
+      "operationId": "Containers_Get",
+      "summary": "Application Research Get container",
+      "tags": [
+        "Containers"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers/{containerName}",
+      "operationId": "Containers_CreateOrUpdate",
+      "summary": "Application Research Create or update container",
+      "tags": [
+        "Containers"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers/{containerName}",
+      "operationId": "Containers_Delete",
+      "summary": "Application Research Delete container",
+      "tags": [
+        "Containers"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/gateways/{gatewayName}",
+      "operationId": "Gateways_Get",
+      "summary": "Application Research Get gateway",
+      "tags": [
+        "Gateways"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/gateways/{gatewayName}",
+      "operationId": "Gateways_CreateOrUpdate",
+      "summary": "Application Research Create or update gateway",
+      "tags": [
+        "Gateways"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/secretStores/{secretStoreName}",
+      "operationId": "SecretStores_Get",
+      "summary": "Application Research Get secret store",
+      "tags": [
+        "SecretStores"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/secretStores/{secretStoreName}",
+      "operationId": "SecretStores_CreateOrUpdate",
+      "summary": "Application Research Create or update secret store",
+      "tags": [
+        "SecretStores"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/volumes/{volumeName}",
+      "operationId": "Volumes_Get",
+      "summary": "Application Research Get volume",
+      "tags": [
+        "Volumes"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/extenders/{extenderName}",
+      "operationId": "Extenders_Get",
+      "summary": "Application Research Get extender",
+      "tags": [
+        "Extenders"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/mongoDatabases/{mongoDatabaseName}",
+      "operationId": "MongoDatabases_Get",
+      "summary": "Application Research Get MongoDB database",
+      "tags": [
+        "Datastores"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/redisCaches/{redisCacheName}",
+      "operationId": "RedisCaches_Get",
+      "summary": "Application Research Get Redis cache",
+      "tags": [
+        "Datastores"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/sqlDatabases/{sqlDatabaseName}",
+      "operationId": "SqlDatabases_Get",
+      "summary": "Application Research Get SQL database",
+      "tags": [
+        "Datastores"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Messaging/rabbitMQQueues/{rabbitMQQueueName}",
+      "operationId": "RabbitMQQueues_Get",
+      "summary": "Application Research Get RabbitMQ queue",
+      "tags": [
+        "Messaging"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/stateStores/{stateStoreName}",
+      "operationId": "DaprStateStores_Get",
+      "summary": "Application Research Get Dapr state store",
+      "tags": [
+        "Dapr"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/pubSubBrokers/{pubSubBrokerName}",
+      "operationId": "DaprPubSubBrokers_Get",
+      "summary": "Application Research Get Dapr pub/sub broker",
+      "tags": [
+        "Dapr"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/secretStores/{daprSecretStoreName}",
+      "operationId": "DaprSecretStores_Get",
+      "summary": "Application Research Get Dapr secret store",
+      "tags": [
+        "Dapr"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Dapr/configurationStores/{configurationStoreName}",
+      "operationId": "DaprConfigurationStores_Get",
+      "summary": "Application Research Get Dapr configuration store",
+      "tags": [
+        "Dapr"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}",
+      "operationId": "RadiusPlanes_Get",
+      "summary": "Application Research Get Radius plane",
+      "tags": [
+        "Planes"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/radius/{planeName}/resourceGroups/{resourceGroupName}",
+      "operationId": "ResourceGroups_Get",
+      "summary": "Application Research Get resource group",
+      "tags": [
+        "ResourceGroups"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/azure/{planeName}/providers/System.Azure/credentials/{credentialName}",
+      "operationId": "AzureCredentials_Get",
+      "summary": "Application Research Get Azure credential",
+      "tags": [
+        "Credentials"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/planes/aws/{planeName}/providers/System.AWS/credentials/{credentialName}",
+      "operationId": "AwsCredentials_Get",
+      "summary": "Application Research Get AWS credential",
+      "tags": [
+        "Credentials"
+      ]
+    }
+  ]
+}

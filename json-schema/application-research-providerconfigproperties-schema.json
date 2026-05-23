@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProviderConfigProperties",
+  "title": "ProviderConfigProperties",
+  "type": "object",
+  "properties": {
+    "secrets": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/SecretReference"
+      }
+    }
+  },
+  "additionalProperties": true
+}

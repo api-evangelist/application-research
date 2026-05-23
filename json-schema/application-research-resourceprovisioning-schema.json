@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ResourceProvisioning",
+  "title": "ResourceProvisioning",
+  "type": "string",
+  "description": "Specifies how the underlying service/resource is provisioned and managed",
+  "enum": [
+    "recipe",
+    "manual"
+  ]
+}

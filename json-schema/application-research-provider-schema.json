@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Provider",
+  "title": "Provider",
+  "type": "object",
+  "description": "Component provider information",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Provider name",
+      "examples": [
+        "acme",
+        "ailab",
+        "enterprise"
+      ]
+    },
+    "labels": {
+      "$ref": "#/components/schemas/Labels"
+    }
+  }
+}

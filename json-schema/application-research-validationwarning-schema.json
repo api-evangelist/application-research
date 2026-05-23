@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ValidationWarning",
+  "title": "ValidationWarning",
+  "type": "object",
+  "description": "A validation warning",
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "JSON path to the warning location"
+    },
+    "message": {
+      "type": "string",
+      "description": "Warning message"
+    },
+    "code": {
+      "type": "string",
+      "description": "Warning code"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HealthProbeProperties",
+  "title": "HealthProbeProperties",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string"
+    },
+    "initialDelaySeconds": {
+      "type": "number"
+    },
+    "failureThreshold": {
+      "type": "number"
+    },
+    "periodSeconds": {
+      "type": "number"
+    },
+    "timeoutSeconds": {
+      "type": "number",
+      "default": 5
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "discriminator": {
+    "propertyName": "kind",
+    "mapping": {
+      "httpGet": "#/components/schemas/HttpGetHealthProbeProperties",
+      "tcp": "#/components/schemas/TcpHealthProbeProperties",
+      "exec": "#/components/schemas/ExecHealthProbeProperties"
+    }
+  }
+}

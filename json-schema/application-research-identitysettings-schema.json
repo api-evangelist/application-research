@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IdentitySettings",
+  "title": "IdentitySettings",
+  "type": "object",
+  "description": "IdentitySettings is the external identity setting",
+  "properties": {
+    "kind": {
+      "$ref": "#/components/schemas/IdentitySettingKind"
+    },
+    "oidcIssuer": {
+      "type": "string",
+      "description": "The URI for your compute platform's OIDC issuer"
+    },
+    "resource": {
+      "type": "string",
+      "description": "The resource ID of the provisioned identity"
+    },
+    "managedIdentity": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "kind"
+  ]
+}

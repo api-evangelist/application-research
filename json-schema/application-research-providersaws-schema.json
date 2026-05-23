@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProvidersAws",
+  "title": "ProvidersAws",
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "description": "Target scope for AWS resources"
+    }
+  },
+  "required": [
+    "scope"
+  ]
+}

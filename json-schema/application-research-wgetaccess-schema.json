@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WgetAccess",
+  "title": "WgetAccess",
+  "type": "object",
+  "description": "Access via HTTP download",
+  "required": [
+    "type",
+    "url"
+  ],
+  "properties": {
+    "type": {
+      "const": "wget"
+    },
+    "url": {
+      "type": "string"
+    },
+    "mediaType": {
+      "type": "string"
+    },
+    "header": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "verb": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "noRedirect": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Dependencies",
+  "title": "Dependencies",
+  "type": "object",
+  "description": "CNAB Dependencies extension",
+  "properties": {
+    "requires": {
+      "type": "object",
+      "description": "Dependent bundles required by this bundle",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/Dependency"
+      },
+      "minProperties": 1
+    }
+  },
+  "minProperties": 1
+}

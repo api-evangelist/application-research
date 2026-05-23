@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GitHubAccess",
+  "title": "GitHubAccess",
+  "type": "object",
+  "description": "Access to GitHub repository content",
+  "required": [
+    "type",
+    "repoUrl"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "github",
+        "gitHub"
+      ]
+    },
+    "repoUrl": {
+      "type": "string",
+      "description": "Repository URL"
+    },
+    "ref": {
+      "type": "string",
+      "description": "Git reference"
+    },
+    "commit": {
+      "type": "string",
+      "description": "Commit SHA"
+    }
+  }
+}

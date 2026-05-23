@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HttpHeader",
+  "title": "HttpHeader",
+  "type": "object",
+  "description": "HTTP header for probe requests",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "value"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The HTTP header name",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "value": {
+      "type": "string",
+      "description": "The HTTP header value",
+      "minLength": 1
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Signature",
+  "title": "Signature",
+  "type": "object",
+  "description": "Component signature",
+  "required": [
+    "name",
+    "signature"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Signature name/identifier"
+    },
+    "digest": {
+      "$ref": "#/components/schemas/DigestSpec"
+    },
+    "signature": {
+      "$ref": "#/components/schemas/SignatureSpec"
+    }
+  }
+}

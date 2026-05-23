@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HelmAccess",
+  "title": "HelmAccess",
+  "type": "object",
+  "description": "Access to a Helm chart",
+  "required": [
+    "type",
+    "helmRepository",
+    "helmChart"
+  ],
+  "properties": {
+    "type": {
+      "const": "helm"
+    },
+    "helmRepository": {
+      "type": "string",
+      "description": "Helm repository URL"
+    },
+    "helmChart": {
+      "type": "string",
+      "description": "Chart name and version"
+    },
+    "caCert": {
+      "type": "string"
+    },
+    "keyring": {
+      "type": "string"
+    }
+  }
+}

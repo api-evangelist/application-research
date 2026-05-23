@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VerificationResult",
+  "title": "VerificationResult",
+  "type": "object",
+  "description": "Signature verification result",
+  "required": [
+    "verified"
+  ],
+  "properties": {
+    "verified": {
+      "type": "boolean",
+      "description": "Whether verification succeeded"
+    },
+    "message": {
+      "type": "string",
+      "description": "Verification message or error"
+    },
+    "signatureName": {
+      "type": "string"
+    },
+    "componentName": {
+      "$ref": "#/components/schemas/ComponentName"
+    },
+    "version": {
+      "$ref": "#/components/schemas/Version"
+    }
+  }
+}

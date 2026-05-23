@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DaprSidecarExtension",
+  "title": "DaprSidecarExtension",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/Extension"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "daprSidecar"
+          ]
+        },
+        "appPort": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "appId": {
+          "type": "string"
+        },
+        "config": {
+          "type": "string"
+        },
+        "protocol": {
+          "type": "string",
+          "enum": [
+            "http",
+            "grpc"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "appId"
+      ]
+    }
+  ]
+}

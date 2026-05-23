@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AzureWorkloadIdentityProperties",
+  "title": "AzureWorkloadIdentityProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/AzureCredentialProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "WorkloadIdentity"
+          ]
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "storage": {
+          "$ref": "#/components/schemas/CredentialStorageProperties"
+        }
+      },
+      "required": [
+        "kind",
+        "clientId",
+        "tenantId",
+        "storage"
+      ]
+    }
+  ]
+}

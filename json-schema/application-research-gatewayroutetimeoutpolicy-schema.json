@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GatewayRouteTimeoutPolicy",
+  "title": "GatewayRouteTimeoutPolicy",
+  "type": "object",
+  "properties": {
+    "request": {
+      "type": "string",
+      "pattern": "^(\\d+(\\.\\d+)?(ns|us|\u00b5s|ms|s|m|h))+$"
+    },
+    "backendRequest": {
+      "type": "string",
+      "pattern": "^(\\d+(\\.\\d+)?(ns|us|\u00b5s|ms|s|m|h))+$"
+    }
+  }
+}

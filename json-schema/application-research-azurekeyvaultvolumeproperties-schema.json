@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AzureKeyVaultVolumeProperties",
+  "title": "AzureKeyVaultVolumeProperties",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/VolumeProperties"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "azure.com.keyvault"
+          ]
+        },
+        "certificates": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/CertificateObjectProperties"
+          }
+        },
+        "keys": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/KeyObjectProperties"
+          }
+        },
+        "resource": {
+          "type": "string"
+        },
+        "secrets": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/SecretObjectProperties"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "resource",
+        "application"
+      ]
+    }
+  ]
+}

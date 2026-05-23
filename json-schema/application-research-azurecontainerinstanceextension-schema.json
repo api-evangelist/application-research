@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AzureContainerInstanceExtension",
+  "title": "AzureContainerInstanceExtension",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/Extension"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "aci"
+          ]
+        },
+        "resourceGroup": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "resourceGroup"
+      ]
+    }
+  ]
+}

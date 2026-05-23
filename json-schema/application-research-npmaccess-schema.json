@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NpmAccess",
+  "title": "NpmAccess",
+  "type": "object",
+  "description": "Access to npm package",
+  "required": [
+    "type",
+    "registry",
+    "package",
+    "version"
+  ],
+  "properties": {
+    "type": {
+      "const": "npm"
+    },
+    "registry": {
+      "type": "string"
+    },
+    "package": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    }
+  }
+}

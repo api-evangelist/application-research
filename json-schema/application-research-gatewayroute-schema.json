@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GatewayRoute",
+  "title": "GatewayRoute",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string"
+    },
+    "destination": {
+      "type": "string"
+    },
+    "replacePrefix": {
+      "type": "string"
+    },
+    "enableWebsockets": {
+      "type": "boolean"
+    },
+    "timeoutPolicy": {
+      "$ref": "#/components/schemas/GatewayRouteTimeoutPolicy"
+    }
+  }
+}

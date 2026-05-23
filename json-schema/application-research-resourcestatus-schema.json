@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ResourceStatus",
+  "title": "ResourceStatus",
+  "type": "object",
+  "description": "Status of a resource",
+  "properties": {
+    "compute": {
+      "$ref": "#/components/schemas/EnvironmentCompute"
+    },
+    "recipe": {
+      "$ref": "#/components/schemas/RecipeStatus",
+      "readOnly": true
+    },
+    "outputResources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OutputResource"
+      }
+    }
+  }
+}

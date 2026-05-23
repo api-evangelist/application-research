@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IntegrationAspect",
+  "title": "Integration Aspect",
+  "type": "object",
+  "description": "Constituent part of an Integration Dependency",
+  "required": [
+    "title",
+    "mandatory"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mandatory": {
+      "type": "boolean"
+    },
+    "supportMultipleProviders": {
+      "type": "boolean"
+    },
+    "apiResources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ApiResourceIntegrationAspect"
+      }
+    },
+    "eventResources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/EventResourceIntegrationAspect"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ResourceReference",
+  "title": "ResourceReference",
+  "type": "object",
+  "description": "Describes a reference to an existing resource",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Resource id of an existing resource"
+    }
+  },
+  "required": [
+    "id"
+  ]
+}

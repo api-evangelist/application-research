@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LocalBlobAccess",
+  "title": "LocalBlobAccess",
+  "type": "object",
+  "description": "Access to a blob stored with the component descriptor",
+  "required": [
+    "type",
+    "localReference",
+    "mediaType"
+  ],
+  "properties": {
+    "type": {
+      "const": "localBlob"
+    },
+    "localReference": {
+      "type": "string",
+      "description": "Reference to the local blob"
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "Media type of the blob"
+    },
+    "referenceName": {
+      "type": "string",
+      "description": "Reference name for relocation"
+    },
+    "globalAccess": {
+      "$ref": "#/components/schemas/Access"
+    }
+  }
+}

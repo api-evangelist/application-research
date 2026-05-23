@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CertificateObjectProperties",
+  "title": "CertificateObjectProperties",
+  "type": "object",
+  "properties": {
+    "alias": {
+      "type": "string"
+    },
+    "encoding": {
+      "type": "string",
+      "default": "utf-8",
+      "enum": [
+        "utf-8",
+        "hex",
+        "base64"
+      ]
+    },
+    "format": {
+      "type": "string",
+      "default": "pem",
+      "enum": [
+        "pem",
+        "pfx"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "certType": {
+      "type": "string",
+      "enum": [
+        "certificate",
+        "privatekey",
+        "publickey"
+      ]
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

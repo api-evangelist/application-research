@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ConsumptionBundleReference",
+  "title": "Consumption Bundle Reference",
+  "type": "object",
+  "description": "Reference to a Consumption Bundle",
+  "required": [
+    "ordId"
+  ],
+  "properties": {
+    "ordId": {
+      "type": "string",
+      "pattern": "^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\\-]+):(v0|v[1-9][0-9]*)$",
+      "maxLength": 255
+    },
+    "defaultEntryPoint": {
+      "type": "string",
+      "format": "uri-reference"
+    }
+  }
+}

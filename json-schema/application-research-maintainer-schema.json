@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Maintainer",
+  "title": "Maintainer",
+  "type": "object",
+  "description": "Information about a bundle maintainer",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the maintainer"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the maintainer"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the maintainer"
+    }
+  }
+}

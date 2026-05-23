@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Extension",
+  "title": "Extension",
+  "type": "object",
+  "description": "Extension of a environment/application resource",
+  "properties": {
+    "kind": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind"
+  ],
+  "discriminator": {
+    "propertyName": "kind",
+    "mapping": {
+      "kubernetesMetadata": "#/components/schemas/KubernetesMetadataExtension",
+      "kubernetesNamespace": "#/components/schemas/KubernetesNamespaceExtension",
+      "manualScaling": "#/components/schemas/ManualScalingExtension",
+      "daprSidecar": "#/components/schemas/DaprSidecarExtension",
+      "aci": "#/components/schemas/AzureContainerInstanceExtension"
+    }
+  }
+}

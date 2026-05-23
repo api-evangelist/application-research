@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ParameterSource",
+  "title": "ParameterSource",
+  "type": "object",
+  "description": "Defines how a parameter value should be sourced",
+  "minProperties": 1,
+  "properties": {
+    "priority": {
+      "type": "array",
+      "description": "Source types in priority order",
+      "items": {
+        "type": "string",
+        "enum": [
+          "output"
+        ]
+      },
+      "minItems": 1
+    },
+    "sources": {
+      "type": "object",
+      "description": "Source definitions for the parameter",
+      "properties": {
+        "output": {
+          "$ref": "#/components/schemas/ParameterSourceOutput"
+        }
+      },
+      "minProperties": 1
+    }
+  }
+}

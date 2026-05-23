@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ConnectionProperties",
+  "title": "ConnectionProperties",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string"
+    },
+    "disableDefaultEnvVars": {
+      "type": "boolean"
+    },
+    "iam": {
+      "$ref": "#/components/schemas/IamProperties"
+    }
+  },
+  "required": [
+    "source"
+  ]
+}

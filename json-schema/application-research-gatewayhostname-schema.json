@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GatewayHostname",
+  "title": "GatewayHostname",
+  "type": "object",
+  "properties": {
+    "prefix": {
+      "type": "string"
+    },
+    "fullyQualifiedHostname": {
+      "type": "string"
+    }
+  }
+}

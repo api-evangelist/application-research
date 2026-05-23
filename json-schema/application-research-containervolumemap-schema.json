@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContainerVolumeMap",
+  "title": "ContainerVolumeMap",
+  "type": "object",
+  "description": "The volumes to mount as a map of target paths to volume details",
+  "additionalProperties": {
+    "$ref": "#/components/schemas/ContainerVolume"
+  }
+}
