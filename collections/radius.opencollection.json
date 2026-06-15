@@ -1,0 +1,1196 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research Radius API",
+    "version": "2023-10-01-preview"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Applications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/applications",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research List applications"
+        },
+        {
+          "info": {
+            "name": "Application Research Get application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/applications/:applicationName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "applicationName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the application"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get application"
+        },
+        {
+          "info": {
+            "name": "Application Research Create or update application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/applications/:applicationName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "applicationName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the application"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create or update application"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/applications/:applicationName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "applicationName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the application"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Delete application"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Environments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List environments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/environments",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research List environments"
+        },
+        {
+          "info": {
+            "name": "Application Research Get environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/environments/:environmentName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "environmentName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the environment"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get environment"
+        },
+        {
+          "info": {
+            "name": "Application Research Create or update environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/environments/:environmentName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "environmentName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the environment"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create or update environment"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/environments/:environmentName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "environmentName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the environment"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Delete environment"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Containers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List containers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/containers",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research List containers"
+        },
+        {
+          "info": {
+            "name": "Application Research Get container",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/containers/:containerName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "containerName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the container"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get container"
+        },
+        {
+          "info": {
+            "name": "Application Research Create or update container",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/containers/:containerName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "containerName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the container"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create or update container"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete container",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/containers/:containerName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "containerName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the container"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Delete container"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Gateways",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get gateway",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/gateways/:gatewayName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "gatewayName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the gateway"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get gateway"
+        },
+        {
+          "info": {
+            "name": "Application Research Create or update gateway",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/gateways/:gatewayName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "gatewayName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the gateway"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create or update gateway"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SecretStores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get secret store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/secretStores/:secretStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "secretStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the secret store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get secret store"
+        },
+        {
+          "info": {
+            "name": "Application Research Create or update secret store",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/secretStores/:secretStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "secretStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the secret store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create or update secret store"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Volumes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get volume",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/volumes/:volumeName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "volumeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the volume"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get volume"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Extenders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get extender",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Core/extenders/:extenderName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "extenderName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the extender"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get extender"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Datastores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get MongoDB database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Datastores/mongoDatabases/:mongoDatabaseName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "mongoDatabaseName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the MongoDB database"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get MongoDB database"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Redis cache",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Datastores/redisCaches/:redisCacheName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "redisCacheName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Redis cache"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Redis cache"
+        },
+        {
+          "info": {
+            "name": "Application Research Get SQL database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Datastores/sqlDatabases/:sqlDatabaseName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "sqlDatabaseName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the SQL database"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get SQL database"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Messaging",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get RabbitMQ queue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Messaging/rabbitMQQueues/:rabbitMQQueueName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "rabbitMQQueueName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the RabbitMQ queue"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get RabbitMQ queue"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Dapr",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get Dapr state store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/stateStores/:stateStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "stateStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr state store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr state store"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Dapr pub/sub broker",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/pubSubBrokers/:pubSubBrokerName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "pubSubBrokerName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr pub/sub broker"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr pub/sub broker"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Dapr secret store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/secretStores/:daprSecretStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "daprSecretStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr secret store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr secret store"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Dapr configuration store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/configurationStores/:configurationStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "configurationStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr configuration store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr configuration store"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Planes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get Radius plane",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Radius plane"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ResourceGroups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get resource group",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/radius/:planeName/resourceGroups/:resourceGroupName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get resource group"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Credentials",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get Azure credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/azure/:planeName/providers/System.Azure/credentials/:credentialName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "credentialName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the credential"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Azure credential"
+        },
+        {
+          "info": {
+            "name": "Application Research Get AWS credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://management.radapp.io/planes/aws/:planeName/providers/System.AWS/credentials/:credentialName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "credentialName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the credential"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get AWS credential"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

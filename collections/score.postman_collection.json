@@ -1,0 +1,1828 @@
+{
+  "item": [
+    {
+      "id": "d94ccf1c-f351-4b9e-b993-b8d8b5a37824",
+      "name": "Validation",
+      "description": {
+        "content": "Workload validation operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0de4ab54-465c-43da-ab4a-389c5dd4005a",
+          "name": "Application Research Validate a workload specification",
+          "request": {
+            "name": "Application Research Validate a workload specification",
+            "description": {
+              "content": "Validates a Score workload specification without creating it",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apiVersion\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"annotations\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"containers\": {\n    \"key_0\": {\n      \"image\": \"<string>\",\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"variables\": {\n        \"key_0\": \"<string>\"\n      },\n      \"files\": {\n        \"key_0\": {},\n        \"key_1\": {}\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        },\n        \"key_1\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        },\n        \"key_2\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        }\n      },\n      \"resources\": {\n        \"limits\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        },\n        \"requests\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    },\n    \"key_1\": {\n      \"image\": \"<string>\",\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"variables\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"files\": {\n        \"key_0\": {},\n        \"key_1\": {},\n        \"key_2\": {}\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        }\n      },\n      \"resources\": {\n        \"limits\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        },\n        \"requests\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"key_0\": {\n        \"port\": \"<integer>\",\n        \"protocol\": \"TCP\",\n        \"targetPort\": \"<integer>\"\n      }\n    }\n  },\n  \"resources\": {\n    \"key_0\": {\n      \"type\": \"<string>\",\n      \"class\": \"<string>\",\n      \"id\": \"<string>\",\n      \"metadata\": {\n        \"annotations\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": 7790.222362162081,\n        \"key_3\": 3849.958224944714\n      },\n      \"params\": {\n        \"key_0\": \"string\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0f474db6-c837-4344-8073-406bacf5d43f",
+              "name": "Validation successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"warnings\": [\n    {\n      \"path\": \"/containers/frontend/resources/limits/memory\",\n      \"message\": \"Memory limit is relatively high, consider if this is necessary\",\n      \"code\": \"RESOURCE_HIGH\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c40ea02-eb6e-41fe-975e-e3621c38a538",
+              "name": "Validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"valid\": false,\n  \"errors\": [\n    {\n      \"path\": \"/metadata/name\",\n      \"message\": \"Name 'Invalid_Name' does not match required pattern ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$\",\n      \"code\": \"PATTERN_MISMATCH\"\n    },\n    {\n      \"path\": \"/containers/app/image\",\n      \"message\": \"Container image is required\",\n      \"code\": \"REQUIRED_FIELD\"\n    },\n    {\n      \"path\": \"/service/ports/web/port\",\n      \"message\": \"Port must be between 1 and 65535\",\n      \"code\": \"VALUE_OUT_OF_RANGE\"\n    }\n  ],\n  \"warnings\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "133a00d2-be81-44a1-bbe1-07eebab28f46",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "87f07695-1aa4-4099-8c01-ed58859faa86",
+      "name": "Workloads",
+      "description": {
+        "content": "Score workload management operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bc8732a8-0d7a-48a4-84c5-4b2c077c456e",
+          "name": "Application Research List all workloads",
+          "request": {
+            "name": "Application Research List all workloads",
+            "description": {
+              "content": "Retrieves a list of all Score workload specifications",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workloads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of items to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filter workloads by name (partial match)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "51a53f1c-128c-4c15-936c-9d1c0688838d",
+              "name": "Successful response with list of workloads",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"apiVersion\": \"score.dev/v1b1\",\n      \"metadata\": {\n        \"name\": \"ecommerce-frontend\",\n        \"annotations\": {\n          \"app.kubernetes.io/part-of\": \"ecommerce-platform\"\n        }\n      },\n      \"containers\": {\n        \"frontend\": {\n          \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\"\n        }\n      }\n    },\n    {\n      \"apiVersion\": \"score.dev/v1b1\",\n      \"metadata\": {\n        \"name\": \"data-pipeline-worker\",\n        \"annotations\": {\n          \"app.kubernetes.io/part-of\": \"data-platform\"\n        }\n      },\n      \"containers\": {\n        \"worker\": {\n          \"image\": \"123456789012.dkr.ecr.us-west-2.amazonaws.com/data-worker:3.1.0\"\n        }\n      }\n    },\n    {\n      \"apiVersion\": \"score.dev/v1b1\",\n      \"metadata\": {\n        \"name\": \"ml-inference-service\",\n        \"annotations\": {\n          \"app.kubernetes.io/part-of\": \"ml-platform\"\n        }\n      },\n      \"containers\": {\n        \"model-server\": {\n          \"image\": \"myacr.azurecr.io/ml-serving/inference-server:4.2.1\"\n        }\n      }\n    }\n  ],\n  \"total\": 3,\n  \"limit\": 10,\n  \"offset\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "379ee72f-97b4-40b4-bb07-100ed74b5092",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"BAD_REQUEST\",\n    \"message\": \"Invalid workload specification\",\n    \"details\": {\n      \"validationErrors\": [\n        {\n          \"path\": \"/apiVersion\",\n          \"message\": \"apiVersion must be 'score.dev/v1b1'\"\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f56f24ec-9c8f-48aa-9ef2-3b289b4d7771",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43871480-1f91-4b54-9be8-730348f3207c",
+          "name": "Application Research Create a new workload",
+          "request": {
+            "name": "Application Research Create a new workload",
+            "description": {
+              "content": "Creates a new Score workload specification",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workloads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apiVersion\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"annotations\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"containers\": {\n    \"key_0\": {\n      \"image\": \"<string>\",\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"variables\": {\n        \"key_0\": \"<string>\"\n      },\n      \"files\": {\n        \"key_0\": {},\n        \"key_1\": {}\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        },\n        \"key_1\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        },\n        \"key_2\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        }\n      },\n      \"resources\": {\n        \"limits\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        },\n        \"requests\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    },\n    \"key_1\": {\n      \"image\": \"<string>\",\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"variables\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"files\": {\n        \"key_0\": {},\n        \"key_1\": {},\n        \"key_2\": {}\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        }\n      },\n      \"resources\": {\n        \"limits\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        },\n        \"requests\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"key_0\": {\n        \"port\": \"<integer>\",\n        \"protocol\": \"TCP\",\n        \"targetPort\": \"<integer>\"\n      }\n    }\n  },\n  \"resources\": {\n    \"key_0\": {\n      \"type\": \"<string>\",\n      \"class\": \"<string>\",\n      \"id\": \"<string>\",\n      \"metadata\": {\n        \"annotations\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": 7790.222362162081,\n        \"key_3\": 3849.958224944714\n      },\n      \"params\": {\n        \"key_0\": \"string\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ca8a1115-1142-4785-905e-780c987f44b0",
+              "name": "Workload created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52a57e33-10ab-452e-94ad-fa6793439db0",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"BAD_REQUEST\",\n    \"message\": \"Invalid workload specification\",\n    \"details\": {\n      \"validationErrors\": [\n        {\n          \"path\": \"/apiVersion\",\n          \"message\": \"apiVersion must be 'score.dev/v1b1'\"\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "553a3e7a-4d4e-410d-a865-2bb204f3adcd",
+              "name": "Resource already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"CONFLICT\",\n    \"message\": \"Workload 'ecommerce-frontend' already exists\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10fd61f5-9952-40c0-a7ad-6482dc460556",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cc6d9696-1ed5-4aed-8705-99aa50bf7e45",
+          "name": "Application Research Get a specific workload",
+          "request": {
+            "name": "Application Research Get a specific workload",
+            "description": {
+              "content": "Retrieves a Score workload specification by name",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workloads",
+                ":workloadName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workloadName",
+                  "description": "(Required) The name of the workload"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c81e664e-97a7-487d-b408-f922ab189cf2",
+              "name": "Successful response with workload details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dfdb7c4a-29e1-4e1d-86c2-2463a65b4a20",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Workload 'my-workload' not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdec1ee1-89ff-412f-8f3a-c5f194e187eb",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce5fa87b-386e-4daf-b26a-36d764328388",
+          "name": "Application Research Update a workload",
+          "request": {
+            "name": "Application Research Update a workload",
+            "description": {
+              "content": "Updates an existing Score workload specification",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workloads",
+                ":workloadName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workloadName",
+                  "description": "(Required) The name of the workload"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apiVersion\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"annotations\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"containers\": {\n    \"key_0\": {\n      \"image\": \"<string>\",\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"variables\": {\n        \"key_0\": \"<string>\"\n      },\n      \"files\": {\n        \"key_0\": {},\n        \"key_1\": {}\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        },\n        \"key_1\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        },\n        \"key_2\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        }\n      },\n      \"resources\": {\n        \"limits\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        },\n        \"requests\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    },\n    \"key_1\": {\n      \"image\": \"<string>\",\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"variables\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      },\n      \"files\": {\n        \"key_0\": {},\n        \"key_1\": {},\n        \"key_2\": {}\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        }\n      },\n      \"resources\": {\n        \"limits\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        },\n        \"requests\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"key_0\": {\n        \"port\": \"<integer>\",\n        \"protocol\": \"TCP\",\n        \"targetPort\": \"<integer>\"\n      }\n    }\n  },\n  \"resources\": {\n    \"key_0\": {\n      \"type\": \"<string>\",\n      \"class\": \"<string>\",\n      \"id\": \"<string>\",\n      \"metadata\": {\n        \"annotations\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": 7790.222362162081,\n        \"key_3\": 3849.958224944714\n      },\n      \"params\": {\n        \"key_0\": \"string\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e23e416a-f123-4fb7-ac37-8d1572aaa6fc",
+              "name": "Workload updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8983ab9-fc07-4540-8ef7-2cd4e5969dae",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"BAD_REQUEST\",\n    \"message\": \"Invalid workload specification\",\n    \"details\": {\n      \"validationErrors\": [\n        {\n          \"path\": \"/apiVersion\",\n          \"message\": \"apiVersion must be 'score.dev/v1b1'\"\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c804909e-986c-4294-9b78-a5a17b0ee3cf",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Workload 'my-workload' not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ab24444-5e7c-4d6e-9df9-5bee1a773a2d",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "05a85e4a-0559-4e7c-8393-b1240c368c4d",
+          "name": "Application Research Delete a workload",
+          "request": {
+            "name": "Application Research Delete a workload",
+            "description": {
+              "content": "Deletes a Score workload specification",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workloads",
+                ":workloadName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workloadName",
+                  "description": "(Required) The name of the workload"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c790b32b-1ad1-48cd-8966-17a9b787244c",
+              "name": "Workload deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "474a4429-abfd-42ff-b95f-3cc03ea482da",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Workload 'my-workload' not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9ba54dd-aa93-4974-80fb-7918bd26adc7",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1973c78e-bf56-4939-93e7-f1cb5fad1695",
+          "name": "Application Research List containers in a workload",
+          "request": {
+            "name": "Application Research List containers in a workload",
+            "description": {
+              "content": "Retrieves all containers defined in a workload",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workloads",
+                ":workloadName",
+                "containers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workloadName",
+                  "description": "(Required) The name of the workload"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2e2d71a2-c588-45d3-8c28-81bbca39978a",
+              "name": "Successful response with container list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName",
+                    "containers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"frontend\": {\n    \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n    \"command\": [\n      \"/usr/bin/node\"\n    ],\n    \"args\": [\n      \"server.js\",\n      \"--config=/etc/app/config.json\"\n    ],\n    \"resources\": {\n      \"requests\": {\n        \"memory\": \"256M\",\n        \"cpu\": \"250m\"\n      },\n      \"limits\": {\n        \"memory\": \"1Gi\",\n        \"cpu\": \"1\"\n      }\n    }\n  },\n  \"nginx-sidecar\": {\n    \"image\": \"nginx:1.25-alpine\",\n    \"resources\": {\n      \"requests\": {\n        \"memory\": \"64M\",\n        \"cpu\": \"50m\"\n      },\n      \"limits\": {\n        \"memory\": \"128M\",\n        \"cpu\": \"200m\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efbc0bbc-1417-4fcb-a251-b40f895d2b2e",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName",
+                    "containers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Workload 'my-workload' not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7e75b35-2455-42df-b532-6402a8c90015",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName",
+                    "containers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7481c690-42c1-43fa-8488-02ece3839259",
+          "name": "Application Research List resources in a workload",
+          "request": {
+            "name": "Application Research List resources in a workload",
+            "description": {
+              "content": "Retrieves all resource dependencies defined in a workload",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workloads",
+                ":workloadName",
+                "resources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "workloadName",
+                  "description": "(Required) The name of the workload"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d2cce82d-e8c1-4d0f-9749-72267d6d073e",
+              "name": "Successful response with resource list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"postgres-db\": {\n    \"type\": \"postgres\",\n    \"class\": \"managed\",\n    \"id\": \"ecommerce.products\"\n  },\n  \"cache\": {\n    \"type\": \"redis\",\n    \"class\": \"cluster\",\n    \"id\": \"ecommerce.session-cache\"\n  },\n  \"session-secrets\": {\n    \"type\": \"secret\",\n    \"id\": \"ecommerce.session\"\n  },\n  \"object-storage\": {\n    \"type\": \"s3\",\n    \"class\": \"standard\",\n    \"id\": \"ecommerce.assets\"\n  },\n  \"uploads-volume\": {\n    \"type\": \"volume\",\n    \"class\": \"ssd\"\n  },\n  \"static-assets\": {\n    \"type\": \"volume\",\n    \"class\": \"standard\",\n    \"id\": \"ecommerce.static\"\n  },\n  \"tls-certs\": {\n    \"type\": \"secret\",\n    \"class\": \"tls\",\n    \"id\": \"ecommerce.tls\"\n  },\n  \"feature-flags\": {\n    \"type\": \"service\",\n    \"id\": \"shared.feature-flags\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1101523d-82ba-4684-a070-675f4b51d71a",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Workload 'my-workload' not found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abf83c00-638f-46d8-bd76-c20a06a44728",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workloads",
+                    ":workloadName",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workloadName",
+                      "description": "(Required) The name of the workload"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.score.dev/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "419c847d-78ca-4291-97ce-49ac6dbc52e5",
+    "name": "Application Research Score Workload Specification API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Score workload specifications. Score is a platform-agnostic \nworkload specification that enables developers to define their workloads once \nand deploy them across multiple platforms.\n\n\nContact Support:\n Name: Score Project",
+      "type": "text/plain"
+    }
+  }
+}

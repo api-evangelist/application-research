@@ -1,0 +1,861 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research Open Resource Discovery (ORD) API",
+    "version": "1.12.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ORD Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all ORD Documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/documents",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "perspective",
+                "value": "",
+                "type": "query",
+                "description": "Filter by ORD Document perspective"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all available ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Create a new ORD Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/ord/v1/documents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new ORD Document with the provided resources and taxonomy"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an ORD Document by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "sap-iot-platform-v1",
+                "type": "path",
+                "description": "Unique identifier of the ORD Document"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific ORD Document by its identifier"
+        },
+        {
+          "info": {
+            "name": "Application Research Update an ORD Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.example.com/ord/v1/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "sap-iot-platform-v1",
+                "type": "path",
+                "description": "Unique identifier of the ORD Document"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing ORD Document"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete an ORD Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.example.com/ord/v1/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "sap-iot-platform-v1",
+                "type": "path",
+                "description": "Unique identifier of the ORD Document"
+              }
+            ]
+          },
+          "docs": "Deletes an ORD Document"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Packages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Packages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/packages",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "vendor",
+                "value": "sap:vendor:SAP:",
+                "type": "query",
+                "description": "Filter by vendor ORD ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Packages across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Package by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/packages/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:package:DeviceManagement:v1",
+                "type": "path",
+                "description": "ORD ID of the Package"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Package by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "API Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all API Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/api-resources",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "apiProtocol",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API protocol"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              },
+              {
+                "name": "releaseStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filter by release status"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all API Resources across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an API Resource by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/api-resources/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:apiResource:DeviceManagementAPI:v1",
+                "type": "path",
+                "description": "ORD ID of the API Resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific API Resource by its ORD ID"
+        },
+        {
+          "info": {
+            "name": "Application Research Get API Resource Definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/api-resources/:ordId/definitions",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:apiResource:DeviceManagementAPI:v1",
+                "type": "path",
+                "description": "ORD ID of the API Resource"
+              }
+            ]
+          },
+          "docs": "Retrieves all resource definitions for a specific API Resource"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Event Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Event Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/event-resources",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              },
+              {
+                "name": "releaseStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filter by release status"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Event Resources across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an Event Resource by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/event-resources/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:eventResource:DeviceEvents:v1",
+                "type": "path",
+                "description": "ORD ID of the Event Resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Event Resource by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Entity Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Entity Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/entity-types",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "level",
+                "value": "",
+                "type": "query",
+                "description": "Filter entity types by level"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Entity Types across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an Entity Type by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/entity-types/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:entityType:Device:v1",
+                "type": "path",
+                "description": "ORD ID of the Entity Type"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Entity Type by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Data Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Data Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/data-products",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter data products by type"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter data products by category"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Data Products across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Data Product by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/data-products/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:dataProduct:AssetPerformance:v1",
+                "type": "path",
+                "description": "ORD ID of the Data Product"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Data Product by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Capabilities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Capabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/capabilities",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter capabilities by type"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Capabilities across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Capability by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/capabilities/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:capability:EdgeProcessing:v1",
+                "type": "path",
+                "description": "ORD ID of the Capability"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Capability by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Integration Dependencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Integration Dependencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/integration-dependencies",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "mandatory",
+                "value": "",
+                "type": "query",
+                "description": "Filter integration dependencies by mandatory flag"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Integration Dependencies across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an Integration Dependency by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/integration-dependencies/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:integrationDependency:SensorDataIngestion:v1",
+                "type": "path",
+                "description": "ORD ID of the Integration Dependency"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Integration Dependency by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Consumption Bundles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Consumption Bundles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/consumption-bundles",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Consumption Bundles across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Consumption Bundle by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/consumption-bundles/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:consumptionBundle:PlatformAPIs:v1",
+                "type": "path",
+                "description": "ORD ID of the Consumption Bundle"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Consumption Bundle by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/products",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "vendor",
+                "value": "sap:vendor:SAP:",
+                "type": "query",
+                "description": "Filter by vendor ORD ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Products across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Product by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/products/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap:product:IoTPlatform:",
+                "type": "path",
+                "description": "ORD ID of the Product"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Product by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Vendors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Vendors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/vendors",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Vendors across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Vendor by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/vendors/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap:vendor:SAP:",
+                "type": "path",
+                "description": "ORD ID of the Vendor"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Vendor by its ORD ID"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/groups",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "groupTypeId",
+                "value": "",
+                "type": "query",
+                "description": "Filter groups by group type ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Groups across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Group by Group ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "sap.iot:capability-area:sap.iot:Connectivity",
+                "type": "path",
+                "description": "Group ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Group by its Group ID"
+        },
+        {
+          "info": {
+            "name": "Application Research List all Group Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/group-types",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Group Types across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Group Type by Group Type ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/ord/v1/group-types/:groupTypeId",
+            "params": [
+              {
+                "name": "groupTypeId",
+                "value": "sap.iot:capability-area",
+                "type": "path",
+                "description": "Group Type ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Group Type by its Group Type ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

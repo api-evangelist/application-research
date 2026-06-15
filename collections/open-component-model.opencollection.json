@@ -1,0 +1,600 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research Open Component Model API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Components",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List component descriptors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "provider",
+                "value": "",
+                "type": "query",
+                "description": "Filter by provider name"
+              }
+            ]
+          },
+          "docs": "Application Research List component descriptors"
+        },
+        {
+          "info": {
+            "name": "Application Research Create a component descriptor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/components",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create a component descriptor"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a component descriptor by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Get a component descriptor by name"
+        },
+        {
+          "info": {
+            "name": "Application Research Update a component descriptor",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.ocm.example.com/v1/components/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Update a component descriptor"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete a component descriptor",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ocm.example.com/v1/components/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Delete a component descriptor"
+        },
+        {
+          "info": {
+            "name": "Application Research List all versions of a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components/:name/versions",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              }
+            ]
+          },
+          "docs": "Application Research List all versions of a component"
+        },
+        {
+          "info": {
+            "name": "Application Research List component references",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components/:name/references",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research List component references"
+        },
+        {
+          "info": {
+            "name": "Application Research Add a component reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/components/:name/references",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Add a component reference"
+        },
+        {
+          "info": {
+            "name": "Application Research Transfer components between repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/transfer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Transfer components between repositories"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List resources for a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components/:name/resources",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research List resources for a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Add a resource to a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/components/:name/resources",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Add a resource to a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a specific resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components/:name/resources/:resourceName",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "resourceName",
+                "value": "",
+                "type": "path",
+                "description": "Resource element name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Get a specific resource"
+        },
+        {
+          "info": {
+            "name": "Application Research Remove a resource from a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ocm.example.com/v1/components/:name/resources/:resourceName",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "resourceName",
+                "value": "",
+                "type": "path",
+                "description": "Resource element name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Remove a resource from a component"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List sources for a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components/:name/sources",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research List sources for a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Add a source to a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/components/:name/sources",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Add a source to a component"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Signatures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List signatures for a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/components/:name/signatures",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research List signatures for a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Sign a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/components/:name/signatures",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Sign a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Verify a component signature",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/components/:name/signatures/:signatureName/verify",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "signatureName",
+                "value": "",
+                "type": "path",
+                "description": "Signature name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Verify a component signature"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Configurations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List component configurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/configurations",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              }
+            ]
+          },
+          "docs": "Application Research List component configurations"
+        },
+        {
+          "info": {
+            "name": "Application Research Create a component configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ocm.example.com/v1/configurations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create a component configuration"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a configuration by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ocm.example.com/v1/configurations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Configuration ID"
+              }
+            ]
+          },
+          "docs": "Application Research Get a configuration by ID"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete a configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ocm.example.com/v1/configurations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Configuration ID"
+              }
+            ]
+          },
+          "docs": "Application Research Delete a configuration"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
