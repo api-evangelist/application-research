@@ -132,6 +132,10 @@ apis:
         url: examples/radius-ecommerce-microservice.yml
         title: E-Commerce Microservice Example
 common:
+  - type: DomainSecurity
+    url: security/application-research-domain-security.yml
+  - type: Authentication
+    url: authentication/application-research-authentication.yml
   - type: OAuthScopes
     url: scopes/application-research-scopes.yml
   - type: GitHubOrganization

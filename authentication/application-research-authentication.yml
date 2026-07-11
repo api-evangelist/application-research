@@ -1,0 +1,49 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cloud-native-application-bundle-openapi.yml, openapi/open-component-model-openapi.yml,
+  openapi/open-resource-discovery-openapi.yml, openapi/score-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  - oauth2
+  - openIdConnect
+  api_key_in:
+  - header
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: JWT-based authentication
+  sources:
+  - openapi/cloud-native-application-bundle-openapi.yml
+  - openapi/open-component-model-openapi.yml
+  - openapi/open-resource-discovery-openapi.yml
+  - openapi/score-openapi.yml
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: API key authentication
+  sources:
+  - openapi/cloud-native-application-bundle-openapi.yml
+  - openapi/open-component-model-openapi.yml
+  - openapi/score-openapi.yml
+- name: oidc
+  type: openIdConnect
+  openIdConnectUrl: https://auth.ocm.example.com/.well-known/openid-configuration
+  description: OpenID Connect authentication
+  sources:
+  - openapi/open-component-model-openapi.yml
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth/token
+    scopes: 3
+  description: OAuth 2.0 authentication
+  sources:
+  - openapi/open-resource-discovery-openapi.yml
