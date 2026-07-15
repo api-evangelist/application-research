@@ -132,6 +132,8 @@ apis:
         url: examples/radius-ecommerce-microservice.yml
         title: E-Commerce Microservice Example
 common:
+  - type: AgenticAccess
+    url: agentic-access/application-research-agentic-access.yml
   - type: DomainSecurity
     url: security/application-research-domain-security.yml
   - type: Authentication
