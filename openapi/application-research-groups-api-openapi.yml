@@ -1,0 +1,361 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Groups API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Groups
+  description: Group and Group Type operations
+paths:
+  /groups:
+    get:
+      tags:
+      - Groups
+      summary: Application Research List all Groups
+      description: Retrieves a list of all Groups across all ORD Documents
+      operationId: listGroups
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      - $ref: '#/components/parameters/GroupTypeFilterParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of Groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupList'
+              examples:
+                groupList:
+                  $ref: '#/components/examples/GroupListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /groups/{groupId}:
+    get:
+      tags:
+      - Groups
+      summary: Application Research Get a Group by Group ID
+      description: Retrieves a specific Group by its Group ID
+      operationId: getGroup
+      parameters:
+      - $ref: '#/components/parameters/GroupIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved Group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+              examples:
+                group:
+                  $ref: '#/components/examples/GroupExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /group-types:
+    get:
+      tags:
+      - Groups
+      summary: Application Research List all Group Types
+      description: Retrieves a list of all Group Types across all ORD Documents
+      operationId: listGroupTypes
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of Group Types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupTypeList'
+              examples:
+                groupTypeList:
+                  $ref: '#/components/examples/GroupTypeListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /group-types/{groupTypeId}:
+    get:
+      tags:
+      - Groups
+      summary: Application Research Get a Group Type by Group Type ID
+      description: Retrieves a specific Group Type by its Group Type ID
+      operationId: getGroupType
+      parameters:
+      - $ref: '#/components/parameters/GroupTypeIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved Group Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupType'
+              examples:
+                groupType:
+                  $ref: '#/components/examples/GroupTypeExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  examples:
+    GroupTypeExample:
+      summary: IoT Capability Area Group Type
+      value:
+        groupTypeId: sap.iot:capability-area
+        title: IoT Capability Area
+        description: Logical grouping of IoT platform capabilities
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    GroupListExample:
+      summary: List of Groups
+      value:
+        items:
+        - groupId: sap.iot:capability-area:sap.iot:Connectivity
+          groupTypeId: sap.iot:capability-area
+          title: Connectivity
+        - groupId: sap.iot:capability-area:sap.iot:Analytics
+          groupTypeId: sap.iot:capability-area
+          title: Analytics
+        totalCount: 2
+        limit: 20
+        offset: 0
+    GroupExample:
+      summary: Connectivity Capability Area Group
+      value:
+        groupId: sap.iot:capability-area:sap.iot:Connectivity
+        groupTypeId: sap.iot:capability-area
+        title: Connectivity
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    GroupTypeListExample:
+      summary: List of Group Types
+      value:
+        items:
+        - groupTypeId: sap.iot:capability-area
+          title: IoT Capability Area
+          description: Logical grouping of IoT platform capabilities
+        - groupTypeId: sap.iot:use-case
+          title: IoT Use Case
+          description: Grouping by supported IoT use case scenarios
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+  parameters:
+    GroupIdParam:
+      name: groupId
+      in: path
+      required: true
+      description: Group ID
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      example: sap.iot:capability-area:sap.iot:Connectivity
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    GroupTypeIdParam:
+      name: groupTypeId
+      in: path
+      required: true
+      description: Group Type ID
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      example: sap.iot:capability-area
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    GroupTypeFilterParam:
+      name: groupTypeId
+      in: query
+      description: Filter groups by group type ID
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+  schemas:
+    GroupType:
+      type: object
+      title: Group Type
+      description: Defines the semantics of group assignments
+      required:
+      - groupTypeId
+      - title
+      properties:
+        groupTypeId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    GroupList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    GroupTypeList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupType'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
+    Group:
+      type: object
+      title: Group
+      description: Group instance that resources can be assigned to
+      required:
+      - groupId
+      - groupTypeId
+      - title
+      properties:
+        groupId:
+          $ref: '#/components/schemas/GroupId'
+        groupTypeId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

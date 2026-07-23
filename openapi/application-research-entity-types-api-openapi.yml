@@ -1,0 +1,504 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Entity Types API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Entity Types
+  description: Entity Type operations
+paths:
+  /entity-types:
+    get:
+      tags:
+      - Entity Types
+      summary: Application Research List all Entity Types
+      description: Retrieves a list of all Entity Types across all ORD Documents
+      operationId: listEntityTypes
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      - $ref: '#/components/parameters/LevelFilterParam'
+      - $ref: '#/components/parameters/VisibilityFilterParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of Entity Types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityTypeList'
+              examples:
+                entityTypeList:
+                  $ref: '#/components/examples/EntityTypeListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /entity-types/{ordId}:
+    get:
+      tags:
+      - Entity Types
+      summary: Application Research Get an Entity Type by ORD ID
+      description: Retrieves a specific Entity Type by its ORD ID
+      operationId: getEntityType
+      parameters:
+      - $ref: '#/components/parameters/EntityTypeOrdIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved Entity Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityType'
+              examples:
+                entityType:
+                  $ref: '#/components/examples/EntityTypeExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    RelatedEntityType:
+      type: object
+      title: Related Entity Type
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        relationType:
+          type: string
+          enum:
+          - part-of
+          - can-share-identity
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    ReleaseStatus:
+      type: string
+      enum:
+      - beta
+      - active
+      - deprecated
+      - sunset
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    ChangelogEntry:
+      type: object
+      title: Changelog Entry
+      required:
+      - version
+      - releaseStatus
+      - date
+      properties:
+        version:
+          type: string
+          minLength: 1
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    EntityTypeList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityType'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    EntityType:
+      type: object
+      title: Entity Type
+      description: Describes a business concept or underlying conceptual model
+      required:
+      - ordId
+      - localId
+      - level
+      - title
+      - version
+      - visibility
+      - partOfPackage
+      - releaseStatus
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        localId:
+          type: string
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        partOfPackage:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupId'
+        partOfProducts:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+            maxLength: 255
+        version:
+          $ref: '#/components/schemas/SemVer'
+        lastUpdate:
+          type: string
+          format: date-time
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        deprecationDate:
+          type: string
+          format: date-time
+        sunsetDate:
+          type: string
+          format: date-time
+        successors:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+            maxLength: 255
+        changelogEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangelogEntry'
+        level:
+          type: string
+          enum:
+          - aggregate
+          - root-entity
+          - sub-entity
+          description: Abstraction level using DDD terminology
+        relatedEntityTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedEntityType'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        extensible:
+          $ref: '#/components/schemas/Extensible'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        policyLevel:
+          $ref: '#/components/schemas/PolicyLevel'
+        customPolicyLevel:
+          $ref: '#/components/schemas/CustomPolicyLevel'
+        policyLevels:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyLevelId'
+        systemInstanceAware:
+          type: boolean
+          default: false
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
+    Extensible:
+      type: object
+      title: Extensible
+      required:
+      - supported
+      properties:
+        supported:
+          type: string
+          enum:
+          - 'no'
+          - manual
+          - automatic
+        description:
+          type: string
+          minLength: 1
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    Visibility:
+      type: string
+      enum:
+      - public
+      - internal
+      - private
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+  parameters:
+    VisibilityFilterParam:
+      name: visibility
+      in: query
+      description: Filter by visibility level
+      schema:
+        type: string
+        enum:
+        - public
+        - internal
+        - private
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    EntityTypeOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Entity Type
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:entityType:Device:v1
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    LevelFilterParam:
+      name: level
+      in: query
+      description: Filter entity types by level
+      schema:
+        type: string
+        enum:
+        - aggregate
+        - root-entity
+        - sub-entity
+  examples:
+    EntityTypeExample:
+      summary: IoT Device Entity Type
+      value:
+        ordId: sap.iot:entityType:Device:v1
+        localId: Device
+        title: IoT Device
+        shortDescription: Physical IoT device or gateway
+        description: Represents a physical IoT device or gateway that connects to the platform and sends sensor data.
+        version: 1.0.0
+        level: aggregate
+        visibility: public
+        releaseStatus: active
+        partOfPackage: sap.iot:package:DeviceManagement:v1
+        tags:
+        - device
+        - hardware
+    EntityTypeListExample:
+      summary: List of Entity Types
+      value:
+        items:
+        - ordId: sap.iot:entityType:Device:v1
+          localId: Device
+          title: IoT Device
+          level: aggregate
+          visibility: public
+          releaseStatus: active
+        - ordId: sap.iot:entityType:Sensor:v1
+          localId: Sensor
+          title: Sensor
+          level: sub-entity
+          visibility: public
+          releaseStatus: active
+        totalCount: 2
+        limit: 20
+        offset: 0
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

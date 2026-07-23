@@ -1,0 +1,304 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Products API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Products
+  description: Product operations
+paths:
+  /products:
+    get:
+      tags:
+      - Products
+      summary: Application Research List all Products
+      description: Retrieves a list of all Products across all ORD Documents
+      operationId: listProducts
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      - $ref: '#/components/parameters/VendorFilterParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of Products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+              examples:
+                productList:
+                  $ref: '#/components/examples/ProductListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /products/{ordId}:
+    get:
+      tags:
+      - Products
+      summary: Application Research Get a Product by ORD ID
+      description: Retrieves a specific Product by its ORD ID
+      operationId: getProduct
+      parameters:
+      - $ref: '#/components/parameters/ProductOrdIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                product:
+                  $ref: '#/components/examples/ProductExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    ProductList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Product:
+      type: object
+      title: Product
+      description: A commercial product or service
+      required:
+      - ordId
+      - title
+      - shortDescription
+      - vendor
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        vendor:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\-]+):()$
+          maxLength: 256
+        parent:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+  parameters:
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    ProductOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Product
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+      example: 'sap:product:IoTPlatform:'
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    VendorFilterParam:
+      name: vendor
+      in: query
+      description: Filter by vendor ORD ID
+      schema:
+        type: string
+      example: 'sap:vendor:SAP:'
+  examples:
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    ProductExample:
+      summary: SAP IoT Platform Product
+      value:
+        ordId: 'sap:product:IoTPlatform:'
+        title: SAP IoT Platform
+        shortDescription: Enterprise IoT platform for industrial applications
+        description: SAP IoT Platform provides connectivity, data ingestion, device management, and analytics capabilities for industrial IoT scenarios.
+        vendor: 'sap:vendor:SAP:'
+    ProductListExample:
+      summary: List of Products
+      value:
+        items:
+        - ordId: 'sap:product:IoTPlatform:'
+          title: SAP IoT Platform
+          shortDescription: Enterprise IoT platform for industrial applications
+          vendor: 'sap:vendor:SAP:'
+        - ordId: 'sap:product:SuccessFactors:'
+          title: SAP SuccessFactors
+          shortDescription: Cloud-based human capital management suite
+          vendor: 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

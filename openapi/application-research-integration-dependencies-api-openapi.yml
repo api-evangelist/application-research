@@ -1,0 +1,477 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Integration Dependencies API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Integration Dependencies
+  description: Integration Dependency operations
+paths:
+  /integration-dependencies:
+    get:
+      tags:
+      - Integration Dependencies
+      summary: Application Research List all Integration Dependencies
+      description: Retrieves a list of all Integration Dependencies across all ORD Documents
+      operationId: listIntegrationDependencies
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      - $ref: '#/components/parameters/MandatoryFilterParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of Integration Dependencies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationDependencyList'
+              examples:
+                integrationDependencyList:
+                  $ref: '#/components/examples/IntegrationDependencyListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /integration-dependencies/{ordId}:
+    get:
+      tags:
+      - Integration Dependencies
+      summary: Application Research Get an Integration Dependency by ORD ID
+      description: Retrieves a specific Integration Dependency by its ORD ID
+      operationId: getIntegrationDependency
+      parameters:
+      - $ref: '#/components/parameters/IntegrationDependencyOrdIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved Integration Dependency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationDependency'
+              examples:
+                integrationDependency:
+                  $ref: '#/components/examples/IntegrationDependencyExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    IntegrationDependency:
+      type: object
+      title: Integration Dependency
+      description: States that the system can integrate with external systems to achieve an integration purpose
+      required:
+      - ordId
+      - title
+      - version
+      - releaseStatus
+      - visibility
+      - partOfPackage
+      - mandatory
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        localId:
+          type: string
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        partOfPackage:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupId'
+        version:
+          $ref: '#/components/schemas/SemVer'
+        lastUpdate:
+          type: string
+          format: date-time
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        sunsetDate:
+          type: string
+          format: date-time
+        successors:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+            maxLength: 255
+        mandatory:
+          type: boolean
+          description: Whether the integration dependency is mandatory
+        aspects:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationAspect'
+        relatedIntegrationDependencies:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    IntegrationDependencyList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationDependency'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    ReleaseStatus:
+      type: string
+      enum:
+      - beta
+      - active
+      - deprecated
+      - sunset
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    EventResourceIntegrationAspectSubset:
+      type: object
+      title: Event Resource Integration Aspect Subset
+      required:
+      - eventType
+      properties:
+        eventType:
+          type: string
+    IntegrationAspect:
+      type: object
+      title: Integration Aspect
+      description: Constituent part of an Integration Dependency
+      required:
+      - title
+      - mandatory
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        mandatory:
+          type: boolean
+        supportMultipleProviders:
+          type: boolean
+        apiResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiResourceIntegrationAspect'
+        eventResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResourceIntegrationAspect'
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    ApiResourceIntegrationAspect:
+      type: object
+      title: API Resource Integration Aspect
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        minVersion:
+          $ref: '#/components/schemas/SemVer'
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+    EventResourceIntegrationAspect:
+      type: object
+      title: Event Resource Integration Aspect
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        minVersion:
+          $ref: '#/components/schemas/SemVer'
+        subset:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResourceIntegrationAspectSubset'
+        systemTypeRestriction:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
+    Visibility:
+      type: string
+      enum:
+      - public
+      - internal
+      - private
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+  parameters:
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    IntegrationDependencyOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Integration Dependency
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:integrationDependency:SensorDataIngestion:v1
+    MandatoryFilterParam:
+      name: mandatory
+      in: query
+      description: Filter integration dependencies by mandatory flag
+      schema:
+        type: boolean
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  examples:
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    IntegrationDependencyExample:
+      summary: Sensor Data Ingestion Integration Dependency
+      value:
+        ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
+        localId: SensorDataIngestion
+        title: Sensor Data Ingestion
+        shortDescription: Integration for sensor data input
+        description: Integration dependency describing the requirements for ingesting sensor data from edge devices and gateways.
+        version: 1.0.0
+        releaseStatus: active
+        visibility: public
+        partOfPackage: sap.iot:package:TimeSeries:v2
+        mandatory: true
+        aspects:
+        - title: Time Series Ingestion
+          description: API endpoint for sensor data ingestion
+          mandatory: true
+          supportMultipleProviders: true
+          apiResources:
+          - ordId: sap.iot:apiResource:TimeSeriesIngestion:v2
+            minVersion: 2.0.0
+        - title: Device Events
+          description: Events for device connectivity status
+          mandatory: false
+          supportMultipleProviders: true
+          eventResources:
+          - ordId: sap.iot:eventResource:DeviceEvents:v1
+            minVersion: 1.0.0
+            subset:
+            - eventType: sap.iot.Device.Connected.v1
+            - eventType: sap.iot.Device.Disconnected.v1
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    IntegrationDependencyListExample:
+      summary: List of Integration Dependencies
+      value:
+        items:
+        - ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
+          title: Sensor Data Ingestion
+          shortDescription: Integration for sensor data input
+          mandatory: true
+          visibility: public
+          releaseStatus: active
+        - ordId: sap.iot:integrationDependency:ERPIntegration:v1
+          title: ERP System Integration
+          shortDescription: Integration with SAP S/4HANA
+          mandatory: false
+          visibility: public
+          releaseStatus: active
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

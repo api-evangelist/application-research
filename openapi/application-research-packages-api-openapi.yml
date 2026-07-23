@@ -1,0 +1,446 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Packages API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Packages
+  description: Package management operations
+paths:
+  /packages:
+    get:
+      tags:
+      - Packages
+      summary: Application Research List all Packages
+      description: Retrieves a list of all Packages across all ORD Documents
+      operationId: listPackages
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      - $ref: '#/components/parameters/VendorFilterParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of Packages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PackageList'
+              examples:
+                packageList:
+                  $ref: '#/components/examples/PackageListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /packages/{ordId}:
+    get:
+      tags:
+      - Packages
+      summary: Application Research Get a Package by ORD ID
+      description: Retrieves a specific Package by its ORD ID
+      operationId: getPackage
+      parameters:
+      - $ref: '#/components/parameters/PackageOrdIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved Package
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Package'
+              examples:
+                package:
+                  $ref: '#/components/examples/PackageExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    Industry:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    PackageLink:
+      type: object
+      title: Package Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - terms-of-service
+          - license
+          - client-registration
+          - payment
+          - sandbox
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    LineOfBusiness:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
+    PackageList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    Package:
+      type: object
+      title: Package
+      description: 'A Package organizes a set of related resources together by publishing and catalog presentation concerns.
+
+        '
+      required:
+      - ordId
+      - title
+      - shortDescription
+      - description
+      - version
+      - vendor
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+          description: Stable, globally unique ORD ID for the package
+        localId:
+          type: string
+          maxLength: 255
+          description: Locally unique ID for the package
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Human-readable title
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Plain text short description
+        description:
+          type: string
+          minLength: 1
+          description: Full description in CommonMark (Markdown)
+        version:
+          $ref: '#/components/schemas/SemVer'
+        policyLevel:
+          $ref: '#/components/schemas/PolicyLevel'
+        customPolicyLevel:
+          $ref: '#/components/schemas/CustomPolicyLevel'
+        policyLevels:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyLevelId'
+        packageLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageLink'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        licenseType:
+          type: string
+          minLength: 1
+          description: SPDX License identifier
+        supportInfo:
+          type: string
+          minLength: 1
+          description: Support information (CommonMark)
+        vendor:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\-]+):()$
+          maxLength: 256
+          description: Reference to vendor ORD ID
+        partOfProducts:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+            maxLength: 255
+        countries:
+          type: array
+          items:
+            type: string
+            pattern: ^[A-Z]{2}$
+        lineOfBusiness:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineOfBusiness'
+        industry:
+          type: array
+          items:
+            $ref: '#/components/schemas/Industry'
+        runtimeRestriction:
+          type: string
+          pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
+          description: Runtime restriction system namespace
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+  examples:
+    PackageExample:
+      summary: Device Management Package
+      value:
+        ordId: sap.iot:package:DeviceManagement:v1
+        title: Device Management Package
+        shortDescription: APIs for IoT device lifecycle management
+        description: Complete set of APIs and events for managing IoT devices, including registration, configuration, firmware updates, and health monitoring.
+        version: 1.8.0
+        vendor: 'sap:vendor:SAP:'
+        partOfProducts:
+        - 'sap:product:IoTPlatform:'
+        packageLinks:
+        - type: client-registration
+          url: https://iot.sap.com/developer/register
+        lineOfBusiness:
+        - Manufacturing
+        - Asset Management
+        industry:
+        - Automotive
+        - Industrial Machinery and Components
+        tags:
+        - iot
+        - devices
+        - edge
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    PackageListExample:
+      summary: List of Packages
+      value:
+        items:
+        - ordId: sap.iot:package:DeviceManagement:v1
+          title: Device Management Package
+          shortDescription: APIs for IoT device lifecycle management
+          version: 1.8.0
+          vendor: 'sap:vendor:SAP:'
+        - ordId: sap.iot:package:TimeSeries:v2
+          title: Time Series Data Package
+          shortDescription: APIs for sensor time series data
+          version: 2.0.0
+          vendor: 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+  parameters:
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    PackageOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Package
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:package:DeviceManagement:v1
+    VendorFilterParam:
+      name: vendor
+      in: query
+      description: Filter by vendor ORD ID
+      schema:
+        type: string
+      example: 'sap:vendor:SAP:'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

@@ -1,0 +1,743 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Validation API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Validation
+  description: Workload validation operations
+paths:
+  /validate:
+    post:
+      tags:
+      - Validation
+      summary: Application Research Validate a workload specification
+      description: Validates a Score workload specification without creating it
+      operationId: validateWorkload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScoreWorkload'
+            examples:
+              ecommerceFrontend:
+                $ref: '#/components/examples/EcommerceFrontendExample'
+          application/x-yaml:
+            schema:
+              $ref: '#/components/schemas/ScoreWorkload'
+      responses:
+        '200':
+          description: Validation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+              examples:
+                validResult:
+                  $ref: '#/components/examples/ValidationSuccessExample'
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+              examples:
+                invalidResult:
+                  $ref: '#/components/examples/ValidationFailureExample'
+        '500':
+          $ref: '#/components/responses/InternalError'
+components:
+  schemas:
+    Resource:
+      type: object
+      description: The set of Resources associated with this Workload
+      additionalProperties: false
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The Resource type. This should be a type supported by the Score implementations being used.
+          minLength: 2
+          maxLength: 63
+          pattern: ^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$
+          examples:
+          - postgres
+          - redis
+          - s3
+          - volume
+          - secret
+          - service
+        class:
+          type: string
+          description: An optional specialisation of the Resource type
+          minLength: 2
+          maxLength: 63
+          pattern: ^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$
+          examples:
+          - managed
+          - cluster
+          - standard
+          - ssd
+        id:
+          type: string
+          description: An optional Resource identifier. When two resources share the same type, class, and id, they are considered the same resource when used across related Workloads.
+          minLength: 2
+          maxLength: 63
+          pattern: ^[a-z0-9]+(?:-+[a-z0-9]+)*(?:\.[a-z0-9]+(?:-+[a-z0-9]+)*)*$
+          examples:
+          - ecommerce.products
+          - shared.feature-flags
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        params:
+          type: object
+          description: Optional parameters used to provision the Resource in the environment
+          additionalProperties: true
+    ContainerProbe:
+      type: object
+      description: The probe may be defined as either http, command execution, or both. The execProbe should be preferred if the Score implementation supports both types.
+      additionalProperties: false
+      properties:
+        httpGet:
+          $ref: '#/components/schemas/HttpProbe'
+        exec:
+          $ref: '#/components/schemas/ExecProbe'
+    ExecProbe:
+      type: object
+      description: An executable health probe
+      additionalProperties: false
+      required:
+      - command
+      properties:
+        command:
+          type: array
+          description: The command and arguments to execute within the container
+          items:
+            type: string
+    EnvironmentVariables:
+      type: object
+      description: The environment variables for the container
+      propertyNames:
+        minLength: 1
+        pattern: ^[^=]+$
+      additionalProperties:
+        type: string
+    Container:
+      type: object
+      description: The specification of a Container within the Workload
+      required:
+      - image
+      additionalProperties: false
+      properties:
+        image:
+          type: string
+          description: The container image name and tag
+          minLength: 1
+          examples:
+          - nginx:1.25-alpine
+          - ghcr.io/myorg/app:2.5.0
+        command:
+          type: array
+          description: If specified, overrides the entrypoint defined in the container image
+          items:
+            type: string
+        args:
+          type: array
+          description: If specified, overrides the arguments passed to the container entrypoint
+          items:
+            type: string
+        variables:
+          $ref: '#/components/schemas/EnvironmentVariables'
+        files:
+          $ref: '#/components/schemas/ContainerFileMap'
+        volumes:
+          $ref: '#/components/schemas/ContainerVolumeMap'
+        resources:
+          $ref: '#/components/schemas/ContainerResources'
+        livenessProbe:
+          $ref: '#/components/schemas/ContainerProbe'
+        readinessProbe:
+          $ref: '#/components/schemas/ContainerProbe'
+    ValidationWarning:
+      type: object
+      description: A validation warning
+      properties:
+        path:
+          type: string
+          description: JSON path to the warning location
+        message:
+          type: string
+          description: Warning message
+        code:
+          type: string
+          description: Warning code
+    ContainerFileMap:
+      type: object
+      description: The extra files to mount into the container as a map of target paths to file details
+      additionalProperties:
+        $ref: '#/components/schemas/ContainerFile'
+    ServicePortMap:
+      type: object
+      description: The set of named network ports published by the service. Port names must be valid RFC1123 Label Names.
+      propertyNames:
+        minLength: 2
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+      additionalProperties:
+        $ref: '#/components/schemas/ServicePort'
+    ValidationResult:
+      type: object
+      description: Result of workload validation
+      properties:
+        valid:
+          type: boolean
+          description: Whether the workload is valid
+        errors:
+          type: array
+          description: List of validation errors
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        warnings:
+          type: array
+          description: List of validation warnings
+          items:
+            $ref: '#/components/schemas/ValidationWarning'
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error details
+              additionalProperties: true
+    ContainerFile:
+      type: object
+      description: The details of a file to mount in the container. One of 'source', 'content', or 'binaryContent' must be provided.
+      additionalProperties: false
+      oneOf:
+      - required:
+        - content
+      - required:
+        - binaryContent
+      - required:
+        - source
+      properties:
+        mode:
+          type: string
+          description: The optional file access mode in octal encoding
+          pattern: ^0?[0-7]{3}$
+          examples:
+          - '0644'
+          - '0600'
+          - '0444'
+        source:
+          type: string
+          description: The relative or absolute path to the content file
+          minLength: 1
+        content:
+          type: string
+          description: The inline content for the file. Only supports valid utf-8.
+        binaryContent:
+          type: string
+          description: Inline standard-base64 encoded content for the file. Does not support placeholder expansion.
+          contentEncoding: base64
+        noExpand:
+          type: boolean
+          description: If set to true, the placeholders expansion will not occur in the contents of the file.
+    ResourceMap:
+      type: object
+      description: The Resource dependencies needed by the Workload. Resource names must be valid RFC1123 Label Names.
+      propertyNames:
+        minLength: 2
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+      additionalProperties:
+        $ref: '#/components/schemas/Resource'
+    ContainerResources:
+      type: object
+      description: The compute resources for the container
+      additionalProperties: false
+      properties:
+        limits:
+          $ref: '#/components/schemas/ResourcesLimits'
+        requests:
+          $ref: '#/components/schemas/ResourcesLimits'
+    ResourcesLimits:
+      type: object
+      description: The compute and memory resource limits
+      additionalProperties: false
+      properties:
+        memory:
+          type: string
+          description: The memory limit in bytes with optional unit specifier. For example 125M or 1Gi.
+          pattern: ^[1-9]\d*(K|M|G|T|Ki|Mi|Gi|Ti)?$
+          examples:
+          - 256M
+          - 1Gi
+          - 512Mi
+        cpu:
+          type: string
+          description: The CPU limit as whole or fractional CPUs. 'm' indicates milli-CPUs. For example 2 or 125m.
+          pattern: ^\d*(?:m|\.\d+)?$
+          examples:
+          - '1'
+          - 250m
+          - '0.5'
+    ContainerVolume:
+      type: object
+      description: Volume mount specification
+      additionalProperties: false
+      required:
+      - source
+      properties:
+        source:
+          type: string
+          description: The external volume reference
+        path:
+          type: string
+          description: An optional sub path in the volume
+        readOnly:
+          type: boolean
+          description: Indicates if the volume should be mounted in a read-only mode
+    ScoreWorkload:
+      type: object
+      description: Score workload specification
+      required:
+      - apiVersion
+      - metadata
+      - containers
+      additionalProperties: false
+      properties:
+        apiVersion:
+          type: string
+          description: The declared Score Specification version
+          pattern: ^score\.dev/v1b1$
+          examples:
+          - score.dev/v1b1
+        metadata:
+          $ref: '#/components/schemas/WorkloadMetadata'
+        service:
+          $ref: '#/components/schemas/Service'
+        containers:
+          $ref: '#/components/schemas/ContainerMap'
+        resources:
+          $ref: '#/components/schemas/ResourceMap'
+    Service:
+      type: object
+      description: The service that the workload provides
+      additionalProperties: false
+      properties:
+        ports:
+          $ref: '#/components/schemas/ServicePortMap'
+    ResourceMetadata:
+      type: object
+      description: The metadata for the Resource
+      additionalProperties: true
+      properties:
+        annotations:
+          $ref: '#/components/schemas/Annotations'
+    ServicePort:
+      type: object
+      description: The network port description
+      required:
+      - port
+      additionalProperties: false
+      properties:
+        port:
+          type: integer
+          description: The public service port
+          minimum: 1
+          maximum: 65535
+          examples:
+          - 80
+          - 443
+          - 8080
+        protocol:
+          type: string
+          description: The transport level protocol. Defaults to TCP.
+          enum:
+          - TCP
+          - UDP
+          default: TCP
+        targetPort:
+          type: integer
+          description: The internal service port. This will default to 'port' if not provided.
+          minimum: 1
+          maximum: 65535
+    HttpProbe:
+      type: object
+      description: An HTTP probe details
+      additionalProperties: false
+      required:
+      - port
+      - path
+      properties:
+        host:
+          type: string
+          description: Host name to connect to. Defaults to the workload IP. This is equivalent to a Host HTTP header.
+          minLength: 1
+        scheme:
+          type: string
+          description: Scheme to use for connecting to the host (HTTP or HTTPS). Defaults to HTTP.
+          enum:
+          - HTTP
+          - HTTPS
+          default: HTTP
+        path:
+          type: string
+          description: The path to access on the HTTP server
+          examples:
+          - /health
+          - /ready
+          - /health/live
+        port:
+          type: integer
+          description: The port to access on the workload
+          minimum: 1
+          maximum: 65535
+        httpHeaders:
+          type: array
+          description: Additional HTTP headers to send with the request
+          items:
+            $ref: '#/components/schemas/HttpHeader'
+    ValidationError:
+      type: object
+      description: A validation error
+      properties:
+        path:
+          type: string
+          description: JSON path to the error location
+        message:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+    Annotations:
+      type: object
+      description: Annotations that apply to the Workload or Resource. Keys can contain A-Z, a-z, 0-9, and '-' and may contain an optional /-separated RFC1123 Host Name prefix.
+      additionalProperties:
+        type: string
+      propertyNames:
+        minLength: 2
+        maxLength: 316
+        pattern: ^(([a-z0-9][a-z0-9-]{0,61}[a-z0-9])(\.[a-z0-9][a-z0-9-]{0,61}[a-z0-9])*/)?[A-Za-z0-9][A-Za-z0-9._-]{0,61}[A-Za-z0-9]$
+    ContainerVolumeMap:
+      type: object
+      description: The volumes to mount as a map of target paths to volume details
+      additionalProperties:
+        $ref: '#/components/schemas/ContainerVolume'
+    WorkloadMetadata:
+      type: object
+      description: The metadata description of the Workload
+      required:
+      - name
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+          description: A string that can describe the Workload. Must be a valid RFC1123 Label Name of up to 63 characters.
+          minLength: 2
+          maxLength: 63
+          pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+          examples:
+          - ecommerce-frontend
+          - data-pipeline-worker
+          - ml-inference-service
+        annotations:
+          $ref: '#/components/schemas/Annotations'
+    ContainerMap:
+      type: object
+      description: The set of named containers in the Workload. Container names must be valid RFC1123 Label Names.
+      minProperties: 1
+      propertyNames:
+        minLength: 2
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+      additionalProperties:
+        $ref: '#/components/schemas/Container'
+    HttpHeader:
+      type: object
+      description: HTTP header for probe requests
+      additionalProperties: false
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The HTTP header name
+          pattern: ^[A-Za-z0-9_-]+$
+        value:
+          type: string
+          description: The HTTP header value
+          minLength: 1
+  examples:
+    InternalErrorExample:
+      summary: Internal server error
+      description: Example error response for server errors
+      value:
+        error:
+          code: INTERNAL_ERROR
+          message: An unexpected error occurred
+          details:
+            requestId: req-abc123
+    ValidationFailureExample:
+      summary: Failed validation
+      description: Example response when workload validation fails
+      value:
+        valid: false
+        errors:
+        - path: /metadata/name
+          message: Name 'Invalid_Name' does not match required pattern ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+          code: PATTERN_MISMATCH
+        - path: /containers/app/image
+          message: Container image is required
+          code: REQUIRED_FIELD
+        - path: /service/ports/web/port
+          message: Port must be between 1 and 65535
+          code: VALUE_OUT_OF_RANGE
+        warnings: []
+    ValidationSuccessExample:
+      summary: Successful validation
+      description: Example response when workload validation succeeds
+      value:
+        valid: true
+        errors: []
+        warnings:
+        - path: /containers/frontend/resources/limits/memory
+          message: Memory limit is relatively high, consider if this is necessary
+          code: RESOURCE_HIGH
+    EcommerceFrontendExample:
+      summary: E-commerce Frontend Workload
+      description: A complete e-commerce frontend application with nginx sidecar
+      value:
+        apiVersion: score.dev/v1b1
+        metadata:
+          name: ecommerce-frontend
+          annotations:
+            app.kubernetes.io/part-of: ecommerce-platform
+            app.kubernetes.io/version: 2.5.0
+            team.company.io/owner: frontend-team
+            deployment.company.io/tier: production
+        service:
+          ports:
+            web:
+              port: 443
+              targetPort: 8080
+              protocol: TCP
+            metrics:
+              port: 9090
+              targetPort: 9090
+              protocol: TCP
+        containers:
+          frontend:
+            image: ghcr.io/myorg/ecommerce-frontend:2.5.0
+            command:
+            - /usr/bin/node
+            args:
+            - server.js
+            - --config=/etc/app/config.json
+            - --log-level=info
+            variables:
+              NODE_ENV: production
+              API_BASE_URL: https://api.ecommerce.example.com
+              CACHE_TTL: '3600'
+              SESSION_SECRET: ${resources.session-secrets.secret}
+              DATABASE_URL: ${resources.postgres-db.connection_string}
+              REDIS_HOST: ${resources.cache.host}
+              REDIS_PORT: ${resources.cache.port}
+              STORAGE_BUCKET: ${resources.object-storage.bucket}
+              CDN_URL: https://cdn.ecommerce.example.com
+              FEATURE_FLAGS_ENDPOINT: ${resources.feature-flags.endpoint}
+            files:
+              /etc/app/config.json:
+                content: "{\n  \"appName\": \"E-Commerce Frontend\",\n  \"version\": \"2.5.0\",\n  \"features\": {\n    \"darkMode\": true,\n    \"recommendations\": true,\n    \"liveChat\": false\n  },\n  \"analytics\": {\n    \"enabled\": true,\n    \"sampleRate\": 0.1\n  }\n}\n"
+                mode: '0644'
+              /etc/app/locales/en.json:
+                source: ./locales/en.json
+                mode: '0644'
+              /etc/ssl/certs/internal-ca.crt:
+                source: ./certs/internal-ca.crt
+                mode: '0444'
+                noExpand: true
+              /etc/app/banner.png:
+                binaryContent: iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==
+                mode: '0644'
+            volumes:
+              /data/uploads:
+                source: ${resources.uploads-volume.source}
+                readOnly: false
+              /data/static:
+                source: ${resources.static-assets.source}
+                path: assets/v2
+                readOnly: true
+            resources:
+              requests:
+                memory: 256M
+                cpu: 250m
+              limits:
+                memory: 1Gi
+                cpu: '1'
+            readinessProbe:
+              httpGet:
+                path: /health/ready
+                port: 8080
+                scheme: HTTP
+                httpHeaders:
+                - name: X-Health-Check
+                  value: readiness
+            livenessProbe:
+              httpGet:
+                path: /health/live
+                port: 8080
+                scheme: HTTP
+          nginx-sidecar:
+            image: nginx:1.25-alpine
+            variables:
+              NGINX_WORKER_PROCESSES: auto
+              NGINX_WORKER_CONNECTIONS: '1024'
+            files:
+              /etc/nginx/nginx.conf:
+                content: "worker_processes auto;\nevents {\n  worker_connections 1024;\n}\nhttp {\n  upstream frontend {\n    server 127.0.0.1:8080;\n  }\n  server {\n    listen 443 ssl;\n    ssl_certificate /etc/ssl/certs/tls.crt;\n    ssl_certificate_key /etc/ssl/private/tls.key;\n    location / {\n      proxy_pass http://frontend;\n      proxy_set_header Host $host;\n      proxy_set_header X-Real-IP $remote_addr;\n    }\n    location /static/ {\n      alias /data/static/;\n      expires 1y;\n    }\n  }\n}\n"
+                mode: '0644'
+            volumes:
+              /data/static:
+                source: ${resources.static-assets.source}
+                path: assets/v2
+                readOnly: true
+              /etc/ssl/certs:
+                source: ${resources.tls-certs.source}
+                path: certs
+                readOnly: true
+              /etc/ssl/private:
+                source: ${resources.tls-certs.source}
+                path: keys
+                readOnly: true
+            resources:
+              requests:
+                memory: 64M
+                cpu: 50m
+              limits:
+                memory: 128M
+                cpu: 200m
+            readinessProbe:
+              httpGet:
+                path: /health
+                port: 443
+                scheme: HTTPS
+        resources:
+          postgres-db:
+            type: postgres
+            class: managed
+            id: ecommerce.products
+            metadata:
+              annotations:
+                backup.company.io/enabled: 'true'
+                backup.company.io/retention: 30d
+            params:
+              version: '15'
+              size: large
+              highAvailability: true
+              extensions:
+              - pg_trgm
+              - uuid-ossp
+          cache:
+            type: redis
+            class: cluster
+            id: ecommerce.session-cache
+            params:
+              version: '7.2'
+              maxMemoryPolicy: allkeys-lru
+              clusterMode: true
+          session-secrets:
+            type: secret
+            id: ecommerce.session
+            params:
+              keys:
+              - secret
+              - encryptionKey
+          object-storage:
+            type: s3
+            class: standard
+            id: ecommerce.assets
+            params:
+              versioning: true
+              lifecycle:
+              - prefix: temp/
+                expirationDays: 7
+          uploads-volume:
+            type: volume
+            class: ssd
+            params:
+              size: 50Gi
+              accessMode: ReadWriteMany
+          static-assets:
+            type: volume
+            class: standard
+            id: ecommerce.static
+            params:
+              size: 10Gi
+              accessMode: ReadOnlyMany
+          tls-certs:
+            type: secret
+            class: tls
+            id: ecommerce.tls
+          feature-flags:
+            type: service
+            id: shared.feature-flags
+            params:
+              environment: production
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            internalError:
+              $ref: '#/components/examples/InternalErrorExample'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

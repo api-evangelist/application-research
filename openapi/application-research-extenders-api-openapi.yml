@@ -1,0 +1,310 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Extenders API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Extenders
+  description: Extender portable resource operations
+paths:
+  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/extenders/{extenderName}:
+    get:
+      tags:
+      - Extenders
+      summary: Application Research Get extender
+      operationId: Extenders_Get
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/ExtenderNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtenderResource'
+              examples:
+                stripeExtender:
+                  $ref: '#/components/examples/StripeExtenderExample'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+components:
+  schemas:
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    Recipe:
+      type: object
+      description: The recipe used to automatically deploy underlying infrastructure
+      properties:
+        name:
+          type: string
+          description: The name of the recipe within the environment to use
+        parameters:
+          type: object
+          description: Key/value parameters to pass into the recipe at deployment
+      required:
+      - name
+    RecipeStatus:
+      type: object
+      description: Recipe status at deployment time
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
+    ExtenderResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/ExtenderProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    ResourceProvisioning:
+      type: string
+      description: Specifies how the underlying service/resource is provisioned and managed
+      enum:
+      - recipe
+      - manual
+    ExtenderProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        secrets:
+          type: object
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+      additionalProperties: true
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    ExtenderNameParameter:
+      name: extenderName
+      in: path
+      required: true
+      description: The name of the extender
+      schema:
+        type: string
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+  responses:
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                  message:
+                    type: string
+                    description: Error message
+                  target:
+                    type: string
+                    description: Error target
+                required:
+                - code
+                - message
+            required:
+            - error
+  examples:
+    StripeExtenderExample:
+      summary: Stripe payment gateway extender
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          resourceProvisioning: recipe
+          recipe:
+            name: stripe-gateway
+            parameters:
+              apiVersion: '2023-10-16'
+              webhookEndpoint: /api/webhooks/stripe
+          stripeAccountId: acct_xxxxx
+          enabledPaymentMethods:
+          - card
+          - sepa_debit
+          - ideal
+          secrets:
+            apiKey: sk_live_xxxxx
+            webhookSecret: whsec_xxxxx
+        location: eastus
+        tags:
+          extender: payment-gateway
+          provider: stripe
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

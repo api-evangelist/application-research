@@ -1,0 +1,668 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Containers API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Containers
+  description: Container resource operations
+paths:
+  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers:
+    get:
+      tags:
+      - Containers
+      summary: Application Research List containers
+      operationId: Containers_List
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerResourceListResult'
+              examples:
+                containerList:
+                  $ref: '#/components/examples/ContainerListExample'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Core/containers/{containerName}:
+    get:
+      tags:
+      - Containers
+      summary: Application Research Get container
+      operationId: Containers_Get
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/ContainerNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerResource'
+              examples:
+                orderServiceContainer:
+                  $ref: '#/components/examples/OrderServiceContainerExample'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    put:
+      tags:
+      - Containers
+      summary: Application Research Create or update container
+      operationId: Containers_CreateOrUpdate
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/ContainerNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerResource'
+            examples:
+              orderServiceContainer:
+                $ref: '#/components/examples/OrderServiceContainerExample'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerResource'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerResource'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      tags:
+      - Containers
+      summary: Application Research Delete container
+      operationId: Containers_Delete
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/ContainerNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: Success
+        '204':
+          description: No Content
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+components:
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    ContainerNameParameter:
+      name: containerName
+      in: path
+      required: true
+      description: The name of the container
+      schema:
+        type: string
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+  schemas:
+    ContainerResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/ContainerProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    Container:
+      type: object
+      properties:
+        image:
+          type: string
+        imagePullPolicy:
+          type: string
+          enum:
+          - Always
+          - IfNotPresent
+          - Never
+        env:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/EnvironmentVariable'
+        ports:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ContainerPortProperties'
+        readinessProbe:
+          $ref: '#/components/schemas/HealthProbeProperties'
+        livenessProbe:
+          $ref: '#/components/schemas/HealthProbeProperties'
+        volumes:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Volume'
+        command:
+          type: array
+          items:
+            type: string
+        args:
+          type: array
+          items:
+            type: string
+        workingDir:
+          type: string
+      required:
+      - image
+    HealthProbeProperties:
+      type: object
+      properties:
+        kind:
+          type: string
+        initialDelaySeconds:
+          type: number
+        failureThreshold:
+          type: number
+        periodSeconds:
+          type: number
+        timeoutSeconds:
+          type: number
+          default: 5
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          httpGet: '#/components/schemas/HttpGetHealthProbeProperties'
+          tcp: '#/components/schemas/TcpHealthProbeProperties'
+          exec: '#/components/schemas/ExecHealthProbeProperties'
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    RuntimesProperties:
+      type: object
+      properties:
+        kubernetes:
+          $ref: '#/components/schemas/KubernetesRuntimeProperties'
+        aci:
+          $ref: '#/components/schemas/ACIRuntimeProperties'
+    IamProperties:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum:
+          - azure
+          - aws
+        roles:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    ResourceReference:
+      type: object
+      description: Describes a reference to an existing resource
+      properties:
+        id:
+          type: string
+          description: Resource id of an existing resource
+      required:
+      - id
+    ContainerPortProperties:
+      type: object
+      properties:
+        containerPort:
+          type: integer
+          format: int32
+        protocol:
+          type: string
+          enum:
+          - TCP
+          - UDP
+        scheme:
+          type: string
+        port:
+          type: integer
+          format: int32
+      required:
+      - containerPort
+    Extension:
+      type: object
+      description: Extension of a environment/application resource
+      properties:
+        kind:
+          type: string
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetesMetadata: '#/components/schemas/KubernetesMetadataExtension'
+          kubernetesNamespace: '#/components/schemas/KubernetesNamespaceExtension'
+          manualScaling: '#/components/schemas/ManualScalingExtension'
+          daprSidecar: '#/components/schemas/DaprSidecarExtension'
+          aci: '#/components/schemas/AzureContainerInstanceExtension'
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    ContainerResourceListResult:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerResource'
+        nextLink:
+          type: string
+          format: uri
+      required:
+      - value
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ACIRuntimeProperties:
+      type: object
+      properties:
+        gatewayID:
+          type: string
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    SecretReference:
+      type: object
+      description: Reference to a secret in a secret store
+      properties:
+        source:
+          type: string
+          description: The ID of an Applications.Core/SecretStore resource
+        key:
+          type: string
+          description: The key for the secret in the secret store
+      required:
+      - source
+      - key
+    KubernetesRuntimeProperties:
+      type: object
+      properties:
+        base:
+          type: string
+        pod:
+          type: object
+          additionalProperties: true
+    ContainerProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        container:
+          $ref: '#/components/schemas/Container'
+        connections:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ConnectionProperties'
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+        extensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Extension'
+        resourceProvisioning:
+          type: string
+          enum:
+          - internal
+          - manual
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceReference'
+        restartPolicy:
+          type: string
+          enum:
+          - Always
+          - OnFailure
+          - Never
+        runtimes:
+          $ref: '#/components/schemas/RuntimesProperties'
+      required:
+      - application
+      - container
+    EnvironmentVariableReference:
+      type: object
+      properties:
+        secretRef:
+          $ref: '#/components/schemas/SecretReference'
+      required:
+      - secretRef
+    EnvironmentVariable:
+      type: object
+      properties:
+        value:
+          type: string
+        valueFrom:
+          $ref: '#/components/schemas/EnvironmentVariableReference'
+    ConnectionProperties:
+      type: object
+      properties:
+        source:
+          type: string
+        disableDefaultEnvVars:
+          type: boolean
+        iam:
+          $ref: '#/components/schemas/IamProperties'
+      required:
+      - source
+    RecipeStatus:
+      type: object
+      description: Recipe status at deployment time
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
+    Volume:
+      type: object
+      properties:
+        kind:
+          type: string
+        mountPath:
+          type: string
+      required:
+      - kind
+  examples:
+    OrderServiceContainerExample:
+      summary: Order service container with full configuration
+      value:
+        properties:
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          container:
+            image: ghcr.io/myorg/order-service:2.5.0
+            imagePullPolicy: IfNotPresent
+            env:
+              ASPNETCORE_ENVIRONMENT:
+                value: Production
+              LOG_LEVEL:
+                value: Information
+              DB_PASSWORD:
+                valueFrom:
+                  secretRef:
+                    source: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/db-secrets
+                    key: password
+            ports:
+              http:
+                containerPort: 8080
+                protocol: TCP
+                scheme: http
+                port: 80
+              grpc:
+                containerPort: 9090
+                protocol: TCP
+            readinessProbe:
+              kind: httpGet
+              containerPort: 8080
+              path: /health/ready
+              headers:
+                X-Health-Check: readiness
+              initialDelaySeconds: 10
+              periodSeconds: 5
+              failureThreshold: 3
+            livenessProbe:
+              kind: httpGet
+              containerPort: 8080
+              path: /health/live
+              initialDelaySeconds: 15
+              periodSeconds: 10
+            volumes:
+              config:
+                kind: persistent
+                source: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/volumes/order-config
+                mountPath: /app/config
+                permission: read
+              temp:
+                kind: ephemeral
+                managedStore: memory
+                mountPath: /tmp
+            command:
+            - dotnet
+            args:
+            - OrderService.dll
+            - --urls
+            - http://+:8080
+            workingDir: /app
+          connections:
+            mongodb:
+              source: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/mongoDatabases/orders-db
+              iam:
+                kind: azure
+                roles:
+                - DocumentDB Account Contributor
+            redis:
+              source: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/redisCaches/session-cache
+          identity:
+            kind: azure.com.workload
+            oidcIssuer: https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/
+            resource: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/order-service-identity
+          extensions:
+          - kind: daprSidecar
+            appId: order-service
+            appPort: 8080
+            config: tracing-config
+            protocol: http
+          - kind: manualScaling
+            replicas: 3
+          resourceProvisioning: internal
+          restartPolicy: Always
+          runtimes:
+            kubernetes:
+              base: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: order-service\n"
+              pod:
+                nodeSelector:
+                  kubernetes.io/os: linux
+        location: eastus
+        tags:
+          service: order-service
+          tier: backend
+    ContainerListExample:
+      summary: List of containers
+      value:
+        value:
+        - properties:
+            application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+            container:
+              image: ghcr.io/myorg/order-service:2.5.0
+            provisioningState: Succeeded
+          location: eastus
+          tags:
+            service: order-service
+          id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService
+          name: orderService
+          type: Applications.Core/containers
+  responses:
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                  message:
+                    type: string
+                    description: Error message
+                  target:
+                    type: string
+                    description: Error target
+                required:
+                - code
+                - message
+            required:
+            - error
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

@@ -1,0 +1,273 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Vendors API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Vendors
+  description: Vendor operations
+paths:
+  /vendors:
+    get:
+      tags:
+      - Vendors
+      summary: Application Research List all Vendors
+      description: Retrieves a list of all Vendors across all ORD Documents
+      operationId: listVendors
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of Vendors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorList'
+              examples:
+                vendorList:
+                  $ref: '#/components/examples/VendorListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /vendors/{ordId}:
+    get:
+      tags:
+      - Vendors
+      summary: Application Research Get a Vendor by ORD ID
+      description: Retrieves a specific Vendor by its ORD ID
+      operationId: getVendor
+      parameters:
+      - $ref: '#/components/parameters/VendorOrdIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved Vendor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendor'
+              examples:
+                vendor:
+                  $ref: '#/components/examples/VendorExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  examples:
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    VendorExample:
+      summary: SAP Vendor
+      value:
+        ordId: 'sap:vendor:SAP:'
+        title: SAP SE
+        partners:
+        - 'microsoft:vendor:Microsoft:'
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    VendorListExample:
+      summary: List of Vendors
+      value:
+        items:
+        - ordId: 'sap:vendor:SAP:'
+          title: SAP SE
+        - ordId: 'siemens:vendor:Siemens:'
+          title: Siemens AG
+          partners:
+          - 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+  parameters:
+    VendorOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Vendor
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+):(vendor):([a-zA-Z0-9._\-]+):()$
+      example: 'sap:vendor:SAP:'
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  schemas:
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    VendorList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vendor'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Vendor:
+      type: object
+      title: Vendor
+      description: The vendor of a product or package
+      required:
+      - ordId
+      - title
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+):(vendor):([a-zA-Z0-9._\-]+):()$
+          maxLength: 255
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        partners:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\-]+):()$
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

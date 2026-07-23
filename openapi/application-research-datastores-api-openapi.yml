@@ -1,0 +1,562 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Datastores API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Datastores
+  description: Datastore portable resource operations
+paths:
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/mongoDatabases/{mongoDatabaseName}
+  : get:
+      tags:
+      - Datastores
+      summary: Application Research Get MongoDB database
+      operationId: MongoDatabases_Get
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/MongoDatabaseNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MongoDatabaseResource'
+              examples:
+                ordersDatabase:
+                  $ref: '#/components/examples/OrdersMongoDatabaseExample'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/redisCaches/{redisCacheName}
+  : get:
+      tags:
+      - Datastores
+      summary: Application Research Get Redis cache
+      operationId: RedisCaches_Get
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/RedisCacheNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisCacheResource'
+              examples:
+                sessionCache:
+                  $ref: '#/components/examples/SessionCacheExample'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  ? /planes/radius/{planeName}/resourceGroups/{resourceGroupName}/providers/Applications.Datastores/sqlDatabases/{sqlDatabaseName}
+  : get:
+      tags:
+      - Datastores
+      summary: Application Research Get SQL database
+      operationId: SqlDatabases_Get
+      parameters:
+      - $ref: '#/components/parameters/PlaneNameParameter'
+      - $ref: '#/components/parameters/ResourceGroupNameParameter'
+      - $ref: '#/components/parameters/SqlDatabaseNameParameter'
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SqlDatabaseResource'
+              examples:
+                buildMetadataDatabase:
+                  $ref: '#/components/examples/BuildMetadataSqlDatabaseExample'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+components:
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    RedisCacheNameParameter:
+      name: redisCacheName
+      in: path
+      required: true
+      description: The name of the Redis cache
+      schema:
+        type: string
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    SqlDatabaseNameParameter:
+      name: sqlDatabaseName
+      in: path
+      required: true
+      description: The name of the SQL database
+      schema:
+        type: string
+    MongoDatabaseNameParameter:
+      name: mongoDatabaseName
+      in: path
+      required: true
+      description: The name of the MongoDB database
+      schema:
+        type: string
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+  schemas:
+    MongoDatabaseResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/MongoDatabaseProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    SqlDatabaseSecrets:
+      type: object
+      properties:
+        password:
+          type: string
+        connectionString:
+          type: string
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    ResourceReference:
+      type: object
+      description: Describes a reference to an existing resource
+      properties:
+        id:
+          type: string
+          description: Resource id of an existing resource
+      required:
+      - id
+    RedisCacheSecrets:
+      type: object
+      properties:
+        connectionString:
+          type: string
+        password:
+          type: string
+        url:
+          type: string
+    RedisCacheResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/RedisCacheProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    MongoDatabaseProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        secrets:
+          $ref: '#/components/schemas/MongoDatabaseSecrets'
+        host:
+          type: string
+        port:
+          type: integer
+          format: int32
+        database:
+          type: string
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceReference'
+        username:
+          type: string
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+    ResourceProvisioning:
+      type: string
+      description: Specifies how the underlying service/resource is provisioned and managed
+      enum:
+      - recipe
+      - manual
+    SqlDatabaseResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/SqlDatabaseProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    RedisCacheProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        secrets:
+          $ref: '#/components/schemas/RedisCacheSecrets'
+        host:
+          type: string
+        port:
+          type: integer
+          format: int32
+        username:
+          type: string
+        tls:
+          type: boolean
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceReference'
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    Recipe:
+      type: object
+      description: The recipe used to automatically deploy underlying infrastructure
+      properties:
+        name:
+          type: string
+          description: The name of the recipe within the environment to use
+        parameters:
+          type: object
+          description: Key/value parameters to pass into the recipe at deployment
+      required:
+      - name
+    MongoDatabaseSecrets:
+      type: object
+      properties:
+        password:
+          type: string
+        connectionString:
+          type: string
+    RecipeStatus:
+      type: object
+      description: Recipe status at deployment time
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
+    SqlDatabaseProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        database:
+          type: string
+        server:
+          type: string
+        port:
+          type: integer
+          format: int32
+        username:
+          type: string
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceReference'
+        secrets:
+          $ref: '#/components/schemas/SqlDatabaseSecrets'
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+  examples:
+    BuildMetadataSqlDatabaseExample:
+      summary: Build metadata SQL database
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+          resourceProvisioning: recipe
+          recipe:
+            name: default
+            parameters:
+              databaseName: build_metadata
+              collation: SQL_Latin1_General_CP1_CI_AS
+        location: westus2
+        tags:
+          datastore: sql-database
+          purpose: build-metadata
+    SessionCacheExample:
+      summary: Session cache Redis (manual provisioning)
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          resourceProvisioning: manual
+          host: ecommerce-redis.redis.cache.windows.net
+          port: 6380
+          tls: true
+          username: default
+          secrets:
+            connectionString: ecommerce-redis.redis.cache.windows.net:6380,password=xxxx,ssl=True,abortConnect=False
+            password: supersecretpassword
+          resources:
+          - id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.Cache/redis/ecommerce-redis
+        location: eastus
+        tags:
+          datastore: redis
+          purpose: session-cache
+    OrdersMongoDatabaseExample:
+      summary: Orders MongoDB database using recipe
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          resourceProvisioning: recipe
+          recipe:
+            name: default
+            parameters:
+              databaseName: orders
+              throughput: 4000
+        location: eastus
+        tags:
+          datastore: mongodb
+          purpose: orders
+  responses:
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                  message:
+                    type: string
+                    description: Error message
+                  target:
+                    type: string
+                    description: Error target
+                required:
+                - code
+                - message
+            required:
+            - error
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

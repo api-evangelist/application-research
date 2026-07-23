@@ -1,0 +1,839 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: API Resources
+  description: API Resource operations
+paths:
+  /api-resources:
+    get:
+      tags:
+      - API Resources
+      summary: Application Research List all API Resources
+      description: Retrieves a list of all API Resources across all ORD Documents
+      operationId: listApiResources
+      parameters:
+      - $ref: '#/components/parameters/LimitParam'
+      - $ref: '#/components/parameters/OffsetParam'
+      - $ref: '#/components/parameters/ApiProtocolFilterParam'
+      - $ref: '#/components/parameters/VisibilityFilterParam'
+      - $ref: '#/components/parameters/ReleaseStatusFilterParam'
+      responses:
+        '200':
+          description: Successfully retrieved list of API Resources
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResourceList'
+              examples:
+                apiResourceList:
+                  $ref: '#/components/examples/ApiResourceListExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api-resources/{ordId}:
+    get:
+      tags:
+      - API Resources
+      summary: Application Research Get an API Resource by ORD ID
+      description: Retrieves a specific API Resource by its ORD ID
+      operationId: getApiResource
+      parameters:
+      - $ref: '#/components/parameters/ApiResourceOrdIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved API Resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResource'
+              examples:
+                apiResource:
+                  $ref: '#/components/examples/ApiResourceExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api-resources/{ordId}/definitions:
+    get:
+      tags:
+      - API Resources
+      summary: Application Research Get API Resource Definitions
+      description: Retrieves all resource definitions for a specific API Resource
+      operationId: getApiResourceDefinitions
+      parameters:
+      - $ref: '#/components/parameters/ApiResourceOrdIdParam'
+      responses:
+        '200':
+          description: Successfully retrieved API Resource Definitions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiResourceDefinition'
+              examples:
+                definitions:
+                  $ref: '#/components/examples/ApiResourceDefinitionListExample'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    EntityTypeMapping:
+      type: object
+      title: Entity Type Mapping
+      required:
+      - entityTypeTargets
+      properties:
+        apiModelSelectors:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ApiModelSelectorOData'
+            - $ref: '#/components/schemas/ApiModelSelectorJsonPointer'
+        entityTypeTargets:
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/EntityTypeOrdIdTarget'
+            - $ref: '#/components/schemas/EntityTypeCorrelationIdTarget'
+    Industry:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    ReleaseStatus:
+      type: string
+      enum:
+      - beta
+      - active
+      - deprecated
+      - sunset
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    ApiResource:
+      type: object
+      title: API Resource
+      description: High-level description of an exposed API
+      required:
+      - ordId
+      - title
+      - shortDescription
+      - description
+      - version
+      - releaseStatus
+      - apiProtocol
+      - visibility
+      - partOfPackage
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        localId:
+          type: string
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        partOfPackage:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupId'
+        partOfConsumptionBundles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsumptionBundleReference'
+        defaultConsumptionBundle:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfProducts:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+            maxLength: 255
+        version:
+          $ref: '#/components/schemas/SemVer'
+        lastUpdate:
+          type: string
+          format: date-time
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        disabled:
+          type: boolean
+          default: false
+        minSystemVersion:
+          type: string
+        deprecationDate:
+          type: string
+          format: date-time
+        sunsetDate:
+          type: string
+          format: date-time
+        successors:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+            maxLength: 255
+        changelogEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangelogEntry'
+        entryPoints:
+          type: array
+          items:
+            type: string
+            format: uri-reference
+        direction:
+          type: string
+          enum:
+          - inbound
+          - mixed
+          - outbound
+          default: inbound
+        apiProtocol:
+          $ref: '#/components/schemas/ApiProtocol'
+        resourceDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiResourceDefinition'
+        implementationStandard:
+          type: string
+        customImplementationStandard:
+          $ref: '#/components/schemas/SpecificationId'
+        customImplementationStandardDescription:
+          type: string
+        compatibleWith:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+        responsible:
+          $ref: '#/components/schemas/CorrelationId'
+        supportedUseCases:
+          type: array
+          items:
+            type: string
+            enum:
+            - data-federation
+            - snapshot
+            - incremental
+            - streaming
+        usage:
+          type: string
+          enum:
+          - external
+          - local
+          default: external
+        entityTypeMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityTypeMapping'
+        exposedEntityTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExposedEntityType'
+        apiResourceLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiEventResourceLink'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        extensible:
+          $ref: '#/components/schemas/Extensible'
+        countries:
+          type: array
+          items:
+            type: string
+            pattern: ^[A-Z]{2}$
+        lineOfBusiness:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineOfBusiness'
+        industry:
+          type: array
+          items:
+            $ref: '#/components/schemas/Industry'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        policyLevel:
+          $ref: '#/components/schemas/PolicyLevel'
+        customPolicyLevel:
+          $ref: '#/components/schemas/CustomPolicyLevel'
+        policyLevels:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyLevelId'
+        systemInstanceAware:
+          type: boolean
+          default: false
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    ExposedEntityType:
+      type: object
+      title: Exposed Entity Type
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+    ChangelogEntry:
+      type: object
+      title: Changelog Entry
+      required:
+      - version
+      - releaseStatus
+      - date
+      properties:
+        version:
+          type: string
+          minLength: 1
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+    LineOfBusiness:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    ApiResourceList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiResource'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    EntityTypeOrdIdTarget:
+      type: object
+      title: Entity Type Target (ORD ID)
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+    ApiModelSelectorJsonPointer:
+      type: object
+      title: API Model Selector (JSON Pointer)
+      required:
+      - type
+      - jsonPointer
+      properties:
+        type:
+          type: string
+          const: json-pointer
+        jsonPointer:
+          type: string
+          minLength: 1
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
+    AccessStrategy:
+      type: object
+      title: Access Strategy
+      description: Defines the access strategy for accessing resource definitions
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - open
+          - basic-auth
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        customDescription:
+          type: string
+          minLength: 1
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    ConsumptionBundleReference:
+      type: object
+      title: Consumption Bundle Reference
+      description: Reference to a Consumption Bundle
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        defaultEntryPoint:
+          type: string
+          format: uri-reference
+    ApiModelSelectorOData:
+      type: object
+      title: API Model Selector (OData)
+      required:
+      - type
+      - entitySetName
+      properties:
+        type:
+          type: string
+          const: odata
+        entitySetName:
+          type: string
+          minLength: 1
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    EntityTypeCorrelationIdTarget:
+      type: object
+      title: Entity Type Target (Correlation ID)
+      required:
+      - correlationId
+      properties:
+        correlationId:
+          $ref: '#/components/schemas/CorrelationId'
+    ApiResourceDefinition:
+      type: object
+      title: API Resource Definition
+      description: Link and categorization of a machine-readable API definition
+      required:
+      - type
+      - mediaType
+      - url
+      properties:
+        type:
+          type: string
+          description: Type of the API Resource Definition
+          enum:
+          - openapi-v2
+          - openapi-v3
+          - openapi-v3.1+
+          - raml-v1
+          - edmx
+          - csdl-json
+          - graphql-sdl
+          - wsdl-v1
+          - wsdl-v2
+          - a2a-agent-card
+          - sap-rfc-metadata-v1
+          - sap-sql-api-definition-v1
+          - sap-csn-interop-effective-v1
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        mediaType:
+          type: string
+          enum:
+          - application/json
+          - application/xml
+          - text/yaml
+          - text/plain
+          - application/octet-stream
+        url:
+          type: string
+          format: uri-reference
+        accessStrategies:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AccessStrategy'
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    ApiProtocol:
+      type: string
+      enum:
+      - odata-v2
+      - odata-v4
+      - rest
+      - graphql
+      - delta-sharing
+      - soap-inbound
+      - soap-outbound
+      - mcp
+      - websocket
+      - a2a
+      - sap-rfc
+      - sap-sql-api-v1
+      - sap-ina-api-v1
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
+    Extensible:
+      type: object
+      title: Extensible
+      required:
+      - supported
+      properties:
+        supported:
+          type: string
+          enum:
+          - 'no'
+          - manual
+          - automatic
+        description:
+          type: string
+          minLength: 1
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    ApiEventResourceLink:
+      type: object
+      title: API/Event Resource Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - api-documentation
+          - authentication
+          - client-registration
+          - console
+          - payment
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri-reference
+    Visibility:
+      type: string
+      enum:
+      - public
+      - internal
+      - private
+  examples:
+    ApiResourceExample:
+      summary: Device Management API
+      value:
+        ordId: sap.iot:apiResource:DeviceManagementAPI:v1
+        localId: DeviceManagementAPI
+        title: Device Management API
+        shortDescription: REST API for device lifecycle operations
+        description: Comprehensive API for managing IoT device registration, configuration, authentication credentials, and firmware lifecycle.
+        version: 1.5.0
+        releaseStatus: active
+        visibility: public
+        partOfPackage: sap.iot:package:DeviceManagement:v1
+        partOfGroups:
+        - sap.iot:capability-area:sap.iot:Connectivity
+        partOfConsumptionBundles:
+        - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+        apiProtocol: rest
+        direction: inbound
+        entryPoints:
+        - /api/v1/devices
+        resourceDefinitions:
+        - type: openapi-v3.1+
+          mediaType: application/json
+          url: /api/v1/devices/openapi.json
+        exposedEntityTypes:
+        - ordId: sap.iot:entityType:Device:v1
+        - ordId: sap.iot:entityType:Sensor:v1
+        apiResourceLinks:
+        - type: api-documentation
+          url: https://help.sap.com/iot/device-api
+        - type: console
+          url: https://iot.sap.com/api-explorer/devices
+        tags:
+        - devices
+        - management
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    ApiResourceDefinitionListExample:
+      summary: List of API Resource Definitions
+      value:
+      - type: openapi-v3.1+
+        mediaType: application/json
+        url: /api/v1/devices/openapi.json
+        accessStrategies:
+        - type: open
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    ApiResourceListExample:
+      summary: List of API Resources
+      value:
+        items:
+        - ordId: sap.iot:apiResource:DeviceManagementAPI:v1
+          title: Device Management API
+          shortDescription: REST API for device lifecycle operations
+          version: 1.5.0
+          apiProtocol: rest
+          visibility: public
+          releaseStatus: active
+        - ordId: sap.iot:apiResource:TimeSeriesIngestion:v2
+          title: Time Series Ingestion API
+          shortDescription: High-throughput sensor data ingestion
+          version: 2.0.0
+          apiProtocol: rest
+          visibility: public
+          releaseStatus: active
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+  parameters:
+    ApiResourceOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the API Resource
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:apiResource:DeviceManagementAPI:v1
+    VisibilityFilterParam:
+      name: visibility
+      in: query
+      description: Filter by visibility level
+      schema:
+        type: string
+        enum:
+        - public
+        - internal
+        - private
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    ReleaseStatusFilterParam:
+      name: releaseStatus
+      in: query
+      description: Filter by release status
+      schema:
+        type: string
+        enum:
+        - beta
+        - active
+        - deprecated
+        - sunset
+    ApiProtocolFilterParam:
+      name: apiProtocol
+      in: query
+      description: Filter by API protocol
+      schema:
+        type: string
+        enum:
+        - odata-v2
+        - odata-v4
+        - rest
+        - graphql
+        - soap-inbound
+        - soap-outbound
+        - mcp
+        - websocket
+        - a2a
+        - sap-rfc
+        - delta-sharing
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication

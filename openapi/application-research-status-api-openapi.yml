@@ -1,0 +1,239 @@
+openapi: 3.1.0
+info:
+  title: Application Research CNAB Bundle API Resources Status API
+  version: 1.0.0
+  description: 'API for managing Cloud Native Application Bundles (CNAB).
+
+
+    This API provides endpoints for managing CNAB bundles, claims, claim results,
+
+    dependencies, parameter sources, relocation mappings, and installation status.
+
+    '
+  contact:
+    name: CNAB Specification
+    url: https://cnab.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.example.com/v1
+  description: Production server
+- url: https://staging-api.example.com/v1
+  description: Staging server
+security:
+- bearerAuth: []
+- apiKey: []
+tags:
+- name: Status
+  description: Operations for querying installation status
+paths:
+  /installations:
+    get:
+      tags:
+      - Status
+      summary: Application Research List all installations
+      operationId: listInstallations
+      responses:
+        '200':
+          description: List of installations with status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusListResponse'
+              examples:
+                installationList:
+                  $ref: '#/components/examples/StatusListResponse'
+        '500':
+          $ref: '#/components/responses/InternalError'
+  /installations/{name}/status:
+    get:
+      tags:
+      - Status
+      summary: Application Research Get installation status
+      operationId: getInstallationStatus
+      parameters:
+      - $ref: '#/components/parameters/InstallationNameParam'
+      responses:
+        '200':
+          description: Installation status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+              examples:
+                readyStatus:
+                  $ref: '#/components/examples/StatusReady'
+                pendingStatus:
+                  $ref: '#/components/examples/StatusPending'
+                failedStatus:
+                  $ref: '#/components/examples/StatusFailed'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+components:
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+  examples:
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    StatusFailed:
+      summary: Failed installation status
+      description: Example of a failed installation
+      value:
+        status: Failed
+        message: One or more components have failed
+        components:
+          wordpress:
+            status: Failed
+            message: CrashLoopBackOff - unable to connect to database
+          mysql:
+            status: Ready
+            message: Database is running
+    StatusReady:
+      summary: Ready installation status
+      description: Example of a healthy installation
+      value:
+        status: Ready
+        message: All components are running
+        components:
+          wordpress:
+            status: Ready
+            message: 3/3 replicas available
+          mysql:
+            status: Ready
+            message: Primary and replica healthy
+    StatusPending:
+      summary: Pending installation status
+      description: Example of an installation in progress
+      value:
+        status: Pending
+        message: Installation in progress
+        components:
+          wordpress:
+            status: Pending
+            message: Waiting for database to be ready
+          mysql:
+            status: Ready
+            message: Database initialized
+    StatusListResponse:
+      summary: Installation list response
+      description: Example response for listing installations
+      value:
+      - status: Ready
+        message: All components are running
+        components:
+          wordpress:
+            status: Ready
+          mysql:
+            status: Ready
+      - status: Pending
+        message: Upgrade in progress
+        components:
+          inference-server:
+            status: Pending
+          redis-cache:
+            status: Ready
+  schemas:
+    StatusListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Status'
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+    StatusComponent:
+      type: object
+      description: Status of a component in a CNAB installation
+      properties:
+        status:
+          type: string
+          description: Status identifier
+        message:
+          type: string
+          description: Details about the current status
+        components:
+          type: object
+          description: Nested components with their own status
+          additionalProperties:
+            $ref: '#/components/schemas/StatusComponent'
+      additionalProperties: true
+    Status:
+      type: object
+      description: Overall status of a CNAB installation
+      properties:
+        status:
+          type: string
+          description: Status identifier (Ready, Pending, Failed are well known)
+        message:
+          type: string
+          description: Details about the current status
+        components:
+          type: object
+          description: Map of component names to their status
+          additionalProperties:
+            $ref: '#/components/schemas/StatusComponent'
+      additionalProperties: true
+  parameters:
+    InstallationNameParam:
+      name: name
+      in: path
+      required: true
+      description: Installation name
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT-based authentication
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key authentication
