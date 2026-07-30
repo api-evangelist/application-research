@@ -7,7 +7,20 @@ description: >-
   deployment teams to understand what services (APIs, databases, caches, message buses, blob stores) an application
   requires.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/application-research.png
 tags:
   - Application Dependencies
   - Cloud Native
@@ -20,117 +33,1662 @@ created: '2026-03-16'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - name: Score Workload Specification API
-    description: >-
-      Score is a platform-agnostic workload specification that enables developers to define their workloads once and
-      deploy them across multiple platforms including Kubernetes, Docker, and Helm. The API manages workload spec
-      lifecycle and platform translations.
-    humanURL: https://score.dev
-    baseURL: https://api.score.dev/v1
-    tags:
-      - Platform Agnostic
-      - Score
-      - Workload Specification
-    properties:
-      - type: Documentation
-        url: https://docs.score.dev
-      - type: OpenAPI
-        url: openapi/score-openapi.yml
-      - type: JSONSchema
-        url: json-schema/score.yml
-      - type: CodeExamples
-        url: examples/score-ecommerce.yml
-        title: E-Commerce Example
-      - type: CodeExamples
-        url: examples/score-ai-ml-inference-platform.yml
-        title: AI/ML Inference Example
-      - type: CodeExamples
-        url: examples/score-data-processing-pipeline.yml
-        title: Data Processing Example
-  - name: Cloud Native Application Bundle API
-    description: >-
-      CNAB (Cloud Native Application Bundle) is a specification for packaging and distributing cloud-native
-      applications. The API manages bundle lifecycle including installation, upgrading, and uninstalling bundled
-      applications across cloud environments.
-    humanURL: https://cnab.io
-    baseURL: https://api.cnab.io/v1
-    tags:
-      - Application Bundles
-      - Cloud Native
-      - Distribution
-    properties:
-      - type: Documentation
-        url: https://cnab.io/docs
-      - type: OpenAPI
-        url: openapi/cloud-native-application-bundle-openapi.yml
-      - type: JSONSchema
-        url: json-schema/cloud-native-application-bundle-schema.yml
-      - type: CodeExamples
-        url: examples/cloud-native-application-bundle-example-wordpress.yml
-        title: WordPress Bundle Example
-      - type: CodeExamples
-        url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
-        title: Cassandra Cluster Example
-  - name: Open Component Model API
-    description: >-
-      Open Component Model (OCM) provides a standard for describing software components in a supply chain, enabling
-      teams to track, reference, and verify software artifacts.
-    humanURL: https://ocm.software
-    baseURL: https://ocm.software/api/v1
-    tags:
-      - Component Model
-      - Software Supply Chain
-      - Software Components
-    properties:
-      - type: Documentation
-        url: https://ocm.software/docs
-      - type: OpenAPI
-        url: openapi/open-component-model-openapi.yml
-      - type: JSONSchema
-        url: json-schema/open-component-model.yml
-      - type: CodeExamples
-        url: examples/open-component-model-example-web-application.yml
-        title: Web Application Example
-  - name: Open Resource Discovery API
-    description: >-
-      Open Resource Discovery (ORD) is a protocol for machine-readable resource and capability discovery, enabling API
-      management platforms to automatically discover what services and APIs an application exposes.
-    humanURL: https://sap.github.io/open-resource-discovery/
-    baseURL: https://api.open-resource-discovery.org/v1
-    tags:
-      - API Discovery
-      - Metadata
-      - Resource Discovery
-    properties:
-      - type: Documentation
-        url: https://sap.github.io/open-resource-discovery/
-      - type: OpenAPI
-        url: openapi/open-resource-discovery-openapi.yml
-      - type: JSONSchema
-        url: json-schema/open-resource-discovery.yml
-      - type: CodeExamples
-        url: examples/open-resource-discovery-ecommerce.yml
-        title: E-Commerce Discovery Example
-  - name: Radius Application Platform API
-    description: >-
-      Radius is an open-source, cloud-agnostic application platform that enables developers to define and deploy
-      applications with their dependencies in a portable, declarative way across cloud providers.
-    humanURL: https://radapp.io
-    baseURL: https://api.radapp.io/v1
-    tags:
-      - Application Platform
-      - Cloud Agnostic
-      - Radius
-    properties:
-      - type: Documentation
-        url: https://docs.radapp.io
-      - type: OpenAPI
-        url: openapi/radius-openapi.yml
-      - type: JSONSchema
-        url: json-schema/radius.yml
-      - type: CodeExamples
-        url: examples/radius-ecommerce-microservice.yml
-        title: E-Commerce Microservice Example
+- aid: application-research:application-research-api-resources-api
+  name: Application Research API Resources API
+  description: API Resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - API Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-api-resources-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-applications-api
+  name: Application Research Applications API
+  description: Application resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Applications
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-applications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-bundles-api
+  name: Application Research Bundles API
+  description: Operations for managing CNAB bundle descriptors
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Bundles
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-bundles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-capabilities-api
+  name: Application Research Capabilities API
+  description: Capability operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Capabilities
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-capabilities-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-claim-results-api
+  name: Application Research Claim Results API
+  description: Operations for managing claim execution results
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Claim Results
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-claim-results-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-claims-api
+  name: Application Research Claims API
+  description: Operations for managing installation claims
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Claims
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-claims-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-components-api
+  name: Application Research Components API
+  description: Operations for managing component descriptors
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Components
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-components-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-configurations-api
+  name: Application Research Configurations API
+  description: Operations for managing component configurations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Configurations
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-configurations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-consumption-bundles-api
+  name: Application Research Consumption Bundles API
+  description: Consumption Bundle operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Consumption Bundles
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-consumption-bundles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-containers-api
+  name: Application Research Containers API
+  description: Container resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Containers
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-containers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-credentials-api
+  name: Application Research Credentials API
+  description: Credential management operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Credentials
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-credentials-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-dapr-api
+  name: Application Research Dapr API
+  description: Dapr component operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Dapr
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-dapr-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-data-products-api
+  name: Application Research Data Products API
+  description: Data Product operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Data Products
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-data-products-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-datastores-api
+  name: Application Research Datastores API
+  description: Datastore portable resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Datastores
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-datastores-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-entity-types-api
+  name: Application Research Entity Types API
+  description: Entity Type operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Entity Types
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-entity-types-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-environments-api
+  name: Application Research Environments API
+  description: Environment resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-environments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-event-resources-api
+  name: Application Research Event Resources API
+  description: Event Resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Event Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-event-resources-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-extenders-api
+  name: Application Research Extenders API
+  description: Extender portable resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Extenders
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-extenders-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-gateways-api
+  name: Application Research Gateways API
+  description: Gateway resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Gateways
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-gateways-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-groups-api
+  name: Application Research Groups API
+  description: Group and Group Type operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-groups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-integration-dependencies-api
+  name: Application Research Integration Dependencies API
+  description: Integration Dependency operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Integration Dependencies
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-integration-dependencies-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-messaging-api
+  name: Application Research Messaging API
+  description: Messaging portable resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Messaging
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-messaging-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-ord-documents-api
+  name: Application Research ORD Documents API
+  description: Operations for ORD Document management
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - ORD Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-ord-documents-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-packages-api
+  name: Application Research Packages API
+  description: Package management operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Packages
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-packages-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-planes-api
+  name: Application Research Planes API
+  description: Plane management operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Planes
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-planes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-products-api
+  name: Application Research Products API
+  description: Product operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Products
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-products-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-resourcegroups-api
+  name: Application Research ResourceGroups API
+  description: Resource group operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - ResourceGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-resourcegroups-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-resources-api
+  name: Application Research Resources API
+  description: Operations for managing component resources
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-resources-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-secretstores-api
+  name: Application Research SecretStores API
+  description: Secret store operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - SecretStores
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-secretstores-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-signatures-api
+  name: Application Research Signatures API
+  description: Operations for component signing and verification
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Signatures
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-signatures-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-sources-api
+  name: Application Research Sources API
+  description: Operations for managing component sources
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-sources-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-status-api
+  name: Application Research Status API
+  description: Operations for querying installation status
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-status-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-validation-api
+  name: Application Research Validation API
+  description: Workload validation operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-validation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-vendors-api
+  name: Application Research Vendors API
+  description: Vendor operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Vendors
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-vendors-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-volumes-api
+  name: Application Research Volumes API
+  description: Volume resource operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Volumes
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-volumes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-workloads-api
+  name: Application Research Workloads API
+  description: Score workload management operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Workloads
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-workloads-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
 common:
   - type: AgenticAccess
     url: agentic-access/application-research-agentic-access.yml
