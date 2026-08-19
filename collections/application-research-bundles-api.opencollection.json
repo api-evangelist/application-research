@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Bundles API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bundles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all bundles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/bundles",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "keyword",
+                "value": "",
+                "type": "query",
+                "description": "Filter bundles by keyword"
+              }
+            ]
+          },
+          "docs": "Application Research List all bundles"
+        },
+        {
+          "info": {
+            "name": "Application Research Create a new bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/bundles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create a new bundle"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a bundle by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/bundles/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Bundle name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version to retrieve"
+              }
+            ]
+          },
+          "docs": "Application Research Get a bundle by name"
+        },
+        {
+          "info": {
+            "name": "Application Research Update an existing bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.example.com/v1/bundles/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Bundle name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Update an existing bundle"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete a bundle",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.example.com/v1/bundles/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Bundle name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version to retrieve"
+              }
+            ]
+          },
+          "docs": "Application Research Delete a bundle"
+        },
+        {
+          "info": {
+            "name": "Application Research Execute a bundle action",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/bundles/:name/actions/:action",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Bundle name"
+              },
+              {
+                "name": "action",
+                "value": "",
+                "type": "path",
+                "description": "Action to execute (install, upgrade, uninstall, or custom action)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Execute a bundle action"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

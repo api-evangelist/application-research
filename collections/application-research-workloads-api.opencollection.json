@@ -1,0 +1,169 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Workloads API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workloads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all workloads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/workloads",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter workloads by name (partial match)"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Score workload specifications"
+        },
+        {
+          "info": {
+            "name": "Application Research Create a new workload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/workloads",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Score workload specification"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a specific workload",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/workloads/:workloadName",
+            "params": [
+              {
+                "name": "workloadName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the workload"
+              }
+            ]
+          },
+          "docs": "Retrieves a Score workload specification by name"
+        },
+        {
+          "info": {
+            "name": "Application Research Update a workload",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.example.com/v1/workloads/:workloadName",
+            "params": [
+              {
+                "name": "workloadName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the workload"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing Score workload specification"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete a workload",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.example.com/v1/workloads/:workloadName",
+            "params": [
+              {
+                "name": "workloadName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the workload"
+              }
+            ]
+          },
+          "docs": "Deletes a Score workload specification"
+        },
+        {
+          "info": {
+            "name": "Application Research List containers in a workload",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/workloads/:workloadName/containers",
+            "params": [
+              {
+                "name": "workloadName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the workload"
+              }
+            ]
+          },
+          "docs": "Retrieves all containers defined in a workload"
+        },
+        {
+          "info": {
+            "name": "Application Research List resources in a workload",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/workloads/:workloadName/resources",
+            "params": [
+              {
+                "name": "workloadName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the workload"
+              }
+            ]
+          },
+          "docs": "Retrieves all resource dependencies defined in a workload"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

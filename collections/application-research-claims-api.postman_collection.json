@@ -1,0 +1,613 @@
+{
+  "item": [
+    {
+      "id": "c25c6154-50bc-43ce-82b0-92e097e5d949",
+      "name": "Claims",
+      "description": {
+        "content": "Operations for managing installation claims",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3e9853d3-86ee-4db6-9776-f2132e84701a",
+          "name": "Application Research List all claims",
+          "request": {
+            "name": "Application Research List all claims",
+            "description": {},
+            "url": {
+              "path": [
+                "claims"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "installation",
+                  "value": "<string>",
+                  "description": "Filter by installation name"
+                },
+                {
+                  "disabled": false,
+                  "key": "action",
+                  "value": "<string>",
+                  "description": "Filter by action type"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of items to skip"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b8212716-4f8f-4ccc-8398-0a75de050fb7",
+              "name": "List of claims",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "installation",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "action",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": \"01HQXYZ123456789ABCDEFGH\",\n      \"installation\": \"my-wordpress-prod\",\n      \"action\": \"install\",\n      \"revision\": \"01HQXYZ123456789ABCDEFGI\",\n      \"created\": \"2024-01-15T10:30:00Z\"\n    },\n    {\n      \"id\": \"01HQXYZ223456789ABCDEFGH\",\n      \"installation\": \"my-wordpress-prod\",\n      \"action\": \"upgrade\",\n      \"revision\": \"01HQXYZ223456789ABCDEFGI\",\n      \"created\": \"2024-02-20T14:45:00Z\"\n    }\n  ],\n  \"total\": 2\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4496807-beae-470c-adaf-9e104483db43",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "installation",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "action",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d63a611-3182-45e4-8373-3f1248237e14",
+          "name": "Application Research Create a new claim",
+          "request": {
+            "name": "Application Research Create a new claim",
+            "description": {},
+            "url": {
+              "path": [
+                "claims"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"installation\": \"<string>\",\n  \"action\": \"<string>\",\n  \"bundle\": {\n    \"schemaVersion\": \"<string>\",\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"invocationImages\": [\n      {\n        \"image\": \"<string>\",\n        \"imageType\": \"oci\",\n        \"contentDigest\": \"<string>\",\n        \"size\": \"<integer>\",\n        \"mediaType\": \"<string>\",\n        \"labels\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\",\n          \"key_3\": \"<string>\",\n          \"key_4\": \"<string>\"\n        }\n      }\n    ],\n    \"description\": \"<string>\",\n    \"keywords\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"maintainers\": [\n      {\n        \"name\": \"<string>\",\n        \"email\": \"<email>\",\n        \"url\": \"<uri>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"email\": \"<email>\",\n        \"url\": \"<uri>\"\n      }\n    ],\n    \"license\": \"<string>\",\n    \"images\": {\n      \"key_0\": {\n        \"image\": \"<string>\",\n        \"imageType\": \"oci\",\n        \"description\": \"<string>\",\n        \"contentDigest\": \"<string>\",\n        \"size\": \"<integer>\",\n        \"mediaType\": \"<string>\",\n        \"labels\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      \"key_1\": {\n        \"image\": \"<string>\",\n        \"imageType\": \"oci\",\n        \"description\": \"<string>\",\n        \"contentDigest\": \"<string>\",\n        \"size\": \"<integer>\",\n        \"mediaType\": \"<string>\",\n        \"labels\": {\n          \"key_0\": \"<string>\"\n        }\n      },\n      \"key_2\": {\n        \"image\": \"<string>\",\n        \"imageType\": \"oci\",\n        \"description\": \"<string>\",\n        \"contentDigest\": \"<string>\",\n        \"size\": \"<integer>\",\n        \"mediaType\": \"<string>\",\n        \"labels\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      \"key_3\": {\n        \"image\": \"<string>\",\n        \"imageType\": \"oci\",\n        \"description\": \"<string>\",\n        \"contentDigest\": \"<string>\",\n        \"size\": \"<integer>\",\n        \"mediaType\": \"<string>\",\n        \"labels\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\"\n        }\n      }\n    },\n    \"credentials\": {\n      \"key_0\": {\n        \"description\": \"<string>\",\n        \"env\": \"<string>\",\n        \"path\": \"<string>\",\n        \"required\": false,\n        \"applyTo\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"parameters\": {\n      \"key_0\": {\n        \"definition\": \"<string>\",\n        \"destination\": {\n          \"env\": \"<string>\",\n          \"path\": \"<string>\"\n        },\n        \"description\": \"<string>\",\n        \"required\": false,\n        \"applyTo\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"key_1\": {\n        \"definition\": \"<string>\",\n        \"destination\": {\n          \"env\": \"<string>\",\n          \"path\": \"<string>\"\n        },\n        \"description\": \"<string>\",\n        \"required\": false,\n        \"applyTo\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"key_2\": {\n        \"definition\": \"<string>\",\n        \"destination\": {\n          \"env\": \"<string>\",\n          \"path\": \"<string>\"\n        },\n        \"description\": \"<string>\",\n        \"required\": false,\n        \"applyTo\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"definitions\": {\n      \"type\": \"object\",\n      \"description\": \"JSON Schema definitions for parameters and outputs\",\n      \"additionalProperties\": {\n        \"type\": \"object\",\n        \"description\": \"JSON Schema definition for a parameter or output\",\n        \"properties\": {\n          \"$id\": {\n            \"type\": \"string\",\n            \"format\": \"uri-reference\",\n            \"default\": \"<uri-reference>\"\n          },\n          \"$schema\": {\n            \"type\": \"string\",\n            \"format\": \"uri\",\n            \"default\": \"<uri>\"\n          },\n          \"$ref\": {\n            \"type\": \"string\",\n            \"format\": \"uri-reference\",\n            \"default\": \"<uri-reference>\"\n          },\n          \"$comment\": {\n            \"type\": \"string\",\n            \"default\": \"<string>\"\n          },\n          \"title\": {\n            \"type\": \"string\",\n            \"default\": \"<string>\"\n          },\n          \"description\": {\n            \"type\": \"string\",\n            \"default\": \"<string>\"\n          },\n          \"type\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"array\",\n              \"boolean\",\n              \"integer\",\n              \"null\",\n              \"number\",\n              \"object\",\n              \"string\"\n            ],\n            \"default\": \"<string>\"\n          },\n          \"default\": {},\n          \"examples\": {\n            \"type\": \"array\",\n            \"default\": \"<array>\"\n          },\n          \"enum\": {\n            \"type\": \"array\",\n            \"minItems\": 1,\n            \"uniqueItems\": true,\n            \"default\": \"<array>\"\n          },\n          \"const\": {},\n          \"format\": {\n            \"type\": \"string\",\n            \"default\": \"<string>\"\n          },\n          \"pattern\": {\n            \"type\": \"string\",\n            \"format\": \"regex\",\n            \"default\": \"<regex>\"\n          },\n          \"minLength\": {\n            \"type\": \"integer\",\n            \"minimum\": 0,\n            \"default\": \"<integer>\"\n          },\n          \"maxLength\": {\n            \"type\": \"integer\",\n            \"minimum\": 0,\n            \"default\": \"<integer>\"\n          },\n          \"minimum\": {\n            \"type\": \"integer\",\n            \"default\": \"<integer>\"\n          },\n          \"maximum\": {\n            \"type\": \"integer\",\n            \"default\": \"<integer>\"\n          },\n          \"exclusiveMinimum\": {\n            \"type\": \"integer\",\n            \"default\": \"<integer>\"\n          },\n          \"exclusiveMaximum\": {\n            \"type\": \"integer\",\n            \"default\": \"<integer>\"\n          },\n          \"multipleOf\": {\n            \"type\": \"integer\",\n            \"exclusiveMinimum\": 0,\n            \"default\": \"<integer>\"\n          },\n          \"minItems\": {\n            \"type\": \"integer\",\n            \"minimum\": 0,\n            \"default\": \"<integer>\"\n          },\n          \"maxItems\": {\n            \"type\": \"integer\",\n            \"minimum\": 0,\n            \"default\": \"<integer>\"\n          },\n          \"uniqueItems\": {\n            \"type\": \"boolean\",\n            \"default\": false\n          },\n          \"minProperties\": {\n            \"type\": \"integer\",\n            \"minimum\": 0,\n            \"default\": \"<integer>\"\n          },\n          \"maxProperties\": {\n            \"type\": \"integer\",\n            \"minimum\": 0,\n            \"default\": \"<integer>\"\n          },\n          \"required\": {\n            \"type\": \"array\",\n            \"uniqueItems\": true,\n            \"maxItems\": 2,\n            \"items\": {\n              \"type\": \"string\",\n              \"default\": \"<string>\"\n            }\n          },\n          \"properties\": {\n            \"type\": \"object\",\n            \"additionalProperties\": {\n              \"value\": \"<Circular reference to #/components/schemas/Definition detected>\"\n            }\n          },\n          \"additionalProperties\": {\n            \"type\": \"boolean\",\n            \"default\": \"<boolean>\"\n          },\n          \"items\": {\n            \"value\": \"<Circular reference to #/components/schemas/Definition detected>\"\n          }\n        }\n      }\n    },\n    \"outputs\": {\n      \"key_0\": {\n        \"definition\": \"<string>\",\n        \"path\": \"<string>\",\n        \"description\": \"<string>\",\n        \"applyTo\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"key_1\": {\n        \"definition\": \"<string>\",\n        \"path\": \"<string>\",\n        \"description\": \"<string>\",\n        \"applyTo\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"key_2\": {\n        \"definition\": \"<string>\",\n        \"path\": \"<string>\",\n        \"description\": \"<string>\",\n        \"applyTo\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"actions\": {\n      \"key_0\": {\n        \"title\": \"<string>\",\n        \"description\": \"<string>\",\n        \"modifies\": \"<boolean>\",\n        \"stateless\": false\n      },\n      \"key_1\": {\n        \"title\": \"<string>\",\n        \"description\": \"<string>\",\n        \"modifies\": \"<boolean>\",\n        \"stateless\": false\n      }\n    },\n    \"requiredExtensions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"custom\": {\n      \"key_0\": false,\n      \"key_1\": 6191.9443258855645\n    }\n  },\n  \"revision\": \"<string>\",\n  \"created\": \"<dateTime>\",\n  \"bundleReference\": \"<string>\",\n  \"parameters\": {\n    \"key_0\": 428,\n    \"key_1\": 7569,\n    \"key_2\": \"string\"\n  },\n  \"custom\": {\n    \"key_0\": 2582.1422266897443\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8cef75c3-c6df-4718-a8c8-6f76da294edc",
+              "name": "Claim created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"01HQXYZ123456789ABCDEFGH\",\n  \"installation\": \"my-wordpress-prod\",\n  \"action\": \"install\",\n  \"bundle\": {\n    \"schemaVersion\": \"v1\",\n    \"name\": \"my-wordpress-bundle\",\n    \"version\": \"1.2.3\",\n    \"invocationImages\": [\n      {\n        \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n        \"imageType\": \"oci\"\n      }\n    ]\n  },\n  \"bundleReference\": \"example.com/my-wordpress-bundle:1.2.3\",\n  \"revision\": \"01HQXYZ123456789ABCDEFGI\",\n  \"created\": \"2024-01-15T10:30:00Z\",\n  \"parameters\": {\n    \"site-name\": \"My Production Blog\",\n    \"replica-count\": 3\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"01HQXYZ123456789ABCDEFGH\",\n  \"installation\": \"my-wordpress-prod\",\n  \"action\": \"install\",\n  \"bundle\": {\n    \"schemaVersion\": \"v1\",\n    \"name\": \"my-wordpress-bundle\",\n    \"version\": \"1.2.3\",\n    \"invocationImages\": [\n      {\n        \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n        \"imageType\": \"oci\"\n      }\n    ]\n  },\n  \"bundleReference\": \"example.com/my-wordpress-bundle:1.2.3\",\n  \"revision\": \"01HQXYZ123456789ABCDEFGI\",\n  \"created\": \"2024-01-15T10:30:00Z\",\n  \"parameters\": {\n    \"site-name\": \"My Production Blog\",\n    \"replica-count\": 3\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "546a4e15-ad42-49de-bb70-08ec84f8cb76",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"01HQXYZ123456789ABCDEFGH\",\n  \"installation\": \"my-wordpress-prod\",\n  \"action\": \"install\",\n  \"bundle\": {\n    \"schemaVersion\": \"v1\",\n    \"name\": \"my-wordpress-bundle\",\n    \"version\": \"1.2.3\",\n    \"invocationImages\": [\n      {\n        \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n        \"imageType\": \"oci\"\n      }\n    ]\n  },\n  \"bundleReference\": \"example.com/my-wordpress-bundle:1.2.3\",\n  \"revision\": \"01HQXYZ123456789ABCDEFGI\",\n  \"created\": \"2024-01-15T10:30:00Z\",\n  \"parameters\": {\n    \"site-name\": \"My Production Blog\",\n    \"replica-count\": 3\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid bundle schema\",\n  \"details\": {\n    \"field\": \"version\",\n    \"error\": \"Version must follow SemVer2 format\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8da989e2-23e0-48e3-9a10-3f25df0e3182",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"01HQXYZ123456789ABCDEFGH\",\n  \"installation\": \"my-wordpress-prod\",\n  \"action\": \"install\",\n  \"bundle\": {\n    \"schemaVersion\": \"v1\",\n    \"name\": \"my-wordpress-bundle\",\n    \"version\": \"1.2.3\",\n    \"invocationImages\": [\n      {\n        \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n        \"imageType\": \"oci\"\n      }\n    ]\n  },\n  \"bundleReference\": \"example.com/my-wordpress-bundle:1.2.3\",\n  \"revision\": \"01HQXYZ123456789ABCDEFGI\",\n  \"created\": \"2024-01-15T10:30:00Z\",\n  \"parameters\": {\n    \"site-name\": \"My Production Blog\",\n    \"replica-count\": 3\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4650ba9b-b0f7-45bc-b20b-8697ca606b23",
+          "name": "Application Research Get a claim by ID",
+          "request": {
+            "name": "Application Research Get a claim by ID",
+            "description": {},
+            "url": {
+              "path": [
+                "claims",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Claim ID (ULID)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2a5c4523-7bde-49fa-9ede-b426e9bb2795",
+              "name": "Claim details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Claim ID (ULID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"01HQXYZ123456789ABCDEFGH\",\n  \"installation\": \"my-wordpress-prod\",\n  \"action\": \"install\",\n  \"bundle\": {\n    \"schemaVersion\": \"v1\",\n    \"name\": \"my-wordpress-bundle\",\n    \"version\": \"1.2.3\",\n    \"invocationImages\": [\n      {\n        \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n        \"imageType\": \"oci\"\n      }\n    ]\n  },\n  \"bundleReference\": \"example.com/my-wordpress-bundle:1.2.3\",\n  \"revision\": \"01HQXYZ123456789ABCDEFGI\",\n  \"created\": \"2024-01-15T10:30:00Z\",\n  \"parameters\": {\n    \"site-name\": \"My Production Blog\",\n    \"replica-count\": 3\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fea3855-a450-4f4e-a209-e10db70551aa",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Claim ID (ULID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Bundle 'my-bundle' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7239e8fb-c69e-43fc-a65c-cf8cf2ea9f19",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "claims",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Claim ID (ULID)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0b9a9d8a-1333-494e-a4ab-599b918e9c41",
+    "name": "Application Research CNAB Bundle API Resources Claims API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

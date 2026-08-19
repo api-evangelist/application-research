@@ -1,0 +1,135 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Datastores API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datastores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get MongoDB database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Datastores/mongoDatabases/:mongoDatabaseName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "mongoDatabaseName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the MongoDB database"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get MongoDB database"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Redis cache",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Datastores/redisCaches/:redisCacheName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "redisCacheName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Redis cache"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Redis cache"
+        },
+        {
+          "info": {
+            "name": "Application Research Get SQL database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Datastores/sqlDatabases/:sqlDatabaseName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "sqlDatabaseName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the SQL database"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get SQL database"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,242 @@
+{
+  "item": [
+    {
+      "id": "61dc7f8d-cadd-4d29-8e81-98d9d9206e48",
+      "name": "Validation",
+      "description": {
+        "content": "Workload validation operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e9293683-b045-4fd2-8d2a-64b23e471fe2",
+          "name": "Application Research Validate a workload specification",
+          "request": {
+            "name": "Application Research Validate a workload specification",
+            "description": {
+              "content": "Validates a Score workload specification without creating it",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apiVersion\": \"<string>\",\n  \"metadata\": {\n    \"name\": \"<string>\",\n    \"annotations\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"containers\": {\n    \"key_0\": {\n      \"image\": \"<string>\",\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"variables\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      },\n      \"files\": {\n        \"key_0\": {},\n        \"key_1\": {},\n        \"key_2\": {},\n        \"key_3\": {}\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        },\n        \"key_1\": {\n          \"source\": \"<string>\",\n          \"path\": \"<string>\",\n          \"readOnly\": \"<boolean>\"\n        }\n      },\n      \"resources\": {\n        \"limits\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        },\n        \"requests\": {\n          \"memory\": \"<string>\",\n          \"cpu\": \"<string>\"\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"port\": \"<integer>\",\n          \"path\": \"<string>\",\n          \"host\": \"<string>\",\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"exec\": {\n          \"command\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"key_0\": {\n        \"port\": \"<integer>\",\n        \"protocol\": \"TCP\",\n        \"targetPort\": \"<integer>\"\n      }\n    }\n  },\n  \"resources\": {\n    \"key_0\": {\n      \"type\": \"<string>\",\n      \"class\": \"<string>\",\n      \"id\": \"<string>\",\n      \"metadata\": {\n        \"annotations\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        }\n      },\n      \"params\": {\n        \"key_0\": 7228,\n        \"key_1\": false\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e89545a5-2f96-4ba0-a7ec-93c78a2d9600",
+              "name": "Validation successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"valid\": true,\n  \"errors\": [],\n  \"warnings\": [\n    {\n      \"path\": \"/containers/frontend/resources/limits/memory\",\n      \"message\": \"Memory limit is relatively high, consider if this is necessary\",\n      \"code\": \"RESOURCE_HIGH\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20a34600-4161-4d69-8f39-2ed7d101dcd7",
+              "name": "Validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"valid\": false,\n  \"errors\": [\n    {\n      \"path\": \"/metadata/name\",\n      \"message\": \"Name 'Invalid_Name' does not match required pattern ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$\",\n      \"code\": \"PATTERN_MISMATCH\"\n    },\n    {\n      \"path\": \"/containers/app/image\",\n      \"message\": \"Container image is required\",\n      \"code\": \"REQUIRED_FIELD\"\n    },\n    {\n      \"path\": \"/service/ports/web/port\",\n      \"message\": \"Port must be between 1 and 65535\",\n      \"code\": \"VALUE_OUT_OF_RANGE\"\n    }\n  ],\n  \"warnings\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1219a127-89ae-4830-bf16-07ded770459a",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiVersion\": \"score.dev/v1b1\",\n  \"metadata\": {\n    \"name\": \"ecommerce-frontend\",\n    \"annotations\": {\n      \"app.kubernetes.io/part-of\": \"ecommerce-platform\",\n      \"app.kubernetes.io/version\": \"2.5.0\",\n      \"team.company.io/owner\": \"frontend-team\",\n      \"deployment.company.io/tier\": \"production\"\n    }\n  },\n  \"service\": {\n    \"ports\": {\n      \"web\": {\n        \"port\": 443,\n        \"targetPort\": 8080,\n        \"protocol\": \"TCP\"\n      },\n      \"metrics\": {\n        \"port\": 9090,\n        \"targetPort\": 9090,\n        \"protocol\": \"TCP\"\n      }\n    }\n  },\n  \"containers\": {\n    \"frontend\": {\n      \"image\": \"ghcr.io/myorg/ecommerce-frontend:2.5.0\",\n      \"command\": [\n        \"/usr/bin/node\"\n      ],\n      \"args\": [\n        \"server.js\",\n        \"--config=/etc/app/config.json\",\n        \"--log-level=info\"\n      ],\n      \"variables\": {\n        \"NODE_ENV\": \"production\",\n        \"API_BASE_URL\": \"https://api.ecommerce.example.com\",\n        \"CACHE_TTL\": \"3600\",\n        \"SESSION_SECRET\": \"${resources.session-secrets.secret}\",\n        \"DATABASE_URL\": \"${resources.postgres-db.connection_string}\",\n        \"REDIS_HOST\": \"${resources.cache.host}\",\n        \"REDIS_PORT\": \"${resources.cache.port}\",\n        \"STORAGE_BUCKET\": \"${resources.object-storage.bucket}\",\n        \"CDN_URL\": \"https://cdn.ecommerce.example.com\",\n        \"FEATURE_FLAGS_ENDPOINT\": \"${resources.feature-flags.endpoint}\"\n      },\n      \"files\": {\n        \"/etc/app/config.json\": {\n          \"content\": \"{\\n  \\\"appName\\\": \\\"E-Commerce Frontend\\\",\\n  \\\"version\\\": \\\"2.5.0\\\",\\n  \\\"features\\\": {\\n    \\\"darkMode\\\": true,\\n    \\\"recommendations\\\": true,\\n    \\\"liveChat\\\": false\\n  },\\n  \\\"analytics\\\": {\\n    \\\"enabled\\\": true,\\n    \\\"sampleRate\\\": 0.1\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/app/locales/en.json\": {\n          \"source\": \"./locales/en.json\",\n          \"mode\": \"0644\"\n        },\n        \"/etc/ssl/certs/internal-ca.crt\": {\n          \"source\": \"./certs/internal-ca.crt\",\n          \"mode\": \"0444\",\n          \"noExpand\": true\n        },\n        \"/etc/app/banner.png\": {\n          \"binaryContent\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/uploads\": {\n          \"source\": \"${resources.uploads-volume.source}\",\n          \"readOnly\": false\n        },\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"256M\",\n          \"cpu\": \"250m\"\n        },\n        \"limits\": {\n          \"memory\": \"1Gi\",\n          \"cpu\": \"1\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/ready\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\",\n          \"httpHeaders\": [\n            {\n              \"name\": \"X-Health-Check\",\n              \"value\": \"readiness\"\n            }\n          ]\n        }\n      },\n      \"livenessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health/live\",\n          \"port\": 8080,\n          \"scheme\": \"HTTP\"\n        }\n      }\n    },\n    \"nginx-sidecar\": {\n      \"image\": \"nginx:1.25-alpine\",\n      \"variables\": {\n        \"NGINX_WORKER_PROCESSES\": \"auto\",\n        \"NGINX_WORKER_CONNECTIONS\": \"1024\"\n      },\n      \"files\": {\n        \"/etc/nginx/nginx.conf\": {\n          \"content\": \"worker_processes auto;\\nevents {\\n  worker_connections 1024;\\n}\\nhttp {\\n  upstream frontend {\\n    server 127.0.0.1:8080;\\n  }\\n  server {\\n    listen 443 ssl;\\n    ssl_certificate /etc/ssl/certs/tls.crt;\\n    ssl_certificate_key /etc/ssl/private/tls.key;\\n    location / {\\n      proxy_pass http://frontend;\\n      proxy_set_header Host $host;\\n      proxy_set_header X-Real-IP $remote_addr;\\n    }\\n    location /static/ {\\n      alias /data/static/;\\n      expires 1y;\\n    }\\n  }\\n}\\n\",\n          \"mode\": \"0644\"\n        }\n      },\n      \"volumes\": {\n        \"/data/static\": {\n          \"source\": \"${resources.static-assets.source}\",\n          \"path\": \"assets/v2\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/certs\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"certs\",\n          \"readOnly\": true\n        },\n        \"/etc/ssl/private\": {\n          \"source\": \"${resources.tls-certs.source}\",\n          \"path\": \"keys\",\n          \"readOnly\": true\n        }\n      },\n      \"resources\": {\n        \"requests\": {\n          \"memory\": \"64M\",\n          \"cpu\": \"50m\"\n        },\n        \"limits\": {\n          \"memory\": \"128M\",\n          \"cpu\": \"200m\"\n        }\n      },\n      \"readinessProbe\": {\n        \"httpGet\": {\n          \"path\": \"/health\",\n          \"port\": 443,\n          \"scheme\": \"HTTPS\"\n        }\n      }\n    }\n  },\n  \"resources\": {\n    \"postgres-db\": {\n      \"type\": \"postgres\",\n      \"class\": \"managed\",\n      \"id\": \"ecommerce.products\",\n      \"metadata\": {\n        \"annotations\": {\n          \"backup.company.io/enabled\": \"true\",\n          \"backup.company.io/retention\": \"30d\"\n        }\n      },\n      \"params\": {\n        \"version\": \"15\",\n        \"size\": \"large\",\n        \"highAvailability\": true,\n        \"extensions\": [\n          \"pg_trgm\",\n          \"uuid-ossp\"\n        ]\n      }\n    },\n    \"cache\": {\n      \"type\": \"redis\",\n      \"class\": \"cluster\",\n      \"id\": \"ecommerce.session-cache\",\n      \"params\": {\n        \"version\": \"7.2\",\n        \"maxMemoryPolicy\": \"allkeys-lru\",\n        \"clusterMode\": true\n      }\n    },\n    \"session-secrets\": {\n      \"type\": \"secret\",\n      \"id\": \"ecommerce.session\",\n      \"params\": {\n        \"keys\": [\n          \"secret\",\n          \"encryptionKey\"\n        ]\n      }\n    },\n    \"object-storage\": {\n      \"type\": \"s3\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.assets\",\n      \"params\": {\n        \"versioning\": true,\n        \"lifecycle\": [\n          {\n            \"prefix\": \"temp/\",\n            \"expirationDays\": 7\n          }\n        ]\n      }\n    },\n    \"uploads-volume\": {\n      \"type\": \"volume\",\n      \"class\": \"ssd\",\n      \"params\": {\n        \"size\": \"50Gi\",\n        \"accessMode\": \"ReadWriteMany\"\n      }\n    },\n    \"static-assets\": {\n      \"type\": \"volume\",\n      \"class\": \"standard\",\n      \"id\": \"ecommerce.static\",\n      \"params\": {\n        \"size\": \"10Gi\",\n        \"accessMode\": \"ReadOnlyMany\"\n      }\n    },\n    \"tls-certs\": {\n      \"type\": \"secret\",\n      \"class\": \"tls\",\n      \"id\": \"ecommerce.tls\"\n    },\n    \"feature-flags\": {\n      \"type\": \"service\",\n      \"id\": \"shared.feature-flags\",\n      \"params\": {\n        \"environment\": \"production\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An unexpected error occurred\",\n    \"details\": {\n      \"requestId\": \"req-abc123\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "350c7ad5-ca32-444a-b148-c53c2c12907e",
+    "name": "Application Research CNAB Bundle API Resources Validation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

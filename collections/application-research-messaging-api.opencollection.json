@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Messaging API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messaging",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get RabbitMQ queue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Messaging/rabbitMQQueues/:rabbitMQQueueName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "rabbitMQQueueName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the RabbitMQ queue"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get RabbitMQ queue"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

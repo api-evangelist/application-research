@@ -1,0 +1,231 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Components API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Components",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List component descriptors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/components",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "provider",
+                "value": "",
+                "type": "query",
+                "description": "Filter by provider name"
+              }
+            ]
+          },
+          "docs": "Application Research List component descriptors"
+        },
+        {
+          "info": {
+            "name": "Application Research Create a component descriptor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/components",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Create a component descriptor"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a component descriptor by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/components/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Get a component descriptor by name"
+        },
+        {
+          "info": {
+            "name": "Application Research Update a component descriptor",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.example.com/v1/components/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Update a component descriptor"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete a component descriptor",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.example.com/v1/components/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Delete a component descriptor"
+        },
+        {
+          "info": {
+            "name": "Application Research List all versions of a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/components/:name/versions",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              }
+            ]
+          },
+          "docs": "Application Research List all versions of a component"
+        },
+        {
+          "info": {
+            "name": "Application Research List component references",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/components/:name/references",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research List component references"
+        },
+        {
+          "info": {
+            "name": "Application Research Add a component reference",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/components/:name/references",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Add a component reference"
+        },
+        {
+          "info": {
+            "name": "Application Research Transfer components between repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/transfer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Transfer components between repositories"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

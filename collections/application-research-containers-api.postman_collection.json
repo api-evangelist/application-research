@@ -1,0 +1,1102 @@
+{
+  "item": [
+    {
+      "id": "5a4b876b-dffa-46f2-8463-440a4c2e4db7",
+      "name": "Containers",
+      "description": {
+        "content": "Container resource operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5f1f5216-2314-476f-a95f-7230c1cd6699",
+          "name": "Application Research List containers",
+          "request": {
+            "name": "Application Research List containers",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "containers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "02044a95-e93f-48de-8432-7dec167ec156",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": [\n    {\n      \"properties\": {\n        \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n        \"container\": {\n          \"image\": \"ghcr.io/myorg/order-service:2.5.0\"\n        },\n        \"provisioningState\": \"Succeeded\"\n      },\n      \"location\": \"eastus\",\n      \"tags\": {\n        \"service\": \"order-service\"\n      },\n      \"id\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService\",\n      \"name\": \"orderService\",\n      \"type\": \"Applications.Core/containers\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71b695ca-de71-4374-ad26-de1a5387e8a0",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e2e3bf16-5cbd-4e86-b8cc-ac6134c209a7",
+          "name": "Application Research Get container",
+          "request": {
+            "name": "Application Research Get container",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "containers",
+                ":containerName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "containerName",
+                  "description": "(Required) The name of the container"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0826a1f8-c872-4649-b34e-b845fcff7f68",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"container\": {\n      \"image\": \"ghcr.io/myorg/order-service:2.5.0\",\n      \"imagePullPolicy\": \"IfNotPresent\",\n      \"env\": {\n        \"ASPNETCORE_ENVIRONMENT\": {\n          \"value\": \"Production\"\n        },\n        \"LOG_LEVEL\": {\n          \"value\": \"Information\"\n        },\n        \"DB_PASSWORD\": {\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/db-secrets\",\n              \"key\": \"password\"\n            }\n          }\n        }\n      },\n      \"ports\": {\n        \"http\": {\n          \"containerPort\": 8080,\n          \"protocol\": \"TCP\",\n          \"scheme\": \"http\",\n          \"port\": 80\n        },\n        \"grpc\": {\n          \"containerPort\": 9090,\n          \"protocol\": \"TCP\"\n        }\n      },\n      \"readinessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/ready\",\n        \"headers\": {\n          \"X-Health-Check\": \"readiness\"\n        },\n        \"initialDelaySeconds\": 10,\n        \"periodSeconds\": 5,\n        \"failureThreshold\": 3\n      },\n      \"livenessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/live\",\n        \"initialDelaySeconds\": 15,\n        \"periodSeconds\": 10\n      },\n      \"volumes\": {\n        \"config\": {\n          \"kind\": \"persistent\",\n          \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/volumes/order-config\",\n          \"mountPath\": \"/app/config\",\n          \"permission\": \"read\"\n        },\n        \"temp\": {\n          \"kind\": \"ephemeral\",\n          \"managedStore\": \"memory\",\n          \"mountPath\": \"/tmp\"\n        }\n      },\n      \"command\": [\n        \"dotnet\"\n      ],\n      \"args\": [\n        \"OrderService.dll\",\n        \"--urls\",\n        \"http://+:8080\"\n      ],\n      \"workingDir\": \"/app\"\n    },\n    \"connections\": {\n      \"mongodb\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/mongoDatabases/orders-db\",\n        \"iam\": {\n          \"kind\": \"azure\",\n          \"roles\": [\n            \"DocumentDB Account Contributor\"\n          ]\n        }\n      },\n      \"redis\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/redisCaches/session-cache\"\n      }\n    },\n    \"identity\": {\n      \"kind\": \"azure.com.workload\",\n      \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n      \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/order-service-identity\"\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"daprSidecar\",\n        \"appId\": \"order-service\",\n        \"appPort\": 8080,\n        \"config\": \"tracing-config\",\n        \"protocol\": \"http\"\n      },\n      {\n        \"kind\": \"manualScaling\",\n        \"replicas\": 3\n      }\n    ],\n    \"resourceProvisioning\": \"internal\",\n    \"restartPolicy\": \"Always\",\n    \"runtimes\": {\n      \"kubernetes\": {\n        \"base\": \"apiVersion: apps/v1\\nkind: Deployment\\nmetadata:\\n  name: order-service\\n\",\n        \"pod\": {\n          \"nodeSelector\": {\n            \"kubernetes.io/os\": \"linux\"\n          }\n        }\n      }\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"service\": \"order-service\",\n    \"tier\": \"backend\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "948847af-faab-4cee-a23b-e0f3ccd59c5f",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7486a4b5-65b7-4181-9951-23fb242ec7e3",
+          "name": "Application Research Create or update container",
+          "request": {
+            "name": "Application Research Create or update container",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "containers",
+                ":containerName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "containerName",
+                  "description": "(Required) The name of the container"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"properties\": {\n    \"application\": \"<string>\",\n    \"container\": {\n      \"image\": \"<string>\",\n      \"imagePullPolicy\": \"<string>\",\n      \"env\": {\n        \"key_0\": {\n          \"value\": \"<string>\",\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"ports\": {\n        \"key_0\": {\n          \"containerPort\": \"<integer>\",\n          \"protocol\": \"<string>\",\n          \"scheme\": \"<string>\",\n          \"port\": \"<integer>\"\n        },\n        \"key_1\": {\n          \"containerPort\": \"<integer>\",\n          \"protocol\": \"<string>\",\n          \"scheme\": \"<string>\",\n          \"port\": \"<integer>\"\n        }\n      },\n      \"readinessProbe\": {\n        \"kind\": \"<string>\",\n        \"initialDelaySeconds\": \"<number>\",\n        \"failureThreshold\": \"<number>\",\n        \"periodSeconds\": \"<number>\",\n        \"timeoutSeconds\": 5\n      },\n      \"livenessProbe\": {\n        \"kind\": \"<string>\",\n        \"initialDelaySeconds\": \"<number>\",\n        \"failureThreshold\": \"<number>\",\n        \"periodSeconds\": \"<number>\",\n        \"timeoutSeconds\": 5\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"kind\": \"<string>\",\n          \"mountPath\": \"<string>\"\n        },\n        \"key_1\": {\n          \"kind\": \"<string>\",\n          \"mountPath\": \"<string>\"\n        },\n        \"key_2\": {\n          \"kind\": \"<string>\",\n          \"mountPath\": \"<string>\"\n        }\n      },\n      \"command\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"args\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"workingDir\": \"<string>\"\n    },\n    \"environment\": \"<string>\",\n    \"connections\": {\n      \"key_0\": {\n        \"source\": \"<string>\",\n        \"disableDefaultEnvVars\": \"<boolean>\",\n        \"iam\": {\n          \"kind\": \"<string>\",\n          \"roles\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      },\n      \"key_1\": {\n        \"source\": \"<string>\",\n        \"disableDefaultEnvVars\": \"<boolean>\",\n        \"iam\": {\n          \"kind\": \"<string>\",\n          \"roles\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"identity\": {\n      \"kind\": \"<string>\",\n      \"oidcIssuer\": \"<string>\",\n      \"resource\": \"<string>\",\n      \"managedIdentity\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\"\n      }\n    ],\n    \"resourceProvisioning\": \"<string>\",\n    \"resources\": [\n      {\n        \"id\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\"\n      }\n    ],\n    \"restartPolicy\": \"<string>\",\n    \"runtimes\": {\n      \"kubernetes\": {\n        \"base\": \"<string>\",\n        \"pod\": {\n          \"key_0\": true,\n          \"key_1\": 9262.565011771612\n        }\n      },\n      \"aci\": {\n        \"gatewayID\": \"<string>\"\n      }\n    }\n  },\n  \"location\": \"<string>\",\n  \"tags\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "96738fdc-8e24-4a5d-8d77-02354f7ff356",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"container\": {\n      \"image\": \"ghcr.io/myorg/order-service:2.5.0\",\n      \"imagePullPolicy\": \"IfNotPresent\",\n      \"env\": {\n        \"ASPNETCORE_ENVIRONMENT\": {\n          \"value\": \"Production\"\n        },\n        \"LOG_LEVEL\": {\n          \"value\": \"Information\"\n        },\n        \"DB_PASSWORD\": {\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/db-secrets\",\n              \"key\": \"password\"\n            }\n          }\n        }\n      },\n      \"ports\": {\n        \"http\": {\n          \"containerPort\": 8080,\n          \"protocol\": \"TCP\",\n          \"scheme\": \"http\",\n          \"port\": 80\n        },\n        \"grpc\": {\n          \"containerPort\": 9090,\n          \"protocol\": \"TCP\"\n        }\n      },\n      \"readinessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/ready\",\n        \"headers\": {\n          \"X-Health-Check\": \"readiness\"\n        },\n        \"initialDelaySeconds\": 10,\n        \"periodSeconds\": 5,\n        \"failureThreshold\": 3\n      },\n      \"livenessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/live\",\n        \"initialDelaySeconds\": 15,\n        \"periodSeconds\": 10\n      },\n      \"volumes\": {\n        \"config\": {\n          \"kind\": \"persistent\",\n          \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/volumes/order-config\",\n          \"mountPath\": \"/app/config\",\n          \"permission\": \"read\"\n        },\n        \"temp\": {\n          \"kind\": \"ephemeral\",\n          \"managedStore\": \"memory\",\n          \"mountPath\": \"/tmp\"\n        }\n      },\n      \"command\": [\n        \"dotnet\"\n      ],\n      \"args\": [\n        \"OrderService.dll\",\n        \"--urls\",\n        \"http://+:8080\"\n      ],\n      \"workingDir\": \"/app\"\n    },\n    \"connections\": {\n      \"mongodb\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/mongoDatabases/orders-db\",\n        \"iam\": {\n          \"kind\": \"azure\",\n          \"roles\": [\n            \"DocumentDB Account Contributor\"\n          ]\n        }\n      },\n      \"redis\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/redisCaches/session-cache\"\n      }\n    },\n    \"identity\": {\n      \"kind\": \"azure.com.workload\",\n      \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n      \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/order-service-identity\"\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"daprSidecar\",\n        \"appId\": \"order-service\",\n        \"appPort\": 8080,\n        \"config\": \"tracing-config\",\n        \"protocol\": \"http\"\n      },\n      {\n        \"kind\": \"manualScaling\",\n        \"replicas\": 3\n      }\n    ],\n    \"resourceProvisioning\": \"internal\",\n    \"restartPolicy\": \"Always\",\n    \"runtimes\": {\n      \"kubernetes\": {\n        \"base\": \"apiVersion: apps/v1\\nkind: Deployment\\nmetadata:\\n  name: order-service\\n\",\n        \"pod\": {\n          \"nodeSelector\": {\n            \"kubernetes.io/os\": \"linux\"\n          }\n        }\n      }\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"service\": \"order-service\",\n    \"tier\": \"backend\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"application\": \"string\",\n    \"container\": {\n      \"image\": \"string\",\n      \"imagePullPolicy\": \"IfNotPresent\",\n      \"env\": {\n        \"key_0\": {\n          \"value\": \"string\",\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"value\": \"string\",\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"value\": \"string\",\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"ports\": {\n        \"key_0\": {\n          \"containerPort\": 7438,\n          \"protocol\": \"UDP\",\n          \"scheme\": \"string\",\n          \"port\": 2689\n        }\n      },\n      \"readinessProbe\": {\n        \"kind\": \"string\",\n        \"initialDelaySeconds\": 731.4870037922905,\n        \"failureThreshold\": 9494.800894316566,\n        \"periodSeconds\": 9714.912282111572,\n        \"timeoutSeconds\": 5\n      },\n      \"livenessProbe\": {\n        \"kind\": \"string\",\n        \"initialDelaySeconds\": 1916.649071914891,\n        \"failureThreshold\": 5335.33111698896,\n        \"periodSeconds\": 7398.885858321696,\n        \"timeoutSeconds\": 5\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"kind\": \"string\",\n          \"mountPath\": \"string\"\n        }\n      },\n      \"command\": [\n        \"string\",\n        \"string\"\n      ],\n      \"args\": [\n        \"string\",\n        \"string\"\n      ],\n      \"workingDir\": \"string\"\n    },\n    \"environment\": \"string\",\n    \"provisioningState\": \"Updating\",\n    \"status\": {\n      \"compute\": {\n        \"kind\": \"string\",\n        \"resourceId\": \"string\",\n        \"identity\": {\n          \"kind\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"oidcIssuer\": \"string\",\n          \"resource\": \"string\",\n          \"managedIdentity\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"recipe\": {\n        \"templateKind\": \"string\",\n        \"templatePath\": \"string\",\n        \"templateVersion\": \"string\"\n      },\n      \"outputResources\": [\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": true\n        },\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": true\n        }\n      ]\n    },\n    \"connections\": {\n      \"key_0\": {\n        \"source\": \"string\",\n        \"disableDefaultEnvVars\": true,\n        \"iam\": {\n          \"kind\": \"azure\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      }\n    },\n    \"identity\": {\n      \"kind\": \"userAssigned\",\n      \"oidcIssuer\": \"string\",\n      \"resource\": \"string\",\n      \"managedIdentity\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"string\"\n      },\n      {\n        \"kind\": \"string\"\n      }\n    ],\n    \"resourceProvisioning\": \"internal\",\n    \"resources\": [\n      {\n        \"id\": \"string\"\n      },\n      {\n        \"id\": \"string\"\n      }\n    ],\n    \"restartPolicy\": \"Always\",\n    \"runtimes\": {\n      \"kubernetes\": {\n        \"base\": \"string\",\n        \"pod\": {\n          \"key_0\": false,\n          \"key_1\": false\n        }\n      },\n      \"aci\": {\n        \"gatewayID\": \"string\"\n      }\n    }\n  },\n  \"location\": \"string\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"systemData\": {},\n  \"tags\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4fb0158-3382-4cc8-8798-7d62ad3b2e95",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"container\": {\n      \"image\": \"ghcr.io/myorg/order-service:2.5.0\",\n      \"imagePullPolicy\": \"IfNotPresent\",\n      \"env\": {\n        \"ASPNETCORE_ENVIRONMENT\": {\n          \"value\": \"Production\"\n        },\n        \"LOG_LEVEL\": {\n          \"value\": \"Information\"\n        },\n        \"DB_PASSWORD\": {\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/db-secrets\",\n              \"key\": \"password\"\n            }\n          }\n        }\n      },\n      \"ports\": {\n        \"http\": {\n          \"containerPort\": 8080,\n          \"protocol\": \"TCP\",\n          \"scheme\": \"http\",\n          \"port\": 80\n        },\n        \"grpc\": {\n          \"containerPort\": 9090,\n          \"protocol\": \"TCP\"\n        }\n      },\n      \"readinessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/ready\",\n        \"headers\": {\n          \"X-Health-Check\": \"readiness\"\n        },\n        \"initialDelaySeconds\": 10,\n        \"periodSeconds\": 5,\n        \"failureThreshold\": 3\n      },\n      \"livenessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/live\",\n        \"initialDelaySeconds\": 15,\n        \"periodSeconds\": 10\n      },\n      \"volumes\": {\n        \"config\": {\n          \"kind\": \"persistent\",\n          \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/volumes/order-config\",\n          \"mountPath\": \"/app/config\",\n          \"permission\": \"read\"\n        },\n        \"temp\": {\n          \"kind\": \"ephemeral\",\n          \"managedStore\": \"memory\",\n          \"mountPath\": \"/tmp\"\n        }\n      },\n      \"command\": [\n        \"dotnet\"\n      ],\n      \"args\": [\n        \"OrderService.dll\",\n        \"--urls\",\n        \"http://+:8080\"\n      ],\n      \"workingDir\": \"/app\"\n    },\n    \"connections\": {\n      \"mongodb\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/mongoDatabases/orders-db\",\n        \"iam\": {\n          \"kind\": \"azure\",\n          \"roles\": [\n            \"DocumentDB Account Contributor\"\n          ]\n        }\n      },\n      \"redis\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/redisCaches/session-cache\"\n      }\n    },\n    \"identity\": {\n      \"kind\": \"azure.com.workload\",\n      \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n      \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/order-service-identity\"\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"daprSidecar\",\n        \"appId\": \"order-service\",\n        \"appPort\": 8080,\n        \"config\": \"tracing-config\",\n        \"protocol\": \"http\"\n      },\n      {\n        \"kind\": \"manualScaling\",\n        \"replicas\": 3\n      }\n    ],\n    \"resourceProvisioning\": \"internal\",\n    \"restartPolicy\": \"Always\",\n    \"runtimes\": {\n      \"kubernetes\": {\n        \"base\": \"apiVersion: apps/v1\\nkind: Deployment\\nmetadata:\\n  name: order-service\\n\",\n        \"pod\": {\n          \"nodeSelector\": {\n            \"kubernetes.io/os\": \"linux\"\n          }\n        }\n      }\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"service\": \"order-service\",\n    \"tier\": \"backend\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"application\": \"string\",\n    \"container\": {\n      \"image\": \"string\",\n      \"imagePullPolicy\": \"IfNotPresent\",\n      \"env\": {\n        \"key_0\": {\n          \"value\": \"string\",\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_1\": {\n          \"value\": \"string\",\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"key_2\": {\n          \"value\": \"string\",\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"ports\": {\n        \"key_0\": {\n          \"containerPort\": 7438,\n          \"protocol\": \"UDP\",\n          \"scheme\": \"string\",\n          \"port\": 2689\n        }\n      },\n      \"readinessProbe\": {\n        \"kind\": \"string\",\n        \"initialDelaySeconds\": 731.4870037922905,\n        \"failureThreshold\": 9494.800894316566,\n        \"periodSeconds\": 9714.912282111572,\n        \"timeoutSeconds\": 5\n      },\n      \"livenessProbe\": {\n        \"kind\": \"string\",\n        \"initialDelaySeconds\": 1916.649071914891,\n        \"failureThreshold\": 5335.33111698896,\n        \"periodSeconds\": 7398.885858321696,\n        \"timeoutSeconds\": 5\n      },\n      \"volumes\": {\n        \"key_0\": {\n          \"kind\": \"string\",\n          \"mountPath\": \"string\"\n        }\n      },\n      \"command\": [\n        \"string\",\n        \"string\"\n      ],\n      \"args\": [\n        \"string\",\n        \"string\"\n      ],\n      \"workingDir\": \"string\"\n    },\n    \"environment\": \"string\",\n    \"provisioningState\": \"Updating\",\n    \"status\": {\n      \"compute\": {\n        \"kind\": \"string\",\n        \"resourceId\": \"string\",\n        \"identity\": {\n          \"kind\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"oidcIssuer\": \"string\",\n          \"resource\": \"string\",\n          \"managedIdentity\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"recipe\": {\n        \"templateKind\": \"string\",\n        \"templatePath\": \"string\",\n        \"templateVersion\": \"string\"\n      },\n      \"outputResources\": [\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": true\n        },\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": true\n        }\n      ]\n    },\n    \"connections\": {\n      \"key_0\": {\n        \"source\": \"string\",\n        \"disableDefaultEnvVars\": true,\n        \"iam\": {\n          \"kind\": \"azure\",\n          \"roles\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      }\n    },\n    \"identity\": {\n      \"kind\": \"userAssigned\",\n      \"oidcIssuer\": \"string\",\n      \"resource\": \"string\",\n      \"managedIdentity\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"string\"\n      },\n      {\n        \"kind\": \"string\"\n      }\n    ],\n    \"resourceProvisioning\": \"internal\",\n    \"resources\": [\n      {\n        \"id\": \"string\"\n      },\n      {\n        \"id\": \"string\"\n      }\n    ],\n    \"restartPolicy\": \"Always\",\n    \"runtimes\": {\n      \"kubernetes\": {\n        \"base\": \"string\",\n        \"pod\": {\n          \"key_0\": false,\n          \"key_1\": false\n        }\n      },\n      \"aci\": {\n        \"gatewayID\": \"string\"\n      }\n    }\n  },\n  \"location\": \"string\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"systemData\": {},\n  \"tags\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17dbdf73-3088-458f-9f1a-6ec4bcebb740",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"container\": {\n      \"image\": \"ghcr.io/myorg/order-service:2.5.0\",\n      \"imagePullPolicy\": \"IfNotPresent\",\n      \"env\": {\n        \"ASPNETCORE_ENVIRONMENT\": {\n          \"value\": \"Production\"\n        },\n        \"LOG_LEVEL\": {\n          \"value\": \"Information\"\n        },\n        \"DB_PASSWORD\": {\n          \"valueFrom\": {\n            \"secretRef\": {\n              \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/db-secrets\",\n              \"key\": \"password\"\n            }\n          }\n        }\n      },\n      \"ports\": {\n        \"http\": {\n          \"containerPort\": 8080,\n          \"protocol\": \"TCP\",\n          \"scheme\": \"http\",\n          \"port\": 80\n        },\n        \"grpc\": {\n          \"containerPort\": 9090,\n          \"protocol\": \"TCP\"\n        }\n      },\n      \"readinessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/ready\",\n        \"headers\": {\n          \"X-Health-Check\": \"readiness\"\n        },\n        \"initialDelaySeconds\": 10,\n        \"periodSeconds\": 5,\n        \"failureThreshold\": 3\n      },\n      \"livenessProbe\": {\n        \"kind\": \"httpGet\",\n        \"containerPort\": 8080,\n        \"path\": \"/health/live\",\n        \"initialDelaySeconds\": 15,\n        \"periodSeconds\": 10\n      },\n      \"volumes\": {\n        \"config\": {\n          \"kind\": \"persistent\",\n          \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/volumes/order-config\",\n          \"mountPath\": \"/app/config\",\n          \"permission\": \"read\"\n        },\n        \"temp\": {\n          \"kind\": \"ephemeral\",\n          \"managedStore\": \"memory\",\n          \"mountPath\": \"/tmp\"\n        }\n      },\n      \"command\": [\n        \"dotnet\"\n      ],\n      \"args\": [\n        \"OrderService.dll\",\n        \"--urls\",\n        \"http://+:8080\"\n      ],\n      \"workingDir\": \"/app\"\n    },\n    \"connections\": {\n      \"mongodb\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/mongoDatabases/orders-db\",\n        \"iam\": {\n          \"kind\": \"azure\",\n          \"roles\": [\n            \"DocumentDB Account Contributor\"\n          ]\n        }\n      },\n      \"redis\": {\n        \"source\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Datastores/redisCaches/session-cache\"\n      }\n    },\n    \"identity\": {\n      \"kind\": \"azure.com.workload\",\n      \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n      \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/order-service-identity\"\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"daprSidecar\",\n        \"appId\": \"order-service\",\n        \"appPort\": 8080,\n        \"config\": \"tracing-config\",\n        \"protocol\": \"http\"\n      },\n      {\n        \"kind\": \"manualScaling\",\n        \"replicas\": 3\n      }\n    ],\n    \"resourceProvisioning\": \"internal\",\n    \"restartPolicy\": \"Always\",\n    \"runtimes\": {\n      \"kubernetes\": {\n        \"base\": \"apiVersion: apps/v1\\nkind: Deployment\\nmetadata:\\n  name: order-service\\n\",\n        \"pod\": {\n          \"nodeSelector\": {\n            \"kubernetes.io/os\": \"linux\"\n          }\n        }\n      }\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"service\": \"order-service\",\n    \"tier\": \"backend\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a94c617-b89a-42d7-aa4a-b13792972dd1",
+          "name": "Application Research Delete container",
+          "request": {
+            "name": "Application Research Delete container",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "containers",
+                ":containerName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "containerName",
+                  "description": "(Required) The name of the container"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fa4f329e-eca8-4dc9-9a05-2a1973d87c51",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "998cc05f-5657-47b5-895c-d413100bdc1c",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9b116372-65f5-4b5b-99c9-bac7d41c12fa",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "containers",
+                    ":containerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "containerName",
+                      "description": "(Required) The name of the container"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "662a3500-8cc2-4bb1-bc08-a5aff62aa9a0",
+    "name": "Application Research CNAB Bundle API Resources Containers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

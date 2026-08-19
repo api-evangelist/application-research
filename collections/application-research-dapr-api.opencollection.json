@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Dapr API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dapr",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research Get Dapr state store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/stateStores/:stateStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "stateStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr state store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr state store"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Dapr pub/sub broker",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/pubSubBrokers/:pubSubBrokerName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "pubSubBrokerName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr pub/sub broker"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr pub/sub broker"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Dapr secret store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/secretStores/:daprSecretStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "daprSecretStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr secret store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr secret store"
+        },
+        {
+          "info": {
+            "name": "Application Research Get Dapr configuration store",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/planes/radius/:planeName/resourceGroups/:resourceGroupName/providers/Applications.Dapr/configurationStores/:configurationStoreName",
+            "params": [
+              {
+                "name": "planeName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the plane"
+              },
+              {
+                "name": "resourceGroupName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the resource group"
+              },
+              {
+                "name": "configurationStoreName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Dapr configuration store"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "The API version to use for this operation"
+              }
+            ]
+          },
+          "docs": "Application Research Get Dapr configuration store"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

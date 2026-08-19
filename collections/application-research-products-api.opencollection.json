@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Products API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/products",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "vendor",
+                "value": "sap:vendor:SAP:",
+                "type": "query",
+                "description": "Filter by vendor ORD ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Products across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Product by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/products/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap:product:IoTPlatform:",
+                "type": "path",
+                "description": "ORD ID of the Product"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Product by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

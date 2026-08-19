@@ -1,0 +1,1102 @@
+{
+  "item": [
+    {
+      "id": "a8ac16b3-2082-465f-b547-4ce07af500cc",
+      "name": "Environments",
+      "description": {
+        "content": "Environment resource operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6740504d-7998-4822-89b7-cb9c8d46c5b2",
+          "name": "Application Research List environments",
+          "request": {
+            "name": "Application Research List environments",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "environments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b79854cf-4af9-4e01-b8d2-f3740dc595b8",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": [\n    {\n      \"properties\": {\n        \"compute\": {\n          \"kind\": \"kubernetes\",\n          \"namespace\": \"ecommerce-prod\"\n        },\n        \"provisioningState\": \"Succeeded\"\n      },\n      \"location\": \"eastus\",\n      \"tags\": {\n        \"environment\": \"production\"\n      },\n      \"id\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod\",\n      \"name\": \"prod\",\n      \"type\": \"Applications.Core/environments\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8a1f748-c1bd-4ed5-bcdb-095d2c53f92c",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d3f5a5f0-c9e3-45fc-ab5a-b25053dfb4a9",
+          "name": "Application Research Get environment",
+          "request": {
+            "name": "Application Research Get environment",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "environments",
+                ":environmentName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "environmentName",
+                  "description": "(Required) The name of the environment"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40bf0cb7-9505-40a7-ab47-aedd24c0af37",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"compute\": {\n      \"kind\": \"kubernetes\",\n      \"namespace\": \"ecommerce-prod\",\n      \"identity\": {\n        \"kind\": \"azure.com.workload\",\n        \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n        \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ecommerce-identity\"\n      }\n    },\n    \"providers\": {\n      \"azure\": {\n        \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg\"\n      },\n      \"aws\": {\n        \"scope\": \"/planes/aws/aws/accounts/123456789012/regions/us-east-1\"\n      }\n    },\n    \"recipes\": {\n      \"Applications.Datastores/redisCaches\": {\n        \"default\": {\n          \"templateKind\": \"bicep\",\n          \"templatePath\": \"ghcr.io/myorg/recipes/redis:1.0.0\",\n          \"parameters\": {\n            \"sku\": \"Premium\",\n            \"capacity\": 2\n          }\n        }\n      },\n      \"Applications.Datastores/mongoDatabases\": {\n        \"default\": {\n          \"templateKind\": \"terraform\",\n          \"templatePath\": \"Azure/cosmosdb/azurerm\",\n          \"templateVersion\": \"3.0.0\",\n          \"parameters\": {\n            \"consistency_level\": \"Session\"\n          }\n        }\n      }\n    },\n    \"recipeConfig\": {\n      \"terraform\": {\n        \"authentication\": {\n          \"git\": {\n            \"pat\": {\n              \"github.com\": {\n                \"secret\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/git-credentials\"\n              }\n            }\n          }\n        }\n      },\n      \"env\": {\n        \"TF_LOG\": \"INFO\"\n      }\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"kubernetesMetadata\",\n        \"annotations\": {\n          \"prometheus.io/scrape\": \"true\",\n          \"prometheus.io/port\": \"9090\"\n        },\n        \"labels\": {\n          \"team\": \"platform\"\n        }\n      }\n    ],\n    \"simulated\": false\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"environment\": \"production\",\n    \"project\": \"ecommerce\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8c5b401-2f50-47dc-9101-c4f4b3e80bc3",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2514e5a-d546-4b1f-9e34-8f90c9b4e316",
+          "name": "Application Research Create or update environment",
+          "request": {
+            "name": "Application Research Create or update environment",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "environments",
+                ":environmentName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "environmentName",
+                  "description": "(Required) The name of the environment"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"properties\": {\n    \"compute\": {\n      \"kind\": \"<string>\",\n      \"resourceId\": \"<string>\",\n      \"identity\": {\n        \"kind\": \"<string>\",\n        \"oidcIssuer\": \"<string>\",\n        \"resource\": \"<string>\",\n        \"managedIdentity\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      }\n    },\n    \"providers\": {\n      \"azure\": {\n        \"scope\": \"<string>\"\n      },\n      \"aws\": {\n        \"scope\": \"<string>\"\n      }\n    },\n    \"simulated\": \"<boolean>\",\n    \"recipes\": {\n      \"key_0\": {\n        \"key_0\": {\n          \"templateKind\": \"<string>\",\n          \"templatePath\": \"<string>\",\n          \"parameters\": \"<object>\"\n        }\n      },\n      \"key_1\": {\n        \"key_0\": {\n          \"templateKind\": \"<string>\",\n          \"templatePath\": \"<string>\",\n          \"parameters\": \"<object>\"\n        }\n      }\n    },\n    \"recipeConfig\": {\n      \"terraform\": {\n        \"authentication\": {\n          \"git\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"providers\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"bicep\": {\n        \"authentication\": {\n          \"key_0\": {\n            \"secret\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"env\": {\n        \"key_0\": \"<string>\"\n      },\n      \"envSecrets\": {\n        \"key_0\": {\n          \"source\": \"<string>\",\n          \"key\": \"<string>\"\n        }\n      }\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"<string>\"\n      },\n      {\n        \"kind\": \"<string>\"\n      }\n    ]\n  },\n  \"location\": \"<string>\",\n  \"tags\": {\n    \"key_0\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a26201d5-9175-4146-b838-644911aad1b5",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"compute\": {\n      \"kind\": \"kubernetes\",\n      \"namespace\": \"ecommerce-prod\",\n      \"identity\": {\n        \"kind\": \"azure.com.workload\",\n        \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n        \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ecommerce-identity\"\n      }\n    },\n    \"providers\": {\n      \"azure\": {\n        \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg\"\n      },\n      \"aws\": {\n        \"scope\": \"/planes/aws/aws/accounts/123456789012/regions/us-east-1\"\n      }\n    },\n    \"recipes\": {\n      \"Applications.Datastores/redisCaches\": {\n        \"default\": {\n          \"templateKind\": \"bicep\",\n          \"templatePath\": \"ghcr.io/myorg/recipes/redis:1.0.0\",\n          \"parameters\": {\n            \"sku\": \"Premium\",\n            \"capacity\": 2\n          }\n        }\n      },\n      \"Applications.Datastores/mongoDatabases\": {\n        \"default\": {\n          \"templateKind\": \"terraform\",\n          \"templatePath\": \"Azure/cosmosdb/azurerm\",\n          \"templateVersion\": \"3.0.0\",\n          \"parameters\": {\n            \"consistency_level\": \"Session\"\n          }\n        }\n      }\n    },\n    \"recipeConfig\": {\n      \"terraform\": {\n        \"authentication\": {\n          \"git\": {\n            \"pat\": {\n              \"github.com\": {\n                \"secret\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/git-credentials\"\n              }\n            }\n          }\n        }\n      },\n      \"env\": {\n        \"TF_LOG\": \"INFO\"\n      }\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"kubernetesMetadata\",\n        \"annotations\": {\n          \"prometheus.io/scrape\": \"true\",\n          \"prometheus.io/port\": \"9090\"\n        },\n        \"labels\": {\n          \"team\": \"platform\"\n        }\n      }\n    ],\n    \"simulated\": false\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"environment\": \"production\",\n    \"project\": \"ecommerce\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"compute\": {\n      \"kind\": \"string\",\n      \"resourceId\": \"string\",\n      \"identity\": {\n        \"kind\": \"azure.com.workload\",\n        \"oidcIssuer\": \"string\",\n        \"resource\": \"string\",\n        \"managedIdentity\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    \"provisioningState\": \"Canceled\",\n    \"providers\": {\n      \"azure\": {\n        \"scope\": \"string\"\n      },\n      \"aws\": {\n        \"scope\": \"string\"\n      }\n    },\n    \"simulated\": false,\n    \"recipes\": {\n      \"key_0\": {\n        \"key_0\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        },\n        \"key_1\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        }\n      },\n      \"key_1\": {\n        \"key_0\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        },\n        \"key_1\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        },\n        \"key_2\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        }\n      }\n    },\n    \"recipeConfig\": {\n      \"terraform\": {\n        \"authentication\": {\n          \"git\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"providers\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"key_1\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"bicep\": {\n        \"authentication\": {\n          \"key_0\": {\n            \"secret\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"secret\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"env\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"envSecrets\": {\n        \"key_0\": {\n          \"source\": \"string\",\n          \"key\": \"string\"\n        },\n        \"key_1\": {\n          \"source\": \"string\",\n          \"key\": \"string\"\n        },\n        \"key_2\": {\n          \"source\": \"string\",\n          \"key\": \"string\"\n        }\n      }\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"string\"\n      },\n      {\n        \"kind\": \"string\"\n      }\n    ]\n  },\n  \"location\": \"string\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"systemData\": {},\n  \"tags\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9227e733-2a96-494d-83bd-18aabe4c3ecd",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"compute\": {\n      \"kind\": \"kubernetes\",\n      \"namespace\": \"ecommerce-prod\",\n      \"identity\": {\n        \"kind\": \"azure.com.workload\",\n        \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n        \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ecommerce-identity\"\n      }\n    },\n    \"providers\": {\n      \"azure\": {\n        \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg\"\n      },\n      \"aws\": {\n        \"scope\": \"/planes/aws/aws/accounts/123456789012/regions/us-east-1\"\n      }\n    },\n    \"recipes\": {\n      \"Applications.Datastores/redisCaches\": {\n        \"default\": {\n          \"templateKind\": \"bicep\",\n          \"templatePath\": \"ghcr.io/myorg/recipes/redis:1.0.0\",\n          \"parameters\": {\n            \"sku\": \"Premium\",\n            \"capacity\": 2\n          }\n        }\n      },\n      \"Applications.Datastores/mongoDatabases\": {\n        \"default\": {\n          \"templateKind\": \"terraform\",\n          \"templatePath\": \"Azure/cosmosdb/azurerm\",\n          \"templateVersion\": \"3.0.0\",\n          \"parameters\": {\n            \"consistency_level\": \"Session\"\n          }\n        }\n      }\n    },\n    \"recipeConfig\": {\n      \"terraform\": {\n        \"authentication\": {\n          \"git\": {\n            \"pat\": {\n              \"github.com\": {\n                \"secret\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/git-credentials\"\n              }\n            }\n          }\n        }\n      },\n      \"env\": {\n        \"TF_LOG\": \"INFO\"\n      }\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"kubernetesMetadata\",\n        \"annotations\": {\n          \"prometheus.io/scrape\": \"true\",\n          \"prometheus.io/port\": \"9090\"\n        },\n        \"labels\": {\n          \"team\": \"platform\"\n        }\n      }\n    ],\n    \"simulated\": false\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"environment\": \"production\",\n    \"project\": \"ecommerce\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"compute\": {\n      \"kind\": \"string\",\n      \"resourceId\": \"string\",\n      \"identity\": {\n        \"kind\": \"azure.com.workload\",\n        \"oidcIssuer\": \"string\",\n        \"resource\": \"string\",\n        \"managedIdentity\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    \"provisioningState\": \"Canceled\",\n    \"providers\": {\n      \"azure\": {\n        \"scope\": \"string\"\n      },\n      \"aws\": {\n        \"scope\": \"string\"\n      }\n    },\n    \"simulated\": false,\n    \"recipes\": {\n      \"key_0\": {\n        \"key_0\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        },\n        \"key_1\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        }\n      },\n      \"key_1\": {\n        \"key_0\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        },\n        \"key_1\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        },\n        \"key_2\": {\n          \"templateKind\": \"string\",\n          \"templatePath\": \"string\",\n          \"parameters\": {}\n        }\n      }\n    },\n    \"recipeConfig\": {\n      \"terraform\": {\n        \"authentication\": {\n          \"git\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"providers\": {\n          \"key_0\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"key_1\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"bicep\": {\n        \"authentication\": {\n          \"key_0\": {\n            \"secret\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"secret\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"env\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"envSecrets\": {\n        \"key_0\": {\n          \"source\": \"string\",\n          \"key\": \"string\"\n        },\n        \"key_1\": {\n          \"source\": \"string\",\n          \"key\": \"string\"\n        },\n        \"key_2\": {\n          \"source\": \"string\",\n          \"key\": \"string\"\n        }\n      }\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"string\"\n      },\n      {\n        \"kind\": \"string\"\n      }\n    ]\n  },\n  \"location\": \"string\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"systemData\": {},\n  \"tags\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6feb3460-bcb3-44fb-a81a-cddcc8c0a0fc",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"compute\": {\n      \"kind\": \"kubernetes\",\n      \"namespace\": \"ecommerce-prod\",\n      \"identity\": {\n        \"kind\": \"azure.com.workload\",\n        \"oidcIssuer\": \"https://eastus.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/\",\n        \"resource\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ecommerce-identity\"\n      }\n    },\n    \"providers\": {\n      \"azure\": {\n        \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg\"\n      },\n      \"aws\": {\n        \"scope\": \"/planes/aws/aws/accounts/123456789012/regions/us-east-1\"\n      }\n    },\n    \"recipes\": {\n      \"Applications.Datastores/redisCaches\": {\n        \"default\": {\n          \"templateKind\": \"bicep\",\n          \"templatePath\": \"ghcr.io/myorg/recipes/redis:1.0.0\",\n          \"parameters\": {\n            \"sku\": \"Premium\",\n            \"capacity\": 2\n          }\n        }\n      },\n      \"Applications.Datastores/mongoDatabases\": {\n        \"default\": {\n          \"templateKind\": \"terraform\",\n          \"templatePath\": \"Azure/cosmosdb/azurerm\",\n          \"templateVersion\": \"3.0.0\",\n          \"parameters\": {\n            \"consistency_level\": \"Session\"\n          }\n        }\n      }\n    },\n    \"recipeConfig\": {\n      \"terraform\": {\n        \"authentication\": {\n          \"git\": {\n            \"pat\": {\n              \"github.com\": {\n                \"secret\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/git-credentials\"\n              }\n            }\n          }\n        }\n      },\n      \"env\": {\n        \"TF_LOG\": \"INFO\"\n      }\n    },\n    \"extensions\": [\n      {\n        \"kind\": \"kubernetesMetadata\",\n        \"annotations\": {\n          \"prometheus.io/scrape\": \"true\",\n          \"prometheus.io/port\": \"9090\"\n        },\n        \"labels\": {\n          \"team\": \"platform\"\n        }\n      }\n    ],\n    \"simulated\": false\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"environment\": \"production\",\n    \"project\": \"ecommerce\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ccce7c4-0105-43a4-bc46-46ecc6252b0d",
+          "name": "Application Research Delete environment",
+          "request": {
+            "name": "Application Research Delete environment",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "environments",
+                ":environmentName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "environmentName",
+                  "description": "(Required) The name of the environment"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d9750cb9-9a0e-41c5-98ee-28a9640b5c8e",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4730b2c6-c8ef-47ba-a2a1-0afa89b7babb",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f34fa376-41e4-40c3-9f25-65ee4f0cf56f",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "environments",
+                    ":environmentName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentName",
+                      "description": "(Required) The name of the environment"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4e623659-ec89-4ab5-baef-4c519ec9e970",
+    "name": "Application Research CNAB Bundle API Resources Environments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,941 @@
+{
+  "item": [
+    {
+      "id": "15c97ef5-5baa-4592-82ec-1f9198d3ecad",
+      "name": "Dapr",
+      "description": {
+        "content": "Dapr component operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "28bbcd87-0f36-43b6-859c-f9cbd45608d4",
+          "name": "Application Research Get Dapr state store",
+          "request": {
+            "name": "Application Research Get Dapr state store",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Dapr",
+                "stateStores",
+                ":stateStoreName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "stateStoreName",
+                  "description": "(Required) The name of the Dapr state store"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "554d6a39-8133-4abe-8a71-fb7b64c5cb21",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "stateStores",
+                    ":stateStoreName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "stateStoreName",
+                      "description": "(Required) The name of the Dapr state store"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"environment\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod\",\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"resourceProvisioning\": \"manual\",\n    \"type\": \"state.redis\",\n    \"version\": \"v1\",\n    \"metadata\": {\n      \"redisHost\": {\n        \"value\": \"ecommerce-redis.redis.cache.windows.net:6380\"\n      },\n      \"redisPassword\": {\n        \"secretKeyRef\": {\n          \"name\": \"redis-password\",\n          \"key\": \"password\"\n        }\n      },\n      \"enableTLS\": {\n        \"value\": \"true\"\n      },\n      \"actorStateStore\": {\n        \"value\": \"true\"\n      }\n    },\n    \"auth\": {\n      \"secretStore\": \"order-secrets\"\n    },\n    \"resources\": [\n      {\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ecommerce-rg/providers/Microsoft.Cache/redis/ecommerce-redis\"\n      }\n    ]\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"dapr-component\": \"state-store\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fff6d47d-0bbd-4d77-8f3a-20d4a5555054",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "stateStores",
+                    ":stateStoreName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "stateStoreName",
+                      "description": "(Required) The name of the Dapr state store"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "99171db7-68ae-4fdc-bb9f-65d1cb4384f0",
+          "name": "Application Research Get Dapr pub/sub broker",
+          "request": {
+            "name": "Application Research Get Dapr pub/sub broker",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Dapr",
+                "pubSubBrokers",
+                ":pubSubBrokerName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "pubSubBrokerName",
+                  "description": "(Required) The name of the Dapr pub/sub broker"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2432f307-b63d-4ebe-93df-b135adb92269",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "pubSubBrokers",
+                    ":pubSubBrokerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "pubSubBrokerName",
+                      "description": "(Required) The name of the Dapr pub/sub broker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"environment\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod\",\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"resourceProvisioning\": \"manual\",\n    \"type\": \"pubsub.rabbitmq\",\n    \"version\": \"v1\",\n    \"metadata\": {\n      \"host\": {\n        \"value\": \"amqps://ecommerce-rabbitmq.servicebus.windows.net:5671\"\n      },\n      \"durable\": {\n        \"value\": \"true\"\n      },\n      \"deletedWhenUnused\": {\n        \"value\": \"false\"\n      },\n      \"autoAck\": {\n        \"value\": \"false\"\n      }\n    },\n    \"resources\": [\n      {\n        \"id\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Messaging/rabbitMQQueues/order-events\"\n      }\n    ]\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"dapr-component\": \"pubsub\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8db8a4c4-6c04-4266-9870-c82a37cdba26",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "pubSubBrokers",
+                    ":pubSubBrokerName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "pubSubBrokerName",
+                      "description": "(Required) The name of the Dapr pub/sub broker"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82f36baf-a5a5-4e29-bbea-388fd1d1497c",
+          "name": "Application Research Get Dapr secret store",
+          "request": {
+            "name": "Application Research Get Dapr secret store",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Dapr",
+                "secretStores",
+                ":daprSecretStoreName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "daprSecretStoreName",
+                  "description": "(Required) The name of the Dapr secret store"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "63f2f4f6-6c3f-433f-96f6-1e45e78035f0",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "secretStores",
+                    ":daprSecretStoreName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "daprSecretStoreName",
+                      "description": "(Required) The name of the Dapr secret store"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"environment\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod\",\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"resourceProvisioning\": \"manual\",\n    \"type\": \"secretstores.azure.keyvault\",\n    \"version\": \"v1\",\n    \"metadata\": {\n      \"vaultName\": {\n        \"value\": \"ecommerce-secrets-kv\"\n      },\n      \"azureClientId\": {\n        \"value\": \"00000000-0000-0000-0000-000000000000\"\n      }\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"dapr-component\": \"secret-store\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b9b44b3-9b43-4216-8477-657197de2640",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "secretStores",
+                    ":daprSecretStoreName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "daprSecretStoreName",
+                      "description": "(Required) The name of the Dapr secret store"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81789252-a2c6-45af-b5ce-17626dd67ee9",
+          "name": "Application Research Get Dapr configuration store",
+          "request": {
+            "name": "Application Research Get Dapr configuration store",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Dapr",
+                "configurationStores",
+                ":configurationStoreName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "configurationStoreName",
+                  "description": "(Required) The name of the Dapr configuration store"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2f97aded-b85d-4022-8962-f058342cc354",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "configurationStores",
+                    ":configurationStoreName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "configurationStoreName",
+                      "description": "(Required) The name of the Dapr configuration store"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"environment\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod\",\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"resourceProvisioning\": \"manual\",\n    \"type\": \"configuration.azure.appconfig\",\n    \"version\": \"v1\",\n    \"metadata\": {\n      \"host\": {\n        \"value\": \"https://ecommerce-config.azconfig.io\"\n      },\n      \"maxRetries\": {\n        \"value\": \"3\"\n      },\n      \"retryDelay\": {\n        \"value\": \"5s\"\n      }\n    },\n    \"auth\": {\n      \"secretStore\": \"order-secrets\"\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"dapr-component\": \"config-store\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a36df7e4-2996-431f-a25b-05aaa7538800",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Dapr",
+                    "configurationStores",
+                    ":configurationStoreName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "configurationStoreName",
+                      "description": "(Required) The name of the Dapr configuration store"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "39f560d1-cc80-407a-9358-9ce342f539c8",
+    "name": "Application Research CNAB Bundle API Resources Dapr API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Vendors API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Vendors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Vendors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/vendors",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Vendors across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Vendor by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/vendors/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap:vendor:SAP:",
+                "type": "path",
+                "description": "ORD ID of the Vendor"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Vendor by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

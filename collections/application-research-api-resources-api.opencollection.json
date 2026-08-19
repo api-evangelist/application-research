@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "API Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all API Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/api-resources",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "apiProtocol",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API protocol"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              },
+              {
+                "name": "releaseStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filter by release status"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all API Resources across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an API Resource by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/api-resources/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:apiResource:DeviceManagementAPI:v1",
+                "type": "path",
+                "description": "ORD ID of the API Resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific API Resource by its ORD ID"
+        },
+        {
+          "info": {
+            "name": "Application Research Get API Resource Definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/api-resources/:ordId/definitions",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:apiResource:DeviceManagementAPI:v1",
+                "type": "path",
+                "description": "ORD ID of the API Resource"
+              }
+            ]
+          },
+          "docs": "Retrieves all resource definitions for a specific API Resource"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

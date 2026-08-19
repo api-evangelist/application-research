@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Signatures API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Signatures",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List signatures for a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/components/:name/signatures",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research List signatures for a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Sign a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/components/:name/signatures",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Sign a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Verify a component signature",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/components/:name/signatures/:signatureName/verify",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "signatureName",
+                "value": "",
+                "type": "path",
+                "description": "Signature name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Verify a component signature"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

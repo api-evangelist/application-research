@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Entity Types API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entity Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Entity Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/entity-types",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "level",
+                "value": "",
+                "type": "query",
+                "description": "Filter entity types by level"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Entity Types across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an Entity Type by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/entity-types/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:entityType:Device:v1",
+                "type": "path",
+                "description": "ORD ID of the Entity Type"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Entity Type by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

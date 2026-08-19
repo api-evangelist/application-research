@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Event Resources API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Event Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Event Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/event-resources",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              },
+              {
+                "name": "releaseStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filter by release status"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Event Resources across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an Event Resource by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/event-resources/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:eventResource:DeviceEvents:v1",
+                "type": "path",
+                "description": "ORD ID of the Event Resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Event Resource by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

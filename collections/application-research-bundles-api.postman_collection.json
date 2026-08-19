@@ -1,0 +1,1576 @@
+{
+  "item": [
+    {
+      "id": "c8d87209-980d-4287-b233-6d7350083bb9",
+      "name": "Bundles",
+      "description": {
+        "content": "Operations for managing CNAB bundle descriptors",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "28945f4f-501b-445e-bea0-793b881ed433",
+          "name": "Application Research List all bundles",
+          "request": {
+            "name": "Application Research List all bundles",
+            "description": {},
+            "url": {
+              "path": [
+                "bundles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of items to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "keyword",
+                  "value": "<string>",
+                  "description": "Filter bundles by keyword"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "47e719af-dfa7-446c-9d34-7265ecda5fb7",
+              "name": "List of bundles",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"schemaVersion\": \"v1\",\n      \"name\": \"my-wordpress-bundle\",\n      \"version\": \"1.2.3\",\n      \"description\": \"A complete WordPress installation with MySQL database\",\n      \"keywords\": [\n        \"wordpress\",\n        \"blog\"\n      ],\n      \"invocationImages\": [\n        {\n          \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n          \"imageType\": \"oci\"\n        }\n      ]\n    },\n    {\n      \"schemaVersion\": \"v1\",\n      \"name\": \"cassandra-cluster\",\n      \"version\": \"3.11.0\",\n      \"description\": \"High-availability Cassandra cluster\",\n      \"keywords\": [\n        \"database\",\n        \"cassandra\"\n      ],\n      \"invocationImages\": [\n        {\n          \"image\": \"enterprise.io/bundles/cassandra-operator:3.11.0\",\n          \"imageType\": \"oci\"\n        }\n      ]\n    }\n  ],\n  \"total\": 2,\n  \"limit\": 20,\n  \"offset\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09870476-2390-4717-a287-109340d36c47",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid bundle schema\",\n  \"details\": {\n    \"field\": \"version\",\n    \"error\": \"Version must follow SemVer2 format\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26a4cf0d-2b69-4517-ae12-6a37e5256530",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "keyword",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ece71e55-fc46-433b-90ed-61777c72a251",
+          "name": "Application Research Create a new bundle",
+          "request": {
+            "name": "Application Research Create a new bundle",
+            "description": {},
+            "url": {
+              "path": [
+                "bundles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schemaVersion\": \"<string>\",\n  \"name\": \"<string>\",\n  \"version\": \"<string>\",\n  \"invocationImages\": [\n    {\n      \"image\": \"<string>\",\n      \"imageType\": \"oci\",\n      \"contentDigest\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"mediaType\": \"<string>\",\n      \"labels\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      }\n    }\n  ],\n  \"description\": \"<string>\",\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"url\": \"<uri>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"license\": \"<string>\",\n  \"images\": {\n    \"key_0\": {\n      \"image\": \"<string>\",\n      \"imageType\": \"oci\",\n      \"description\": \"<string>\",\n      \"contentDigest\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"mediaType\": \"<string>\",\n      \"labels\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      }\n    }\n  },\n  \"credentials\": {\n    \"key_0\": {\n      \"description\": \"<string>\",\n      \"env\": \"<string>\",\n      \"path\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_1\": {\n      \"description\": \"<string>\",\n      \"env\": \"<string>\",\n      \"path\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"key_0\": {\n      \"definition\": \"<string>\",\n      \"destination\": {\n        \"env\": \"<string>\",\n        \"path\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_1\": {\n      \"definition\": \"<string>\",\n      \"destination\": {\n        \"env\": \"<string>\",\n        \"path\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"type\": \"object\",\n    \"description\": \"JSON Schema definitions for parameters and outputs\",\n    \"additionalProperties\": {\n      \"type\": \"object\",\n      \"description\": \"JSON Schema definition for a parameter or output\",\n      \"properties\": {\n        \"$id\": {\n          \"type\": \"string\",\n          \"format\": \"uri-reference\",\n          \"default\": \"<uri-reference>\"\n        },\n        \"$schema\": {\n          \"type\": \"string\",\n          \"format\": \"uri\",\n          \"default\": \"<uri>\"\n        },\n        \"$ref\": {\n          \"type\": \"string\",\n          \"format\": \"uri-reference\",\n          \"default\": \"<uri-reference>\"\n        },\n        \"$comment\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"title\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"description\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"type\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"array\",\n            \"boolean\",\n            \"integer\",\n            \"null\",\n            \"number\",\n            \"object\",\n            \"string\"\n          ],\n          \"default\": \"<string>\"\n        },\n        \"default\": {},\n        \"examples\": {\n          \"type\": \"array\",\n          \"default\": \"<array>\"\n        },\n        \"enum\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"uniqueItems\": true,\n          \"default\": \"<array>\"\n        },\n        \"const\": {},\n        \"format\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"pattern\": {\n          \"type\": \"string\",\n          \"format\": \"regex\",\n          \"default\": \"<regex>\"\n        },\n        \"minLength\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"maxLength\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"minimum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"maximum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"exclusiveMinimum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"exclusiveMaximum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"multipleOf\": {\n          \"type\": \"integer\",\n          \"exclusiveMinimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"minItems\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"maxItems\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"uniqueItems\": {\n          \"type\": \"boolean\",\n          \"default\": false\n        },\n        \"minProperties\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"maxProperties\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"required\": {\n          \"type\": \"array\",\n          \"uniqueItems\": true,\n          \"maxItems\": 2,\n          \"items\": {\n            \"type\": \"string\",\n            \"default\": \"<string>\"\n          }\n        },\n        \"properties\": {\n          \"type\": \"object\",\n          \"additionalProperties\": {\n            \"value\": \"<Circular reference to #/components/schemas/Definition detected>\"\n          }\n        },\n        \"additionalProperties\": {\n          \"type\": \"boolean\",\n          \"default\": \"<boolean>\"\n        },\n        \"items\": {\n          \"value\": \"<Circular reference to #/components/schemas/Definition detected>\"\n        }\n      }\n    }\n  },\n  \"outputs\": {\n    \"key_0\": {\n      \"definition\": \"<string>\",\n      \"path\": \"<string>\",\n      \"description\": \"<string>\",\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_1\": {\n      \"definition\": \"<string>\",\n      \"path\": \"<string>\",\n      \"description\": \"<string>\",\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_2\": {\n      \"definition\": \"<string>\",\n      \"path\": \"<string>\",\n      \"description\": \"<string>\",\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"key_0\": {\n      \"title\": \"<string>\",\n      \"description\": \"<string>\",\n      \"modifies\": \"<boolean>\",\n      \"stateless\": false\n    },\n    \"key_1\": {\n      \"title\": \"<string>\",\n      \"description\": \"<string>\",\n      \"modifies\": \"<boolean>\",\n      \"stateless\": false\n    }\n  },\n  \"requiredExtensions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"custom\": {\n    \"key_0\": 4300,\n    \"key_1\": true\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e5ec44f9-1855-45d7-ad99-95871d4e9dcf",
+              "name": "Bundle created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6ac5689-a9be-4931-a5b3-d792b1ab1d3d",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid bundle schema\",\n  \"details\": {\n    \"field\": \"version\",\n    \"error\": \"Version must follow SemVer2 format\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc58fb7d-0c90-4208-b7f6-b7dbe7462d4e",
+              "name": "Resource already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"CONFLICT\",\n  \"message\": \"Bundle 'my-wordpress-bundle' version '1.2.3' already exists\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df2334fa-869a-45c3-9f4c-57da76cf3132",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0e65148-643a-4c57-a72f-a73442c16826",
+          "name": "Application Research Get a bundle by name",
+          "request": {
+            "name": "Application Research Get a bundle by name",
+            "description": {},
+            "url": {
+              "path": [
+                "bundles",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Specific version to retrieve"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Bundle name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a47d42f2-249c-41fa-b6e7-f8e1b88e3c45",
+              "name": "Bundle details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b05f2c2-ae39-4e69-aaa8-3fb6c1d11bdf",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Bundle 'my-bundle' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1d4290a-2b1f-4f47-b124-db8d07969ab9",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "31edee1a-2f4d-4ddc-9747-8847263346bc",
+          "name": "Application Research Update an existing bundle",
+          "request": {
+            "name": "Application Research Update an existing bundle",
+            "description": {},
+            "url": {
+              "path": [
+                "bundles",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Bundle name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schemaVersion\": \"<string>\",\n  \"name\": \"<string>\",\n  \"version\": \"<string>\",\n  \"invocationImages\": [\n    {\n      \"image\": \"<string>\",\n      \"imageType\": \"oci\",\n      \"contentDigest\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"mediaType\": \"<string>\",\n      \"labels\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\"\n      }\n    }\n  ],\n  \"description\": \"<string>\",\n  \"keywords\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"url\": \"<uri>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"email\": \"<email>\",\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"license\": \"<string>\",\n  \"images\": {\n    \"key_0\": {\n      \"image\": \"<string>\",\n      \"imageType\": \"oci\",\n      \"description\": \"<string>\",\n      \"contentDigest\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"mediaType\": \"<string>\",\n      \"labels\": {\n        \"key_0\": \"<string>\",\n        \"key_1\": \"<string>\",\n        \"key_2\": \"<string>\"\n      }\n    }\n  },\n  \"credentials\": {\n    \"key_0\": {\n      \"description\": \"<string>\",\n      \"env\": \"<string>\",\n      \"path\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_1\": {\n      \"description\": \"<string>\",\n      \"env\": \"<string>\",\n      \"path\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"key_0\": {\n      \"definition\": \"<string>\",\n      \"destination\": {\n        \"env\": \"<string>\",\n        \"path\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_1\": {\n      \"definition\": \"<string>\",\n      \"destination\": {\n        \"env\": \"<string>\",\n        \"path\": \"<string>\"\n      },\n      \"description\": \"<string>\",\n      \"required\": false,\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"type\": \"object\",\n    \"description\": \"JSON Schema definitions for parameters and outputs\",\n    \"additionalProperties\": {\n      \"type\": \"object\",\n      \"description\": \"JSON Schema definition for a parameter or output\",\n      \"properties\": {\n        \"$id\": {\n          \"type\": \"string\",\n          \"format\": \"uri-reference\",\n          \"default\": \"<uri-reference>\"\n        },\n        \"$schema\": {\n          \"type\": \"string\",\n          \"format\": \"uri\",\n          \"default\": \"<uri>\"\n        },\n        \"$ref\": {\n          \"type\": \"string\",\n          \"format\": \"uri-reference\",\n          \"default\": \"<uri-reference>\"\n        },\n        \"$comment\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"title\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"description\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"type\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"array\",\n            \"boolean\",\n            \"integer\",\n            \"null\",\n            \"number\",\n            \"object\",\n            \"string\"\n          ],\n          \"default\": \"<string>\"\n        },\n        \"default\": {},\n        \"examples\": {\n          \"type\": \"array\",\n          \"default\": \"<array>\"\n        },\n        \"enum\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"uniqueItems\": true,\n          \"default\": \"<array>\"\n        },\n        \"const\": {},\n        \"format\": {\n          \"type\": \"string\",\n          \"default\": \"<string>\"\n        },\n        \"pattern\": {\n          \"type\": \"string\",\n          \"format\": \"regex\",\n          \"default\": \"<regex>\"\n        },\n        \"minLength\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"maxLength\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"minimum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"maximum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"exclusiveMinimum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"exclusiveMaximum\": {\n          \"type\": \"integer\",\n          \"default\": \"<integer>\"\n        },\n        \"multipleOf\": {\n          \"type\": \"integer\",\n          \"exclusiveMinimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"minItems\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"maxItems\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"uniqueItems\": {\n          \"type\": \"boolean\",\n          \"default\": false\n        },\n        \"minProperties\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"maxProperties\": {\n          \"type\": \"integer\",\n          \"minimum\": 0,\n          \"default\": \"<integer>\"\n        },\n        \"required\": {\n          \"type\": \"array\",\n          \"uniqueItems\": true,\n          \"maxItems\": 2,\n          \"items\": {\n            \"type\": \"string\",\n            \"default\": \"<string>\"\n          }\n        },\n        \"properties\": {\n          \"type\": \"object\",\n          \"additionalProperties\": {\n            \"value\": \"<Circular reference to #/components/schemas/Definition detected>\"\n          }\n        },\n        \"additionalProperties\": {\n          \"type\": \"boolean\",\n          \"default\": \"<boolean>\"\n        },\n        \"items\": {\n          \"value\": \"<Circular reference to #/components/schemas/Definition detected>\"\n        }\n      }\n    }\n  },\n  \"outputs\": {\n    \"key_0\": {\n      \"definition\": \"<string>\",\n      \"path\": \"<string>\",\n      \"description\": \"<string>\",\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_1\": {\n      \"definition\": \"<string>\",\n      \"path\": \"<string>\",\n      \"description\": \"<string>\",\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"key_2\": {\n      \"definition\": \"<string>\",\n      \"path\": \"<string>\",\n      \"description\": \"<string>\",\n      \"applyTo\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"key_0\": {\n      \"title\": \"<string>\",\n      \"description\": \"<string>\",\n      \"modifies\": \"<boolean>\",\n      \"stateless\": false\n    },\n    \"key_1\": {\n      \"title\": \"<string>\",\n      \"description\": \"<string>\",\n      \"modifies\": \"<boolean>\",\n      \"stateless\": false\n    }\n  },\n  \"requiredExtensions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"custom\": {\n    \"key_0\": 4300,\n    \"key_1\": true\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3ce74716-0203-43d7-a19f-8810c5e5a672",
+              "name": "Bundle updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4bc66770-727e-499f-a0af-154a07c394cc",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid bundle schema\",\n  \"details\": {\n    \"field\": \"version\",\n    \"error\": \"Version must follow SemVer2 format\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30e9dfd0-62c3-4e31-97ee-f23274086053",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Bundle 'my-bundle' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b889fcf5-880f-48b2-9177-036ec0cc65f8",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schemaVersion\": \"v1\",\n  \"name\": \"my-wordpress-bundle\",\n  \"version\": \"1.2.3\",\n  \"description\": \"A complete WordPress installation with MySQL database\",\n  \"keywords\": [\n    \"wordpress\",\n    \"blog\",\n    \"cms\",\n    \"mysql\"\n  ],\n  \"maintainers\": [\n    {\n      \"name\": \"Jane Developer\",\n      \"email\": \"jane@example.com\",\n      \"url\": \"https://example.com/maintainers/jane\"\n    }\n  ],\n  \"license\": \"Apache-2.0\",\n  \"invocationImages\": [\n    {\n      \"imageType\": \"oci\",\n      \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n      \"contentDigest\": \"sha256:abc123def456...\",\n      \"size\": 52428800,\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"labels\": {\n        \"org.opencontainers.image.title\": \"WordPress Bundle Installer\"\n      }\n    }\n  ],\n  \"images\": {\n    \"wordpress\": {\n      \"imageType\": \"oci\",\n      \"image\": \"wordpress:6.0\",\n      \"description\": \"WordPress application image\",\n      \"contentDigest\": \"sha256:wordpress123...\"\n    },\n    \"mysql\": {\n      \"imageType\": \"oci\",\n      \"image\": \"mysql:8.0\",\n      \"description\": \"MySQL database image\",\n      \"contentDigest\": \"sha256:mysql456...\"\n    }\n  },\n  \"credentials\": {\n    \"db-password\": {\n      \"description\": \"Password for the MySQL database\",\n      \"env\": \"MYSQL_PASSWORD\",\n      \"required\": true\n    },\n    \"admin-key\": {\n      \"description\": \"Admin API key for WordPress\",\n      \"path\": \"/cnab/app/credentials/admin-key\",\n      \"required\": false,\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"parameters\": {\n    \"site-name\": {\n      \"definition\": \"site-name-def\",\n      \"description\": \"The name of your WordPress site\",\n      \"destination\": {\n        \"env\": \"WORDPRESS_SITE_NAME\"\n      },\n      \"required\": true\n    },\n    \"replica-count\": {\n      \"definition\": \"replica-count-def\",\n      \"description\": \"Number of WordPress replicas to deploy\",\n      \"destination\": {\n        \"env\": \"REPLICA_COUNT\"\n      },\n      \"applyTo\": [\n        \"install\",\n        \"upgrade\"\n      ]\n    }\n  },\n  \"definitions\": {\n    \"site-name-def\": {\n      \"type\": \"string\",\n      \"minLength\": 1,\n      \"maxLength\": 100,\n      \"default\": \"My WordPress Site\"\n    },\n    \"replica-count-def\": {\n      \"type\": \"integer\",\n      \"minimum\": 1,\n      \"maximum\": 10,\n      \"default\": 2\n    },\n    \"db-connection-def\": {\n      \"type\": \"string\",\n      \"description\": \"Database connection string\"\n    }\n  },\n  \"outputs\": {\n    \"db-connection-string\": {\n      \"definition\": \"db-connection-def\",\n      \"description\": \"MySQL connection string for the application\",\n      \"path\": \"/cnab/app/outputs/db-connection\",\n      \"applyTo\": [\n        \"install\"\n      ]\n    }\n  },\n  \"actions\": {\n    \"io.example.backup\": {\n      \"description\": \"Creates a backup of the WordPress database and files\",\n      \"modifies\": false,\n      \"stateless\": false\n    },\n    \"io.example.restore\": {\n      \"description\": \"Restores WordPress from a backup\",\n      \"modifies\": true\n    }\n  },\n  \"custom\": {\n    \"io.example.metadata\": {\n      \"category\": \"cms\",\n      \"tier\": \"standard\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eaf16632-1285-473e-af09-097bfbd34624",
+          "name": "Application Research Delete a bundle",
+          "request": {
+            "name": "Application Research Delete a bundle",
+            "description": {},
+            "url": {
+              "path": [
+                "bundles",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Specific version to retrieve"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Bundle name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "989c7cc3-695e-48e4-af61-1526f41e2576",
+              "name": "Bundle deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1eb59110-e787-489f-9acf-428d747880c3",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Bundle 'my-bundle' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "294bc183-65bb-4ab6-b9fb-e8b4674e7eea",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1de6f95a-861d-474e-8164-a2fa9363d4f2",
+          "name": "Application Research Execute a bundle action",
+          "request": {
+            "name": "Application Research Execute a bundle action",
+            "description": {},
+            "url": {
+              "path": [
+                "bundles",
+                ":name",
+                "actions",
+                ":action"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Bundle name"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "action",
+                  "description": "(Required) Action to execute (install, upgrade, uninstall, or custom action)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parameters\": {\n    \"key_0\": \"string\"\n  },\n  \"credentials\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f0a5ba1f-eb10-4542-a1d4-1a584cd70ecc",
+              "name": "Action accepted for execution",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name",
+                    "actions",
+                    ":action"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "action",
+                      "description": "(Required) Action to execute (install, upgrade, uninstall, or custom action)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"site-name\": \"My New WordPress Site\",\n    \"replica-count\": 3\n  },\n  \"credentials\": {\n    \"db-password\": \"secure-password-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"01HQXYZ123456789ABCDEFGH\",\n  \"installation\": \"my-wordpress-prod\",\n  \"action\": \"install\",\n  \"bundle\": {\n    \"schemaVersion\": \"v1\",\n    \"name\": \"my-wordpress-bundle\",\n    \"version\": \"1.2.3\",\n    \"invocationImages\": [\n      {\n        \"image\": \"example.com/my-wordpress-bundle:1.2.3\",\n        \"imageType\": \"oci\"\n      }\n    ]\n  },\n  \"bundleReference\": \"example.com/my-wordpress-bundle:1.2.3\",\n  \"revision\": \"01HQXYZ123456789ABCDEFGI\",\n  \"created\": \"2024-01-15T10:30:00Z\",\n  \"parameters\": {\n    \"site-name\": \"My Production Blog\",\n    \"replica-count\": 3\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be3da3f6-ced0-40a9-9f64-6d074558d8ae",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name",
+                    "actions",
+                    ":action"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "action",
+                      "description": "(Required) Action to execute (install, upgrade, uninstall, or custom action)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"site-name\": \"My New WordPress Site\",\n    \"replica-count\": 3\n  },\n  \"credentials\": {\n    \"db-password\": \"secure-password-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid bundle schema\",\n  \"details\": {\n    \"field\": \"version\",\n    \"error\": \"Version must follow SemVer2 format\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af1f00ec-3129-4390-9564-73f3c12447a3",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name",
+                    "actions",
+                    ":action"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "action",
+                      "description": "(Required) Action to execute (install, upgrade, uninstall, or custom action)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"site-name\": \"My New WordPress Site\",\n    \"replica-count\": 3\n  },\n  \"credentials\": {\n    \"db-password\": \"secure-password-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Bundle 'my-bundle' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94d8b66d-8ca6-48dd-a0d7-d92758ceda87",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bundles",
+                    ":name",
+                    "actions",
+                    ":action"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Bundle name"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "action",
+                      "description": "(Required) Action to execute (install, upgrade, uninstall, or custom action)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": {\n    \"site-name\": \"My New WordPress Site\",\n    \"replica-count\": 3\n  },\n  \"credentials\": {\n    \"db-password\": \"secure-password-here\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-123456\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a0b993b2-4d67-473d-9696-428221d84d14",
+    "name": "Application Research CNAB Bundle API Resources Bundles API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

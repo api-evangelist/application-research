@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Capabilities API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Capabilities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Capabilities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/capabilities",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter capabilities by type"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Capabilities across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Capability by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/capabilities/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:capability:EdgeProcessing:v1",
+                "type": "path",
+                "description": "ORD ID of the Capability"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Capability by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

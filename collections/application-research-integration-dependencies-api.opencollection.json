@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Integration Dependencies API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Integration Dependencies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Integration Dependencies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/integration-dependencies",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "mandatory",
+                "value": "",
+                "type": "query",
+                "description": "Filter integration dependencies by mandatory flag"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Integration Dependencies across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an Integration Dependency by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/integration-dependencies/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:integrationDependency:SensorDataIngestion:v1",
+                "type": "path",
+                "description": "ORD ID of the Integration Dependency"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Integration Dependency by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

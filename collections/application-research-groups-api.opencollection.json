@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Groups API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/groups",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "groupTypeId",
+                "value": "",
+                "type": "query",
+                "description": "Filter groups by group type ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Groups across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Group by Group ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/groups/:groupId",
+            "params": [
+              {
+                "name": "groupId",
+                "value": "sap.iot:capability-area:sap.iot:Connectivity",
+                "type": "path",
+                "description": "Group ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Group by its Group ID"
+        },
+        {
+          "info": {
+            "name": "Application Research List all Group Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/group-types",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Group Types across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Group Type by Group Type ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/group-types/:groupTypeId",
+            "params": [
+              {
+                "name": "groupTypeId",
+                "value": "sap.iot:capability-area",
+                "type": "path",
+                "description": "Group Type ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Group Type by its Group Type ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

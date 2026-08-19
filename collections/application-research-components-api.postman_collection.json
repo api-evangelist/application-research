@@ -1,0 +1,2185 @@
+{
+  "item": [
+    {
+      "id": "cece6e0e-b052-44a0-aeb2-f8649c62a9ea",
+      "name": "Components",
+      "description": {
+        "content": "Operations for managing component descriptors",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ddb66cfe-71f6-4ae9-9298-597a4eb9dcfd",
+          "name": "Application Research List component descriptors",
+          "request": {
+            "name": "Application Research List component descriptors",
+            "description": {},
+            "url": {
+              "path": [
+                "components"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of items to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "provider",
+                  "value": "<string>",
+                  "description": "Filter by provider name"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2e3cbbb1-cfa2-449e-9f0b-fffbcba47cb7",
+              "name": "List of component descriptors",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "provider",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"meta\": {\n        \"schemaVersion\": \"v2\"\n      },\n      \"component\": {\n        \"name\": \"github.com/acme.org/web-application\",\n        \"version\": \"2.5.1\",\n        \"provider\": {\n          \"name\": \"acme\"\n        }\n      }\n    },\n    {\n      \"meta\": {\n        \"schemaVersion\": \"v2\"\n      },\n      \"component\": {\n        \"name\": \"github.com/ailab.org/model-training-pipeline\",\n        \"version\": \"4.2.0\",\n        \"provider\": {\n          \"name\": \"ailab\"\n        }\n      }\n    }\n  ],\n  \"total\": 2,\n  \"limit\": 20,\n  \"offset\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9158423c-1dd1-41f9-8d94-741b54a8ed13",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "provider",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid component name format\",\n  \"details\": {\n    \"field\": \"component.name\",\n    \"pattern\": \"^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48463b9d-2b4f-4c8f-89ff-342eee172928",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "provider",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b1cab544-7167-44f2-a88f-13aa15444d2d",
+          "name": "Application Research Create a component descriptor",
+          "request": {
+            "name": "Application Research Create a component descriptor",
+            "description": {},
+            "url": {
+              "path": [
+                "components"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"<string>\"\n  },\n  \"component\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"provider\": \"<string>\",\n    \"creationTime\": \"<string,null-date-time>\",\n    \"repositoryContexts\": [\n      {\n        \"type\": \"<string>\",\n        \"baseUrl\": \"<string>\",\n        \"componentNameMapping\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"baseUrl\": \"<string>\",\n        \"componentNameMapping\": \"<string>\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"\",\n        \"version\": \"<string>\",\n        \"signing\": \"<boolean>\",\n        \"merge\": {\n          \"algorithm\": \"<string>\",\n          \"config\": \"\"\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"\",\n        \"version\": \"<string>\",\n        \"signing\": \"<boolean>\",\n        \"merge\": {\n          \"algorithm\": \"<string>\",\n          \"config\": \"\"\n        }\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\",\n          \"key_3\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"relation\": \"external\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        },\n        \"digest\": \"<null>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"relation\": \"external\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        },\n        \"digest\": \"<null>\"\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"<string>\",\n        \"componentName\": \"<string>\",\n        \"version\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"digest\": \"<null>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"componentName\": \"<string>\",\n        \"version\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\"\n        },\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"digest\": \"<null>\"\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"<string>\",\n      \"signature\": {\n        \"algorithm\": \"<string>\",\n        \"value\": \"<string>\",\n        \"mediaType\": \"<string>\"\n      },\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"signature\": {\n        \"algorithm\": \"<string>\",\n        \"value\": \"<string>\",\n        \"mediaType\": \"<string>\"\n      },\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    }\n  ],\n  \"nestedDigests\": [\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      \"resourceDigests\": [\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\",\n            \"key_2\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      \"resourceDigests\": [\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9973ed5b-94d0-44ee-ae26-6f124f6bd833",
+              "name": "Component descriptor created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e28c1d9-ceab-4051-ad70-3e391ddfcd81",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid component name format\",\n  \"details\": {\n    \"field\": \"component.name\",\n    \"pattern\": \"^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58ec0773-626f-46c2-9fd5-4d4f9145dabb",
+              "name": "Resource already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"CONFLICT\",\n  \"message\": \"Component 'github.com/acme.org/web-application' version '2.5.1' already exists\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8120f1f-e029-4493-ba2d-7742fb51149a",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed91d43b-51bc-4294-8dca-4c036d7d85eb",
+          "name": "Application Research Get a component descriptor by name",
+          "request": {
+            "name": "Application Research Get a component descriptor by name",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Component version (semver)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9d0ad8c4-f72c-4b9a-9f5c-2c0128e1abef",
+              "name": "Component descriptor details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "599ba45f-3638-4601-8c7d-83cc9df40fdf",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0a73e53-1229-4d42-8ece-3aae590b09b3",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "00488e99-e131-4786-8205-d7651e9fafcd",
+          "name": "Application Research Update a component descriptor",
+          "request": {
+            "name": "Application Research Update a component descriptor",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"<string>\"\n  },\n  \"component\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"provider\": \"<string>\",\n    \"creationTime\": \"<string,null-date-time>\",\n    \"repositoryContexts\": [\n      {\n        \"type\": \"<string>\",\n        \"baseUrl\": \"<string>\",\n        \"componentNameMapping\": \"<string>\"\n      },\n      {\n        \"type\": \"<string>\",\n        \"baseUrl\": \"<string>\",\n        \"componentNameMapping\": \"<string>\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"<string>\",\n        \"value\": \"\",\n        \"version\": \"<string>\",\n        \"signing\": \"<boolean>\",\n        \"merge\": {\n          \"algorithm\": \"<string>\",\n          \"config\": \"\"\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"value\": \"\",\n        \"version\": \"<string>\",\n        \"signing\": \"<boolean>\",\n        \"merge\": {\n          \"algorithm\": \"<string>\",\n          \"config\": \"\"\n        }\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        }\n      },\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\",\n          \"key_2\": \"<string>\",\n          \"key_3\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"relation\": \"external\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        },\n        \"digest\": \"<null>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"type\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"version\": \"<string>\",\n        \"relation\": \"external\",\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"identitySelector\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"labels\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"access\": {\n          \"type\": \"<string>\"\n        },\n        \"input\": {\n          \"type\": \"<string>\"\n        },\n        \"digest\": \"<null>\"\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"<string>\",\n        \"componentName\": \"<string>\",\n        \"version\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\",\n          \"key_1\": \"<string>\"\n        },\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"digest\": \"<null>\"\n      },\n      {\n        \"name\": \"<string>\",\n        \"componentName\": \"<string>\",\n        \"version\": \"<string>\",\n        \"extraIdentity\": {\n          \"key_0\": \"<string>\"\n        },\n        \"labels\": [\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"value\": \"\",\n            \"version\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"signing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"merge\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"digest\": \"<null>\"\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"<string>\",\n      \"signature\": {\n        \"algorithm\": \"<string>\",\n        \"value\": \"<string>\",\n        \"mediaType\": \"<string>\"\n      },\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"signature\": {\n        \"algorithm\": \"<string>\",\n        \"value\": \"<string>\",\n        \"mediaType\": \"<string>\"\n      },\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    }\n  ],\n  \"nestedDigests\": [\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      \"resourceDigests\": [\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\",\n            \"key_2\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"digest\": {\n        \"hashAlgorithm\": \"<string>\",\n        \"normalisationAlgorithm\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      \"resourceDigests\": [\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"digest\": {\n            \"hashAlgorithm\": \"<string>\",\n            \"normalisationAlgorithm\": \"<string>\",\n            \"value\": \"<string>\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3d6903ed-1072-4d75-9627-bf3131e3cea6",
+              "name": "Component descriptor updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fb45922-2294-4bcc-a295-8b2f2702d1ff",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid component name format\",\n  \"details\": {\n    \"field\": \"component.name\",\n    \"pattern\": \"^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47b3ae74-aa4f-4e11-b9b1-a24ba38c546b",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "803c98be-1b65-4969-bfd8-991b47db8626",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"schemaVersion\": \"v2\"\n  },\n  \"component\": {\n    \"name\": \"github.com/acme.org/web-application\",\n    \"version\": \"2.5.1\",\n    \"creationTime\": \"2025-01-13T10:30:00Z\",\n    \"provider\": {\n      \"name\": \"acme\",\n      \"labels\": [\n        {\n          \"name\": \"team\",\n          \"value\": \"platform-engineering\"\n        }\n      ]\n    },\n    \"repositoryContexts\": [\n      {\n        \"type\": \"ociRegistry\",\n        \"baseUrl\": \"ghcr.io/acme\",\n        \"componentNameMapping\": \"urlPath\"\n      }\n    ],\n    \"labels\": [\n      {\n        \"name\": \"app.kubernetes.io/name\",\n        \"value\": \"web-application\"\n      },\n      {\n        \"name\": \"environment\",\n        \"value\": \"production\",\n        \"signing\": true\n      }\n    ],\n    \"sources\": [\n      {\n        \"name\": \"application-source\",\n        \"type\": \"git\",\n        \"version\": \"2.5.1\",\n        \"access\": {\n          \"type\": \"gitHub\",\n          \"repoUrl\": \"https://github.com/acme-org/web-application\",\n          \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"language\",\n            \"value\": \"javascript\"\n          }\n        ]\n      },\n      {\n        \"name\": \"deployment-manifests\",\n        \"type\": \"helmChart\",\n        \"version\": \"1.2.0\",\n        \"access\": {\n          \"type\": \"helm\",\n          \"helmRepository\": \"https://charts.acme.org\",\n          \"helmChart\": \"web-app:1.2.0\"\n        }\n      }\n    ],\n    \"resources\": [\n      {\n        \"name\": \"frontend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        },\n        \"labels\": [\n          {\n            \"name\": \"component\",\n            \"value\": \"frontend\"\n          }\n        ],\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"ociArtifactDigest/v1\",\n          \"value\": \"4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b\"\n        }\n      },\n      {\n        \"name\": \"backend-image\",\n        \"type\": \"ociImage\",\n        \"version\": \"2.5.1\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"ghcr.io/acme-org/web-app-backend:2.5.1\"\n        },\n        \"srcRefs\": [\n          {\n            \"identitySelector\": {\n              \"name\": \"application-source\"\n            }\n          }\n        ]\n      },\n      {\n        \"name\": \"nginx-proxy\",\n        \"type\": \"ociImage\",\n        \"version\": \"1.25.4\",\n        \"relation\": \"external\",\n        \"access\": {\n          \"type\": \"ociArtifact\",\n          \"imageReference\": \"nginx:1.25.4\"\n        }\n      },\n      {\n        \"name\": \"helm-chart\",\n        \"type\": \"helmChart\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291\",\n          \"mediaType\": \"application/x-tar+gzip\",\n          \"referenceName\": \"web-app-chart\"\n        }\n      },\n      {\n        \"name\": \"configuration\",\n        \"type\": \"json\",\n        \"relation\": \"local\",\n        \"access\": {\n          \"type\": \"localBlob\",\n          \"localReference\": \"config.json\",\n          \"mediaType\": \"application/json\"\n        }\n      }\n    ],\n    \"componentReferences\": [\n      {\n        \"name\": \"database\",\n        \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n        \"version\": \"15.2.0\",\n        \"labels\": [\n          {\n            \"name\": \"dependency-type\",\n            \"value\": \"runtime\"\n          }\n        ]\n      },\n      {\n        \"name\": \"redis-cache\",\n        \"componentName\": \"github.com/acme.org/redis\",\n        \"version\": \"7.0.5\",\n        \"digest\": {\n          \"hashAlgorithm\": \"SHA-256\",\n          \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n          \"value\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n        }\n      }\n    ]\n  },\n  \"signatures\": [\n    {\n      \"name\": \"acme-signing-authority\",\n      \"digest\": {\n        \"hashAlgorithm\": \"SHA-256\",\n        \"normalisationAlgorithm\": \"jsonNormalisation/v1\",\n        \"value\": \"7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730\"\n      },\n      \"signature\": {\n        \"algorithm\": \"RSASSA-PSS-SHA256\",\n        \"value\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...\",\n        \"mediaType\": \"application/vnd.ocm.signature.rsa\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "554655b1-348f-47b6-87e2-ded7d5a4420d",
+          "name": "Application Research Delete a component descriptor",
+          "request": {
+            "name": "Application Research Delete a component descriptor",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Component version (semver)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "daedbc31-237d-4b81-9901-45c41ea56edd",
+              "name": "Component deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9421fa4d-30e0-4f30-b845-9e6415a13d85",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "baf7d146-de81-46d0-b576-e920206849a0",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ae18810-fe11-46be-8ba9-75c255aaa72c",
+          "name": "Application Research List all versions of a component",
+          "request": {
+            "name": "Application Research List all versions of a component",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name",
+                "versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6e5bdfa0-b7c0-4ac6-9faf-d08d0167ff48",
+              "name": "List of component versions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"componentName\": \"github.com/acme.org/web-application\",\n  \"versions\": [\n    \"2.5.1\",\n    \"2.5.0\",\n    \"2.4.3\",\n    \"2.4.2\",\n    \"2.4.1\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "07ee9c49-6173-44c7-968a-00b3ec16a7f5",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72486ccc-00e6-4443-8e5b-af46ddd82f5a",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d5b94cd-f9af-426f-bebb-62f0223a37b6",
+          "name": "Application Research List component references",
+          "request": {
+            "name": "Application Research List component references",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name",
+                "references"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Component version (semver)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6cb05234-e201-4358-9781-6cba6d1261e3",
+              "name": "List of component references",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "references"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"database\",\n    \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n    \"version\": \"15.2.0\",\n    \"labels\": [\n      {\n        \"name\": \"dependency-type\",\n        \"value\": \"runtime\"\n      }\n    ]\n  },\n  {\n    \"name\": \"redis-cache\",\n    \"componentName\": \"github.com/acme.org/redis\",\n    \"version\": \"7.0.5\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b811faf-27fc-4568-bee1-fa02da528a57",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "references"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "32559e97-3ffe-4328-9eb3-03bfcc3b20a2",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "references"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "217b4977-e0bc-4e3d-a723-470edbe9fe6f",
+          "name": "Application Research Add a component reference",
+          "request": {
+            "name": "Application Research Add a component reference",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name",
+                "references"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Component version (semver)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"componentName\": \"<string>\",\n  \"version\": \"<string>\",\n  \"extraIdentity\": {\n    \"key_0\": \"<string>\"\n  },\n  \"labels\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"\",\n      \"version\": \"<string>\",\n      \"signing\": \"<boolean>\",\n      \"merge\": {\n        \"algorithm\": \"<string>\",\n        \"config\": \"\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"\",\n      \"version\": \"<string>\",\n      \"signing\": \"<boolean>\",\n      \"merge\": {\n        \"algorithm\": \"<string>\",\n        \"config\": \"\"\n      }\n    }\n  ],\n  \"digest\": \"<null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9cfbdc65-8f5c-4931-93d5-a270bd71fc57",
+              "name": "Reference added",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "references"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"database\",\n  \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n  \"version\": \"15.2.0\",\n  \"labels\": [\n    {\n      \"name\": \"dependency-type\",\n      \"value\": \"runtime\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"database\",\n  \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n  \"version\": \"15.2.0\",\n  \"labels\": [\n    {\n      \"name\": \"dependency-type\",\n      \"value\": \"runtime\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37aa6575-08be-4744-b5da-a36d4d8e2a1f",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "references"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"database\",\n  \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n  \"version\": \"15.2.0\",\n  \"labels\": [\n    {\n      \"name\": \"dependency-type\",\n      \"value\": \"runtime\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid component name format\",\n  \"details\": {\n    \"field\": \"component.name\",\n    \"pattern\": \"^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4031ac4-70da-4d77-a763-02678ebb640f",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "references"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"database\",\n  \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n  \"version\": \"15.2.0\",\n  \"labels\": [\n    {\n      \"name\": \"dependency-type\",\n      \"value\": \"runtime\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f326105-c518-4d14-8bc0-680c694d1927",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "references"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"database\",\n  \"componentName\": \"github.com/acme.org/postgresql-cluster\",\n  \"version\": \"15.2.0\",\n  \"labels\": [\n    {\n      \"name\": \"dependency-type\",\n      \"value\": \"runtime\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ff22338-4726-4df4-a5fe-cd2d1b9bba67",
+          "name": "Application Research Transfer components between repositories",
+          "request": {
+            "name": "Application Research Transfer components between repositories",
+            "description": {},
+            "url": {
+              "path": [
+                "transfer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"components\": [\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\"\n    }\n  ],\n  \"targetRepository\": {\n    \"type\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"componentNameMapping\": \"<string>\"\n  },\n  \"sourceRepository\": {\n    \"type\": \"<string>\",\n    \"baseUrl\": \"<string>\",\n    \"componentNameMapping\": \"<string>\"\n  },\n  \"recursive\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1fdbbcaf-5bbd-4e8a-beba-a67756856219",
+              "name": "Transfer initiated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/acme.org/web-application\",\n      \"version\": \"2.5.1\"\n    }\n  ],\n  \"sourceRepository\": {\n    \"type\": \"ociRegistry\",\n    \"baseUrl\": \"ghcr.io/acme\",\n    \"componentNameMapping\": \"urlPath\"\n  },\n  \"targetRepository\": {\n    \"type\": \"ociRegistry\",\n    \"baseUrl\": \"registry.internal.company.com/ocm\",\n    \"componentNameMapping\": \"urlPath\"\n  },\n  \"recursive\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"completed\",\n  \"transferId\": \"tr-abc123def456\",\n  \"componentsTransferred\": 3,\n  \"message\": \"Successfully transferred 3 components including dependencies\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f3a1291a-b068-429a-b5bc-5f5249e82790",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/acme.org/web-application\",\n      \"version\": \"2.5.1\"\n    }\n  ],\n  \"sourceRepository\": {\n    \"type\": \"ociRegistry\",\n    \"baseUrl\": \"ghcr.io/acme\",\n    \"componentNameMapping\": \"urlPath\"\n  },\n  \"targetRepository\": {\n    \"type\": \"ociRegistry\",\n    \"baseUrl\": \"registry.internal.company.com/ocm\",\n    \"componentNameMapping\": \"urlPath\"\n  },\n  \"recursive\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid component name format\",\n  \"details\": {\n    \"field\": \"component.name\",\n    \"pattern\": \"^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e2a68c0-b2b3-4379-a7af-756cf74cb01d",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transfer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/acme.org/web-application\",\n      \"version\": \"2.5.1\"\n    }\n  ],\n  \"sourceRepository\": {\n    \"type\": \"ociRegistry\",\n    \"baseUrl\": \"ghcr.io/acme\",\n    \"componentNameMapping\": \"urlPath\"\n  },\n  \"targetRepository\": {\n    \"type\": \"ociRegistry\",\n    \"baseUrl\": \"registry.internal.company.com/ocm\",\n    \"componentNameMapping\": \"urlPath\"\n  },\n  \"recursive\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ca014ace-b759-4256-99a6-dc29a1c8eddf",
+    "name": "Application Research CNAB Bundle API Resources Components API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

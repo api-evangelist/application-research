@@ -1,0 +1,590 @@
+{
+  "item": [
+    {
+      "id": "756505d1-5673-4798-ad6b-826a6486c5f1",
+      "name": "Sources",
+      "description": {
+        "content": "Operations for managing component sources",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "79bd4e55-2d3f-4d3c-af9f-ce1fe7352cdc",
+          "name": "Application Research List sources for a component",
+          "request": {
+            "name": "Application Research List sources for a component",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name",
+                "sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Component version (semver)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c486df8d-c0af-4263-8288-68ba0dca50f6",
+              "name": "List of component sources",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"application-source\",\n    \"type\": \"git\",\n    \"version\": \"2.5.1\",\n    \"access\": {\n      \"type\": \"gitHub\",\n      \"repoUrl\": \"https://github.com/acme-org/web-application\",\n      \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n    }\n  },\n  {\n    \"name\": \"deployment-manifests\",\n    \"type\": \"helmChart\",\n    \"version\": \"1.2.0\",\n    \"access\": {\n      \"type\": \"helm\",\n      \"helmRepository\": \"https://charts.acme.org\",\n      \"helmChart\": \"web-app:1.2.0\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dded1a70-6931-4776-be4a-aedb8c006ca4",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7699fbc-320b-41d7-9d8f-10ee3917605f",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0f093b17-101a-480e-9923-a01ed12bbd6a",
+          "name": "Application Research Add a source to a component",
+          "request": {
+            "name": "Application Research Add a source to a component",
+            "description": {},
+            "url": {
+              "path": [
+                "components",
+                ":name",
+                "sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Component version (semver)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"extraIdentity\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"version\": \"<string>\",\n  \"labels\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"\",\n      \"version\": \"<string>\",\n      \"signing\": \"<boolean>\",\n      \"merge\": {\n        \"algorithm\": \"<string>\",\n        \"config\": \"\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"\",\n      \"version\": \"<string>\",\n      \"signing\": \"<boolean>\",\n      \"merge\": {\n        \"algorithm\": \"<string>\",\n        \"config\": \"\"\n      }\n    }\n  ],\n  \"access\": {\n    \"type\": \"<string>\"\n  },\n  \"input\": {\n    \"type\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5e8454fe-1789-417f-8f38-a7e2207c6513",
+              "name": "Source added",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"application-source\",\n  \"type\": \"git\",\n  \"version\": \"2.5.1\",\n  \"access\": {\n    \"type\": \"gitHub\",\n    \"repoUrl\": \"https://github.com/acme-org/web-application\",\n    \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n  },\n  \"labels\": [\n    {\n      \"name\": \"language\",\n      \"value\": \"javascript\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"application-source\",\n  \"type\": \"git\",\n  \"version\": \"2.5.1\",\n  \"access\": {\n    \"type\": \"gitHub\",\n    \"repoUrl\": \"https://github.com/acme-org/web-application\",\n    \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n  },\n  \"labels\": [\n    {\n      \"name\": \"language\",\n      \"value\": \"javascript\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31b30f74-d13c-445b-98ab-28767a31b2ef",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"application-source\",\n  \"type\": \"git\",\n  \"version\": \"2.5.1\",\n  \"access\": {\n    \"type\": \"gitHub\",\n    \"repoUrl\": \"https://github.com/acme-org/web-application\",\n    \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n  },\n  \"labels\": [\n    {\n      \"name\": \"language\",\n      \"value\": \"javascript\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid component name format\",\n  \"details\": {\n    \"field\": \"component.name\",\n    \"pattern\": \"^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3cfcfd8-f459-461b-9589-f6ff3678a5d4",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"application-source\",\n  \"type\": \"git\",\n  \"version\": \"2.5.1\",\n  \"access\": {\n    \"type\": \"gitHub\",\n    \"repoUrl\": \"https://github.com/acme-org/web-application\",\n    \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n  },\n  \"labels\": [\n    {\n      \"name\": \"language\",\n      \"value\": \"javascript\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "67dbf527-49c3-4c46-90d9-0829bc45dd6d",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "components",
+                    ":name",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "version",
+                      "value": "1.0.0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) Component name (e.g., github.com/acme.org/web-application)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"application-source\",\n  \"type\": \"git\",\n  \"version\": \"2.5.1\",\n  \"access\": {\n    \"type\": \"gitHub\",\n    \"repoUrl\": \"https://github.com/acme-org/web-application\",\n    \"commit\": \"a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7\"\n  },\n  \"labels\": [\n    {\n      \"name\": \"language\",\n      \"value\": \"javascript\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a7a94f3f-6727-43c7-8de9-387f78229b99",
+    "name": "Application Research CNAB Bundle API Resources Sources API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

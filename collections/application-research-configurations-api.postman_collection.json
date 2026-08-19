@@ -1,0 +1,778 @@
+{
+  "item": [
+    {
+      "id": "2d3fd574-ff9a-48c3-8e32-5c18ac61fa3c",
+      "name": "Configurations",
+      "description": {
+        "content": "Operations for managing component configurations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2da78404-09c7-4d3b-910c-0757e34febd8",
+          "name": "Application Research List component configurations",
+          "request": {
+            "name": "Application Research List component configurations",
+            "description": {},
+            "url": {
+              "path": [
+                "configurations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of items to skip"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab491c50-e728-41d0-8d92-af6513fa17d8",
+              "name": "List of configurations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"components\": [\n        {\n          \"name\": \"github.com/ailab.org/model-training-pipeline\",\n          \"version\": \"4.2.0\",\n          \"provider\": \"ailab\"\n        }\n      ]\n    },\n    {\n      \"components\": [\n        {\n          \"name\": \"github.com/enterprise.io/order-service\",\n          \"version\": \"3.1.0\",\n          \"provider\": \"enterprise\"\n        }\n      ]\n    }\n  ],\n  \"total\": 2\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53f3c5b4-deac-43b2-add7-3248208c5980",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5627379-d14d-4440-be57-d2d5b2b059bc",
+          "name": "Application Research Create a component configuration",
+          "request": {
+            "name": "Application Research Create a component configuration",
+            "description": {},
+            "url": {
+              "path": [
+                "configurations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"components\": [\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"creationTime\": \"<string,null-date-time>\",\n      \"repositoryContexts\": [\n        {\n          \"type\": \"<string>\",\n          \"baseUrl\": \"<string>\",\n          \"componentNameMapping\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"baseUrl\": \"<string>\",\n          \"componentNameMapping\": \"<string>\"\n        }\n      ],\n      \"labels\": [\n        {\n          \"name\": \"<string>\",\n          \"value\": \"\",\n          \"version\": \"<string>\",\n          \"signing\": \"<boolean>\",\n          \"merge\": {\n            \"algorithm\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"config\": \"\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"value\": \"\",\n          \"version\": \"<string>\",\n          \"signing\": \"<boolean>\",\n          \"merge\": {\n            \"algorithm\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"config\": \"\"\n          }\n        }\n      ],\n      \"sources\": [\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          }\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"relation\": \"external\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"srcRefs\": [\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          },\n          \"digest\": \"<null>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"relation\": \"external\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"srcRefs\": [\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          },\n          \"digest\": \"<null>\"\n        }\n      ],\n      \"componentReferences\": [\n        {\n          \"name\": \"<string>\",\n          \"componentName\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"digest\": \"<null>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"componentName\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"digest\": \"<null>\"\n        }\n      ]\n    },\n    {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"creationTime\": \"<string,null-date-time>\",\n      \"repositoryContexts\": [\n        {\n          \"type\": \"<string>\",\n          \"baseUrl\": \"<string>\",\n          \"componentNameMapping\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"baseUrl\": \"<string>\",\n          \"componentNameMapping\": \"<string>\"\n        }\n      ],\n      \"labels\": [\n        {\n          \"name\": \"<string>\",\n          \"value\": \"\",\n          \"version\": \"<string>\",\n          \"signing\": \"<boolean>\",\n          \"merge\": {\n            \"algorithm\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"config\": \"\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"value\": \"\",\n          \"version\": \"<string>\",\n          \"signing\": \"<boolean>\",\n          \"merge\": {\n            \"algorithm\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"config\": \"\"\n          }\n        }\n      ],\n      \"sources\": [\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          }\n        },\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\",\n            \"key_2\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          }\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\",\n            \"key_2\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"relation\": \"external\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"srcRefs\": [\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          },\n          \"digest\": \"<null>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"version\": \"<string>\",\n          \"relation\": \"external\",\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"srcRefs\": [\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"identitySelector\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"labels\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ],\n          \"access\": {\n            \"type\": \"<string>\"\n          },\n          \"input\": {\n            \"type\": \"<string>\"\n          },\n          \"digest\": \"<null>\"\n        }\n      ],\n      \"componentReferences\": [\n        {\n          \"name\": \"<string>\",\n          \"componentName\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\"\n          },\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"digest\": \"<null>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"componentName\": \"<string>\",\n          \"version\": \"<string>\",\n          \"extraIdentity\": {\n            \"key_0\": \"<string>\",\n            \"key_1\": \"<string>\"\n          },\n          \"labels\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"digest\": \"<null>\"\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8c44b78e-442b-44a8-82e4-f546e4536767",
+              "name": "Configuration created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/ailab.org/model-training-pipeline\",\n      \"version\": \"4.2.0\",\n      \"provider\": {\n        \"name\": \"ailab\",\n        \"labels\": [\n          {\n            \"name\": \"department\",\n            \"value\": \"research\"\n          },\n          {\n            \"name\": \"cost-center\",\n            \"value\": \"ml-ops\"\n          }\n        ]\n      },\n      \"labels\": [\n        {\n          \"name\": \"gpu-required\",\n          \"value\": \"true\"\n        },\n        {\n          \"name\": \"framework\",\n          \"value\": \"pytorch\"\n        }\n      ],\n      \"sources\": [\n        {\n          \"name\": \"training-scripts\",\n          \"type\": \"git\",\n          \"input\": {\n            \"type\": \"dir\",\n            \"path\": \"./ml/training\",\n            \"compress\": true,\n            \"excludeFiles\": [\n              \"**/__pycache__/**\",\n              \"*.pyc\"\n            ]\n          }\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"trainer-image\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/trainer\",\n            \"repository\": \"gcr.io/ailab/model-trainer\"\n          },\n          \"labels\": [\n            {\n              \"name\": \"cuda-version\",\n              \"value\": \"12.1\"\n            }\n          ]\n        },\n        {\n          \"name\": \"base-model\",\n          \"type\": \"ociArtifact\",\n          \"version\": \"1.0.0\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"ociArtifact\",\n            \"imageReference\": \"gcr.io/ml-models/bert-base-uncased:v1.0.0\"\n          }\n        },\n        {\n          \"name\": \"training-data\",\n          \"type\": \"dataset\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"s3\",\n            \"region\": \"us-west-2\",\n            \"bucket\": \"ailab-datasets\",\n            \"key\": \"nlp/training-v4.2.0.tar.gz\",\n            \"mediaType\": \"application/x-tar+gzip\"\n          }\n        }\n      ],\n      \"componentReferences\": [\n        {\n          \"name\": \"data-preprocessing\",\n          \"componentName\": \"github.com/ailab.org/data-pipeline\",\n          \"version\": \"2.1.5\"\n        }\n      ]\n    },\n    {\n      \"name\": \"github.com/ailab.org/inference-service\",\n      \"version\": \"3.0.1\",\n      \"provider\": \"ailab\",\n      \"labels\": [\n        {\n          \"name\": \"serving-framework\",\n          \"value\": \"triton\"\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"triton-server\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/triton-custom\",\n            \"repository\": \"gcr.io/ailab/triton-inference\"\n          }\n        },\n        {\n          \"name\": \"model-artifacts\",\n          \"type\": \"ociBlob\",\n          \"version\": \"3.0.1\",\n          \"relation\": \"local\",\n          \"access\": {\n            \"type\": \"ociBlob\",\n            \"imageReference\": \"gcr.io/ailab/model-artifacts\",\n            \"digest\": \"sha256:41029839fa6ad57a33a4fe85a9f7c7127d37e42d6947317488b5de4c5dbeb20e\",\n            \"mediaType\": \"application/x-tar+gzip\",\n            \"size\": 524288000\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/ailab.org/model-training-pipeline\",\n      \"version\": \"4.2.0\",\n      \"provider\": {\n        \"name\": \"ailab\",\n        \"labels\": [\n          {\n            \"name\": \"department\",\n            \"value\": \"research\"\n          },\n          {\n            \"name\": \"cost-center\",\n            \"value\": \"ml-ops\"\n          }\n        ]\n      },\n      \"labels\": [\n        {\n          \"name\": \"gpu-required\",\n          \"value\": \"true\"\n        },\n        {\n          \"name\": \"framework\",\n          \"value\": \"pytorch\"\n        }\n      ],\n      \"sources\": [\n        {\n          \"name\": \"training-scripts\",\n          \"type\": \"git\",\n          \"input\": {\n            \"type\": \"dir\",\n            \"path\": \"./ml/training\",\n            \"compress\": true,\n            \"excludeFiles\": [\n              \"**/__pycache__/**\",\n              \"*.pyc\"\n            ]\n          }\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"trainer-image\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/trainer\",\n            \"repository\": \"gcr.io/ailab/model-trainer\"\n          },\n          \"labels\": [\n            {\n              \"name\": \"cuda-version\",\n              \"value\": \"12.1\"\n            }\n          ]\n        },\n        {\n          \"name\": \"base-model\",\n          \"type\": \"ociArtifact\",\n          \"version\": \"1.0.0\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"ociArtifact\",\n            \"imageReference\": \"gcr.io/ml-models/bert-base-uncased:v1.0.0\"\n          }\n        },\n        {\n          \"name\": \"training-data\",\n          \"type\": \"dataset\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"s3\",\n            \"region\": \"us-west-2\",\n            \"bucket\": \"ailab-datasets\",\n            \"key\": \"nlp/training-v4.2.0.tar.gz\",\n            \"mediaType\": \"application/x-tar+gzip\"\n          }\n        }\n      ],\n      \"componentReferences\": [\n        {\n          \"name\": \"data-preprocessing\",\n          \"componentName\": \"github.com/ailab.org/data-pipeline\",\n          \"version\": \"2.1.5\"\n        }\n      ]\n    },\n    {\n      \"name\": \"github.com/ailab.org/inference-service\",\n      \"version\": \"3.0.1\",\n      \"provider\": \"ailab\",\n      \"labels\": [\n        {\n          \"name\": \"serving-framework\",\n          \"value\": \"triton\"\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"triton-server\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/triton-custom\",\n            \"repository\": \"gcr.io/ailab/triton-inference\"\n          }\n        },\n        {\n          \"name\": \"model-artifacts\",\n          \"type\": \"ociBlob\",\n          \"version\": \"3.0.1\",\n          \"relation\": \"local\",\n          \"access\": {\n            \"type\": \"ociBlob\",\n            \"imageReference\": \"gcr.io/ailab/model-artifacts\",\n            \"digest\": \"sha256:41029839fa6ad57a33a4fe85a9f7c7127d37e42d6947317488b5de4c5dbeb20e\",\n            \"mediaType\": \"application/x-tar+gzip\",\n            \"size\": 524288000\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ba46d46-2723-43ca-8009-a8199168814a",
+              "name": "Bad request - invalid input",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/ailab.org/model-training-pipeline\",\n      \"version\": \"4.2.0\",\n      \"provider\": {\n        \"name\": \"ailab\",\n        \"labels\": [\n          {\n            \"name\": \"department\",\n            \"value\": \"research\"\n          },\n          {\n            \"name\": \"cost-center\",\n            \"value\": \"ml-ops\"\n          }\n        ]\n      },\n      \"labels\": [\n        {\n          \"name\": \"gpu-required\",\n          \"value\": \"true\"\n        },\n        {\n          \"name\": \"framework\",\n          \"value\": \"pytorch\"\n        }\n      ],\n      \"sources\": [\n        {\n          \"name\": \"training-scripts\",\n          \"type\": \"git\",\n          \"input\": {\n            \"type\": \"dir\",\n            \"path\": \"./ml/training\",\n            \"compress\": true,\n            \"excludeFiles\": [\n              \"**/__pycache__/**\",\n              \"*.pyc\"\n            ]\n          }\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"trainer-image\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/trainer\",\n            \"repository\": \"gcr.io/ailab/model-trainer\"\n          },\n          \"labels\": [\n            {\n              \"name\": \"cuda-version\",\n              \"value\": \"12.1\"\n            }\n          ]\n        },\n        {\n          \"name\": \"base-model\",\n          \"type\": \"ociArtifact\",\n          \"version\": \"1.0.0\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"ociArtifact\",\n            \"imageReference\": \"gcr.io/ml-models/bert-base-uncased:v1.0.0\"\n          }\n        },\n        {\n          \"name\": \"training-data\",\n          \"type\": \"dataset\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"s3\",\n            \"region\": \"us-west-2\",\n            \"bucket\": \"ailab-datasets\",\n            \"key\": \"nlp/training-v4.2.0.tar.gz\",\n            \"mediaType\": \"application/x-tar+gzip\"\n          }\n        }\n      ],\n      \"componentReferences\": [\n        {\n          \"name\": \"data-preprocessing\",\n          \"componentName\": \"github.com/ailab.org/data-pipeline\",\n          \"version\": \"2.1.5\"\n        }\n      ]\n    },\n    {\n      \"name\": \"github.com/ailab.org/inference-service\",\n      \"version\": \"3.0.1\",\n      \"provider\": \"ailab\",\n      \"labels\": [\n        {\n          \"name\": \"serving-framework\",\n          \"value\": \"triton\"\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"triton-server\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/triton-custom\",\n            \"repository\": \"gcr.io/ailab/triton-inference\"\n          }\n        },\n        {\n          \"name\": \"model-artifacts\",\n          \"type\": \"ociBlob\",\n          \"version\": \"3.0.1\",\n          \"relation\": \"local\",\n          \"access\": {\n            \"type\": \"ociBlob\",\n            \"imageReference\": \"gcr.io/ailab/model-artifacts\",\n            \"digest\": \"sha256:41029839fa6ad57a33a4fe85a9f7c7127d37e42d6947317488b5de4c5dbeb20e\",\n            \"mediaType\": \"application/x-tar+gzip\",\n            \"size\": 524288000\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"BAD_REQUEST\",\n  \"message\": \"Invalid component name format\",\n  \"details\": {\n    \"field\": \"component.name\",\n    \"pattern\": \"^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aff5c9ef-abe0-482c-9029-092d87e3d41f",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/ailab.org/model-training-pipeline\",\n      \"version\": \"4.2.0\",\n      \"provider\": {\n        \"name\": \"ailab\",\n        \"labels\": [\n          {\n            \"name\": \"department\",\n            \"value\": \"research\"\n          },\n          {\n            \"name\": \"cost-center\",\n            \"value\": \"ml-ops\"\n          }\n        ]\n      },\n      \"labels\": [\n        {\n          \"name\": \"gpu-required\",\n          \"value\": \"true\"\n        },\n        {\n          \"name\": \"framework\",\n          \"value\": \"pytorch\"\n        }\n      ],\n      \"sources\": [\n        {\n          \"name\": \"training-scripts\",\n          \"type\": \"git\",\n          \"input\": {\n            \"type\": \"dir\",\n            \"path\": \"./ml/training\",\n            \"compress\": true,\n            \"excludeFiles\": [\n              \"**/__pycache__/**\",\n              \"*.pyc\"\n            ]\n          }\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"trainer-image\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/trainer\",\n            \"repository\": \"gcr.io/ailab/model-trainer\"\n          },\n          \"labels\": [\n            {\n              \"name\": \"cuda-version\",\n              \"value\": \"12.1\"\n            }\n          ]\n        },\n        {\n          \"name\": \"base-model\",\n          \"type\": \"ociArtifact\",\n          \"version\": \"1.0.0\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"ociArtifact\",\n            \"imageReference\": \"gcr.io/ml-models/bert-base-uncased:v1.0.0\"\n          }\n        },\n        {\n          \"name\": \"training-data\",\n          \"type\": \"dataset\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"s3\",\n            \"region\": \"us-west-2\",\n            \"bucket\": \"ailab-datasets\",\n            \"key\": \"nlp/training-v4.2.0.tar.gz\",\n            \"mediaType\": \"application/x-tar+gzip\"\n          }\n        }\n      ],\n      \"componentReferences\": [\n        {\n          \"name\": \"data-preprocessing\",\n          \"componentName\": \"github.com/ailab.org/data-pipeline\",\n          \"version\": \"2.1.5\"\n        }\n      ]\n    },\n    {\n      \"name\": \"github.com/ailab.org/inference-service\",\n      \"version\": \"3.0.1\",\n      \"provider\": \"ailab\",\n      \"labels\": [\n        {\n          \"name\": \"serving-framework\",\n          \"value\": \"triton\"\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"triton-server\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/triton-custom\",\n            \"repository\": \"gcr.io/ailab/triton-inference\"\n          }\n        },\n        {\n          \"name\": \"model-artifacts\",\n          \"type\": \"ociBlob\",\n          \"version\": \"3.0.1\",\n          \"relation\": \"local\",\n          \"access\": {\n            \"type\": \"ociBlob\",\n            \"imageReference\": \"gcr.io/ailab/model-artifacts\",\n            \"digest\": \"sha256:41029839fa6ad57a33a4fe85a9f7c7127d37e42d6947317488b5de4c5dbeb20e\",\n            \"mediaType\": \"application/x-tar+gzip\",\n            \"size\": 524288000\n          }\n        }\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "670ea791-940a-4b59-87b5-80a259df51a9",
+          "name": "Application Research Get a configuration by ID",
+          "request": {
+            "name": "Application Research Get a configuration by ID",
+            "description": {},
+            "url": {
+              "path": [
+                "configurations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Configuration ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8d68dcc2-47a5-4d25-9571-74f524be59ef",
+              "name": "Configuration details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Configuration ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"components\": [\n    {\n      \"name\": \"github.com/ailab.org/model-training-pipeline\",\n      \"version\": \"4.2.0\",\n      \"provider\": {\n        \"name\": \"ailab\",\n        \"labels\": [\n          {\n            \"name\": \"department\",\n            \"value\": \"research\"\n          },\n          {\n            \"name\": \"cost-center\",\n            \"value\": \"ml-ops\"\n          }\n        ]\n      },\n      \"labels\": [\n        {\n          \"name\": \"gpu-required\",\n          \"value\": \"true\"\n        },\n        {\n          \"name\": \"framework\",\n          \"value\": \"pytorch\"\n        }\n      ],\n      \"sources\": [\n        {\n          \"name\": \"training-scripts\",\n          \"type\": \"git\",\n          \"input\": {\n            \"type\": \"dir\",\n            \"path\": \"./ml/training\",\n            \"compress\": true,\n            \"excludeFiles\": [\n              \"**/__pycache__/**\",\n              \"*.pyc\"\n            ]\n          }\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"trainer-image\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/trainer\",\n            \"repository\": \"gcr.io/ailab/model-trainer\"\n          },\n          \"labels\": [\n            {\n              \"name\": \"cuda-version\",\n              \"value\": \"12.1\"\n            }\n          ]\n        },\n        {\n          \"name\": \"base-model\",\n          \"type\": \"ociArtifact\",\n          \"version\": \"1.0.0\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"ociArtifact\",\n            \"imageReference\": \"gcr.io/ml-models/bert-base-uncased:v1.0.0\"\n          }\n        },\n        {\n          \"name\": \"training-data\",\n          \"type\": \"dataset\",\n          \"relation\": \"external\",\n          \"access\": {\n            \"type\": \"s3\",\n            \"region\": \"us-west-2\",\n            \"bucket\": \"ailab-datasets\",\n            \"key\": \"nlp/training-v4.2.0.tar.gz\",\n            \"mediaType\": \"application/x-tar+gzip\"\n          }\n        }\n      ],\n      \"componentReferences\": [\n        {\n          \"name\": \"data-preprocessing\",\n          \"componentName\": \"github.com/ailab.org/data-pipeline\",\n          \"version\": \"2.1.5\"\n        }\n      ]\n    },\n    {\n      \"name\": \"github.com/ailab.org/inference-service\",\n      \"version\": \"3.0.1\",\n      \"provider\": \"ailab\",\n      \"labels\": [\n        {\n          \"name\": \"serving-framework\",\n          \"value\": \"triton\"\n        }\n      ],\n      \"resources\": [\n        {\n          \"name\": \"triton-server\",\n          \"type\": \"ociImage\",\n          \"relation\": \"local\",\n          \"input\": {\n            \"type\": \"docker\",\n            \"path\": \"./docker/triton-custom\",\n            \"repository\": \"gcr.io/ailab/triton-inference\"\n          }\n        },\n        {\n          \"name\": \"model-artifacts\",\n          \"type\": \"ociBlob\",\n          \"version\": \"3.0.1\",\n          \"relation\": \"local\",\n          \"access\": {\n            \"type\": \"ociBlob\",\n            \"imageReference\": \"gcr.io/ailab/model-artifacts\",\n            \"digest\": \"sha256:41029839fa6ad57a33a4fe85a9f7c7127d37e42d6947317488b5de4c5dbeb20e\",\n            \"mediaType\": \"application/x-tar+gzip\",\n            \"size\": 524288000\n          }\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2aa7e555-aa94-4848-98cb-c9e3443a651b",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Configuration ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a87f7232-04d3-4df6-bd90-268baf8df6ae",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Configuration ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd35015a-259b-448a-96fe-dc8c5c3bc38a",
+          "name": "Application Research Delete a configuration",
+          "request": {
+            "name": "Application Research Delete a configuration",
+            "description": {},
+            "url": {
+              "path": [
+                "configurations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Configuration ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ead2687-4417-4af2-95c9-d6678b60756d",
+              "name": "Configuration deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Configuration ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2b0e83d1-9896-4f49-bce1-2f3eb565c08d",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Configuration ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Component 'github.com/acme.org/unknown-component' not found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ef05946-d1ff-40fc-b0e3-04b7770b79e7",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Configuration ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"INTERNAL_ERROR\",\n  \"message\": \"An unexpected error occurred\",\n  \"details\": {\n    \"requestId\": \"req-xyz789\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "08ebe282-068f-4067-9ee3-c57cf2a92129",
+    "name": "Application Research CNAB Bundle API Resources Configurations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}

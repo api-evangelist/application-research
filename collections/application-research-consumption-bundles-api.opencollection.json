@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Consumption Bundles API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Consumption Bundles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Consumption Bundles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/consumption-bundles",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query",
+                "description": "Filter by visibility level"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Consumption Bundles across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Consumption Bundle by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/consumption-bundles/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:consumptionBundle:PlatformAPIs:v1",
+                "type": "path",
+                "description": "ORD ID of the Consumption Bundle"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Consumption Bundle by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

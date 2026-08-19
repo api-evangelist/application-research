@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Data Products API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Data Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/data-products",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter data products by type"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter data products by category"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Data Products across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Data Product by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/data-products/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:dataProduct:AssetPerformance:v1",
+                "type": "path",
+                "description": "ORD ID of the Data Product"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Data Product by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

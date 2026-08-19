@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources Packages API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Packages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all Packages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/packages",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "vendor",
+                "value": "sap:vendor:SAP:",
+                "type": "query",
+                "description": "Filter by vendor ORD ID"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all Packages across all ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a Package by ORD ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/packages/:ordId",
+            "params": [
+              {
+                "name": "ordId",
+                "value": "sap.iot:package:DeviceManagement:v1",
+                "type": "path",
+                "description": "ORD ID of the Package"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific Package by its ORD ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

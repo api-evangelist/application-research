@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources ORD Documents API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ORD Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List all ORD Documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/documents",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip"
+              },
+              {
+                "name": "perspective",
+                "value": "",
+                "type": "query",
+                "description": "Filter by ORD Document perspective"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all available ORD Documents"
+        },
+        {
+          "info": {
+            "name": "Application Research Create a new ORD Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/documents",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new ORD Document with the provided resources and taxonomy"
+        },
+        {
+          "info": {
+            "name": "Application Research Get an ORD Document by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "sap-iot-platform-v1",
+                "type": "path",
+                "description": "Unique identifier of the ORD Document"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific ORD Document by its identifier"
+        },
+        {
+          "info": {
+            "name": "Application Research Update an ORD Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.example.com/v1/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "sap-iot-platform-v1",
+                "type": "path",
+                "description": "Unique identifier of the ORD Document"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing ORD Document"
+        },
+        {
+          "info": {
+            "name": "Application Research Delete an ORD Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.example.com/v1/documents/:documentId",
+            "params": [
+              {
+                "name": "documentId",
+                "value": "sap-iot-platform-v1",
+                "type": "path",
+                "description": "Unique identifier of the ORD Document"
+              }
+            ]
+          },
+          "docs": "Deletes an ORD Document"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

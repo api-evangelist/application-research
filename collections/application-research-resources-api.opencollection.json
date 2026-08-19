@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Application Research CNAB Bundle API Resources API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Application Research List resources for a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/components/:name/resources",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research List resources for a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Add a resource to a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.example.com/v1/components/:name/resources",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Application Research Add a resource to a component"
+        },
+        {
+          "info": {
+            "name": "Application Research Get a specific resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.example.com/v1/components/:name/resources/:resourceName",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "resourceName",
+                "value": "",
+                "type": "path",
+                "description": "Resource element name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Get a specific resource"
+        },
+        {
+          "info": {
+            "name": "Application Research Remove a resource from a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.example.com/v1/components/:name/resources/:resourceName",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Component name (e.g., github.com/acme.org/web-application)"
+              },
+              {
+                "name": "resourceName",
+                "value": "",
+                "type": "path",
+                "description": "Resource element name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Component version (semver)"
+              }
+            ]
+          },
+          "docs": "Application Research Remove a resource from a component"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

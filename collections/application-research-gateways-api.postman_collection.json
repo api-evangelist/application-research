@@ -1,0 +1,606 @@
+{
+  "item": [
+    {
+      "id": "d0b2a58a-ec1b-45e7-b3e8-763e2757488c",
+      "name": "Gateways",
+      "description": {
+        "content": "Gateway resource operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a1914f38-6dd1-4cc0-a4b7-4c503d751e8b",
+          "name": "Application Research Get gateway",
+          "request": {
+            "name": "Application Research Get gateway",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "gateways",
+                ":gatewayName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "gatewayName",
+                  "description": "(Required) The name of the gateway"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ddd6832-ed6f-46df-86ce-3c7f9067e4e4",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "gateways",
+                    ":gatewayName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "gatewayName",
+                      "description": "(Required) The name of the gateway"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"internal\": false,\n    \"hostname\": {\n      \"fullyQualifiedHostname\": \"api.ecommerce.example.com\"\n    },\n    \"routes\": [\n      {\n        \"path\": \"/api/orders\",\n        \"destination\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService\",\n        \"replacePrefix\": \"/orders\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"30s\",\n          \"backendRequest\": \"25s\"\n        }\n      },\n      {\n        \"path\": \"/api/products\",\n        \"destination\": \"http://product-service:8080\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"15s\"\n        }\n      },\n      {\n        \"path\": \"/ws\",\n        \"destination\": \"http://notification-service:8080\",\n        \"enableWebsockets\": true\n      }\n    ],\n    \"tls\": {\n      \"sslPassthrough\": false,\n      \"minimumProtocolVersion\": \"1.2\",\n      \"certificateFrom\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/tls-cert\"\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"component\": \"ingress\",\n    \"tier\": \"edge\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "052dac17-ac39-41fd-a108-c97cffb286f7",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "gateways",
+                    ":gatewayName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "gatewayName",
+                      "description": "(Required) The name of the gateway"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aa9f284f-4a02-4f6f-aa3a-41bd84e09172",
+          "name": "Application Research Create or update gateway",
+          "request": {
+            "name": "Application Research Create or update gateway",
+            "description": {},
+            "url": {
+              "path": [
+                "planes",
+                "radius",
+                ":planeName",
+                "resourceGroups",
+                ":resourceGroupName",
+                "providers",
+                "Applications.Core",
+                "gateways",
+                ":gatewayName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "2023-10-01-preview",
+                  "description": "(Required) The API version to use for this operation"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "planeName",
+                  "description": "(Required) The name of the plane"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resourceGroupName",
+                  "description": "(Required) The name of the resource group"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "gatewayName",
+                  "description": "(Required) The name of the gateway"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"properties\": {\n    \"application\": \"<string>\",\n    \"routes\": [\n      {\n        \"path\": \"<string>\",\n        \"destination\": \"<string>\",\n        \"replacePrefix\": \"<string>\",\n        \"enableWebsockets\": \"<boolean>\",\n        \"timeoutPolicy\": {\n          \"request\": \"<string>\",\n          \"backendRequest\": \"<string>\"\n        }\n      },\n      {\n        \"path\": \"<string>\",\n        \"destination\": \"<string>\",\n        \"replacePrefix\": \"<string>\",\n        \"enableWebsockets\": \"<boolean>\",\n        \"timeoutPolicy\": {\n          \"request\": \"<string>\",\n          \"backendRequest\": \"<string>\"\n        }\n      }\n    ],\n    \"environment\": \"<string>\",\n    \"internal\": \"<boolean>\",\n    \"hostname\": {\n      \"prefix\": \"<string>\",\n      \"fullyQualifiedHostname\": \"<string>\"\n    },\n    \"tls\": {\n      \"sslPassthrough\": \"<boolean>\",\n      \"minimumProtocolVersion\": \"1.2\",\n      \"certificateFrom\": \"<string>\"\n    }\n  },\n  \"location\": \"<string>\",\n  \"tags\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5e6f9c85-5cb2-41e3-9188-20991345f068",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "gateways",
+                    ":gatewayName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "gatewayName",
+                      "description": "(Required) The name of the gateway"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"internal\": false,\n    \"hostname\": {\n      \"fullyQualifiedHostname\": \"api.ecommerce.example.com\"\n    },\n    \"routes\": [\n      {\n        \"path\": \"/api/orders\",\n        \"destination\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService\",\n        \"replacePrefix\": \"/orders\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"30s\",\n          \"backendRequest\": \"25s\"\n        }\n      },\n      {\n        \"path\": \"/api/products\",\n        \"destination\": \"http://product-service:8080\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"15s\"\n        }\n      },\n      {\n        \"path\": \"/ws\",\n        \"destination\": \"http://notification-service:8080\",\n        \"enableWebsockets\": true\n      }\n    ],\n    \"tls\": {\n      \"sslPassthrough\": false,\n      \"minimumProtocolVersion\": \"1.2\",\n      \"certificateFrom\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/tls-cert\"\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"component\": \"ingress\",\n    \"tier\": \"edge\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"application\": \"string\",\n    \"routes\": [\n      {\n        \"path\": \"string\",\n        \"destination\": \"string\",\n        \"replacePrefix\": \"string\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"352m83292897µs91159516.17us55387963943.83069851us06337.344560s2834.16067264180s0376m\",\n          \"backendRequest\": \"4.9637us79066ms48022370019m0s503µs66.29708µs2s\"\n        }\n      },\n      {\n        \"path\": \"string\",\n        \"destination\": \"string\",\n        \"replacePrefix\": \"string\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"0ns00709521820ns6275244s21311498us165717m476310343m2173247345.50919606475µs\",\n          \"backendRequest\": \"626287805ns97267.46µs52702029m33295.173ns3624us6039s2558575us5s20344h0109ns73804053499.17823019379m\"\n        }\n      }\n    ],\n    \"environment\": \"string\",\n    \"provisioningState\": \"Canceled\",\n    \"status\": {\n      \"compute\": {\n        \"kind\": \"string\",\n        \"resourceId\": \"string\",\n        \"identity\": {\n          \"kind\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"oidcIssuer\": \"string\",\n          \"resource\": \"string\",\n          \"managedIdentity\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"recipe\": {\n        \"templateKind\": \"string\",\n        \"templatePath\": \"string\",\n        \"templateVersion\": \"string\"\n      },\n      \"outputResources\": [\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": false\n        },\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": true\n        }\n      ]\n    },\n    \"internal\": true,\n    \"hostname\": {\n      \"prefix\": \"string\",\n      \"fullyQualifiedHostname\": \"string\"\n    },\n    \"tls\": {\n      \"sslPassthrough\": true,\n      \"minimumProtocolVersion\": \"1.2\",\n      \"certificateFrom\": \"string\"\n    },\n    \"url\": \"string\"\n  },\n  \"location\": \"string\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"systemData\": {},\n  \"tags\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5511a35f-5582-4d43-891a-8cb0443672d2",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "gateways",
+                    ":gatewayName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "gatewayName",
+                      "description": "(Required) The name of the gateway"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"internal\": false,\n    \"hostname\": {\n      \"fullyQualifiedHostname\": \"api.ecommerce.example.com\"\n    },\n    \"routes\": [\n      {\n        \"path\": \"/api/orders\",\n        \"destination\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService\",\n        \"replacePrefix\": \"/orders\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"30s\",\n          \"backendRequest\": \"25s\"\n        }\n      },\n      {\n        \"path\": \"/api/products\",\n        \"destination\": \"http://product-service:8080\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"15s\"\n        }\n      },\n      {\n        \"path\": \"/ws\",\n        \"destination\": \"http://notification-service:8080\",\n        \"enableWebsockets\": true\n      }\n    ],\n    \"tls\": {\n      \"sslPassthrough\": false,\n      \"minimumProtocolVersion\": \"1.2\",\n      \"certificateFrom\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/tls-cert\"\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"component\": \"ingress\",\n    \"tier\": \"edge\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"properties\": {\n    \"application\": \"string\",\n    \"routes\": [\n      {\n        \"path\": \"string\",\n        \"destination\": \"string\",\n        \"replacePrefix\": \"string\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"352m83292897µs91159516.17us55387963943.83069851us06337.344560s2834.16067264180s0376m\",\n          \"backendRequest\": \"4.9637us79066ms48022370019m0s503µs66.29708µs2s\"\n        }\n      },\n      {\n        \"path\": \"string\",\n        \"destination\": \"string\",\n        \"replacePrefix\": \"string\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"0ns00709521820ns6275244s21311498us165717m476310343m2173247345.50919606475µs\",\n          \"backendRequest\": \"626287805ns97267.46µs52702029m33295.173ns3624us6039s2558575us5s20344h0109ns73804053499.17823019379m\"\n        }\n      }\n    ],\n    \"environment\": \"string\",\n    \"provisioningState\": \"Canceled\",\n    \"status\": {\n      \"compute\": {\n        \"kind\": \"string\",\n        \"resourceId\": \"string\",\n        \"identity\": {\n          \"kind\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"oidcIssuer\": \"string\",\n          \"resource\": \"string\",\n          \"managedIdentity\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      },\n      \"recipe\": {\n        \"templateKind\": \"string\",\n        \"templatePath\": \"string\",\n        \"templateVersion\": \"string\"\n      },\n      \"outputResources\": [\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": false\n        },\n        {\n          \"localId\": \"string\",\n          \"id\": \"string\",\n          \"radiusManaged\": true\n        }\n      ]\n    },\n    \"internal\": true,\n    \"hostname\": {\n      \"prefix\": \"string\",\n      \"fullyQualifiedHostname\": \"string\"\n    },\n    \"tls\": {\n      \"sslPassthrough\": true,\n      \"minimumProtocolVersion\": \"1.2\",\n      \"certificateFrom\": \"string\"\n    },\n    \"url\": \"string\"\n  },\n  \"location\": \"string\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"systemData\": {},\n  \"tags\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c3611c5-5574-4e96-84b3-ee3a5e0ffca5",
+              "name": "Error response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "planes",
+                    "radius",
+                    ":planeName",
+                    "resourceGroups",
+                    ":resourceGroupName",
+                    "providers",
+                    "Applications.Core",
+                    "gateways",
+                    ":gatewayName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "2023-10-01-preview"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "planeName",
+                      "description": "(Required) The name of the plane"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resourceGroupName",
+                      "description": "(Required) The name of the resource group"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "gatewayName",
+                      "description": "(Required) The name of the gateway"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"properties\": {\n    \"application\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform\",\n    \"internal\": false,\n    \"hostname\": {\n      \"fullyQualifiedHostname\": \"api.ecommerce.example.com\"\n    },\n    \"routes\": [\n      {\n        \"path\": \"/api/orders\",\n        \"destination\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService\",\n        \"replacePrefix\": \"/orders\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"30s\",\n          \"backendRequest\": \"25s\"\n        }\n      },\n      {\n        \"path\": \"/api/products\",\n        \"destination\": \"http://product-service:8080\",\n        \"enableWebsockets\": false,\n        \"timeoutPolicy\": {\n          \"request\": \"15s\"\n        }\n      },\n      {\n        \"path\": \"/ws\",\n        \"destination\": \"http://notification-service:8080\",\n        \"enableWebsockets\": true\n      }\n    ],\n    \"tls\": {\n      \"sslPassthrough\": false,\n      \"minimumProtocolVersion\": \"1.2\",\n      \"certificateFrom\": \"/planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/tls-cert\"\n    }\n  },\n  \"location\": \"eastus\",\n  \"tags\": {\n    \"component\": \"ingress\",\n    \"tier\": \"edge\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"target\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.example.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6baf4f14-4024-4c7e-b157-853cf74c2860",
+    "name": "Application Research CNAB Bundle API Resources Gateways API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for managing Cloud Native Application Bundles (CNAB).\n\nThis API provides endpoints for managing CNAB bundles, claims, claim results,\ndependencies, parameter sources, relocation mappings, and installation status.\n\n\nContact Support:\n Name: CNAB Specification",
+      "type": "text/plain"
+    }
+  }
+}
