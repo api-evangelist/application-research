@@ -23,6 +23,13 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/application-research.png
 tags:
   - Application Dependencies
+  - Cloud-Native
+  - Integration
+  - Research
+  - Specifications
+  - Workload Specifications
+tags_raw:
+  - Application Dependencies
   - Cloud Native
   - Integration
   - Research
@@ -85,6 +92,8 @@ apis:
   humanURL: https://score.dev
   baseURL: https://api.score.dev/v1
   tags:
+  - Application
+  tags_raw:
   - Applications
   properties:
   - type: OpenAPI
@@ -913,6 +922,8 @@ apis:
   humanURL: https://score.dev
   baseURL: https://api.score.dev/v1
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -1189,6 +1200,8 @@ apis:
   humanURL: https://score.dev
   baseURL: https://api.score.dev/v1
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
@@ -1235,6 +1248,8 @@ apis:
   humanURL: https://score.dev
   baseURL: https://api.score.dev/v1
   tags:
+  - Resource Groups
+  tags_raw:
   - ResourceGroups
   properties:
   - type: OpenAPI
