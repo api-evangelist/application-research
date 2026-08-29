@@ -1,0 +1,25 @@
+slug: application-research
+provider: Application Research
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: SecretStores
+  spec_file: application-research-secretstores-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.8
+  evidence: SecretStores_CreateOrUpdate 'Create or update secret store'; schemas SecretStoreProperties,
+    SecretValueProperties, ValueFromProperties
+  reason: Operations create and read secret stores holding runtime secret values consumed by application
+    services, matching Configuration & Secrets Management.

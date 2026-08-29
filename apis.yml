@@ -1716,6 +1716,9 @@ apis:
   - type: CodeExamples
     url: examples/radius-ecommerce-microservice.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/application-research-capability-edges.yml
+    name: Application Research Business Capability Map
   - type: AgenticAccess
     url: agentic-access/application-research-agentic-access.yml
   - type: DomainSecurity
