@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources Status API
+  title: Application Research CNAB Bundle Status API
   version: 1.0.0
   description: 'API for managing Cloud Native Application Bundles (CNAB).
 
@@ -93,12 +93,6 @@ components:
             notFound:
               $ref: '#/components/examples/ErrorNotFound'
   examples:
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
     ErrorInternal:
       summary: Internal error
       description: Example internal server error
@@ -120,6 +114,30 @@ components:
           mysql:
             status: Ready
             message: Database is running
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+    StatusListResponse:
+      summary: Installation list response
+      description: Example response for listing installations
+      value:
+      - status: Ready
+        message: All components are running
+        components:
+          wordpress:
+            status: Ready
+          mysql:
+            status: Ready
+      - status: Pending
+        message: Upgrade in progress
+        components:
+          inference-server:
+            status: Pending
+          redis-cache:
+            status: Ready
     StatusReady:
       summary: Ready installation status
       description: Example of a healthy installation
@@ -146,29 +164,23 @@ components:
           mysql:
             status: Ready
             message: Database initialized
-    StatusListResponse:
-      summary: Installation list response
-      description: Example response for listing installations
-      value:
-      - status: Ready
-        message: All components are running
-        components:
-          wordpress:
-            status: Ready
-          mysql:
-            status: Ready
-      - status: Pending
-        message: Upgrade in progress
-        components:
-          inference-server:
-            status: Pending
-          redis-cache:
-            status: Ready
   schemas:
-    StatusListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/Status'
+    Status:
+      type: object
+      description: Overall status of a CNAB installation
+      properties:
+        status:
+          type: string
+          description: Status identifier (Ready, Pending, Failed are well known)
+        message:
+          type: string
+          description: Details about the current status
+        components:
+          type: object
+          description: Map of component names to their status
+          additionalProperties:
+            $ref: '#/components/schemas/StatusComponent'
+      additionalProperties: true
     Error:
       type: object
       description: Error response
@@ -202,22 +214,10 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/StatusComponent'
       additionalProperties: true
-    Status:
-      type: object
-      description: Overall status of a CNAB installation
-      properties:
-        status:
-          type: string
-          description: Status identifier (Ready, Pending, Failed are well known)
-        message:
-          type: string
-          description: Details about the current status
-        components:
-          type: object
-          description: Map of component names to their status
-          additionalProperties:
-            $ref: '#/components/schemas/StatusComponent'
-      additionalProperties: true
+    StatusListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Status'
   parameters:
     InstallationNameParam:
       name: name

@@ -1,29 +1,23 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources Entity Types API
-  version: 1.0.0
-  description: 'API for managing Cloud Native Application Bundles (CNAB).
-
-
-    This API provides endpoints for managing CNAB bundles, claims, claim results,
-
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+  title: Application Research Open Resource Discovery (ORD) Entity Types API
+  version: 1.12.0
+  description: "The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers \nfor ORD resources and taxonomy. This API enables discovery and management of API resources, \nevent resources, data products, entity types, capabilities, and integration dependencies.\n\nORD enables machine-readable self-description of systems and their capabilities, supporting\nautomated discovery, integration, and governance of enterprise APIs and services.\n"
   contact:
-    name: CNAB Specification
-    url: https://cnab.io
+    name: ORD Specification Team
+    url: https://open-resource-discovery.org
   license:
-    name: Apache-2.0
+    name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: https://api.example.com/v1
+- url: https://api.example.com/ord/v1
   description: Production server
-- url: https://staging-api.example.com/v1
-  description: Staging server
+- url: https://sandbox.example.com/ord/v1
+  description: Sandbox server
 security:
+- oauth2:
+  - ord:read
 - bearerAuth: []
-- apiKey: []
 tags:
 - name: Entity Types
   description: Entity Type operations
@@ -79,25 +73,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    RelatedEntityType:
-      type: object
-      title: Related Entity Type
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        relationType:
-          type: string
-          enum:
-          - part-of
-          - can-share-identity
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
     ReleaseStatus:
       type: string
       enum:
@@ -105,22 +80,16 @@ components:
       - active
       - deprecated
       - sunset
-    DocumentationLabels:
-      type: object
-      title: Documentation Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
     ChangelogEntry:
       type: object
       title: Changelog Entry
@@ -143,16 +112,96 @@ components:
         url:
           type: string
           format: uri
-    PolicyLevel:
+    EntityTypeList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityType'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Visibility:
       type: string
-      description: Policy level for compliance
-      oneOf:
-      - type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      - type: string
-        enum:
-        - none
-        - custom
+      enum:
+      - public
+      - internal
+      - private
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    Extensible:
+      type: object
+      title: Extensible
+      required:
+      - supported
+      properties:
+        supported:
+          type: string
+          enum:
+          - 'no'
+          - manual
+          - automatic
+        description:
+          type: string
+          minLength: 1
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+    RelatedEntityType:
+      type: object
+      title: Related Entity Type
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        relationType:
+          type: string
+          enum:
+          - part-of
+          - can-share-identity
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
     Error:
       type: object
       required:
@@ -177,39 +226,14 @@ components:
         requestId:
           type: string
           description: Request ID for troubleshooting
-    Link:
+    Labels:
       type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
-        description:
-          type: string
-          minLength: 1
-    EntityTypeList:
-      type: object
-      properties:
+      title: Labels
+      additionalProperties:
+        type: array
         items:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityType'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
+          type: string
+          minLength: 1
     EntityType:
       type: object
       title: Entity Type
@@ -321,73 +345,34 @@ components:
         systemInstanceAware:
           type: boolean
           default: false
-    CorrelationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
-      maxLength: 255
-      description: Correlation ID for referencing related data
-    CustomPolicyLevel:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
     GroupId:
       type: string
       pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
       description: Valid Group ID
-    Extensible:
-      type: object
-      title: Extensible
-      required:
-      - supported
-      properties:
-        supported:
-          type: string
-          enum:
-          - 'no'
-          - manual
-          - automatic
-        description:
-          type: string
-          minLength: 1
-    PolicyLevelId:
+    SemVer:
       type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    Visibility:
-      type: string
-      enum:
-      - public
-      - internal
-      - private
-  responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
   parameters:
+    LevelFilterParam:
+      name: level
+      in: query
+      description: Filter entity types by level
+      schema:
+        type: string
+        enum:
+        - aggregate
+        - root-entity
+        - sub-entity
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
     VisibilityFilterParam:
       name: visibility
       in: query
@@ -415,26 +400,56 @@ components:
         type: string
         pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
       example: sap.iot:entityType:Device:v1
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    LevelFilterParam:
-      name: level
-      in: query
-      description: Filter entity types by level
-      schema:
-        type: string
-        enum:
-        - aggregate
-        - root-entity
-        - sub-entity
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
   examples:
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
     EntityTypeExample:
       summary: IoT Device Entity Type
       value:
@@ -470,35 +485,18 @@ components:
         totalCount: 2
         limit: 20
         offset: 0
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
   securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            ord:read: Read access to ORD resources
+            ord:write: Write access to ORD resources
+            ord:admin: Administrative access to ORD resources
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT-based authentication
-    apiKey:
-      type: apiKey
-      in: header
-      name: X-API-Key
-      description: API key authentication

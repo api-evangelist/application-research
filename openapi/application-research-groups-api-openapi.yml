@@ -1,29 +1,23 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources Groups API
-  version: 1.0.0
-  description: 'API for managing Cloud Native Application Bundles (CNAB).
-
-
-    This API provides endpoints for managing CNAB bundles, claims, claim results,
-
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+  title: Application Research Open Resource Discovery (ORD) Groups API
+  version: 1.12.0
+  description: "The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers \nfor ORD resources and taxonomy. This API enables discovery and management of API resources, \nevent resources, data products, entity types, capabilities, and integration dependencies.\n\nORD enables machine-readable self-description of systems and their capabilities, supporting\nautomated discovery, integration, and governance of enterprise APIs and services.\n"
   contact:
-    name: CNAB Specification
-    url: https://cnab.io
+    name: ORD Specification Team
+    url: https://open-resource-discovery.org
   license:
-    name: Apache-2.0
+    name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: https://api.example.com/v1
+- url: https://api.example.com/ord/v1
   description: Production server
-- url: https://staging-api.example.com/v1
-  description: Staging server
+- url: https://sandbox.example.com/ord/v1
+  description: Sandbox server
 security:
+- oauth2:
+  - ord:read
 - bearerAuth: []
-- apiKey: []
 tags:
 - name: Groups
   description: Group and Group Type operations
@@ -124,136 +118,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  examples:
-    GroupTypeExample:
-      summary: IoT Capability Area Group Type
-      value:
-        groupTypeId: sap.iot:capability-area
-        title: IoT Capability Area
-        description: Logical grouping of IoT platform capabilities
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    GroupListExample:
-      summary: List of Groups
-      value:
-        items:
-        - groupId: sap.iot:capability-area:sap.iot:Connectivity
-          groupTypeId: sap.iot:capability-area
-          title: Connectivity
-        - groupId: sap.iot:capability-area:sap.iot:Analytics
-          groupTypeId: sap.iot:capability-area
-          title: Analytics
-        totalCount: 2
-        limit: 20
-        offset: 0
-    GroupExample:
-      summary: Connectivity Capability Area Group
-      value:
-        groupId: sap.iot:capability-area:sap.iot:Connectivity
-        groupTypeId: sap.iot:capability-area
-        title: Connectivity
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    GroupTypeListExample:
-      summary: List of Group Types
-      value:
-        items:
-        - groupTypeId: sap.iot:capability-area
-          title: IoT Capability Area
-          description: Logical grouping of IoT platform capabilities
-        - groupTypeId: sap.iot:use-case
-          title: IoT Use Case
-          description: Grouping by supported IoT use case scenarios
-        totalCount: 2
-        limit: 20
-        offset: 0
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-  parameters:
-    GroupIdParam:
-      name: groupId
-      in: path
-      required: true
-      description: Group ID
-      schema:
-        type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      example: sap.iot:capability-area:sap.iot:Connectivity
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    GroupTypeIdParam:
-      name: groupTypeId
-      in: path
-      required: true
-      description: Group Type ID
-      schema:
-        type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      example: sap.iot:capability-area
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    GroupTypeFilterParam:
-      name: groupTypeId
-      in: query
-      description: Filter groups by group type ID
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
   schemas:
     GroupType:
       type: object
@@ -323,10 +187,6 @@ components:
           type: integer
         offset:
           type: integer
-    GroupId:
-      type: string
-      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      description: Valid Group ID
     Group:
       type: object
       title: Group
@@ -348,14 +208,152 @@ components:
         description:
           type: string
           minLength: 1
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
+  examples:
+    GroupExample:
+      summary: Connectivity Capability Area Group
+      value:
+        groupId: sap.iot:capability-area:sap.iot:Connectivity
+        groupTypeId: sap.iot:capability-area
+        title: Connectivity
+    GroupTypeExample:
+      summary: IoT Capability Area Group Type
+      value:
+        groupTypeId: sap.iot:capability-area
+        title: IoT Capability Area
+        description: Logical grouping of IoT platform capabilities
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    GroupListExample:
+      summary: List of Groups
+      value:
+        items:
+        - groupId: sap.iot:capability-area:sap.iot:Connectivity
+          groupTypeId: sap.iot:capability-area
+          title: Connectivity
+        - groupId: sap.iot:capability-area:sap.iot:Analytics
+          groupTypeId: sap.iot:capability-area
+          title: Analytics
+        totalCount: 2
+        limit: 20
+        offset: 0
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    GroupTypeListExample:
+      summary: List of Group Types
+      value:
+        items:
+        - groupTypeId: sap.iot:capability-area
+          title: IoT Capability Area
+          description: Logical grouping of IoT platform capabilities
+        - groupTypeId: sap.iot:use-case
+          title: IoT Use Case
+          description: Grouping by supported IoT use case scenarios
+        totalCount: 2
+        limit: 20
+        offset: 0
+  parameters:
+    GroupTypeFilterParam:
+      name: groupTypeId
+      in: query
+      description: Filter groups by group type ID
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    GroupIdParam:
+      name: groupId
+      in: path
+      required: true
+      description: Group ID
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      example: sap.iot:capability-area:sap.iot:Connectivity
+    GroupTypeIdParam:
+      name: groupTypeId
+      in: path
+      required: true
+      description: Group Type ID
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      example: sap.iot:capability-area
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
   securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            ord:read: Read access to ORD resources
+            ord:write: Write access to ORD resources
+            ord:admin: Administrative access to ORD resources
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT-based authentication
-    apiKey:
-      type: apiKey
-      in: header
-      name: X-API-Key
-      description: API key authentication

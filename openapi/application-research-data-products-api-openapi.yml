@@ -1,29 +1,23 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources Data Products API
-  version: 1.0.0
-  description: 'API for managing Cloud Native Application Bundles (CNAB).
-
-
-    This API provides endpoints for managing CNAB bundles, claims, claim results,
-
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+  title: Application Research Open Resource Discovery (ORD) Data Products API
+  version: 1.12.0
+  description: "The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers \nfor ORD resources and taxonomy. This API enables discovery and management of API resources, \nevent resources, data products, entity types, capabilities, and integration dependencies.\n\nORD enables machine-readable self-description of systems and their capabilities, supporting\nautomated discovery, integration, and governance of enterprise APIs and services.\n"
   contact:
-    name: CNAB Specification
-    url: https://cnab.io
+    name: ORD Specification Team
+    url: https://open-resource-discovery.org
   license:
-    name: Apache-2.0
+    name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: https://api.example.com/v1
+- url: https://api.example.com/ord/v1
   description: Production server
-- url: https://staging-api.example.com/v1
-  description: Staging server
+- url: https://sandbox.example.com/ord/v1
+  description: Sandbox server
 security:
+- oauth2:
+  - ord:read
 - bearerAuth: []
-- apiKey: []
 tags:
 - name: Data Products
   description: Data Product operations
@@ -79,32 +73,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    SpecificationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
-    DataProductList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataProduct'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
-    Industry:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
     ReleaseStatus:
       type: string
       enum:
@@ -112,22 +80,16 @@ components:
       - active
       - deprecated
       - sunset
-    DocumentationLabels:
-      type: object
-      title: Documentation Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
     ChangelogEntry:
       type: object
       title: Changelog Entry
@@ -150,6 +112,37 @@ components:
         url:
           type: string
           format: uri
+    Visibility:
+      type: string
+      enum:
+      - public
+      - internal
+      - private
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
     DataProductInputPort:
       type: object
       title: Data Product Input Port
@@ -160,20 +153,82 @@ components:
           type: string
           pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
           maxLength: 255
+    DataProductList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataProduct'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    DataProductOutputPort:
+      type: object
+      title: Data Product Output Port
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource|eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
     LineOfBusiness:
       type: string
       pattern: ^[a-zA-Z0-9-_.\/& ]*$
       minLength: 1
-    PolicyLevel:
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Industry:
       type: string
-      description: Policy level for compliance
-      oneOf:
-      - type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      - type: string
-        enum:
-        - none
-        - custom
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
     DataProduct:
       type: object
       title: Data Product
@@ -336,59 +391,14 @@ components:
         systemInstanceAware:
           type: boolean
           default: false
-    Error:
+    Labels:
       type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: object
-            properties:
-              field:
-                type: string
-              message:
-                type: string
-        requestId:
-          type: string
-          description: Request ID for troubleshooting
-    Link:
-      type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
           type: string
           minLength: 1
-        url:
-          type: string
-          format: uri
-        description:
-          type: string
-          minLength: 1
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
-    CorrelationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
-      maxLength: 255
-      description: Correlation ID for referencing related data
-    CustomPolicyLevel:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
     DataProductLink:
       type: object
       title: Data Product Link
@@ -413,72 +423,10 @@ components:
       type: string
       pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
       description: Valid Group ID
-    DataProductOutputPort:
-      type: object
-      title: Data Product Output Port
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource|eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-    PolicyLevelId:
+    SemVer:
       type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    Visibility:
-      type: string
-      enum:
-      - public
-      - internal
-      - private
-  parameters:
-    DataProductTypeFilterParam:
-      name: type
-      in: query
-      description: Filter data products by type
-      schema:
-        type: string
-        enum:
-        - primary
-        - derived
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    DataProductCategoryFilterParam:
-      name: category
-      in: query
-      description: Filter data products by category
-      schema:
-        type: string
-        enum:
-        - business-object
-        - analytical
-        - other
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    DataProductOrdIdParam:
-      name: ordId
-      in: path
-      required: true
-      description: ORD ID of the Data Product
-      schema:
-        type: string
-        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(dataProduct):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      example: sap.iot:dataProduct:AssetPerformance:v1
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
   examples:
     DataProductExample:
       summary: Asset Performance Analytics Data Product
@@ -511,11 +459,26 @@ components:
         industry:
         - Automotive
         - Industrial Machinery and Components
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
     NotFoundErrorExample:
       summary: Not Found Error
       value:
         code: NOT_FOUND
         message: The requested resource was not found
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
         requestId: req-12345-abcde
     DataProductListExample:
       summary: List of Data Products
@@ -538,31 +501,53 @@ components:
         totalCount: 2
         limit: 20
         offset: 0
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    DataProductTypeFilterParam:
+      name: type
+      in: query
+      description: Filter data products by type
+      schema:
+        type: string
+        enum:
+        - primary
+        - derived
+    DataProductOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Data Product
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(dataProduct):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:dataProduct:AssetPerformance:v1
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    DataProductCategoryFilterParam:
+      name: category
+      in: query
+      description: Filter data products by category
+      schema:
+        type: string
+        enum:
+        - business-object
+        - analytical
+        - other
   responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
     NotFound:
       description: Resource not found
       content:
@@ -572,6 +557,15 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
     InternalServerError:
       description: Internal server error
       content:
@@ -582,13 +576,17 @@ components:
             serverError:
               $ref: '#/components/examples/InternalServerErrorExample'
   securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            ord:read: Read access to ORD resources
+            ord:write: Write access to ORD resources
+            ord:admin: Administrative access to ORD resources
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT-based authentication
-    apiKey:
-      type: apiKey
-      in: header
-      name: X-API-Key
-      description: API key authentication

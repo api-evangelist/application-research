@@ -1,25 +1,25 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources API
+  title: Application Research Open Component Model Resources API
   version: 1.0.0
-  description: 'API for managing Cloud Native Application Bundles (CNAB).
+  description: 'API for managing Open Component Model (OCM) component descriptors and configurations.
 
 
-    This API provides endpoints for managing CNAB bundles, claims, claim results,
+    The Open Component Model provides a standard for describing software components,
 
-    dependencies, parameter sources, relocation mappings, and installation status.
+    their resources, sources, and dependencies in a technology-agnostic way.
 
     '
   contact:
-    name: CNAB Specification
-    url: https://cnab.io
+    name: OCM Project
+    url: https://ocm.software
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: https://api.example.com/v1
+- url: https://api.ocm.example.com/v1
   description: Production server
-- url: https://staging-api.example.com/v1
+- url: https://staging.ocm.example.com/v1
   description: Staging server
 security:
 - bearerAuth: []
@@ -127,6 +127,50 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
+    ElementName:
+      type: string
+      description: Element name for resources and sources
+      minLength: 2
+      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
+      examples:
+      - frontend-image
+      - backend-image
+      - helm-chart
+    Label:
+      type: object
+      description: A label with name-value pair
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Label name
+        value: {}
+        version:
+          type: string
+          pattern: ^v[0-9]+$
+        signing:
+          type: boolean
+          description: Whether this label should be included in signing
+        merge:
+          $ref: '#/components/schemas/Merge'
+    Version:
+      type: string
+      description: Semantic version string
+      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      examples:
+      - 1.0.0
+      - 2.5.1
+      - v1.0.0-beta.1
+    Input:
+      type: object
+      description: Input specification for local resources
+      required:
+      - type
+      properties:
+        type:
+          type: string
     Resource:
       type: object
       description: Component resource
@@ -168,66 +212,10 @@ components:
           oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/DigestSpec'
-    ComponentName:
-      type: string
-      description: Fully qualified component name
-      maxLength: 255
-      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-      examples:
-      - github.com/acme.org/web-application
-      - github.com/ailab.org/model-training-pipeline
-    Labels:
-      type: array
-      items:
-        $ref: '#/components/schemas/Label'
     ResourceListResponse:
       type: array
       items:
         $ref: '#/components/schemas/Resource'
-    Access:
-      type: object
-      description: Access specification for resources and sources
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Access type identifier
-      discriminator:
-        propertyName: type
-        mapping:
-          localBlob: '#/components/schemas/LocalBlobAccess'
-          ociArtifact: '#/components/schemas/OciArtifactAccess'
-          ociBlob: '#/components/schemas/OciBlobAccess'
-          helm: '#/components/schemas/HelmAccess'
-          gitHub: '#/components/schemas/GitHubAccess'
-          github: '#/components/schemas/GitHubAccess'
-          s3: '#/components/schemas/S3Access'
-          npm: '#/components/schemas/NpmAccess'
-          wget: '#/components/schemas/WgetAccess'
-          http: '#/components/schemas/HttpAccess'
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
-    SrcRef:
-      type: object
-      description: Reference to a component-local source
-      properties:
-        identitySelector:
-          $ref: '#/components/schemas/IdentityAttribute'
-        labels:
-          $ref: '#/components/schemas/Labels'
     DigestSpec:
       type: object
       description: Cryptographic digest specification
@@ -251,55 +239,36 @@ components:
         value:
           type: string
           description: The digest value
-    Input:
+    SrcRef:
       type: object
-      description: Input specification for local resources
-      required:
-      - type
+      description: Reference to a component-local source
       properties:
-        type:
-          type: string
-    Version:
+        identitySelector:
+          $ref: '#/components/schemas/IdentityAttribute'
+        labels:
+          $ref: '#/components/schemas/Labels'
+    ComponentName:
       type: string
-      description: Semantic version string
-      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Fully qualified component name
+      maxLength: 255
+      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
       examples:
-      - 1.0.0
-      - 2.5.1
-      - v1.0.0-beta.1
-    ElementName:
-      type: string
-      description: Element name for resources and sources
-      minLength: 2
-      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
-      examples:
-      - frontend-image
-      - backend-image
-      - helm-chart
-    Label:
+      - github.com/acme.org/web-application
+      - github.com/ailab.org/model-training-pipeline
+    Error:
       type: object
-      description: A label with name-value pair
+      description: Error response
       required:
-      - name
-      - value
+      - code
+      - message
       properties:
-        name:
+        code:
           type: string
-          description: Label name
-        value: {}
-        version:
+        message:
           type: string
-          pattern: ^v[0-9]+$
-        signing:
-          type: boolean
-          description: Whether this label should be included in signing
-        merge:
-          $ref: '#/components/schemas/Merge'
-    IdentityAttribute:
-      type: object
-      description: Identity attributes for element identification
-      additionalProperties:
-        type: string
+        details:
+          type: object
+          additionalProperties: true
     Merge:
       type: object
       properties:
@@ -307,7 +276,134 @@ components:
           type: string
           pattern: ^[a-z][a-z0-9/_-]+$
         config: {}
+    Access:
+      type: object
+      description: Access specification for resources and sources
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Access type identifier
+      discriminator:
+        propertyName: type
+        mapping:
+          localBlob: '#/components/schemas/LocalBlobAccess'
+          ociArtifact: '#/components/schemas/OciArtifactAccess'
+          ociBlob: '#/components/schemas/OciBlobAccess'
+          helm: '#/components/schemas/HelmAccess'
+          gitHub: '#/components/schemas/GitHubAccess'
+          github: '#/components/schemas/GitHubAccess'
+          s3: '#/components/schemas/S3Access'
+          npm: '#/components/schemas/NpmAccess'
+          wget: '#/components/schemas/WgetAccess'
+          http: '#/components/schemas/HttpAccess'
+    Labels:
+      type: array
+      items:
+        $ref: '#/components/schemas/Label'
+    IdentityAttribute:
+      type: object
+      description: Identity attributes for element identification
+      additionalProperties:
+        type: string
+  parameters:
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Component version (semver)
+      schema:
+        $ref: '#/components/schemas/Version'
+    ComponentNameParam:
+      name: name
+      in: path
+      required: true
+      description: Component name (e.g., github.com/acme.org/web-application)
+      schema:
+        $ref: '#/components/schemas/ComponentName'
+    ResourceNameParam:
+      name: resourceName
+      in: path
+      required: true
+      description: Resource element name
+      schema:
+        $ref: '#/components/schemas/ElementName'
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
   examples:
+    ErrorBadRequest:
+      summary: Bad Request Error
+      description: Example bad request error
+      value:
+        code: BAD_REQUEST
+        message: Invalid component name format
+        details:
+          field: component.name
+          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+    HelmChartResource:
+      summary: Helm Chart Resource
+      description: Example Helm chart resource
+      value:
+        name: helm-chart
+        type: helmChart
+        relation: local
+        access:
+          type: localBlob
+          localReference: sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291
+          mediaType: application/x-tar+gzip
+          referenceName: web-app-chart
+    ErrorInternal:
+      summary: Internal Error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-xyz789
+    OciImageResource:
+      summary: OCI Image Resource
+      description: Example OCI image resource
+      value:
+        name: frontend-image
+        type: ociImage
+        version: 2.5.1
+        relation: local
+        access:
+          type: ociArtifact
+          imageReference: ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
+        labels:
+        - name: component
+          value: frontend
+        digest:
+          hashAlgorithm: SHA-256
+          normalisationAlgorithm: ociArtifactDigest/v1
+          value: 4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
     ErrorNotFound:
       summary: Not Found Error
       description: Example not found error
@@ -339,102 +435,6 @@ components:
         access:
           type: ociArtifact
           imageReference: nginx:1.25.4
-    ErrorBadRequest:
-      summary: Bad Request Error
-      description: Example bad request error
-      value:
-        code: BAD_REQUEST
-        message: Invalid component name format
-        details:
-          field: component.name
-          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-    OciImageResource:
-      summary: OCI Image Resource
-      description: Example OCI image resource
-      value:
-        name: frontend-image
-        type: ociImage
-        version: 2.5.1
-        relation: local
-        access:
-          type: ociArtifact
-          imageReference: ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
-        labels:
-        - name: component
-          value: frontend
-        digest:
-          hashAlgorithm: SHA-256
-          normalisationAlgorithm: ociArtifactDigest/v1
-          value: 4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
-    HelmChartResource:
-      summary: Helm Chart Resource
-      description: Example Helm chart resource
-      value:
-        name: helm-chart
-        type: helmChart
-        relation: local
-        access:
-          type: localBlob
-          localReference: sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291
-          mediaType: application/x-tar+gzip
-          referenceName: web-app-chart
-    ErrorInternal:
-      summary: Internal Error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-xyz789
-  responses:
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
-  parameters:
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Component version (semver)
-      schema:
-        $ref: '#/components/schemas/Version'
-    ComponentNameParam:
-      name: name
-      in: path
-      required: true
-      description: Component name (e.g., github.com/acme.org/web-application)
-      schema:
-        $ref: '#/components/schemas/ComponentName'
-    ResourceNameParam:
-      name: resourceName
-      in: path
-      required: true
-      description: Resource element name
-      schema:
-        $ref: '#/components/schemas/ElementName'
   securitySchemes:
     bearerAuth:
       type: http
@@ -446,3 +446,7 @@ components:
       in: header
       name: X-API-Key
       description: API key authentication
+    oidc:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.ocm.example.com/.well-known/openid-configuration
+      description: OpenID Connect authentication

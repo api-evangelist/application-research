@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources Bundles API
+  title: Application Research CNAB Bundle Bundles API
   version: 1.0.0
   description: 'API for managing Cloud Native Application Bundles (CNAB).
 
@@ -198,134 +198,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
-    BundleOutput:
-      type: object
-      description: A value produced by running an invocation image
-      required:
-      - definition
-      - path
-      properties:
-        definition:
-          type: string
-          description: The name of a definition describing the schema
-        description:
-          type: string
-          description: A user-friendly description of this output
-        path:
-          type: string
-          description: The path inside the invocation image where output is written
-          pattern: ^/cnab/app/outputs/.+$
-        applyTo:
-          type: array
-          description: An optional list of actions producing this output
-          items:
-            type: string
-    Claim:
-      type: object
-      description: CNAB Claim representing an installation action
-      required:
-      - id
-      - installation
-      - action
-      - bundle
-      - revision
-      - created
-      properties:
-        id:
-          type: string
-          description: The claim ID (ULID)
-        installation:
-          type: string
-          description: The name of the installation
-        action:
-          type: string
-          description: The name of the action (install, uninstall, upgrade, or custom)
-        bundle:
-          $ref: '#/components/schemas/Bundle'
-        bundleReference:
-          type: string
-          description: A canonical reference to the bundle used
-        revision:
-          type: string
-          description: The revision ID (ULID)
-        created:
-          type: string
-          format: date-time
-          description: The date created (ISO-8601)
-        parameters:
-          type: object
-          description: Key/value pairs of parameter name to value
-          additionalProperties: true
-        custom:
-          type: object
-          description: Reserved for custom extensions
-          additionalProperties: true
-    Credential:
-      type: object
-      description: Defines a credential and where it should be placed
-      properties:
-        description:
-          type: string
-          description: A user-friendly description of this credential
-        env:
-          type: string
-          description: The environment variable name for this credential
-        path:
-          type: string
-          description: The path inside the invocation image for mounting credentials
-        required:
-          type: boolean
-          description: Indicates whether this credential must be supplied
-          default: false
-        applyTo:
-          type: array
-          description: An optional list of actions handling this credential
-          items:
-            type: string
-    InvocationImage:
-      type: object
-      description: A bootstrapping image for the CNAB bundle
-      required:
-      - image
-      properties:
-        image:
-          type: string
-          description: A resolvable reference to the image
-        imageType:
-          type: string
-          description: The type of image
-          default: oci
-        contentDigest:
-          type: string
-          description: A cryptographic hash digest of the image contents
-        size:
-          type: integer
-          description: The image size in bytes
-        mediaType:
-          type: string
-          description: The media type of the image
-        labels:
-          type: object
-          description: Key/value pairs for identifying attributes
-          additionalProperties:
-            type: string
-    Action:
-      type: object
-      description: A custom action that can be triggered on the bundle
-      properties:
-        title:
-          type: string
-          description: A human-readable name for this action
-        description:
-          type: string
-          description: A description of the purpose of this action
-        modifies:
-          type: boolean
-          description: Whether the action can change any managed resource
-        stateless:
-          type: boolean
-          description: Whether the action is purely informational
-          default: false
     Bundle:
       type: object
       description: Cloud Native Application Bundle Descriptor (CNAB v1)
@@ -419,6 +291,58 @@ components:
           type: object
           description: Reserved for custom extensions
           additionalProperties: true
+    Claim:
+      type: object
+      description: CNAB Claim representing an installation action
+      required:
+      - id
+      - installation
+      - action
+      - bundle
+      - revision
+      - created
+      properties:
+        id:
+          type: string
+          description: The claim ID (ULID)
+        installation:
+          type: string
+          description: The name of the installation
+        action:
+          type: string
+          description: The name of the action (install, uninstall, upgrade, or custom)
+        bundle:
+          $ref: '#/components/schemas/Bundle'
+        bundleReference:
+          type: string
+          description: A canonical reference to the bundle used
+        revision:
+          type: string
+          description: The revision ID (ULID)
+        created:
+          type: string
+          format: date-time
+          description: The date created (ISO-8601)
+        parameters:
+          type: object
+          description: Key/value pairs of parameter name to value
+          additionalProperties: true
+        custom:
+          type: object
+          description: Reserved for custom extensions
+          additionalProperties: true
+    ActionExecutionRequest:
+      type: object
+      properties:
+        parameters:
+          type: object
+          description: Parameter values for the action
+          additionalProperties: true
+        credentials:
+          type: object
+          description: Credential values for the action
+          additionalProperties:
+            type: string
     Maintainer:
       type: object
       description: Information about a bundle maintainer
@@ -436,6 +360,38 @@ components:
           type: string
           format: uri
           description: URL for the maintainer
+    SimpleType:
+      type: string
+      enum:
+      - array
+      - boolean
+      - integer
+      - 'null'
+      - number
+      - object
+      - string
+    Credential:
+      type: object
+      description: Defines a credential and where it should be placed
+      properties:
+        description:
+          type: string
+          description: A user-friendly description of this credential
+        env:
+          type: string
+          description: The environment variable name for this credential
+        path:
+          type: string
+          description: The path inside the invocation image for mounting credentials
+        required:
+          type: boolean
+          description: Indicates whether this credential must be supplied
+          default: false
+        applyTo:
+          type: array
+          description: An optional list of actions handling this credential
+          items:
+            type: string
     Definition:
       type:
       - object
@@ -530,6 +486,60 @@ components:
             items:
               $ref: '#/components/schemas/Definition'
             minItems: 1
+    Action:
+      type: object
+      description: A custom action that can be triggered on the bundle
+      properties:
+        title:
+          type: string
+          description: A human-readable name for this action
+        description:
+          type: string
+          description: A description of the purpose of this action
+        modifies:
+          type: boolean
+          description: Whether the action can change any managed resource
+        stateless:
+          type: boolean
+          description: Whether the action is purely informational
+          default: false
+    InvocationImage:
+      type: object
+      description: A bootstrapping image for the CNAB bundle
+      required:
+      - image
+      properties:
+        image:
+          type: string
+          description: A resolvable reference to the image
+        imageType:
+          type: string
+          description: The type of image
+          default: oci
+        contentDigest:
+          type: string
+          description: A cryptographic hash digest of the image contents
+        size:
+          type: integer
+          description: The image size in bytes
+        mediaType:
+          type: string
+          description: The media type of the image
+        labels:
+          type: object
+          description: Key/value pairs for identifying attributes
+          additionalProperties:
+            type: string
+    ParameterDestination:
+      type: object
+      description: Where the parameter value should be placed
+      properties:
+        env:
+          type: string
+          description: The environment variable name for the parameter value
+        path:
+          type: string
+          description: The path inside the invocation image for the parameter
     Error:
       type: object
       description: Error response
@@ -547,68 +557,6 @@ components:
           type: object
           description: Additional error details
           additionalProperties: true
-    ActionExecutionRequest:
-      type: object
-      properties:
-        parameters:
-          type: object
-          description: Parameter values for the action
-          additionalProperties: true
-        credentials:
-          type: object
-          description: Credential values for the action
-          additionalProperties:
-            type: string
-    BundleListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bundle'
-        total:
-          type: integer
-          description: Total number of bundles
-        limit:
-          type: integer
-          description: Number of items per page
-        offset:
-          type: integer
-          description: Current offset
-    Parameter:
-      type: object
-      description: A parameter that can be passed into the invocation image
-      required:
-      - definition
-      - destination
-      properties:
-        definition:
-          type: string
-          description: The name of a definition describing the schema
-        description:
-          type: string
-          description: A user-friendly description of this parameter
-        destination:
-          $ref: '#/components/schemas/ParameterDestination'
-        required:
-          type: boolean
-          description: Indicates whether this parameter must be supplied
-          default: false
-        applyTo:
-          type: array
-          description: An optional list of actions handling this parameter
-          items:
-            type: string
-    SimpleType:
-      type: string
-      enum:
-      - array
-      - boolean
-      - integer
-      - 'null'
-      - number
-      - object
-      - string
     Image:
       type: object
       description: An application image for this CNAB bundle
@@ -639,32 +587,107 @@ components:
           description: Key/value pairs for identifying attributes
           additionalProperties:
             type: string
-    ParameterDestination:
+    Parameter:
       type: object
-      description: Where the parameter value should be placed
+      description: A parameter that can be passed into the invocation image
+      required:
+      - definition
+      - destination
       properties:
-        env:
+        definition:
           type: string
-          description: The environment variable name for the parameter value
+          description: The name of a definition describing the schema
+        description:
+          type: string
+          description: A user-friendly description of this parameter
+        destination:
+          $ref: '#/components/schemas/ParameterDestination'
+        required:
+          type: boolean
+          description: Indicates whether this parameter must be supplied
+          default: false
+        applyTo:
+          type: array
+          description: An optional list of actions handling this parameter
+          items:
+            type: string
+    BundleListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bundle'
+        total:
+          type: integer
+          description: Total number of bundles
+        limit:
+          type: integer
+          description: Number of items per page
+        offset:
+          type: integer
+          description: Current offset
+    BundleOutput:
+      type: object
+      description: A value produced by running an invocation image
+      required:
+      - definition
+      - path
+      properties:
+        definition:
+          type: string
+          description: The name of a definition describing the schema
+        description:
+          type: string
+          description: A user-friendly description of this output
         path:
           type: string
-          description: The path inside the invocation image for the parameter
+          description: The path inside the invocation image where output is written
+          pattern: ^/cnab/app/outputs/.+$
+        applyTo:
+          type: array
+          description: An optional list of actions producing this output
+          items:
+            type: string
+  parameters:
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Specific version to retrieve
+      schema:
+        type: string
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    ActionParam:
+      name: action
+      in: path
+      required: true
+      description: Action to execute (install, upgrade, uninstall, or custom action)
+      schema:
+        type: string
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    BundleNameParam:
+      name: name
+      in: path
+      required: true
+      description: Bundle name
+      schema:
+        type: string
   examples:
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
-    ErrorBadRequest:
-      summary: Bad request error
-      description: Example error for invalid input
-      value:
-        code: BAD_REQUEST
-        message: Invalid bundle schema
-        details:
-          field: version
-          error: Version must follow SemVer2 format
     MLInferenceBundle:
       summary: ML Inference Service Bundle
       description: TensorFlow model deployment with Redis cache and monitoring
@@ -752,126 +775,6 @@ components:
         requiredExtensions:
         - io.cnab.dependencies
         - io.cnab.parameter-sources
-    ActionExecutionRequest:
-      summary: Action execution request
-      description: Example request to execute a bundle action
-      value:
-        parameters:
-          site-name: My New WordPress Site
-          replica-count: 3
-        credentials:
-          db-password: secure-password-here
-    ErrorConflict:
-      summary: Conflict error
-      description: Example error when resource already exists
-      value:
-        code: CONFLICT
-        message: Bundle 'my-wordpress-bundle' version '1.2.3' already exists
-    ErrorInternal:
-      summary: Internal error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-123456
-    WordPressBundle:
-      summary: WordPress Bundle Example
-      description: A complete WordPress installation with MySQL database
-      value:
-        schemaVersion: v1
-        name: my-wordpress-bundle
-        version: 1.2.3
-        description: A complete WordPress installation with MySQL database
-        keywords:
-        - wordpress
-        - blog
-        - cms
-        - mysql
-        maintainers:
-        - name: Jane Developer
-          email: jane@example.com
-          url: https://example.com/maintainers/jane
-        license: Apache-2.0
-        invocationImages:
-        - imageType: oci
-          image: example.com/my-wordpress-bundle:1.2.3
-          contentDigest: sha256:abc123def456...
-          size: 52428800
-          mediaType: application/vnd.oci.image.manifest.v1+json
-          labels:
-            org.opencontainers.image.title: WordPress Bundle Installer
-        images:
-          wordpress:
-            imageType: oci
-            image: wordpress:6.0
-            description: WordPress application image
-            contentDigest: sha256:wordpress123...
-          mysql:
-            imageType: oci
-            image: mysql:8.0
-            description: MySQL database image
-            contentDigest: sha256:mysql456...
-        credentials:
-          db-password:
-            description: Password for the MySQL database
-            env: MYSQL_PASSWORD
-            required: true
-          admin-key:
-            description: Admin API key for WordPress
-            path: /cnab/app/credentials/admin-key
-            required: false
-            applyTo:
-            - install
-            - upgrade
-        parameters:
-          site-name:
-            definition: site-name-def
-            description: The name of your WordPress site
-            destination:
-              env: WORDPRESS_SITE_NAME
-            required: true
-          replica-count:
-            definition: replica-count-def
-            description: Number of WordPress replicas to deploy
-            destination:
-              env: REPLICA_COUNT
-            applyTo:
-            - install
-            - upgrade
-        definitions:
-          site-name-def:
-            type: string
-            minLength: 1
-            maxLength: 100
-            default: My WordPress Site
-          replica-count-def:
-            type: integer
-            minimum: 1
-            maximum: 10
-            default: 2
-          db-connection-def:
-            type: string
-            description: Database connection string
-        outputs:
-          db-connection-string:
-            definition: db-connection-def
-            description: MySQL connection string for the application
-            path: /cnab/app/outputs/db-connection
-            applyTo:
-            - install
-        actions:
-          io.example.backup:
-            description: Creates a backup of the WordPress database and files
-            modifies: false
-            stateless: false
-          io.example.restore:
-            description: Restores WordPress from a backup
-            modifies: true
-        custom:
-          io.example.metadata:
-            category: cms
-            tier: standard
     ClaimInstall:
       summary: Install claim example
       description: Example claim for an install action
@@ -892,34 +795,12 @@ components:
         parameters:
           site-name: My Production Blog
           replica-count: 3
-    BundleListResponse:
-      summary: Bundle list response
-      description: Example response for listing bundles
+    ErrorConflict:
+      summary: Conflict error
+      description: Example error when resource already exists
       value:
-        items:
-        - schemaVersion: v1
-          name: my-wordpress-bundle
-          version: 1.2.3
-          description: A complete WordPress installation with MySQL database
-          keywords:
-          - wordpress
-          - blog
-          invocationImages:
-          - image: example.com/my-wordpress-bundle:1.2.3
-            imageType: oci
-        - schemaVersion: v1
-          name: cassandra-cluster
-          version: 3.11.0
-          description: High-availability Cassandra cluster
-          keywords:
-          - database
-          - cassandra
-          invocationImages:
-          - image: enterprise.io/bundles/cassandra-operator:3.11.0
-            imageType: oci
-        total: 2
-        limit: 20
-        offset: 0
+        code: CONFLICT
+        message: Bundle 'my-wordpress-bundle' version '1.2.3' already exists
     CassandraBundle:
       summary: Cassandra Cluster Bundle
       description: High-availability Cassandra cluster with backup and monitoring
@@ -1036,72 +917,164 @@ components:
           io.enterprise.sla:
             availability-target: 99.99%
             support-tier: enterprise
-  parameters:
-    ActionParam:
-      name: action
-      in: path
-      required: true
-      description: Action to execute (install, upgrade, uninstall, or custom action)
-      schema:
-        type: string
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Specific version to retrieve
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    BundleNameParam:
-      name: name
-      in: path
-      required: true
-      description: Bundle name
-      schema:
-        type: string
+    ErrorBadRequest:
+      summary: Bad request error
+      description: Example error for invalid input
+      value:
+        code: BAD_REQUEST
+        message: Invalid bundle schema
+        details:
+          field: version
+          error: Version must follow SemVer2 format
+    ActionExecutionRequest:
+      summary: Action execution request
+      description: Example request to execute a bundle action
+      value:
+        parameters:
+          site-name: My New WordPress Site
+          replica-count: 3
+        credentials:
+          db-password: secure-password-here
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    WordPressBundle:
+      summary: WordPress Bundle Example
+      description: A complete WordPress installation with MySQL database
+      value:
+        schemaVersion: v1
+        name: my-wordpress-bundle
+        version: 1.2.3
+        description: A complete WordPress installation with MySQL database
+        keywords:
+        - wordpress
+        - blog
+        - cms
+        - mysql
+        maintainers:
+        - name: Jane Developer
+          email: jane@example.com
+          url: https://example.com/maintainers/jane
+        license: Apache-2.0
+        invocationImages:
+        - imageType: oci
+          image: example.com/my-wordpress-bundle:1.2.3
+          contentDigest: sha256:abc123def456...
+          size: 52428800
+          mediaType: application/vnd.oci.image.manifest.v1+json
+          labels:
+            org.opencontainers.image.title: WordPress Bundle Installer
+        images:
+          wordpress:
+            imageType: oci
+            image: wordpress:6.0
+            description: WordPress application image
+            contentDigest: sha256:wordpress123...
+          mysql:
+            imageType: oci
+            image: mysql:8.0
+            description: MySQL database image
+            contentDigest: sha256:mysql456...
+        credentials:
+          db-password:
+            description: Password for the MySQL database
+            env: MYSQL_PASSWORD
+            required: true
+          admin-key:
+            description: Admin API key for WordPress
+            path: /cnab/app/credentials/admin-key
+            required: false
+            applyTo:
+            - install
+            - upgrade
+        parameters:
+          site-name:
+            definition: site-name-def
+            description: The name of your WordPress site
+            destination:
+              env: WORDPRESS_SITE_NAME
+            required: true
+          replica-count:
+            definition: replica-count-def
+            description: Number of WordPress replicas to deploy
+            destination:
+              env: REPLICA_COUNT
+            applyTo:
+            - install
+            - upgrade
+        definitions:
+          site-name-def:
+            type: string
+            minLength: 1
+            maxLength: 100
+            default: My WordPress Site
+          replica-count-def:
+            type: integer
+            minimum: 1
+            maximum: 10
+            default: 2
+          db-connection-def:
+            type: string
+            description: Database connection string
+        outputs:
+          db-connection-string:
+            definition: db-connection-def
+            description: MySQL connection string for the application
+            path: /cnab/app/outputs/db-connection
+            applyTo:
+            - install
+        actions:
+          io.example.backup:
+            description: Creates a backup of the WordPress database and files
+            modifies: false
+            stateless: false
+          io.example.restore:
+            description: Restores WordPress from a backup
+            modifies: true
+        custom:
+          io.example.metadata:
+            category: cms
+            tier: standard
+    BundleListResponse:
+      summary: Bundle list response
+      description: Example response for listing bundles
+      value:
+        items:
+        - schemaVersion: v1
+          name: my-wordpress-bundle
+          version: 1.2.3
+          description: A complete WordPress installation with MySQL database
+          keywords:
+          - wordpress
+          - blog
+          invocationImages:
+          - image: example.com/my-wordpress-bundle:1.2.3
+            imageType: oci
+        - schemaVersion: v1
+          name: cassandra-cluster
+          version: 3.11.0
+          description: High-availability Cassandra cluster
+          keywords:
+          - database
+          - cassandra
+          invocationImages:
+          - image: enterprise.io/bundles/cassandra-operator:3.11.0
+            imageType: oci
+        total: 2
+        limit: 20
+        offset: 0
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
   responses:
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            invalidSchema:
-              $ref: '#/components/examples/ErrorBadRequest'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    Conflict:
-      description: Resource already exists
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            conflict:
-              $ref: '#/components/examples/ErrorConflict'
     InternalError:
       description: Internal server error
       content:
@@ -1111,6 +1084,33 @@ components:
           examples:
             internalError:
               $ref: '#/components/examples/ErrorInternal'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            invalidSchema:
+              $ref: '#/components/examples/ErrorBadRequest'
+    Conflict:
+      description: Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            conflict:
+              $ref: '#/components/examples/ErrorConflict'
   securitySchemes:
     bearerAuth:
       type: http

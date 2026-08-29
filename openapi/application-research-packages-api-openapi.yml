@@ -1,29 +1,23 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources Packages API
-  version: 1.0.0
-  description: 'API for managing Cloud Native Application Bundles (CNAB).
-
-
-    This API provides endpoints for managing CNAB bundles, claims, claim results,
-
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+  title: Application Research Open Resource Discovery (ORD) Packages API
+  version: 1.12.0
+  description: "The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers \nfor ORD resources and taxonomy. This API enables discovery and management of API resources, \nevent resources, data products, entity types, capabilities, and integration dependencies.\n\nORD enables machine-readable self-description of systems and their capabilities, supporting\nautomated discovery, integration, and governance of enterprise APIs and services.\n"
   contact:
-    name: CNAB Specification
-    url: https://cnab.io
+    name: ORD Specification Team
+    url: https://open-resource-discovery.org
   license:
-    name: Apache-2.0
+    name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: https://api.example.com/v1
+- url: https://api.example.com/ord/v1
   description: Production server
-- url: https://staging-api.example.com/v1
-  description: Staging server
+- url: https://sandbox.example.com/ord/v1
+  description: Sandbox server
 security:
+- oauth2:
+  - ord:read
 - bearerAuth: []
-- apiKey: []
 tags:
 - name: Packages
   description: Package management operations
@@ -77,20 +71,126 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  examples:
+    PackageListExample:
+      summary: List of Packages
+      value:
+        items:
+        - ordId: sap.iot:package:DeviceManagement:v1
+          title: Device Management Package
+          shortDescription: APIs for IoT device lifecycle management
+          version: 1.8.0
+          vendor: 'sap:vendor:SAP:'
+        - ordId: sap.iot:package:TimeSeries:v2
+          title: Time Series Data Package
+          shortDescription: APIs for sensor time series data
+          version: 2.0.0
+          vendor: 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
+    PackageExample:
+      summary: Device Management Package
+      value:
+        ordId: sap.iot:package:DeviceManagement:v1
+        title: Device Management Package
+        shortDescription: APIs for IoT device lifecycle management
+        description: Complete set of APIs and events for managing IoT devices, including registration, configuration, firmware updates, and health monitoring.
+        version: 1.8.0
+        vendor: 'sap:vendor:SAP:'
+        partOfProducts:
+        - 'sap:product:IoTPlatform:'
+        packageLinks:
+        - type: client-registration
+          url: https://iot.sap.com/developer/register
+        lineOfBusiness:
+        - Manufacturing
+        - Asset Management
+        industry:
+        - Automotive
+        - Industrial Machinery and Components
+        tags:
+        - iot
+        - devices
+        - edge
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
   schemas:
+    PackageList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
     SpecificationId:
       type: string
       pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
       maxLength: 255
       description: Valid Specification ID
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
     Tag:
       type: string
       pattern: ^[a-zA-Z0-9-_.\/ ]*$
       minLength: 1
-    Industry:
+    PolicyLevelId:
       type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
     PackageLink:
       type: object
       title: Package Link
@@ -122,41 +222,10 @@ components:
         items:
           type: string
           minLength: 1
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
     LineOfBusiness:
       type: string
       pattern: ^[a-zA-Z0-9-_.\/& ]*$
       minLength: 1
-    PolicyLevel:
-      type: string
-      description: Policy level for compliance
-      oneOf:
-      - type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      - type: string
-        enum:
-        - none
-        - custom
-    PackageList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Package'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
     Error:
       type: object
       required:
@@ -181,30 +250,10 @@ components:
         requestId:
           type: string
           description: Request ID for troubleshooting
-    Link:
-      type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
-        description:
-          type: string
-          minLength: 1
-    SemVer:
+    Industry:
       type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
-    CustomPolicyLevel:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
     Package:
       type: object
       title: Package
@@ -304,110 +353,26 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
-    PolicyLevelId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-  examples:
-    PackageExample:
-      summary: Device Management Package
-      value:
-        ordId: sap.iot:package:DeviceManagement:v1
-        title: Device Management Package
-        shortDescription: APIs for IoT device lifecycle management
-        description: Complete set of APIs and events for managing IoT devices, including registration, configuration, firmware updates, and health monitoring.
-        version: 1.8.0
-        vendor: 'sap:vendor:SAP:'
-        partOfProducts:
-        - 'sap:product:IoTPlatform:'
-        packageLinks:
-        - type: client-registration
-          url: https://iot.sap.com/developer/register
-        lineOfBusiness:
-        - Manufacturing
-        - Asset Management
-        industry:
-        - Automotive
-        - Industrial Machinery and Components
-        tags:
-        - iot
-        - devices
-        - edge
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    PackageListExample:
-      summary: List of Packages
-      value:
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
         items:
-        - ordId: sap.iot:package:DeviceManagement:v1
-          title: Device Management Package
-          shortDescription: APIs for IoT device lifecycle management
-          version: 1.8.0
-          vendor: 'sap:vendor:SAP:'
-        - ordId: sap.iot:package:TimeSeries:v2
-          title: Time Series Data Package
-          shortDescription: APIs for sensor time series data
-          version: 2.0.0
-          vendor: 'sap:vendor:SAP:'
-        totalCount: 2
-        limit: 20
-        offset: 0
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-  responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
+          type: string
+          minLength: 1
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
   parameters:
-    OffsetParam:
-      name: offset
+    VendorFilterParam:
+      name: vendor
       in: query
-      description: Number of items to skip
+      description: Filter by vendor ORD ID
       schema:
-        type: integer
-        minimum: 0
-        default: 0
+        type: string
+      example: 'sap:vendor:SAP:'
     LimitParam:
       name: limit
       in: query
@@ -426,21 +391,54 @@ components:
         type: string
         pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
       example: sap.iot:package:DeviceManagement:v1
-    VendorFilterParam:
-      name: vendor
+    OffsetParam:
+      name: offset
       in: query
-      description: Filter by vendor ORD ID
+      description: Number of items to skip
       schema:
-        type: string
-      example: 'sap:vendor:SAP:'
+        type: integer
+        minimum: 0
+        default: 0
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
   securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            ord:read: Read access to ORD resources
+            ord:write: Write access to ORD resources
+            ord:admin: Administrative access to ORD resources
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT-based authentication
-    apiKey:
-      type: apiKey
-      in: header
-      name: X-API-Key
-      description: API key authentication

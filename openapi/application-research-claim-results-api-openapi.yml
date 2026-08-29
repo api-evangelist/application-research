@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources Claim Results API
+  title: Application Research CNAB Bundle Claim Results API
   version: 1.0.0
   description: 'API for managing Cloud Native Application Bundles (CNAB).
 
@@ -75,6 +75,57 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 components:
+  examples:
+    ClaimResultSuccess:
+      summary: Successful claim result
+      description: Example of a successful operation result
+      value:
+        id: 01HQABC123456789ABCDEFGH
+        claimId: 01HQXYZ123456789ABCDEFGH
+        status: succeeded
+        message: Installation completed successfully
+        created: '2024-01-15T10:35:00Z'
+        outputs:
+          db-connection-string:
+            contentDigest: sha256:conn123...
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+    ClaimResultListResponse:
+      summary: Claim result list response
+      description: Example response for listing claim results
+      value:
+      - id: 01HQABC123456789ABCDEFGH
+        claimId: 01HQXYZ123456789ABCDEFGH
+        status: succeeded
+        message: Installation completed successfully
+        created: '2024-01-15T10:35:00Z'
+      - id: 01HQABC223456789ABCDEFGH
+        claimId: 01HQXYZ123456789ABCDEFGH
+        status: running
+        message: Upgrading database schema...
+        created: '2024-01-16T09:00:00Z'
+    ClaimResultFailed:
+      summary: Failed claim result
+      description: Example of a failed operation result
+      value:
+        id: 01HQABC223456789ABCDEFGH
+        claimId: 01HQXYZ223456789ABCDEFGH
+        status: failed
+        message: 'Error: Unable to connect to database server'
+        created: '2024-02-20T14:50:00Z'
+        outputs: {}
   responses:
     InternalError:
       description: Internal server error
@@ -128,6 +179,20 @@ components:
           type: object
           description: Reserved for custom extensions
           additionalProperties: true
+    ClaimResultListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ClaimResult'
+    ClaimResultStatus:
+      type: string
+      description: The status of the operation
+      enum:
+      - canceled
+      - failed
+      - succeeded
+      - pending
+      - running
+      - unknown
     ClaimResultOutput:
       type: object
       description: An output value from a claim result
@@ -153,71 +218,6 @@ components:
           type: object
           description: Additional error details
           additionalProperties: true
-    ClaimResultStatus:
-      type: string
-      description: The status of the operation
-      enum:
-      - canceled
-      - failed
-      - succeeded
-      - pending
-      - running
-      - unknown
-    ClaimResultListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/ClaimResult'
-  examples:
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
-    ErrorInternal:
-      summary: Internal error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-123456
-    ClaimResultFailed:
-      summary: Failed claim result
-      description: Example of a failed operation result
-      value:
-        id: 01HQABC223456789ABCDEFGH
-        claimId: 01HQXYZ223456789ABCDEFGH
-        status: failed
-        message: 'Error: Unable to connect to database server'
-        created: '2024-02-20T14:50:00Z'
-        outputs: {}
-    ClaimResultListResponse:
-      summary: Claim result list response
-      description: Example response for listing claim results
-      value:
-      - id: 01HQABC123456789ABCDEFGH
-        claimId: 01HQXYZ123456789ABCDEFGH
-        status: succeeded
-        message: Installation completed successfully
-        created: '2024-01-15T10:35:00Z'
-      - id: 01HQABC223456789ABCDEFGH
-        claimId: 01HQXYZ123456789ABCDEFGH
-        status: running
-        message: Upgrading database schema...
-        created: '2024-01-16T09:00:00Z'
-    ClaimResultSuccess:
-      summary: Successful claim result
-      description: Example of a successful operation result
-      value:
-        id: 01HQABC123456789ABCDEFGH
-        claimId: 01HQXYZ123456789ABCDEFGH
-        status: succeeded
-        message: Installation completed successfully
-        created: '2024-01-15T10:35:00Z'
-        outputs:
-          db-connection-string:
-            contentDigest: sha256:conn123...
   parameters:
     ResultIdParam:
       name: id

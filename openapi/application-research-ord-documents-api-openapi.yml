@@ -1,29 +1,23 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Application Research CNAB Bundle API Resources ORD Documents API
-  version: 1.0.0
-  description: 'API for managing Cloud Native Application Bundles (CNAB).
-
-
-    This API provides endpoints for managing CNAB bundles, claims, claim results,
-
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+  title: Application Research Open Resource Discovery (ORD) ORD Documents API
+  version: 1.12.0
+  description: "The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers \nfor ORD resources and taxonomy. This API enables discovery and management of API resources, \nevent resources, data products, entity types, capabilities, and integration dependencies.\n\nORD enables machine-readable self-description of systems and their capabilities, supporting\nautomated discovery, integration, and governance of enterprise APIs and services.\n"
   contact:
-    name: CNAB Specification
-    url: https://cnab.io
+    name: ORD Specification Team
+    url: https://open-resource-discovery.org
   license:
-    name: Apache-2.0
+    name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: https://api.example.com/v1
+- url: https://api.example.com/ord/v1
   description: Production server
-- url: https://staging-api.example.com/v1
-  description: Staging server
+- url: https://sandbox.example.com/ord/v1
+  description: Sandbox server
 security:
+- oauth2:
+  - ord:read
 - bearerAuth: []
-- apiKey: []
 tags:
 - name: ORD Documents
   description: Operations for ORD Document management
@@ -163,399 +157,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    SpecificationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
-    IntegrationDependency:
-      type: object
-      title: Integration Dependency
-      description: States that the system can integrate with external systems to achieve an integration purpose
-      required:
-      - ordId
-      - title
-      - version
-      - releaseStatus
-      - visibility
-      - partOfPackage
-      - mandatory
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        localId:
-          type: string
-          maxLength: 255
-        correlationIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/CorrelationId'
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        shortDescription:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
-        partOfPackage:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        partOfGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupId'
-        version:
-          $ref: '#/components/schemas/SemVer'
-        lastUpdate:
-          type: string
-          format: date-time
-        visibility:
-          $ref: '#/components/schemas/Visibility'
-        releaseStatus:
-          $ref: '#/components/schemas/ReleaseStatus'
-        sunsetDate:
-          type: string
-          format: date-time
-        successors:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-            maxLength: 255
-        mandatory:
-          type: boolean
-          description: Whether the integration dependency is mandatory
-        aspects:
-          type: array
-          items:
-            $ref: '#/components/schemas/IntegrationAspect'
-        relatedIntegrationDependencies:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-    RelatedEntityType:
-      type: object
-      title: Related Entity Type
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        relationType:
-          type: string
-          enum:
-          - part-of
-          - can-share-identity
-    EventResourceDefinition:
-      type: object
-      title: Event Resource Definition
-      description: Link and categorization of a machine-readable event definition
-      required:
-      - type
-      - mediaType
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - asyncapi-v2
-          - sap-csn-interop-effective-v1
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        mediaType:
-          type: string
-          enum:
-          - application/json
-          - application/xml
-          - text/yaml
-          - text/plain
-          - application/octet-stream
-        url:
-          type: string
-          format: uri-reference
-        accessStrategies:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/AccessStrategy'
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
-    ApiEventResourceLink:
-      type: object
-      title: API/Event Resource Link
-      required:
-      - type
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - api-documentation
-          - authentication
-          - client-registration
-          - console
-          - payment
-          - service-level-agreement
-          - support
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        url:
-          type: string
-          format: uri-reference
-    CapabilityDefinition:
-      type: object
-      title: Capability Definition
-      description: Link and categorization of a machine-readable capability definition
-      required:
-      - type
-      - mediaType
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - sap.mdo:mdi-capability-definition:v1
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        mediaType:
-          type: string
-          enum:
-          - application/json
-          - application/xml
-          - text/yaml
-          - text/plain
-          - application/octet-stream
-        url:
-          type: string
-          format: uri-reference
-        accessStrategies:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/AccessStrategy'
-    EntityTypeMapping:
-      type: object
-      title: Entity Type Mapping
-      required:
-      - entityTypeTargets
-      properties:
-        apiModelSelectors:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/ApiModelSelectorOData'
-            - $ref: '#/components/schemas/ApiModelSelectorJsonPointer'
-        entityTypeTargets:
-          type: array
-          minItems: 1
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/EntityTypeOrdIdTarget'
-            - $ref: '#/components/schemas/EntityTypeCorrelationIdTarget'
-    GroupType:
-      type: object
-      title: Group Type
-      description: Defines the semantics of group assignments
-      required:
-      - groupTypeId
-      - title
-      properties:
-        groupTypeId:
-          type: string
-          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
-    Industry:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-    EventResource:
-      type: object
-      title: Event Resource
-      description: High-level description of a collection of related events
-      required:
-      - ordId
-      - title
-      - shortDescription
-      - description
-      - version
-      - visibility
-      - partOfPackage
-      - releaseStatus
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        localId:
-          type: string
-          maxLength: 255
-        correlationIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/CorrelationId'
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        shortDescription:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
-        partOfPackage:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        partOfGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupId'
-        partOfConsumptionBundles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConsumptionBundleReference'
-        defaultConsumptionBundle:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        partOfProducts:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
-            maxLength: 255
-        version:
-          $ref: '#/components/schemas/SemVer'
-        lastUpdate:
-          type: string
-          format: date-time
-        visibility:
-          $ref: '#/components/schemas/Visibility'
-        releaseStatus:
-          $ref: '#/components/schemas/ReleaseStatus'
-        disabled:
-          type: boolean
-          default: false
-        minSystemVersion:
-          type: string
-        deprecationDate:
-          type: string
-          format: date-time
-        sunsetDate:
-          type: string
-          format: date-time
-        successors:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-            maxLength: 255
-        changelogEntries:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChangelogEntry'
-        resourceDefinitions:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventResourceDefinition'
-        implementationStandard:
-          type: string
-        customImplementationStandard:
-          $ref: '#/components/schemas/SpecificationId'
-        customImplementationStandardDescription:
-          type: string
-        compatibleWith:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-        responsible:
-          $ref: '#/components/schemas/CorrelationId'
-        entityTypeMappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityTypeMapping'
-        exposedEntityTypes:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExposedEntityType'
-        eventResourceLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiEventResourceLink'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        extensible:
-          $ref: '#/components/schemas/Extensible'
-        countries:
-          type: array
-          items:
-            type: string
-            pattern: ^[A-Z]{2}$
-        lineOfBusiness:
-          type: array
-          items:
-            $ref: '#/components/schemas/LineOfBusiness'
-        industry:
-          type: array
-          items:
-            $ref: '#/components/schemas/Industry'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-        policyLevel:
-          $ref: '#/components/schemas/PolicyLevel'
-        customPolicyLevel:
-          $ref: '#/components/schemas/CustomPolicyLevel'
-        policyLevels:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyLevelId'
-        systemInstanceAware:
-          type: boolean
-          default: false
     ReleaseStatus:
       type: string
       enum:
@@ -563,145 +164,6 @@ components:
       - active
       - deprecated
       - sunset
-    Tombstone:
-      type: object
-      title: Tombstone
-      description: Indicates that a previously published ORD resource has been removed
-      required:
-      - removalDate
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package|consumptionBundle|product|vendor|apiResource|eventResource|capability|entityType|integrationDependency|dataProduct):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*|)?$
-          maxLength: 255
-        groupId:
-          $ref: '#/components/schemas/GroupId'
-        groupTypeId:
-          type: string
-          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-        removalDate:
-          type: string
-          format: date-time
-        description:
-          type: string
-          minLength: 1
-    PackageLink:
-      type: object
-      title: Package Link
-      required:
-      - type
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - terms-of-service
-          - license
-          - client-registration
-          - payment
-          - sandbox
-          - service-level-agreement
-          - support
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        url:
-          type: string
-          format: uri
-    Capability:
-      type: object
-      title: Capability
-      description: Describes use-case specific capabilities, features, or configuration
-      required:
-      - ordId
-      - type
-      - title
-      - version
-      - releaseStatus
-      - visibility
-      - partOfPackage
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(capability):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        localId:
-          type: string
-          maxLength: 255
-        correlationIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/CorrelationId'
-        type:
-          type: string
-          description: Type of the capability
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        shortDescription:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
-        partOfPackage:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        partOfGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupId'
-        version:
-          $ref: '#/components/schemas/SemVer'
-        lastUpdate:
-          type: string
-          format: date-time
-        visibility:
-          $ref: '#/components/schemas/Visibility'
-        releaseStatus:
-          $ref: '#/components/schemas/ReleaseStatus'
-        disabled:
-          type: boolean
-          default: false
-        minSystemVersion:
-          type: string
-        relatedEntityTypes:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-        definitions:
-          type: array
-          items:
-            $ref: '#/components/schemas/CapabilityDefinition'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-        systemInstanceAware:
-          type: boolean
-          default: false
-    DocumentationLabels:
-      type: object
-      title: Documentation Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
     ConsumptionBundle:
       type: object
       title: Consumption Bundle
@@ -755,6 +217,227 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
+    GroupType:
+      type: object
+      title: Group Type
+      description: Defines the semantics of group assignments
+      required:
+      - groupTypeId
+      - title
+      properties:
+        groupTypeId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
+    EventResourceIntegrationAspect:
+      type: object
+      title: Event Resource Integration Aspect
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        minVersion:
+          $ref: '#/components/schemas/SemVer'
+        subset:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResourceIntegrationAspectSubset'
+        systemTypeRestriction:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
+    SystemType:
+      type: object
+      title: System Type
+      description: The abstract type of an application or service
+      properties:
+        systemNamespace:
+          type: string
+          pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
+          maxLength: 32
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    EntityTypeOrdIdTarget:
+      type: object
+      title: Entity Type Target (ORD ID)
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+    ChangelogEntry:
+      type: object
+      title: Changelog Entry
+      required:
+      - version
+      - releaseStatus
+      - date
+      properties:
+        version:
+          type: string
+          minLength: 1
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+    EntityTypeCorrelationIdTarget:
+      type: object
+      title: Entity Type Target (Correlation ID)
+      required:
+      - correlationId
+      properties:
+        correlationId:
+          $ref: '#/components/schemas/CorrelationId'
+    Visibility:
+      type: string
+      enum:
+      - public
+      - internal
+      - private
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    SystemInstance:
+      type: object
+      title: System Instance
+      description: A concrete, running instance of a system type
+      properties:
+        baseUrl:
+          type: string
+          format: uri-reference
+          pattern: ^http[s]?:\/\/[^:\/\s]+\.[^:\/\s\.]+(:\d+)?(\/[a-zA-Z0-9-\._~]+)*$
+        localId:
+          type: string
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    EventResourceDefinition:
+      type: object
+      title: Event Resource Definition
+      description: Link and categorization of a machine-readable event definition
+      required:
+      - type
+      - mediaType
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - asyncapi-v2
+          - sap-csn-interop-effective-v1
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        mediaType:
+          type: string
+          enum:
+          - application/json
+          - application/xml
+          - text/yaml
+          - text/plain
+          - application/octet-stream
+        url:
+          type: string
+          format: uri-reference
+        accessStrategies:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AccessStrategy'
+    Tombstone:
+      type: object
+      title: Tombstone
+      description: Indicates that a previously published ORD resource has been removed
+      required:
+      - removalDate
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package|consumptionBundle|product|vendor|apiResource|eventResource|capability|entityType|integrationDependency|dataProduct):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*|)?$
+          maxLength: 255
+        groupId:
+          $ref: '#/components/schemas/GroupId'
+        groupTypeId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+        removalDate:
+          type: string
+          format: date-time
+        description:
+          type: string
+          minLength: 1
     ApiResource:
       type: object
       title: API Resource
@@ -940,46 +623,6 @@ components:
         systemInstanceAware:
           type: boolean
           default: false
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    ExposedEntityType:
-      type: object
-      title: Exposed Entity Type
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-    ChangelogEntry:
-      type: object
-      title: Changelog Entry
-      required:
-      - version
-      - releaseStatus
-      - date
-      properties:
-        version:
-          type: string
-          minLength: 1
-        releaseStatus:
-          $ref: '#/components/schemas/ReleaseStatus'
-        date:
-          type: string
-          format: date
-        description:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
     DataProductInputPort:
       type: object
       title: Data Product Input Port
@@ -990,64 +633,6 @@ components:
           type: string
           pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
           maxLength: 255
-    SystemType:
-      type: object
-      title: System Type
-      description: The abstract type of an application or service
-      properties:
-        systemNamespace:
-          type: string
-          pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
-          maxLength: 32
-        correlationIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/CorrelationId'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-    LineOfBusiness:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-    EntityTypeOrdIdTarget:
-      type: object
-      title: Entity Type Target (ORD ID)
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-    SystemVersion:
-      type: object
-      title: System Version
-      description: States the design-time version/release of a system instance
-      properties:
-        version:
-          $ref: '#/components/schemas/SemVer'
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        correlationIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/CorrelationId'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
     ApiModelSelectorJsonPointer:
       type: object
       title: API Model Selector (JSON Pointer)
@@ -1061,24 +646,511 @@ components:
         jsonPointer:
           type: string
           minLength: 1
-    EventResourceIntegrationAspectSubset:
+    EntityTypeMapping:
       type: object
-      title: Event Resource Integration Aspect Subset
+      title: Entity Type Mapping
       required:
-      - eventType
+      - entityTypeTargets
       properties:
-        eventType:
-          type: string
-    PolicyLevel:
+        apiModelSelectors:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ApiModelSelectorOData'
+            - $ref: '#/components/schemas/ApiModelSelectorJsonPointer'
+        entityTypeTargets:
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/EntityTypeOrdIdTarget'
+            - $ref: '#/components/schemas/EntityTypeCorrelationIdTarget'
+    PolicyLevelId:
       type: string
-      description: Policy level for compliance
-      oneOf:
-      - type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      - type: string
-        enum:
-        - none
-        - custom
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    Capability:
+      type: object
+      title: Capability
+      description: Describes use-case specific capabilities, features, or configuration
+      required:
+      - ordId
+      - type
+      - title
+      - version
+      - releaseStatus
+      - visibility
+      - partOfPackage
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(capability):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        localId:
+          type: string
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        type:
+          type: string
+          description: Type of the capability
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        partOfPackage:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupId'
+        version:
+          $ref: '#/components/schemas/SemVer'
+        lastUpdate:
+          type: string
+          format: date-time
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        disabled:
+          type: boolean
+          default: false
+        minSystemVersion:
+          type: string
+        relatedEntityTypes:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+        definitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CapabilityDefinition'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        systemInstanceAware:
+          type: boolean
+          default: false
+    EventResource:
+      type: object
+      title: Event Resource
+      description: High-level description of a collection of related events
+      required:
+      - ordId
+      - title
+      - shortDescription
+      - description
+      - version
+      - visibility
+      - partOfPackage
+      - releaseStatus
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        localId:
+          type: string
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        partOfPackage:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupId'
+        partOfConsumptionBundles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsumptionBundleReference'
+        defaultConsumptionBundle:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfProducts:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+            maxLength: 255
+        version:
+          $ref: '#/components/schemas/SemVer'
+        lastUpdate:
+          type: string
+          format: date-time
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        disabled:
+          type: boolean
+          default: false
+        minSystemVersion:
+          type: string
+        deprecationDate:
+          type: string
+          format: date-time
+        sunsetDate:
+          type: string
+          format: date-time
+        successors:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+            maxLength: 255
+        changelogEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangelogEntry'
+        resourceDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResourceDefinition'
+        implementationStandard:
+          type: string
+        customImplementationStandard:
+          $ref: '#/components/schemas/SpecificationId'
+        customImplementationStandardDescription:
+          type: string
+        compatibleWith:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+        responsible:
+          $ref: '#/components/schemas/CorrelationId'
+        entityTypeMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityTypeMapping'
+        exposedEntityTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExposedEntityType'
+        eventResourceLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiEventResourceLink'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        extensible:
+          $ref: '#/components/schemas/Extensible'
+        countries:
+          type: array
+          items:
+            type: string
+            pattern: ^[A-Z]{2}$
+        lineOfBusiness:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineOfBusiness'
+        industry:
+          type: array
+          items:
+            $ref: '#/components/schemas/Industry'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        policyLevel:
+          $ref: '#/components/schemas/PolicyLevel'
+        customPolicyLevel:
+          $ref: '#/components/schemas/CustomPolicyLevel'
+        policyLevels:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyLevelId'
+        systemInstanceAware:
+          type: boolean
+          default: false
+    ApiModelSelectorOData:
+      type: object
+      title: API Model Selector (OData)
+      required:
+      - type
+      - entitySetName
+      properties:
+        type:
+          type: string
+          const: odata
+        entitySetName:
+          type: string
+          minLength: 1
+    Extensible:
+      type: object
+      title: Extensible
+      required:
+      - supported
+      properties:
+        supported:
+          type: string
+          enum:
+          - 'no'
+          - manual
+          - automatic
+        description:
+          type: string
+          minLength: 1
+    CredentialExchangeStrategy:
+      type: object
+      title: Credential Exchange Strategy
+      description: Specifies how credentials can be obtained
+      required:
+      - type
+      properties:
+        type:
+          type: string
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        customDescription:
+          type: string
+          minLength: 1
+        callbackUrl:
+          type: string
+          format: uri
+    DataProductOutputPort:
+      type: object
+      title: Data Product Output Port
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource|eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+    ApiEventResourceLink:
+      type: object
+      title: API/Event Resource Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - api-documentation
+          - authentication
+          - client-registration
+          - console
+          - payment
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri-reference
+    ConsumptionBundleReference:
+      type: object
+      title: Consumption Bundle Reference
+      description: Reference to a Consumption Bundle
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        defaultEntryPoint:
+          type: string
+          format: uri-reference
+    RelatedEntityType:
+      type: object
+      title: Related Entity Type
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        relationType:
+          type: string
+          enum:
+          - part-of
+          - can-share-identity
+    PackageLink:
+      type: object
+      title: Package Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - terms-of-service
+          - license
+          - client-registration
+          - payment
+          - sandbox
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Vendor:
+      type: object
+      title: Vendor
+      description: The vendor of a product or package
+      required:
+      - ordId
+      - title
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+):(vendor):([a-zA-Z0-9._\-]+):()$
+          maxLength: 255
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        partners:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\-]+):()$
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+    LineOfBusiness:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    ApiResourceDefinition:
+      type: object
+      title: API Resource Definition
+      description: Link and categorization of a machine-readable API definition
+      required:
+      - type
+      - mediaType
+      - url
+      properties:
+        type:
+          type: string
+          description: Type of the API Resource Definition
+          enum:
+          - openapi-v2
+          - openapi-v3
+          - openapi-v3.1+
+          - raml-v1
+          - edmx
+          - csdl-json
+          - graphql-sdl
+          - wsdl-v1
+          - wsdl-v2
+          - a2a-agent-card
+          - sap-rfc-metadata-v1
+          - sap-sql-api-definition-v1
+          - sap-csn-interop-effective-v1
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        mediaType:
+          type: string
+          enum:
+          - application/json
+          - application/xml
+          - text/yaml
+          - text/plain
+          - application/octet-stream
+        url:
+          type: string
+          format: uri-reference
+        accessStrategies:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AccessStrategy'
+    ApiProtocol:
+      type: string
+      enum:
+      - odata-v2
+      - odata-v4
+      - rest
+      - graphql
+      - delta-sharing
+      - soap-inbound
+      - soap-outbound
+      - mcp
+      - websocket
+      - a2a
+      - sap-rfc
+      - sap-sql-api-v1
+      - sap-ina-api-v1
     OrdDocument:
       type: object
       title: ORD Document
@@ -1185,41 +1257,279 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tombstone'
-    CredentialExchangeStrategy:
+    SystemVersion:
       type: object
-      title: Credential Exchange Strategy
-      description: Specifies how credentials can be obtained
-      required:
-      - type
+      title: System Version
+      description: States the design-time version/release of a system instance
       properties:
-        type:
-          type: string
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        customDescription:
+        version:
+          $ref: '#/components/schemas/SemVer'
+        title:
           type: string
           minLength: 1
-        callbackUrl:
-          type: string
-          format: uri
-    AccessStrategy:
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    Error:
       type: object
-      title: Access Strategy
-      description: Defines the access strategy for accessing resource definitions
       required:
-      - type
+      - code
+      - message
       properties:
-        type:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    ApiResourceIntegrationAspect:
+      type: object
+      title: API Resource Integration Aspect
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        minVersion:
+          $ref: '#/components/schemas/SemVer'
+    EntityType:
+      type: object
+      title: Entity Type
+      description: Describes a business concept or underlying conceptual model
+      required:
+      - ordId
+      - localId
+      - level
+      - title
+      - version
+      - visibility
+      - partOfPackage
+      - releaseStatus
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        localId:
+          type: string
+          maxLength: 255
+        correlationIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationId'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        partOfPackage:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupId'
+        partOfProducts:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+            maxLength: 255
+        version:
+          $ref: '#/components/schemas/SemVer'
+        lastUpdate:
+          type: string
+          format: date-time
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        deprecationDate:
+          type: string
+          format: date-time
+        sunsetDate:
+          type: string
+          format: date-time
+        successors:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+            maxLength: 255
+        changelogEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangelogEntry'
+        level:
           type: string
           enum:
-          - open
-          - basic-auth
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        customDescription:
+          - aggregate
+          - root-entity
+          - sub-entity
+          description: Abstraction level using DDD terminology
+        relatedEntityTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedEntityType'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        extensible:
+          $ref: '#/components/schemas/Extensible'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
+        policyLevel:
+          $ref: '#/components/schemas/PolicyLevel'
+        customPolicyLevel:
+          $ref: '#/components/schemas/CustomPolicyLevel'
+        policyLevels:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyLevelId'
+        systemInstanceAware:
+          type: boolean
+          default: false
+    Industry:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    Package:
+      type: object
+      title: Package
+      description: 'A Package organizes a set of related resources together by publishing and catalog presentation concerns.
+
+        '
+      required:
+      - ordId
+      - title
+      - shortDescription
+      - description
+      - version
+      - vendor
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+          description: Stable, globally unique ORD ID for the package
+        localId:
+          type: string
+          maxLength: 255
+          description: Locally unique ID for the package
+        title:
           type: string
           minLength: 1
+          maxLength: 255
+          description: Human-readable title
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Plain text short description
+        description:
+          type: string
+          minLength: 1
+          description: Full description in CommonMark (Markdown)
+        version:
+          $ref: '#/components/schemas/SemVer'
+        policyLevel:
+          $ref: '#/components/schemas/PolicyLevel'
+        customPolicyLevel:
+          $ref: '#/components/schemas/CustomPolicyLevel'
+        policyLevels:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyLevelId'
+        packageLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PackageLink'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        licenseType:
+          type: string
+          minLength: 1
+          description: SPDX License identifier
+        supportInfo:
+          type: string
+          minLength: 1
+          description: Support information (CommonMark)
+        vendor:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\-]+):()$
+          maxLength: 256
+          description: Reference to vendor ORD ID
+        partOfProducts:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+            maxLength: 255
+        countries:
+          type: array
+          items:
+            type: string
+            pattern: ^[A-Z]{2}$
+        lineOfBusiness:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineOfBusiness'
+        industry:
+          type: array
+          items:
+            $ref: '#/components/schemas/Industry'
+        runtimeRestriction:
+          type: string
+          pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
+          description: Runtime restriction system namespace
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
     DataProduct:
       type: object
       title: Data Product
@@ -1382,275 +1692,12 @@ components:
         systemInstanceAware:
           type: boolean
           default: false
-    Error:
+    Labels:
       type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: object
-            properties:
-              field:
-                type: string
-              message:
-                type: string
-        requestId:
-          type: string
-          description: Request ID for troubleshooting
-    IntegrationAspect:
-      type: object
-      title: Integration Aspect
-      description: Constituent part of an Integration Dependency
-      required:
-      - title
-      - mandatory
-      properties:
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
-        mandatory:
-          type: boolean
-        supportMultipleProviders:
-          type: boolean
-        apiResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiResourceIntegrationAspect'
-        eventResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventResourceIntegrationAspect'
-    OrdDocumentList:
-      type: object
-      properties:
+      title: Labels
+      additionalProperties:
+        type: array
         items:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrdDocument'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    ApiResourceIntegrationAspect:
-      type: object
-      title: API Resource Integration Aspect
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        minVersion:
-          $ref: '#/components/schemas/SemVer'
-    ConsumptionBundleReference:
-      type: object
-      title: Consumption Bundle Reference
-      description: Reference to a Consumption Bundle
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        defaultEntryPoint:
-          type: string
-          format: uri-reference
-    Link:
-      type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
-        description:
-          type: string
-          minLength: 1
-    Vendor:
-      type: object
-      title: Vendor
-      description: The vendor of a product or package
-      required:
-      - ordId
-      - title
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+):(vendor):([a-zA-Z0-9._\-]+):()$
-          maxLength: 255
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        partners:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\-]+):()$
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
-    EntityTypeCorrelationIdTarget:
-      type: object
-      title: Entity Type Target (Correlation ID)
-      required:
-      - correlationId
-      properties:
-        correlationId:
-          $ref: '#/components/schemas/CorrelationId'
-    EntityType:
-      type: object
-      title: Entity Type
-      description: Describes a business concept or underlying conceptual model
-      required:
-      - ordId
-      - localId
-      - level
-      - title
-      - version
-      - visibility
-      - partOfPackage
-      - releaseStatus
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        localId:
-          type: string
-          maxLength: 255
-        correlationIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/CorrelationId'
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        shortDescription:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
-        partOfPackage:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        partOfGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupId'
-        partOfProducts:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
-            maxLength: 255
-        version:
-          $ref: '#/components/schemas/SemVer'
-        lastUpdate:
-          type: string
-          format: date-time
-        visibility:
-          $ref: '#/components/schemas/Visibility'
-        releaseStatus:
-          $ref: '#/components/schemas/ReleaseStatus'
-        deprecationDate:
-          type: string
-          format: date-time
-        sunsetDate:
-          type: string
-          format: date-time
-        successors:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-            maxLength: 255
-        changelogEntries:
-          type: array
-          items:
-            $ref: '#/components/schemas/ChangelogEntry'
-        level:
-          type: string
-          enum:
-          - aggregate
-          - root-entity
-          - sub-entity
-          description: Abstraction level using DDD terminology
-        relatedEntityTypes:
-          type: array
-          items:
-            $ref: '#/components/schemas/RelatedEntityType'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        extensible:
-          $ref: '#/components/schemas/Extensible'
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-        policyLevel:
-          $ref: '#/components/schemas/PolicyLevel'
-        customPolicyLevel:
-          $ref: '#/components/schemas/CustomPolicyLevel'
-        policyLevels:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyLevelId'
-        systemInstanceAware:
-          type: boolean
-          default: false
-    ApiModelSelectorOData:
-      type: object
-      title: API Model Selector (OData)
-      required:
-      - type
-      - entitySetName
-      properties:
-        type:
-          type: string
-          const: odata
-        entitySetName:
           type: string
           minLength: 1
     Product:
@@ -1697,250 +1744,6 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
-    ApiProtocol:
-      type: string
-      enum:
-      - odata-v2
-      - odata-v4
-      - rest
-      - graphql
-      - delta-sharing
-      - soap-inbound
-      - soap-outbound
-      - mcp
-      - websocket
-      - a2a
-      - sap-rfc
-      - sap-sql-api-v1
-      - sap-ina-api-v1
-    ApiResourceDefinition:
-      type: object
-      title: API Resource Definition
-      description: Link and categorization of a machine-readable API definition
-      required:
-      - type
-      - mediaType
-      - url
-      properties:
-        type:
-          type: string
-          description: Type of the API Resource Definition
-          enum:
-          - openapi-v2
-          - openapi-v3
-          - openapi-v3.1+
-          - raml-v1
-          - edmx
-          - csdl-json
-          - graphql-sdl
-          - wsdl-v1
-          - wsdl-v2
-          - a2a-agent-card
-          - sap-rfc-metadata-v1
-          - sap-sql-api-definition-v1
-          - sap-csn-interop-effective-v1
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        mediaType:
-          type: string
-          enum:
-          - application/json
-          - application/xml
-          - text/yaml
-          - text/plain
-          - application/octet-stream
-        url:
-          type: string
-          format: uri-reference
-        accessStrategies:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/AccessStrategy'
-    CorrelationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
-      maxLength: 255
-      description: Correlation ID for referencing related data
-    CustomPolicyLevel:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    DataProductLink:
-      type: object
-      title: Data Product Link
-      required:
-      - type
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - payment
-          - terms-of-use
-          - service-level-agreement
-          - support
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        url:
-          type: string
-          format: uri-reference
-    Package:
-      type: object
-      title: Package
-      description: 'A Package organizes a set of related resources together by publishing and catalog presentation concerns.
-
-        '
-      required:
-      - ordId
-      - title
-      - shortDescription
-      - description
-      - version
-      - vendor
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-          description: Stable, globally unique ORD ID for the package
-        localId:
-          type: string
-          maxLength: 255
-          description: Locally unique ID for the package
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-          description: Human-readable title
-        shortDescription:
-          type: string
-          minLength: 1
-          maxLength: 255
-          description: Plain text short description
-        description:
-          type: string
-          minLength: 1
-          description: Full description in CommonMark (Markdown)
-        version:
-          $ref: '#/components/schemas/SemVer'
-        policyLevel:
-          $ref: '#/components/schemas/PolicyLevel'
-        customPolicyLevel:
-          $ref: '#/components/schemas/CustomPolicyLevel'
-        policyLevels:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyLevelId'
-        packageLinks:
-          type: array
-          items:
-            $ref: '#/components/schemas/PackageLink'
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        licenseType:
-          type: string
-          minLength: 1
-          description: SPDX License identifier
-        supportInfo:
-          type: string
-          minLength: 1
-          description: Support information (CommonMark)
-        vendor:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(vendor):([a-zA-Z0-9._\-]+):()$
-          maxLength: 256
-          description: Reference to vendor ORD ID
-        partOfProducts:
-          type: array
-          items:
-            type: string
-            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
-            maxLength: 255
-        countries:
-          type: array
-          items:
-            type: string
-            pattern: ^[A-Z]{2}$
-        lineOfBusiness:
-          type: array
-          items:
-            $ref: '#/components/schemas/LineOfBusiness'
-        industry:
-          type: array
-          items:
-            $ref: '#/components/schemas/Industry'
-        runtimeRestriction:
-          type: string
-          pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
-          description: Runtime restriction system namespace
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
-    EventResourceIntegrationAspect:
-      type: object
-      title: Event Resource Integration Aspect
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        minVersion:
-          $ref: '#/components/schemas/SemVer'
-        subset:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventResourceIntegrationAspectSubset'
-        systemTypeRestriction:
-          type: array
-          minItems: 1
-          items:
-            type: string
-            pattern: ^[a-z0-9]+(?:[.][a-z0-9]+){1}$
-    GroupId:
-      type: string
-      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      description: Valid Group ID
-    Extensible:
-      type: object
-      title: Extensible
-      required:
-      - supported
-      properties:
-        supported:
-          type: string
-          enum:
-          - 'no'
-          - manual
-          - automatic
-        description:
-          type: string
-          minLength: 1
-    DataProductOutputPort:
-      type: object
-      title: Data Product Output Port
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource|eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-    PolicyLevelId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
     Group:
       type: object
       title: Group
@@ -1962,15 +1765,159 @@ components:
         description:
           type: string
           minLength: 1
-    SystemInstance:
+    ExposedEntityType:
       type: object
-      title: System Instance
-      description: A concrete, running instance of a system type
+      title: Exposed Entity Type
+      required:
+      - ordId
       properties:
-        baseUrl:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+    AccessStrategy:
+      type: object
+      title: Access Strategy
+      description: Defines the access strategy for accessing resource definitions
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - open
+          - basic-auth
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        customDescription:
+          type: string
+          minLength: 1
+    EventResourceIntegrationAspectSubset:
+      type: object
+      title: Event Resource Integration Aspect Subset
+      required:
+      - eventType
+      properties:
+        eventType:
+          type: string
+    CapabilityDefinition:
+      type: object
+      title: Capability Definition
+      description: Link and categorization of a machine-readable capability definition
+      required:
+      - type
+      - mediaType
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - sap.mdo:mdi-capability-definition:v1
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        mediaType:
+          type: string
+          enum:
+          - application/json
+          - application/xml
+          - text/yaml
+          - text/plain
+          - application/octet-stream
+        url:
           type: string
           format: uri-reference
-          pattern: ^http[s]?:\/\/[^:\/\s]+\.[^:\/\s\.]+(:\d+)?(\/[a-zA-Z0-9-\._~]+)*$
+        accessStrategies:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AccessStrategy'
+    OrdDocumentList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrdDocument'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    DataProductLink:
+      type: object
+      title: Data Product Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - payment
+          - terms-of-use
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri-reference
+    IntegrationAspect:
+      type: object
+      title: Integration Aspect
+      description: Constituent part of an Integration Dependency
+      required:
+      - title
+      - mandatory
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        mandatory:
+          type: boolean
+        supportMultipleProviders:
+          type: boolean
+        apiResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiResourceIntegrationAspect'
+        eventResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResourceIntegrationAspect'
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    IntegrationDependency:
+      type: object
+      title: Integration Dependency
+      description: States that the system can integrate with external systems to achieve an integration purpose
+      required:
+      - ordId
+      - title
+      - version
+      - releaseStatus
+      - visibility
+      - partOfPackage
+      - mandatory
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
         localId:
           type: string
           maxLength: 255
@@ -1978,27 +1925,68 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CorrelationId'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        documentationLabels:
-          $ref: '#/components/schemas/DocumentationLabels'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        shortDescription:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        partOfPackage:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        partOfGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupId'
+        version:
+          $ref: '#/components/schemas/SemVer'
+        lastUpdate:
+          type: string
+          format: date-time
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        releaseStatus:
+          $ref: '#/components/schemas/ReleaseStatus'
+        sunsetDate:
+          type: string
+          format: date-time
+        successors:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+            maxLength: 255
+        mandatory:
+          type: boolean
+          description: Whether the integration dependency is mandatory
+        aspects:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationAspect'
+        relatedIntegrationDependencies:
+          type: array
+          items:
+            type: string
+            pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
         tags:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
-    Visibility:
-      type: string
-      enum:
-      - public
-      - internal
-      - private
+        labels:
+          $ref: '#/components/schemas/Labels'
+        documentationLabels:
+          $ref: '#/components/schemas/DocumentationLabels'
   examples:
-    UnauthorizedErrorExample:
-      summary: Unauthorized Error
-      value:
-        code: UNAUTHORIZED
-        message: Authentication required. Please provide valid credentials.
-        requestId: req-12345-abcde
     IoTPlatformOrdDocumentExample:
       summary: SAP IoT Platform ORD Document
       value:
@@ -2057,11 +2045,17 @@ components:
           tags:
           - devices
           - management
-    ConflictErrorExample:
-      summary: Conflict Error
+    UnauthorizedErrorExample:
+      summary: Unauthorized Error
       value:
-        code: CONFLICT
-        message: A resource with this ORD ID already exists
+        code: UNAUTHORIZED
+        message: Authentication required. Please provide valid credentials.
+        requestId: req-12345-abcde
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
         requestId: req-12345-abcde
     NotFoundErrorExample:
       summary: Not Found Error
@@ -2069,21 +2063,6 @@ components:
         code: NOT_FOUND
         message: The requested resource was not found
         requestId: req-12345-abcde
-    OrdDocumentListExample:
-      summary: List of ORD Documents
-      value:
-        items:
-        - openResourceDiscovery: '1.12'
-          perspective: system-version
-          describedSystemType:
-            systemNamespace: sap.iot
-        - openResourceDiscovery: '1.12'
-          perspective: system-instance
-          describedSystemInstance:
-            baseUrl: https://api.successfactors.com
-        totalCount: 2
-        limit: 20
-        offset: 0
     SuccessFactorsOrdDocumentExample:
       summary: SAP SuccessFactors ORD Document
       value:
@@ -2103,6 +2082,21 @@ components:
           title: SAP SuccessFactors
           shortDescription: Cloud-based human capital management suite
           vendor: 'sap:vendor:SAP:'
+    OrdDocumentListExample:
+      summary: List of ORD Documents
+      value:
+        items:
+        - openResourceDiscovery: '1.12'
+          perspective: system-version
+          describedSystemType:
+            systemNamespace: sap.iot
+        - openResourceDiscovery: '1.12'
+          perspective: system-instance
+          describedSystemInstance:
+            baseUrl: https://api.successfactors.com
+        totalCount: 2
+        limit: 20
+        offset: 0
     BadRequestErrorExample:
       summary: Bad Request Error
       value:
@@ -2112,22 +2106,49 @@ components:
         - field: ordId
           message: ORD ID must match the required pattern
         requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
+    ConflictErrorExample:
+      summary: Conflict Error
       value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
+        code: CONFLICT
+        message: A resource with this ORD ID already exists
         requestId: req-12345-abcde
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    DocumentIdParam:
+      name: documentId
+      in: path
+      required: true
+      description: Unique identifier of the ORD Document
+      schema:
+        type: string
+      example: sap-iot-platform-v1
+    PerspectiveParam:
+      name: perspective
+      in: query
+      description: Filter by ORD Document perspective
+      schema:
+        type: string
+        enum:
+        - system-version
+        - system-instance
+        - system-independent
   responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
     NotFound:
       description: Resource not found
       content:
@@ -2146,6 +2167,15 @@ components:
           examples:
             conflict:
               $ref: '#/components/examples/ConflictErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
     Unauthorized:
       description: Unauthorized - authentication required
       content:
@@ -2164,50 +2194,18 @@ components:
           examples:
             serverError:
               $ref: '#/components/examples/InternalServerErrorExample'
-  parameters:
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    PerspectiveParam:
-      name: perspective
-      in: query
-      description: Filter by ORD Document perspective
-      schema:
-        type: string
-        enum:
-        - system-version
-        - system-instance
-        - system-independent
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    DocumentIdParam:
-      name: documentId
-      in: path
-      required: true
-      description: Unique identifier of the ORD Document
-      schema:
-        type: string
-      example: sap-iot-platform-v1
   securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            ord:read: Read access to ORD resources
+            ord:write: Write access to ORD resources
+            ord:admin: Administrative access to ORD resources
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: JWT-based authentication
-    apiKey:
-      type: apiKey
-      in: header
-      name: X-API-Key
-      description: API key authentication
