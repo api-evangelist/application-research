@@ -1259,7 +1259,7 @@ apis:
   humanURL: https://score.dev
   baseURL: https://api.score.dev/v1
   tags:
-  - Resource Groups
+  - ResourceGroups
   tags_raw:
   - ResourceGroups
   properties:
