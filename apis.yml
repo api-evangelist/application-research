@@ -1253,54 +1253,6 @@ apis:
     url: json-schema/radius.yml
   - type: CodeExamples
     url: examples/radius-ecommerce-microservice.yml
-- aid: application-research:application-research-resourcegroups-api
-  name: Application Research ResourceGroups API
-  description: Resource group operations
-  humanURL: https://score.dev
-  baseURL: https://api.score.dev/v1
-  tags:
-  - Resource Groups
-  tags_raw:
-  - ResourceGroups
-  properties:
-  - type: OpenAPI
-    url: openapi/application-research-resourcegroups-api-openapi.yml
-  - type: Documentation
-    url: https://docs.score.dev
-  - type: JSONSchema
-    url: json-schema/score.yml
-  - type: CodeExamples
-    url: examples/score-ecommerce.yml
-  - type: CodeExamples
-    url: examples/score-ai-ml-inference-platform.yml
-  - type: CodeExamples
-    url: examples/score-data-processing-pipeline.yml
-  - type: Documentation
-    url: https://cnab.io/docs
-  - type: JSONSchema
-    url: json-schema/cloud-native-application-bundle-schema.yml
-  - type: CodeExamples
-    url: examples/cloud-native-application-bundle-example-wordpress.yml
-  - type: CodeExamples
-    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
-  - type: Documentation
-    url: https://ocm.software/docs
-  - type: JSONSchema
-    url: json-schema/open-component-model.yml
-  - type: CodeExamples
-    url: examples/open-component-model-example-web-application.yml
-  - type: Documentation
-    url: https://sap.github.io/open-resource-discovery/
-  - type: JSONSchema
-    url: json-schema/open-resource-discovery.yml
-  - type: CodeExamples
-    url: examples/open-resource-discovery-ecommerce.yml
-  - type: Documentation
-    url: https://docs.radapp.io
-  - type: JSONSchema
-    url: json-schema/radius.yml
-  - type: CodeExamples
-    url: examples/radius-ecommerce-microservice.yml
 - aid: application-research:application-research-resources-api
   name: Application Research Resources API
   description: Operations for managing component resources
@@ -1679,6 +1631,52 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/application-research-workloads-api-openapi.yml
+  - type: Documentation
+    url: https://docs.score.dev
+  - type: JSONSchema
+    url: json-schema/score.yml
+  - type: CodeExamples
+    url: examples/score-ecommerce.yml
+  - type: CodeExamples
+    url: examples/score-ai-ml-inference-platform.yml
+  - type: CodeExamples
+    url: examples/score-data-processing-pipeline.yml
+  - type: Documentation
+    url: https://cnab.io/docs
+  - type: JSONSchema
+    url: json-schema/cloud-native-application-bundle-schema.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-wordpress.yml
+  - type: CodeExamples
+    url: examples/cloud-native-application-bundle-example-cassandra-cluster.yml
+  - type: Documentation
+    url: https://ocm.software/docs
+  - type: JSONSchema
+    url: json-schema/open-component-model.yml
+  - type: CodeExamples
+    url: examples/open-component-model-example-web-application.yml
+  - type: Documentation
+    url: https://sap.github.io/open-resource-discovery/
+  - type: JSONSchema
+    url: json-schema/open-resource-discovery.yml
+  - type: CodeExamples
+    url: examples/open-resource-discovery-ecommerce.yml
+  - type: Documentation
+    url: https://docs.radapp.io
+  - type: JSONSchema
+    url: json-schema/radius.yml
+  - type: CodeExamples
+    url: examples/radius-ecommerce-microservice.yml
+- aid: application-research:application-research-resource-groups-api
+  name: Application Research Resource Groups API
+  description: Resource group operations
+  humanURL: https://score.dev
+  baseURL: https://api.score.dev/v1
+  tags:
+  - Resource Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/application-research-resource-groups-api-openapi.yml
   - type: Documentation
     url: https://docs.score.dev
   - type: JSONSchema
