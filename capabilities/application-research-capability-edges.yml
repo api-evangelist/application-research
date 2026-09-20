@@ -11,8 +11,19 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 2
+edge_count: 3
 edges:
+- tag: SecretStores
+  spec_file: application-research-secretstores-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.8
+  evidence: SecretStores_CreateOrUpdate 'Create or update secret store'; schemas SecretStoreProperties,
+    SecretValueProperties, ValueFromProperties
+  reason: Operations create and read secret stores holding runtime secret values consumed by application
+    services, matching Configuration & Secrets Management.
+  recovered_from: sweep-20260829T005356Z-edges.json
 - tag: Datastores
   spec_file: application-research-datastores-api-openapi.yml
   capability_id: BC-600.50
