@@ -1,7 +1,11 @@
 openapi: 3.2.0
 info:
   title: Application Research Radius Resource Groups API
-  description: "OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables \ndevelopers to define, deploy, and collaborate on cloud-native applications across public \nclouds and private infrastructure.\n"
+  description: 'OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables
+
+    developers to define, deploy, and collaborate on cloud-native applications across public
+
+    clouds and private infrastructure.'
   version: 2023-10-01-preview
   contact:
     name: Radius Project
@@ -15,13 +19,13 @@ servers:
 - url: http://localhost:8080
   description: Local Development
 tags:
-- name: ResourceGroups
+- name: Resource Groups
   description: Resource group operations
 paths:
   /planes/radius/{planeName}/resourceGroups/{resourceGroupName}:
     get:
       tags:
-      - ResourceGroups
+      - Resource Groups
       summary: Application Research Get resource group
       operationId: ResourceGroups_Get
       parameters:
@@ -41,26 +45,34 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
+  parameters:
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
   schemas:
-    ResourceGroupProperties:
-      type: object
-      properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
     ResourceGroupResource:
       type: object
       properties:
@@ -84,6 +96,25 @@ components:
             type: string
         location:
           type: string
+    ResourceGroupProperties:
+      type: object
+      properties:
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
   responses:
     ErrorResponse:
       description: Error response
@@ -109,33 +140,6 @@ components:
                 - message
             required:
             - error
-  parameters:
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
   examples:
     ResourceGroupExample:
       summary: Resource group

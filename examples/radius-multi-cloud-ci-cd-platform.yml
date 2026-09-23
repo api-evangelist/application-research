@@ -570,9 +570,7 @@ extender:
         installationId: '67890'
         webhookSecret: webhook-secret-value
     githubAppPrivateKey: |-
-      -----BEGIN RSA PRIVATE KEY-----
-      ...
-      -----END RSA PRIVATE KEY-----
+      REDACTED_PRIVATE_KEY_EXAMPLE
     enabledRepositories:
       - myorg/repo1
       - myorg/repo2

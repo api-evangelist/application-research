@@ -1,7 +1,11 @@
 openapi: 3.2.0
 info:
   title: Application Research Radius Environments API
-  description: "OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables \ndevelopers to define, deploy, and collaborate on cloud-native applications across public \nclouds and private infrastructure.\n"
+  description: 'OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables
+
+    developers to define, deploy, and collaborate on cloud-native applications across public
+
+    clouds and private infrastructure.'
   version: 2023-10-01-preview
   contact:
     name: Radius Project
@@ -116,229 +120,16 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    GitAuthConfig:
-      type: object
-      properties:
-        pat:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/SecretConfig'
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    Providers:
-      type: object
-      description: The Cloud providers configuration
-      properties:
-        azure:
-          $ref: '#/components/schemas/ProvidersAzure'
-        aws:
-          $ref: '#/components/schemas/ProvidersAws'
-    RegistrySecretConfig:
-      type: object
-      properties:
-        secret:
-          type: string
     SecretConfig:
       type: object
       properties:
         secret:
           type: string
-    EnvironmentCompute:
-      type: object
-      description: Represents backing compute resource
-      properties:
-        kind:
-          type: string
-        resourceId:
-          type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
-    ProviderConfigProperties:
+    RegistrySecretConfig:
       type: object
       properties:
-        secrets:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/SecretReference'
-      additionalProperties: true
-    EnvironmentProperties:
-      type: object
-      properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        providers:
-          $ref: '#/components/schemas/Providers'
-        simulated:
-          type: boolean
-        recipes:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/RecipeProperties'
-        recipeConfig:
-          $ref: '#/components/schemas/RecipeConfigProperties'
-        extensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Extension'
-      required:
-      - compute
-    SecretReference:
-      type: object
-      description: Reference to a secret in a secret store
-      properties:
-        source:
+        secret:
           type: string
-          description: The ID of an Applications.Core/SecretStore resource
-        key:
-          type: string
-          description: The key for the secret in the secret store
-      required:
-      - source
-      - key
-    RecipeConfigProperties:
-      type: object
-      properties:
-        terraform:
-          $ref: '#/components/schemas/TerraformConfigProperties'
-        bicep:
-          $ref: '#/components/schemas/BicepConfigProperties'
-        env:
-          type: object
-          additionalProperties:
-            type: string
-        envSecrets:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/SecretReference'
-    ProvidersAzure:
-      type: object
-      properties:
-        scope:
-          type: string
-          description: Target scope for Azure resources
-      required:
-      - scope
-    EnvironmentResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/EnvironmentProperties'
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
-    TerraformConfigProperties:
-      type: object
-      properties:
-        authentication:
-          $ref: '#/components/schemas/AuthConfig'
-        providers:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/ProviderConfigProperties'
-    AuthConfig:
-      type: object
-      properties:
-        git:
-          $ref: '#/components/schemas/GitAuthConfig'
-    ProvidersAws:
-      type: object
-      properties:
-        scope:
-          type: string
-          description: Target scope for AWS resources
-      required:
-      - scope
-    RecipeProperties:
-      type: object
-      description: Recipe properties
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        parameters:
-          type: object
-      required:
-      - templateKind
-      - templatePath
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
-      properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
-          type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
-          type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
-      required:
-      - kind
-    BicepConfigProperties:
-      type: object
-      properties:
-        authentication:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RegistrySecretConfig'
     EnvironmentResourceListResult:
       type: object
       properties:
@@ -367,22 +158,220 @@ components:
           manualScaling: '#/components/schemas/ManualScalingExtension'
           daprSidecar: '#/components/schemas/DaprSidecarExtension'
           aci: '#/components/schemas/AzureContainerInstanceExtension'
+    Providers:
+      type: object
+      description: The Cloud providers configuration
+      properties:
+        azure:
+          $ref: '#/components/schemas/ProvidersAzure'
+        aws:
+          $ref: '#/components/schemas/ProvidersAws'
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    BicepConfigProperties:
+      type: object
+      properties:
+        authentication:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RegistrySecretConfig'
+    EnvironmentProperties:
+      type: object
+      properties:
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        providers:
+          $ref: '#/components/schemas/Providers'
+        simulated:
+          type: boolean
+        recipes:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/RecipeProperties'
+        recipeConfig:
+          $ref: '#/components/schemas/RecipeConfigProperties'
+        extensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Extension'
+      required:
+      - compute
+    TerraformConfigProperties:
+      type: object
+      properties:
+        authentication:
+          $ref: '#/components/schemas/AuthConfig'
+        providers:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProviderConfigProperties'
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+    EnvironmentResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/EnvironmentProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    ProvidersAzure:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Target scope for Azure resources
+      required:
+      - scope
+    AuthConfig:
+      type: object
+      properties:
+        git:
+          $ref: '#/components/schemas/GitAuthConfig'
+    RecipeProperties:
+      type: object
+      description: Recipe properties
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        parameters:
+          type: object
+      required:
+      - templateKind
+      - templatePath
+    RecipeConfigProperties:
+      type: object
+      properties:
+        terraform:
+          $ref: '#/components/schemas/TerraformConfigProperties'
+        bicep:
+          $ref: '#/components/schemas/BicepConfigProperties'
+        env:
+          type: object
+          additionalProperties:
+            type: string
+        envSecrets:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SecretReference'
+    ProviderConfigProperties:
+      type: object
+      properties:
+        secrets:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SecretReference'
+      additionalProperties: true
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    ProvidersAws:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Target scope for AWS resources
+      required:
+      - scope
+    GitAuthConfig:
+      type: object
+      properties:
+        pat:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SecretConfig'
+    SecretReference:
+      type: object
+      description: Reference to a secret in a secret store
+      properties:
+        source:
+          type: string
+          description: The ID of an Applications.Core/SecretStore resource
+        key:
+          type: string
+          description: The key for the secret in the secret store
+      required:
+      - source
+      - key
   parameters:
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    EnvironmentNameParameter:
-      name: environmentName
-      in: path
-      required: true
-      description: The name of the environment
-      schema:
-        type: string
     PlaneNameParameter:
       name: planeName
       in: path
@@ -392,6 +381,13 @@ components:
         type: string
         pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
         maxLength: 63
+    EnvironmentNameParameter:
+      name: environmentName
+      in: path
+      required: true
+      description: The name of the environment
+      schema:
+        type: string
     ResourceGroupNameParameter:
       name: resourceGroupName
       in: path
@@ -401,6 +397,14 @@ components:
         type: string
         pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
         maxLength: 63
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
   examples:
     EnvironmentListExample:
       summary: List of environments

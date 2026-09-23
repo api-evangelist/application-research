@@ -1,8 +1,17 @@
 openapi: 3.2.0
 info:
-  title: Application Research Open Resource Discovery (ORD) Vendors API
+  title: Application Research Open Resource Discovery (ORD) Vendors…
   version: 1.12.0
-  description: "The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers \nfor ORD resources and taxonomy. This API enables discovery and management of API resources, \nevent resources, data products, entity types, capabilities, and integration dependencies.\n\nORD enables machine-readable self-description of systems and their capabilities, supporting\nautomated discovery, integration, and governance of enterprise APIs and services.\n"
+  description: 'The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers
+
+    for ORD resources and taxonomy. This API enables discovery and management of API resources,
+
+    event resources, data products, entity types, capabilities, and integration dependencies.
+
+
+    ORD enables machine-readable self-description of systems and their capabilities, supporting
+
+    automated discovery, integration, and governance of enterprise APIs and services.'
   contact:
     name: ORD Specification Team
     url: https://open-resource-discovery.org
@@ -70,69 +79,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  examples:
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    VendorListExample:
-      summary: List of Vendors
-      value:
-        items:
-        - ordId: 'sap:vendor:SAP:'
-          title: SAP SE
-        - ordId: 'siemens:vendor:Siemens:'
-          title: Siemens AG
-          partners:
-          - 'sap:vendor:SAP:'
-        totalCount: 2
-        limit: 20
-        offset: 0
-    VendorExample:
-      summary: SAP Vendor
-      value:
-        ordId: 'sap:vendor:SAP:'
-        title: SAP SE
-        partners:
-        - 'microsoft:vendor:Microsoft:'
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
   schemas:
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
-    DocumentationLabels:
-      type: object
-      title: Documentation Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
     Vendor:
       type: object
       title: Vendor
@@ -162,6 +109,14 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
     VendorList:
       type: object
       properties:
@@ -175,6 +130,18 @@ components:
           type: integer
         offset:
           type: integer
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
     Error:
       type: object
       required:
@@ -227,6 +194,15 @@ components:
         pattern: ^([a-z0-9]+):(vendor):([a-zA-Z0-9._\-]+):()$
       example: 'sap:vendor:SAP:'
   responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
     BadRequest:
       description: Bad request - invalid input parameters
       content:
@@ -245,15 +221,48 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/NotFoundErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
+  examples:
+    VendorListExample:
+      summary: List of Vendors
+      value:
+        items:
+        - ordId: 'sap:vendor:SAP:'
+          title: SAP SE
+        - ordId: 'siemens:vendor:Siemens:'
+          title: Siemens AG
+          partners:
+          - 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    VendorExample:
+      summary: SAP Vendor
+      value:
+        ordId: 'sap:vendor:SAP:'
+        title: SAP SE
+        partners:
+        - 'microsoft:vendor:Microsoft:'
   securitySchemes:
     oauth2:
       type: oauth2

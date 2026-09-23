@@ -1,7 +1,11 @@
 openapi: 3.2.0
 info:
   title: Application Research Radius Gateways API
-  description: "OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables \ndevelopers to define, deploy, and collaborate on cloud-native applications across public \nclouds and private infrastructure.\n"
+  description: 'OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables
+
+    developers to define, deploy, and collaborate on cloud-native applications across public
+
+    clouds and private infrastructure.'
   version: 2023-10-01-preview
   contact:
     name: Radius Project
@@ -76,20 +80,57 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
+  parameters:
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    GatewayNameParameter:
+      name: gatewayName
+      in: path
+      required: true
+      description: The name of the gateway
+      schema:
+        type: string
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
   schemas:
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
+    GatewayHostname:
+      type: object
+      properties:
+        prefix:
+          type: string
+        fullyQualifiedHostname:
+          type: string
+    GatewayRouteTimeoutPolicy:
+      type: object
+      properties:
+        request:
+          type: string
+          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
+        backendRequest:
+          type: string
+          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
     GatewayTls:
       type: object
       properties:
@@ -103,26 +144,19 @@ components:
           - '1.3'
         certificateFrom:
           type: string
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    OutputResource:
+    RecipeStatus:
       type: object
-      description: Properties of an output resource
+      description: Recipe status at deployment time
       properties:
-        localId:
+        templateKind:
           type: string
-        id:
+        templatePath:
           type: string
-        radiusManaged:
-          type: boolean
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
     GatewayResource:
       type: object
       properties:
@@ -149,6 +183,49 @@ components:
       required:
       - properties
       - location
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    GatewayRoute:
+      type: object
+      properties:
+        path:
+          type: string
+        destination:
+          type: string
+        replacePrefix:
+          type: string
+        enableWebsockets:
+          type: boolean
+        timeoutPolicy:
+          $ref: '#/components/schemas/GatewayRouteTimeoutPolicy'
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
     GatewayProperties:
       type: object
       properties:
@@ -178,78 +255,39 @@ components:
       required:
       - application
       - routes
-    ResourceStatus:
+    OutputResource:
       type: object
-      description: Status of a resource
+      description: Properties of an output resource
       properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
-    GatewayRouteTimeoutPolicy:
-      type: object
-      properties:
-        request:
+        localId:
           type: string
-          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
-        backendRequest:
+        id:
           type: string
-          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
-    EnvironmentCompute:
-      type: object
-      description: Represents backing compute resource
-      properties:
-        kind:
-          type: string
-        resourceId:
-          type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
-    GatewayRoute:
-      type: object
-      properties:
-        path:
-          type: string
-        destination:
-          type: string
-        replacePrefix:
-          type: string
-        enableWebsockets:
+        radiusManaged:
           type: boolean
-        timeoutPolicy:
-          $ref: '#/components/schemas/GatewayRouteTimeoutPolicy'
-    GatewayHostname:
-      type: object
-      properties:
-        prefix:
-          type: string
-        fullyQualifiedHostname:
-          type: string
-    RecipeStatus:
-      type: object
-      description: Recipe status at deployment time
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        templateVersion:
-          type: string
-      required:
-      - templateKind
-      - templatePath
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
     IdentitySettings:
       type: object
       description: IdentitySettings is the external identity setting
@@ -268,40 +306,6 @@ components:
             type: string
       required:
       - kind
-  parameters:
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    GatewayNameParameter:
-      name: gatewayName
-      in: path
-      required: true
-      description: The name of the gateway
-      schema:
-        type: string
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
   responses:
     ErrorResponse:
       description: Error response

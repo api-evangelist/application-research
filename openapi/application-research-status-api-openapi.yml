@@ -7,9 +7,7 @@ info:
 
     This API provides endpoints for managing CNAB bundles, claims, claim results,
 
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+    dependencies, parameter sources, relocation mappings, and installation status.'
   contact:
     name: CNAB Specification
     url: https://cnab.io
@@ -73,71 +71,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 components:
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
   examples:
-    ErrorInternal:
-      summary: Internal error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-123456
-    StatusFailed:
-      summary: Failed installation status
-      description: Example of a failed installation
-      value:
-        status: Failed
-        message: One or more components have failed
-        components:
-          wordpress:
-            status: Failed
-            message: CrashLoopBackOff - unable to connect to database
-          mysql:
-            status: Ready
-            message: Database is running
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
-    StatusListResponse:
-      summary: Installation list response
-      description: Example response for listing installations
-      value:
-      - status: Ready
-        message: All components are running
-        components:
-          wordpress:
-            status: Ready
-          mysql:
-            status: Ready
-      - status: Pending
-        message: Upgrade in progress
-        components:
-          inference-server:
-            status: Pending
-          redis-cache:
-            status: Ready
     StatusReady:
       summary: Ready installation status
       description: Example of a healthy installation
@@ -164,6 +98,51 @@ components:
           mysql:
             status: Ready
             message: Database initialized
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+    StatusFailed:
+      summary: Failed installation status
+      description: Example of a failed installation
+      value:
+        status: Failed
+        message: One or more components have failed
+        components:
+          wordpress:
+            status: Failed
+            message: CrashLoopBackOff - unable to connect to database
+          mysql:
+            status: Ready
+            message: Database is running
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    StatusListResponse:
+      summary: Installation list response
+      description: Example response for listing installations
+      value:
+      - status: Ready
+        message: All components are running
+        components:
+          wordpress:
+            status: Ready
+          mysql:
+            status: Ready
+      - status: Pending
+        message: Upgrade in progress
+        components:
+          inference-server:
+            status: Pending
+          redis-cache:
+            status: Ready
   schemas:
     Status:
       type: object
@@ -181,23 +160,6 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/StatusComponent'
       additionalProperties: true
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: object
-          description: Additional error details
-          additionalProperties: true
     StatusComponent:
       type: object
       description: Status of a component in a CNAB installation
@@ -218,6 +180,23 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Status'
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
   parameters:
     InstallationNameParam:
       name: name
@@ -226,6 +205,25 @@ components:
       description: Installation name
       schema:
         type: string
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
   securitySchemes:
     bearerAuth:
       type: http

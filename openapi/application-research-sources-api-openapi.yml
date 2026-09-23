@@ -7,9 +7,7 @@ info:
 
     The Open Component Model provides a standard for describing software components,
 
-    their resources, sources, and dependencies in a technology-agnostic way.
-
-    '
+    their resources, sources, and dependencies in a technology-agnostic way.'
   contact:
     name: OCM Project
     url: https://ocm.software
@@ -85,35 +83,28 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 components:
+  parameters:
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Component version (semver)
+      schema:
+        $ref: '#/components/schemas/Version'
+    ComponentNameParam:
+      name: name
+      in: path
+      required: true
+      description: Component name (e.g., github.com/acme.org/web-application)
+      schema:
+        $ref: '#/components/schemas/ComponentName'
   schemas:
-    ElementName:
-      type: string
-      description: Element name for resources and sources
-      minLength: 2
-      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
-      examples:
-      - frontend-image
-      - backend-image
-      - helm-chart
-    Label:
+    Merge:
       type: object
-      description: A label with name-value pair
-      required:
-      - name
-      - value
       properties:
-        name:
+        algorithm:
           type: string
-          description: Label name
-        value: {}
-        version:
-          type: string
-          pattern: ^v[0-9]+$
-        signing:
-          type: boolean
-          description: Whether this label should be included in signing
-        merge:
-          $ref: '#/components/schemas/Merge'
+          pattern: ^[a-z][a-z0-9/_-]+$
+        config: {}
     Source:
       type: object
       description: Component source
@@ -140,30 +131,34 @@ components:
           $ref: '#/components/schemas/Access'
         input:
           $ref: '#/components/schemas/Input'
-    Version:
-      type: string
-      description: Semantic version string
-      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      examples:
-      - 1.0.0
-      - 2.5.1
-      - v1.0.0-beta.1
-    Input:
+    Label:
       type: object
-      description: Input specification for local resources
+      description: A label with name-value pair
       required:
-      - type
+      - name
+      - value
       properties:
-        type:
+        name:
           type: string
-    ComponentName:
+          description: Label name
+        value: {}
+        version:
+          type: string
+          pattern: ^v[0-9]+$
+        signing:
+          type: boolean
+          description: Whether this label should be included in signing
+        merge:
+          $ref: '#/components/schemas/Merge'
+    ElementName:
       type: string
-      description: Fully qualified component name
-      maxLength: 255
-      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+      description: Element name for resources and sources
+      minLength: 2
+      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
       examples:
-      - github.com/acme.org/web-application
-      - github.com/ailab.org/model-training-pipeline
+      - frontend-image
+      - backend-image
+      - helm-chart
     Error:
       type: object
       description: Error response
@@ -178,13 +173,6 @@ components:
         details:
           type: object
           additionalProperties: true
-    Merge:
-      type: object
-      properties:
-        algorithm:
-          type: string
-          pattern: ^[a-z][a-z0-9/_-]+$
-        config: {}
     Access:
       type: object
       description: Access specification for resources and sources
@@ -215,53 +203,35 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Label'
+    Version:
+      type: string
+      description: Semantic version string
+      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      examples:
+      - 1.0.0
+      - 2.5.1
+      - v1.0.0-beta.1
+    Input:
+      type: object
+      description: Input specification for local resources
+      required:
+      - type
+      properties:
+        type:
+          type: string
+    ComponentName:
+      type: string
+      description: Fully qualified component name
+      maxLength: 255
+      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+      examples:
+      - github.com/acme.org/web-application
+      - github.com/ailab.org/model-training-pipeline
     IdentityAttribute:
       type: object
       description: Identity attributes for element identification
       additionalProperties:
         type: string
-  parameters:
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Component version (semver)
-      schema:
-        $ref: '#/components/schemas/Version'
-    ComponentNameParam:
-      name: name
-      in: path
-      required: true
-      description: Component name (e.g., github.com/acme.org/web-application)
-      schema:
-        $ref: '#/components/schemas/ComponentName'
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
   examples:
     SourceListResponse:
       summary: Source list
@@ -281,15 +251,6 @@ components:
           type: helm
           helmRepository: https://charts.acme.org
           helmChart: web-app:1.2.0
-    ErrorBadRequest:
-      summary: Bad Request Error
-      description: Example bad request error
-      value:
-        code: BAD_REQUEST
-        message: Invalid component name format
-        details:
-          field: component.name
-          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
     GitHubSource:
       summary: GitHub Source
       description: Example GitHub source
@@ -318,6 +279,43 @@ components:
       value:
         code: NOT_FOUND
         message: Component 'github.com/acme.org/unknown-component' not found
+    ErrorBadRequest:
+      summary: Bad Request Error
+      description: Example bad request error
+      value:
+        code: BAD_REQUEST
+        message: Invalid component name format
+        details:
+          field: component.name
+          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+  responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
   securitySchemes:
     bearerAuth:
       type: http

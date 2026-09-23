@@ -45,7 +45,9 @@
     "application-research-validation-api-openapi.yml",
     "application-research-workloads-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -54,7 +56,9 @@
     "open-component-model-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "open-resource-discovery-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "radius-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "score-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0"
+    "score-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: application-research-resource-groups-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 36 total)"
   ],
   "skipped": [
     "application-research-api-resources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -83,7 +87,7 @@
     "application-research-packages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "application-research-planes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "application-research-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "application-research-resourcegroups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "application-research-resource-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "application-research-resources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "application-research-secretstores-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "application-research-signatures-api-openapi.yml: previously refined output, superseded by openapi/_original/",

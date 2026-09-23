@@ -1,7 +1,11 @@
 openapi: 3.2.0
 info:
-  title: Application Research Score Workload Specification Workloads API
-  description: "API for managing Score workload specifications. Score is a platform-agnostic \nworkload specification that enables developers to define their workloads once \nand deploy them across multiple platforms.\n"
+  title: Application Research Score Workload Specification Workloads…
+  description: 'API for managing Score workload specifications. Score is a platform-agnostic
+
+    workload specification that enables developers to define their workloads once
+
+    and deploy them across multiple platforms.'
   version: 1.0.0
   contact:
     name: Score Project
@@ -213,134 +217,71 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
-    Service:
+    Annotations:
       type: object
-      description: The service that the workload provides
+      description: Annotations that apply to the Workload or Resource. Keys can contain A-Z, a-z, 0-9, and '-' and may contain an optional /-separated RFC1123 Host Name prefix.
+      additionalProperties:
+        type: string
+      propertyNames:
+        minLength: 2
+        maxLength: 316
+        pattern: ^(([a-z0-9][a-z0-9-]{0,61}[a-z0-9])(\.[a-z0-9][a-z0-9-]{0,61}[a-z0-9])*/)?[A-Za-z0-9][A-Za-z0-9._-]{0,61}[A-Za-z0-9]$
+    ContainerResources:
+      type: object
+      description: The compute resources for the container
       additionalProperties: false
       properties:
-        ports:
-          $ref: '#/components/schemas/ServicePortMap'
-    Container:
+        limits:
+          $ref: '#/components/schemas/ResourcesLimits'
+        requests:
+          $ref: '#/components/schemas/ResourcesLimits'
+    ScoreWorkload:
       type: object
-      description: The specification of a Container within the Workload
+      description: Score workload specification
       required:
-      - image
+      - apiVersion
+      - metadata
+      - containers
       additionalProperties: false
       properties:
-        image:
+        apiVersion:
           type: string
-          description: The container image name and tag
-          minLength: 1
+          description: The declared Score Specification version
+          pattern: ^score\.dev/v1b1$
           examples:
-          - nginx:1.25-alpine
-          - ghcr.io/myorg/app:2.5.0
-        command:
-          type: array
-          description: If specified, overrides the entrypoint defined in the container image
-          items:
-            type: string
-        args:
-          type: array
-          description: If specified, overrides the arguments passed to the container entrypoint
-          items:
-            type: string
-        variables:
-          $ref: '#/components/schemas/EnvironmentVariables'
-        files:
-          $ref: '#/components/schemas/ContainerFileMap'
-        volumes:
-          $ref: '#/components/schemas/ContainerVolumeMap'
+          - score.dev/v1b1
+        metadata:
+          $ref: '#/components/schemas/WorkloadMetadata'
+        service:
+          $ref: '#/components/schemas/Service'
+        containers:
+          $ref: '#/components/schemas/ContainerMap'
         resources:
-          $ref: '#/components/schemas/ContainerResources'
-        livenessProbe:
-          $ref: '#/components/schemas/ContainerProbe'
-        readinessProbe:
-          $ref: '#/components/schemas/ContainerProbe'
-    HttpProbe:
+          $ref: '#/components/schemas/ResourceMap'
+    EnvironmentVariables:
       type: object
-      description: An HTTP probe details
+      description: The environment variables for the container
+      propertyNames:
+        minLength: 1
+        pattern: ^[^=]+$
+      additionalProperties:
+        type: string
+    ContainerVolume:
+      type: object
+      description: Volume mount specification
       additionalProperties: false
       required:
-      - port
-      - path
+      - source
       properties:
-        host:
+        source:
           type: string
-          description: Host name to connect to. Defaults to the workload IP. This is equivalent to a Host HTTP header.
-          minLength: 1
-        scheme:
-          type: string
-          description: Scheme to use for connecting to the host (HTTP or HTTPS). Defaults to HTTP.
-          enum:
-          - HTTP
-          - HTTPS
-          default: HTTP
+          description: The external volume reference
         path:
           type: string
-          description: The path to access on the HTTP server
-          examples:
-          - /health
-          - /ready
-          - /health/live
-        port:
-          type: integer
-          description: The port to access on the workload
-          minimum: 1
-          maximum: 65535
-        httpHeaders:
-          type: array
-          description: Additional HTTP headers to send with the request
-          items:
-            $ref: '#/components/schemas/HttpHeader'
-    ResourcesLimits:
-      type: object
-      description: The compute and memory resource limits
-      additionalProperties: false
-      properties:
-        memory:
-          type: string
-          description: The memory limit in bytes with optional unit specifier. For example 125M or 1Gi.
-          pattern: ^[1-9]\d*(K|M|G|T|Ki|Mi|Gi|Ti)?$
-          examples:
-          - 256M
-          - 1Gi
-          - 512Mi
-        cpu:
-          type: string
-          description: The CPU limit as whole or fractional CPUs. 'm' indicates milli-CPUs. For example 2 or 125m.
-          pattern: ^\d*(?:m|\.\d+)?$
-          examples:
-          - '1'
-          - 250m
-          - '0.5'
-    ServicePort:
-      type: object
-      description: The network port description
-      required:
-      - port
-      additionalProperties: false
-      properties:
-        port:
-          type: integer
-          description: The public service port
-          minimum: 1
-          maximum: 65535
-          examples:
-          - 80
-          - 443
-          - 8080
-        protocol:
-          type: string
-          description: The transport level protocol. Defaults to TCP.
-          enum:
-          - TCP
-          - UDP
-          default: TCP
-        targetPort:
-          type: integer
-          description: The internal service port. This will default to 'port' if not provided.
-          minimum: 1
-          maximum: 65535
+          description: An optional sub path in the volume
+        readOnly:
+          type: boolean
+          description: Indicates if the volume should be mounted in a read-only mode
     ContainerFile:
       type: object
       description: The details of a file to mount in the container. One of 'source', 'content', or 'binaryContent' must be provided.
@@ -375,23 +316,53 @@ components:
         noExpand:
           type: boolean
           description: If set to true, the placeholders expansion will not occur in the contents of the file.
-    WorkloadList:
+    ResourcesLimits:
       type: object
-      description: List of workloads response
+      description: The compute and memory resource limits
+      additionalProperties: false
       properties:
-        items:
+        memory:
+          type: string
+          description: The memory limit in bytes with optional unit specifier. For example 125M or 1Gi.
+          pattern: ^[1-9]\d*(K|M|G|T|Ki|Mi|Gi|Ti)?$
+          examples:
+          - 256M
+          - 1Gi
+          - 512Mi
+        cpu:
+          type: string
+          description: The CPU limit as whole or fractional CPUs. 'm' indicates milli-CPUs. For example 2 or 125m.
+          pattern: ^\d*(?:m|\.\d+)?$
+          examples:
+          - '1'
+          - 250m
+          - '0.5'
+    ExecProbe:
+      type: object
+      description: An executable health probe
+      additionalProperties: false
+      required:
+      - command
+      properties:
+        command:
           type: array
+          description: The command and arguments to execute within the container
           items:
-            $ref: '#/components/schemas/ScoreWorkload'
-        total:
-          type: integer
-          description: Total number of workloads
-        limit:
-          type: integer
-          description: Number of items per page
-        offset:
-          type: integer
-          description: Current offset
+            type: string
+    ContainerVolumeMap:
+      type: object
+      description: The volumes to mount as a map of target paths to volume details
+      additionalProperties:
+        $ref: '#/components/schemas/ContainerVolume'
+    ContainerProbe:
+      type: object
+      description: The probe may be defined as either http, command execution, or both. The execProbe should be preferred if the Score implementation supports both types.
+      additionalProperties: false
+      properties:
+        httpGet:
+          $ref: '#/components/schemas/HttpProbe'
+        exec:
+          $ref: '#/components/schemas/ExecProbe'
     Resource:
       type: object
       description: The set of Resources associated with this Workload
@@ -438,46 +409,203 @@ components:
           type: object
           description: Optional parameters used to provision the Resource in the environment
           additionalProperties: true
-    Annotations:
+    ContainerMap:
       type: object
-      description: Annotations that apply to the Workload or Resource. Keys can contain A-Z, a-z, 0-9, and '-' and may contain an optional /-separated RFC1123 Host Name prefix.
-      additionalProperties:
-        type: string
+      description: The set of named containers in the Workload. Container names must be valid RFC1123 Label Names.
+      minProperties: 1
       propertyNames:
         minLength: 2
-        maxLength: 316
-        pattern: ^(([a-z0-9][a-z0-9-]{0,61}[a-z0-9])(\.[a-z0-9][a-z0-9-]{0,61}[a-z0-9])*/)?[A-Za-z0-9][A-Za-z0-9._-]{0,61}[A-Za-z0-9]$
-    EnvironmentVariables:
-      type: object
-      description: The environment variables for the container
-      propertyNames:
-        minLength: 1
-        pattern: ^[^=]+$
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
       additionalProperties:
-        type: string
-    ScoreWorkload:
+        $ref: '#/components/schemas/Container'
+    ContainerFileMap:
       type: object
-      description: Score workload specification
+      description: The extra files to mount into the container as a map of target paths to file details
+      additionalProperties:
+        $ref: '#/components/schemas/ContainerFile'
+    HttpProbe:
+      type: object
+      description: An HTTP probe details
+      additionalProperties: false
       required:
-      - apiVersion
-      - metadata
-      - containers
+      - port
+      - path
+      properties:
+        host:
+          type: string
+          description: Host name to connect to. Defaults to the workload IP. This is equivalent to a Host HTTP header.
+          minLength: 1
+        scheme:
+          type: string
+          description: Scheme to use for connecting to the host (HTTP or HTTPS). Defaults to HTTP.
+          enum:
+          - HTTP
+          - HTTPS
+          default: HTTP
+        path:
+          type: string
+          description: The path to access on the HTTP server
+          examples:
+          - /health
+          - /ready
+          - /health/live
+        port:
+          type: integer
+          description: The port to access on the workload
+          minimum: 1
+          maximum: 65535
+        httpHeaders:
+          type: array
+          description: Additional HTTP headers to send with the request
+          items:
+            $ref: '#/components/schemas/HttpHeader'
+    ResourceMetadata:
+      type: object
+      description: The metadata for the Resource
+      additionalProperties: true
+      properties:
+        annotations:
+          $ref: '#/components/schemas/Annotations'
+    HttpHeader:
+      type: object
+      description: HTTP header for probe requests
+      additionalProperties: false
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The HTTP header name
+          pattern: ^[A-Za-z0-9_-]+$
+        value:
+          type: string
+          description: The HTTP header value
+          minLength: 1
+    WorkloadList:
+      type: object
+      description: List of workloads response
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoreWorkload'
+        total:
+          type: integer
+          description: Total number of workloads
+        limit:
+          type: integer
+          description: Number of items per page
+        offset:
+          type: integer
+          description: Current offset
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error details
+              additionalProperties: true
+    ServicePort:
+      type: object
+      description: The network port description
+      required:
+      - port
       additionalProperties: false
       properties:
-        apiVersion:
-          type: string
-          description: The declared Score Specification version
-          pattern: ^score\.dev/v1b1$
+        port:
+          type: integer
+          description: The public service port
+          minimum: 1
+          maximum: 65535
           examples:
-          - score.dev/v1b1
-        metadata:
-          $ref: '#/components/schemas/WorkloadMetadata'
-        service:
-          $ref: '#/components/schemas/Service'
-        containers:
-          $ref: '#/components/schemas/ContainerMap'
+          - 80
+          - 443
+          - 8080
+        protocol:
+          type: string
+          description: The transport level protocol. Defaults to TCP.
+          enum:
+          - TCP
+          - UDP
+          default: TCP
+        targetPort:
+          type: integer
+          description: The internal service port. This will default to 'port' if not provided.
+          minimum: 1
+          maximum: 65535
+    ServicePortMap:
+      type: object
+      description: The set of named network ports published by the service. Port names must be valid RFC1123 Label Names.
+      propertyNames:
+        minLength: 2
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+      additionalProperties:
+        $ref: '#/components/schemas/ServicePort'
+    Container:
+      type: object
+      description: The specification of a Container within the Workload
+      required:
+      - image
+      additionalProperties: false
+      properties:
+        image:
+          type: string
+          description: The container image name and tag
+          minLength: 1
+          examples:
+          - nginx:1.25-alpine
+          - ghcr.io/myorg/app:2.5.0
+        command:
+          type: array
+          description: If specified, overrides the entrypoint defined in the container image
+          items:
+            type: string
+        args:
+          type: array
+          description: If specified, overrides the arguments passed to the container entrypoint
+          items:
+            type: string
+        variables:
+          $ref: '#/components/schemas/EnvironmentVariables'
+        files:
+          $ref: '#/components/schemas/ContainerFileMap'
+        volumes:
+          $ref: '#/components/schemas/ContainerVolumeMap'
         resources:
-          $ref: '#/components/schemas/ResourceMap'
+          $ref: '#/components/schemas/ContainerResources'
+        livenessProbe:
+          $ref: '#/components/schemas/ContainerProbe'
+        readinessProbe:
+          $ref: '#/components/schemas/ContainerProbe'
+    Service:
+      type: object
+      description: The service that the workload provides
+      additionalProperties: false
+      properties:
+        ports:
+          $ref: '#/components/schemas/ServicePortMap'
+    ResourceMap:
+      type: object
+      description: The Resource dependencies needed by the Workload. Resource names must be valid RFC1123 Label Names.
+      propertyNames:
+        minLength: 2
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+      additionalProperties:
+        $ref: '#/components/schemas/Resource'
     WorkloadMetadata:
       type: object
       description: The metadata description of the Workload
@@ -497,209 +625,90 @@ components:
           - ml-inference-service
         annotations:
           $ref: '#/components/schemas/Annotations'
-    ContainerVolume:
-      type: object
-      description: Volume mount specification
-      additionalProperties: false
-      required:
-      - source
-      properties:
-        source:
-          type: string
-          description: The external volume reference
-        path:
-          type: string
-          description: An optional sub path in the volume
-        readOnly:
-          type: boolean
-          description: Indicates if the volume should be mounted in a read-only mode
-    HttpHeader:
-      type: object
-      description: HTTP header for probe requests
-      additionalProperties: false
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The HTTP header name
-          pattern: ^[A-Za-z0-9_-]+$
-        value:
-          type: string
-          description: The HTTP header value
-          minLength: 1
-    ResourceMetadata:
-      type: object
-      description: The metadata for the Resource
-      additionalProperties: true
-      properties:
-        annotations:
-          $ref: '#/components/schemas/Annotations'
-    ContainerFileMap:
-      type: object
-      description: The extra files to mount into the container as a map of target paths to file details
-      additionalProperties:
-        $ref: '#/components/schemas/ContainerFile'
-    ResourceMap:
-      type: object
-      description: The Resource dependencies needed by the Workload. Resource names must be valid RFC1123 Label Names.
-      propertyNames:
-        minLength: 2
-        maxLength: 63
-        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
-      additionalProperties:
-        $ref: '#/components/schemas/Resource'
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error details
-              additionalProperties: true
-    ContainerMap:
-      type: object
-      description: The set of named containers in the Workload. Container names must be valid RFC1123 Label Names.
-      minProperties: 1
-      propertyNames:
-        minLength: 2
-        maxLength: 63
-        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
-      additionalProperties:
-        $ref: '#/components/schemas/Container'
-    ContainerResources:
-      type: object
-      description: The compute resources for the container
-      additionalProperties: false
-      properties:
-        limits:
-          $ref: '#/components/schemas/ResourcesLimits'
-        requests:
-          $ref: '#/components/schemas/ResourcesLimits'
-    ExecProbe:
-      type: object
-      description: An executable health probe
-      additionalProperties: false
-      required:
-      - command
-      properties:
-        command:
-          type: array
-          description: The command and arguments to execute within the container
-          items:
-            type: string
-    ContainerVolumeMap:
-      type: object
-      description: The volumes to mount as a map of target paths to volume details
-      additionalProperties:
-        $ref: '#/components/schemas/ContainerVolume'
-    ServicePortMap:
-      type: object
-      description: The set of named network ports published by the service. Port names must be valid RFC1123 Label Names.
-      propertyNames:
-        minLength: 2
-        maxLength: 63
-        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
-      additionalProperties:
-        $ref: '#/components/schemas/ServicePort'
-    ContainerProbe:
-      type: object
-      description: The probe may be defined as either http, command execution, or both. The execProbe should be preferred if the Score implementation supports both types.
-      additionalProperties: false
-      properties:
-        httpGet:
-          $ref: '#/components/schemas/HttpProbe'
-        exec:
-          $ref: '#/components/schemas/ExecProbe'
-  parameters:
-    NameFilterParam:
-      name: name
-      in: query
-      description: Filter workloads by name (partial match)
-      schema:
-        type: string
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    WorkloadNameParam:
-      name: workloadName
-      in: path
-      required: true
-      description: The name of the workload
-      schema:
-        type: string
-        minLength: 2
-        maxLength: 63
-        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
-      examples:
-        ecommerce:
-          value: ecommerce-frontend
-        dataPipeline:
-          value: data-pipeline-worker
-        mlService:
-          value: ml-inference-service
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            internalError:
-              $ref: '#/components/examples/InternalErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    Conflict:
-      description: Resource already exists
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            conflict:
-              $ref: '#/components/examples/ConflictErrorExample'
   examples:
+    WorkloadListExample:
+      summary: List of workloads
+      description: Example response for listing multiple workloads
+      value:
+        items:
+        - apiVersion: score.dev/v1b1
+          metadata:
+            name: ecommerce-frontend
+            annotations:
+              app.kubernetes.io/part-of: ecommerce-platform
+          containers:
+            frontend:
+              image: ghcr.io/myorg/ecommerce-frontend:2.5.0
+        - apiVersion: score.dev/v1b1
+          metadata:
+            name: data-pipeline-worker
+            annotations:
+              app.kubernetes.io/part-of: data-platform
+          containers:
+            worker:
+              image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/data-worker:3.1.0
+        - apiVersion: score.dev/v1b1
+          metadata:
+            name: ml-inference-service
+            annotations:
+              app.kubernetes.io/part-of: ml-platform
+          containers:
+            model-server:
+              image: myacr.azurecr.io/ml-serving/inference-server:4.2.1
+        total: 3
+        limit: 10
+        offset: 0
+    BadRequestErrorExample:
+      summary: Bad request error
+      description: Example error response for invalid requests
+      value:
+        error:
+          code: BAD_REQUEST
+          message: Invalid workload specification
+          details:
+            validationErrors:
+            - path: /apiVersion
+              message: apiVersion must be 'score.dev/v1b1'
+    NotFoundErrorExample:
+      summary: Not found error
+      description: Example error response when workload is not found
+      value:
+        error:
+          code: NOT_FOUND
+          message: Workload 'my-workload' not found
+    EcommerceResourcesExample:
+      summary: E-commerce frontend resources
+      description: Resource definitions for the e-commerce frontend workload
+      value:
+        postgres-db:
+          type: postgres
+          class: managed
+          id: ecommerce.products
+        cache:
+          type: redis
+          class: cluster
+          id: ecommerce.session-cache
+        session-secrets:
+          type: secret
+          id: ecommerce.session
+        object-storage:
+          type: s3
+          class: standard
+          id: ecommerce.assets
+        uploads-volume:
+          type: volume
+          class: ssd
+        static-assets:
+          type: volume
+          class: standard
+          id: ecommerce.static
+        tls-certs:
+          type: secret
+          class: tls
+          id: ecommerce.tls
+        feature-flags:
+          type: service
+          id: shared.feature-flags
     DataPipelineWorkerExample:
       summary: Data Pipeline Worker Workload
       description: A data processing worker with Kafka integration and metrics exporter
@@ -889,6 +898,15 @@ components:
               traces: true
               metrics: true
               logs: true
+    InternalErrorExample:
+      summary: Internal server error
+      description: Example error response for server errors
+      value:
+        error:
+          code: INTERNAL_ERROR
+          message: An unexpected error occurred
+          details:
+            requestId: req-abc123
     EcommerceContainersExample:
       summary: E-commerce frontend containers
       description: Container definitions for the e-commerce frontend workload
@@ -916,66 +934,13 @@ components:
             limits:
               memory: 128M
               cpu: 200m
-    NotFoundErrorExample:
-      summary: Not found error
-      description: Example error response when workload is not found
+    ConflictErrorExample:
+      summary: Conflict error
+      description: Example error response when workload already exists
       value:
         error:
-          code: NOT_FOUND
-          message: Workload 'my-workload' not found
-    EcommerceResourcesExample:
-      summary: E-commerce frontend resources
-      description: Resource definitions for the e-commerce frontend workload
-      value:
-        postgres-db:
-          type: postgres
-          class: managed
-          id: ecommerce.products
-        cache:
-          type: redis
-          class: cluster
-          id: ecommerce.session-cache
-        session-secrets:
-          type: secret
-          id: ecommerce.session
-        object-storage:
-          type: s3
-          class: standard
-          id: ecommerce.assets
-        uploads-volume:
-          type: volume
-          class: ssd
-        static-assets:
-          type: volume
-          class: standard
-          id: ecommerce.static
-        tls-certs:
-          type: secret
-          class: tls
-          id: ecommerce.tls
-        feature-flags:
-          type: service
-          id: shared.feature-flags
-    BadRequestErrorExample:
-      summary: Bad request error
-      description: Example error response for invalid requests
-      value:
-        error:
-          code: BAD_REQUEST
-          message: Invalid workload specification
-          details:
-            validationErrors:
-            - path: /apiVersion
-              message: apiVersion must be 'score.dev/v1b1'
-    InternalErrorExample:
-      summary: Internal server error
-      description: Example error response for server errors
-      value:
-        error:
-          code: INTERNAL_ERROR
-          message: An unexpected error occurred
-          details:
-            requestId: req-abc123
+          code: CONFLICT
+          message: Workload 'ecommerce-frontend' already exists
     EcommerceFrontendExample:
       summary: E-commerce Frontend Workload
       description: A complete e-commerce frontend application with nginx sidecar
@@ -1156,45 +1121,6 @@ components:
             id: shared.feature-flags
             params:
               environment: production
-    WorkloadListExample:
-      summary: List of workloads
-      description: Example response for listing multiple workloads
-      value:
-        items:
-        - apiVersion: score.dev/v1b1
-          metadata:
-            name: ecommerce-frontend
-            annotations:
-              app.kubernetes.io/part-of: ecommerce-platform
-          containers:
-            frontend:
-              image: ghcr.io/myorg/ecommerce-frontend:2.5.0
-        - apiVersion: score.dev/v1b1
-          metadata:
-            name: data-pipeline-worker
-            annotations:
-              app.kubernetes.io/part-of: data-platform
-          containers:
-            worker:
-              image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/data-worker:3.1.0
-        - apiVersion: score.dev/v1b1
-          metadata:
-            name: ml-inference-service
-            annotations:
-              app.kubernetes.io/part-of: ml-platform
-          containers:
-            model-server:
-              image: myacr.azurecr.io/ml-serving/inference-server:4.2.1
-        total: 3
-        limit: 10
-        offset: 0
-    ConflictErrorExample:
-      summary: Conflict error
-      description: Example error response when workload already exists
-      value:
-        error:
-          code: CONFLICT
-          message: Workload 'ecommerce-frontend' already exists
     MLInferenceServiceExample:
       summary: ML Inference Service Workload
       description: A machine learning inference service with model server, request router, and A/B testing controller
@@ -1437,6 +1363,84 @@ components:
               - prediction_latency
               - batch_size
               - cache_hit_rate
+  parameters:
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    WorkloadNameParam:
+      name: workloadName
+      in: path
+      required: true
+      description: The name of the workload
+      schema:
+        type: string
+        minLength: 2
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+      examples:
+        ecommerce:
+          value: ecommerce-frontend
+        dataPipeline:
+          value: data-pipeline-worker
+        mlService:
+          value: ml-inference-service
+    NameFilterParam:
+      name: name
+      in: query
+      description: Filter workloads by name (partial match)
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            internalError:
+              $ref: '#/components/examples/InternalErrorExample'
+    Conflict:
+      description: Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            conflict:
+              $ref: '#/components/examples/ConflictErrorExample'
   securitySchemes:
     bearerAuth:
       type: http

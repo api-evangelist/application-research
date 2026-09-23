@@ -1,7 +1,11 @@
 openapi: 3.2.0
 info:
   title: Application Research Radius Planes API
-  description: "OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables \ndevelopers to define, deploy, and collaborate on cloud-native applications across public \nclouds and private infrastructure.\n"
+  description: 'OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables
+
+    developers to define, deploy, and collaborate on cloud-native applications across public
+
+    clouds and private infrastructure.'
   version: 2023-10-01-preview
   contact:
     name: Radius Project
@@ -40,45 +44,19 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
-  responses:
-    ErrorResponse:
-      description: Error response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                  message:
-                    type: string
-                    description: Error message
-                  target:
-                    type: string
-                    description: Error target
-                required:
-                - code
-                - message
-            required:
-            - error
   schemas:
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
+    RadiusPlaneResourceProperties:
+      type: object
+      properties:
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        resourceProviders:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+      - resourceProviders
     RadiusPlaneResource:
       type: object
       properties:
@@ -105,31 +83,19 @@ components:
       required:
       - properties
       - location
-    RadiusPlaneResourceProperties:
-      type: object
-      properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        resourceProviders:
-          type: object
-          additionalProperties:
-            type: string
-      required:
-      - resourceProviders
-  examples:
-    RadiusPlaneExample:
-      summary: Radius plane with resource providers
-      value:
-        properties:
-          resourceProviders:
-            Applications.Core: http://applications-rp.radius-system:8080
-            Applications.Dapr: http://applications-rp.radius-system:8080
-            Applications.Datastores: http://applications-rp.radius-system:8080
-            Applications.Messaging: http://applications-rp.radius-system:8080
-        location: global
-        tags:
-          plane: radius
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
   parameters:
     PlaneNameParameter:
       name: planeName
@@ -148,3 +114,41 @@ components:
       schema:
         type: string
         default: 2023-10-01-preview
+  examples:
+    RadiusPlaneExample:
+      summary: Radius plane with resource providers
+      value:
+        properties:
+          resourceProviders:
+            Applications.Core: http://applications-rp.radius-system:8080
+            Applications.Dapr: http://applications-rp.radius-system:8080
+            Applications.Datastores: http://applications-rp.radius-system:8080
+            Applications.Messaging: http://applications-rp.radius-system:8080
+        location: global
+        tags:
+          plane: radius
+  responses:
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                  message:
+                    type: string
+                    description: Error message
+                  target:
+                    type: string
+                    description: Error target
+                required:
+                - code
+                - message
+            required:
+            - error

@@ -1,8 +1,17 @@
 openapi: 3.2.0
 info:
-  title: Application Research Open Resource Discovery (ORD) Packages API
+  title: Application Research Open Resource Discovery (ORD) Packages…
   version: 1.12.0
-  description: "The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers \nfor ORD resources and taxonomy. This API enables discovery and management of API resources, \nevent resources, data products, entity types, capabilities, and integration dependencies.\n\nORD enables machine-readable self-description of systems and their capabilities, supporting\nautomated discovery, integration, and governance of enterprise APIs and services.\n"
+  description: 'The Open Resource Discovery (ORD) API provides access to ORD Documents which serve as wrappers
+
+    for ORD resources and taxonomy. This API enables discovery and management of API resources,
+
+    event resources, data products, entity types, capabilities, and integration dependencies.
+
+
+    ORD enables machine-readable self-description of systems and their capabilities, supporting
+
+    automated discovery, integration, and governance of enterprise APIs and services.'
   contact:
     name: ORD Specification Team
     url: https://open-resource-discovery.org
@@ -71,98 +80,11 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  examples:
-    PackageListExample:
-      summary: List of Packages
-      value:
-        items:
-        - ordId: sap.iot:package:DeviceManagement:v1
-          title: Device Management Package
-          shortDescription: APIs for IoT device lifecycle management
-          version: 1.8.0
-          vendor: 'sap:vendor:SAP:'
-        - ordId: sap.iot:package:TimeSeries:v2
-          title: Time Series Data Package
-          shortDescription: APIs for sensor time series data
-          version: 2.0.0
-          vendor: 'sap:vendor:SAP:'
-        totalCount: 2
-        limit: 20
-        offset: 0
-    PackageExample:
-      summary: Device Management Package
-      value:
-        ordId: sap.iot:package:DeviceManagement:v1
-        title: Device Management Package
-        shortDescription: APIs for IoT device lifecycle management
-        description: Complete set of APIs and events for managing IoT devices, including registration, configuration, firmware updates, and health monitoring.
-        version: 1.8.0
-        vendor: 'sap:vendor:SAP:'
-        partOfProducts:
-        - 'sap:product:IoTPlatform:'
-        packageLinks:
-        - type: client-registration
-          url: https://iot.sap.com/developer/register
-        lineOfBusiness:
-        - Manufacturing
-        - Asset Management
-        industry:
-        - Automotive
-        - Industrial Machinery and Components
-        tags:
-        - iot
-        - devices
-        - edge
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
   schemas:
-    PackageList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Package'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    PolicyLevel:
+    SemVer:
       type: string
-      description: Policy level for compliance
-      oneOf:
-      - type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      - type: string
-        enum:
-        - none
-        - custom
-    SpecificationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
     Link:
       type: object
       title: Link
@@ -179,41 +101,6 @@ components:
         description:
           type: string
           minLength: 1
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
-    PolicyLevelId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    CustomPolicyLevel:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    PackageLink:
-      type: object
-      title: Package Link
-      required:
-      - type
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - terms-of-service
-          - license
-          - client-registration
-          - payment
-          - sandbox
-          - service-level-agreement
-          - support
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        url:
-          type: string
-          format: uri
     DocumentationLabels:
       type: object
       title: Documentation Labels
@@ -222,9 +109,18 @@ components:
         items:
           type: string
           minLength: 1
-    LineOfBusiness:
+    CustomPolicyLevel:
       type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
       minLength: 1
     Error:
       type: object
@@ -250,10 +146,55 @@ components:
         requestId:
           type: string
           description: Request ID for troubleshooting
-    Industry:
+    PackageLink:
+      type: object
+      title: Package Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - terms-of-service
+          - license
+          - client-registration
+          - payment
+          - sandbox
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    LineOfBusiness:
       type: string
       pattern: ^[a-zA-Z0-9-_.\/& ]*$
       minLength: 1
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
     Package:
       type: object
       title: Package
@@ -353,35 +294,24 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
-    Labels:
+    PackageList:
       type: object
-      title: Labels
-      additionalProperties:
-        type: array
+      properties:
         items:
-          type: string
-          minLength: 1
-    SemVer:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Industry:
       type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
   parameters:
-    VendorFilterParam:
-      name: vendor
-      in: query
-      description: Filter by vendor ORD ID
-      schema:
-        type: string
-      example: 'sap:vendor:SAP:'
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
     PackageOrdIdParam:
       name: ordId
       in: path
@@ -399,16 +329,86 @@ components:
         type: integer
         minimum: 0
         default: 0
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    VendorFilterParam:
+      name: vendor
+      in: query
+      description: Filter by vendor ORD ID
+      schema:
+        type: string
+      example: 'sap:vendor:SAP:'
+  examples:
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    PackageListExample:
+      summary: List of Packages
+      value:
+        items:
+        - ordId: sap.iot:package:DeviceManagement:v1
+          title: Device Management Package
+          shortDescription: APIs for IoT device lifecycle management
+          version: 1.8.0
+          vendor: 'sap:vendor:SAP:'
+        - ordId: sap.iot:package:TimeSeries:v2
+          title: Time Series Data Package
+          shortDescription: APIs for sensor time series data
+          version: 2.0.0
+          vendor: 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    PackageExample:
+      summary: Device Management Package
+      value:
+        ordId: sap.iot:package:DeviceManagement:v1
+        title: Device Management Package
+        shortDescription: APIs for IoT device lifecycle management
+        description: Complete set of APIs and events for managing IoT devices, including registration, configuration, firmware updates, and health monitoring.
+        version: 1.8.0
+        vendor: 'sap:vendor:SAP:'
+        partOfProducts:
+        - 'sap:product:IoTPlatform:'
+        packageLinks:
+        - type: client-registration
+          url: https://iot.sap.com/developer/register
+        lineOfBusiness:
+        - Manufacturing
+        - Asset Management
+        industry:
+        - Automotive
+        - Industrial Machinery and Components
+        tags:
+        - iot
+        - devices
+        - edge
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
   responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
     BadRequest:
       description: Bad request - invalid input parameters
       content:
@@ -418,6 +418,15 @@ components:
           examples:
             badRequest:
               $ref: '#/components/examples/BadRequestErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
     InternalServerError:
       description: Internal server error
       content:

@@ -1,7 +1,11 @@
 openapi: 3.2.0
 info:
   title: Application Research Radius Messaging API
-  description: "OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables \ndevelopers to define, deploy, and collaborate on cloud-native applications across public \nclouds and private infrastructure.\n"
+  description: 'OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables
+
+    developers to define, deploy, and collaborate on cloud-native applications across public
+
+    clouds and private infrastructure.'
   version: 2023-10-01-preview
   contact:
     name: Radius Project
@@ -42,6 +46,40 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
+  parameters:
+    RabbitMQQueueNameParameter:
+      name: rabbitMQQueueName
+      in: path
+      required: true
+      description: The name of the RabbitMQ queue
+      schema:
+        type: string
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
   schemas:
     ResourceReference:
       type: object
@@ -52,65 +90,6 @@ components:
           description: Resource id of an existing resource
       required:
       - id
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    RabbitMQSecrets:
-      type: object
-      properties:
-        password:
-          type: string
-        uri:
-          type: string
-    ResourceProvisioning:
-      type: string
-      description: Specifies how the underlying service/resource is provisioned and managed
-      enum:
-      - recipe
-      - manual
-    OutputResource:
-      type: object
-      description: Properties of an output resource
-      properties:
-        localId:
-          type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    ResourceStatus:
-      type: object
-      description: Status of a resource
-      properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
     RabbitMQQueueProperties:
       type: object
       properties:
@@ -149,23 +128,19 @@ components:
           $ref: '#/components/schemas/ResourceProvisioning'
       required:
       - environment
-    EnvironmentCompute:
+    RecipeStatus:
       type: object
-      description: Represents backing compute resource
+      description: Recipe status at deployment time
       properties:
-        kind:
+        templateKind:
           type: string
-        resourceId:
+        templatePath:
           type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
+        templateVersion:
+          type: string
       required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
+      - templateKind
+      - templatePath
     RabbitMQQueueResource:
       type: object
       properties:
@@ -192,6 +167,12 @@ components:
       required:
       - properties
       - location
+    ResourceProvisioning:
+      type: string
+      description: Specifies how the underlying service/resource is provisioned and managed
+      enum:
+      - recipe
+      - manual
     Recipe:
       type: object
       description: The recipe used to automatically deploy underlying infrastructure
@@ -204,19 +185,76 @@ components:
           description: Key/value parameters to pass into the recipe at deployment
       required:
       - name
-    RecipeStatus:
+    ResourceStatus:
       type: object
-      description: Recipe status at deployment time
+      description: Status of a resource
       properties:
-        templateKind:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
           type: string
-        templatePath:
+        resourceId:
           type: string
-        templateVersion:
-          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
       required:
-      - templateKind
-      - templatePath
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
+    RabbitMQSecrets:
+      type: object
+      properties:
+        password:
+          type: string
+        uri:
+          type: string
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
     IdentitySettings:
       type: object
       description: IdentitySettings is the external identity setting
@@ -235,40 +273,6 @@ components:
             type: string
       required:
       - kind
-  parameters:
-    RabbitMQQueueNameParameter:
-      name: rabbitMQQueueName
-      in: path
-      required: true
-      description: The name of the RabbitMQ queue
-      schema:
-        type: string
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
   responses:
     ErrorResponse:
       description: Error response

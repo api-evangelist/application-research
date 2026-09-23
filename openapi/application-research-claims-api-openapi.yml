@@ -7,9 +7,7 @@ info:
 
     This API provides endpoints for managing CNAB bundles, claims, claim results,
 
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+    dependencies, parameter sources, relocation mappings, and installation status.'
   contact:
     name: CNAB Specification
     url: https://cnab.io
@@ -113,6 +111,82 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
+    SimpleType:
+      type: string
+      enum:
+      - array
+      - boolean
+      - integer
+      - 'null'
+      - number
+      - object
+      - string
+    InvocationImage:
+      type: object
+      description: A bootstrapping image for the CNAB bundle
+      required:
+      - image
+      properties:
+        image:
+          type: string
+          description: A resolvable reference to the image
+        imageType:
+          type: string
+          description: The type of image
+          default: oci
+        contentDigest:
+          type: string
+          description: A cryptographic hash digest of the image contents
+        size:
+          type: integer
+          description: The image size in bytes
+        mediaType:
+          type: string
+          description: The media type of the image
+        labels:
+          type: object
+          description: Key/value pairs for identifying attributes
+          additionalProperties:
+            type: string
+    Credential:
+      type: object
+      description: Defines a credential and where it should be placed
+      properties:
+        description:
+          type: string
+          description: A user-friendly description of this credential
+        env:
+          type: string
+          description: The environment variable name for this credential
+        path:
+          type: string
+          description: The path inside the invocation image for mounting credentials
+        required:
+          type: boolean
+          description: Indicates whether this credential must be supplied
+          default: false
+        applyTo:
+          type: array
+          description: An optional list of actions handling this credential
+          items:
+            type: string
+    Action:
+      type: object
+      description: A custom action that can be triggered on the bundle
+      properties:
+        title:
+          type: string
+          description: A human-readable name for this action
+        description:
+          type: string
+          description: A description of the purpose of this action
+        modifies:
+          type: boolean
+          description: Whether the action can change any managed resource
+        stateless:
+          type: boolean
+          description: Whether the action is purely informational
+          default: false
     Bundle:
       type: object
       description: Cloud Native Application Bundle Descriptor (CNAB v1)
@@ -206,6 +280,80 @@ components:
           type: object
           description: Reserved for custom extensions
           additionalProperties: true
+    Image:
+      type: object
+      description: An application image for this CNAB bundle
+      required:
+      - image
+      properties:
+        image:
+          type: string
+          description: A resolvable reference to the image
+        imageType:
+          type: string
+          description: The type of image
+          default: oci
+        description:
+          type: string
+          description: A description of the purpose of this image
+        contentDigest:
+          type: string
+          description: A cryptographic hash digest of the image contents
+        size:
+          type: integer
+          description: The image size in bytes
+        mediaType:
+          type: string
+          description: The media type of the image
+        labels:
+          type: object
+          description: Key/value pairs for identifying attributes
+          additionalProperties:
+            type: string
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+    Maintainer:
+      type: object
+      description: Information about a bundle maintainer
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the maintainer
+        email:
+          type: string
+          format: email
+          description: Email address of the maintainer
+        url:
+          type: string
+          format: uri
+          description: URL for the maintainer
+    ParameterDestination:
+      type: object
+      description: Where the parameter value should be placed
+      properties:
+        env:
+          type: string
+          description: The environment variable name for the parameter value
+        path:
+          type: string
+          description: The path inside the invocation image for the parameter
     Claim:
       type: object
       description: CNAB Claim representing an installation action
@@ -246,53 +394,50 @@ components:
           type: object
           description: Reserved for custom extensions
           additionalProperties: true
-    Maintainer:
+    Parameter:
       type: object
-      description: Information about a bundle maintainer
+      description: A parameter that can be passed into the invocation image
       required:
-      - name
+      - definition
+      - destination
       properties:
-        name:
+        definition:
           type: string
-          description: Name of the maintainer
-        email:
-          type: string
-          format: email
-          description: Email address of the maintainer
-        url:
-          type: string
-          format: uri
-          description: URL for the maintainer
-    SimpleType:
-      type: string
-      enum:
-      - array
-      - boolean
-      - integer
-      - 'null'
-      - number
-      - object
-      - string
-    Credential:
-      type: object
-      description: Defines a credential and where it should be placed
-      properties:
+          description: The name of a definition describing the schema
         description:
           type: string
-          description: A user-friendly description of this credential
-        env:
-          type: string
-          description: The environment variable name for this credential
-        path:
-          type: string
-          description: The path inside the invocation image for mounting credentials
+          description: A user-friendly description of this parameter
+        destination:
+          $ref: '#/components/schemas/ParameterDestination'
         required:
           type: boolean
-          description: Indicates whether this credential must be supplied
+          description: Indicates whether this parameter must be supplied
           default: false
         applyTo:
           type: array
-          description: An optional list of actions handling this credential
+          description: An optional list of actions handling this parameter
+          items:
+            type: string
+    BundleOutput:
+      type: object
+      description: A value produced by running an invocation image
+      required:
+      - definition
+      - path
+      properties:
+        definition:
+          type: string
+          description: The name of a definition describing the schema
+        description:
+          type: string
+          description: A user-friendly description of this output
+        path:
+          type: string
+          description: The path inside the invocation image where output is written
+          pattern: ^/cnab/app/outputs/.+$
+        applyTo:
+          type: array
+          description: An optional list of actions producing this output
           items:
             type: string
     Definition:
@@ -389,107 +534,6 @@ components:
             items:
               $ref: '#/components/schemas/Definition'
             minItems: 1
-    Action:
-      type: object
-      description: A custom action that can be triggered on the bundle
-      properties:
-        title:
-          type: string
-          description: A human-readable name for this action
-        description:
-          type: string
-          description: A description of the purpose of this action
-        modifies:
-          type: boolean
-          description: Whether the action can change any managed resource
-        stateless:
-          type: boolean
-          description: Whether the action is purely informational
-          default: false
-    InvocationImage:
-      type: object
-      description: A bootstrapping image for the CNAB bundle
-      required:
-      - image
-      properties:
-        image:
-          type: string
-          description: A resolvable reference to the image
-        imageType:
-          type: string
-          description: The type of image
-          default: oci
-        contentDigest:
-          type: string
-          description: A cryptographic hash digest of the image contents
-        size:
-          type: integer
-          description: The image size in bytes
-        mediaType:
-          type: string
-          description: The media type of the image
-        labels:
-          type: object
-          description: Key/value pairs for identifying attributes
-          additionalProperties:
-            type: string
-    ParameterDestination:
-      type: object
-      description: Where the parameter value should be placed
-      properties:
-        env:
-          type: string
-          description: The environment variable name for the parameter value
-        path:
-          type: string
-          description: The path inside the invocation image for the parameter
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: object
-          description: Additional error details
-          additionalProperties: true
-    Image:
-      type: object
-      description: An application image for this CNAB bundle
-      required:
-      - image
-      properties:
-        image:
-          type: string
-          description: A resolvable reference to the image
-        imageType:
-          type: string
-          description: The type of image
-          default: oci
-        description:
-          type: string
-          description: A description of the purpose of this image
-        contentDigest:
-          type: string
-          description: A cryptographic hash digest of the image contents
-        size:
-          type: integer
-          description: The image size in bytes
-        mediaType:
-          type: string
-          description: The media type of the image
-        labels:
-          type: object
-          description: Key/value pairs for identifying attributes
-          additionalProperties:
-            type: string
     ClaimListResponse:
       type: object
       properties:
@@ -500,69 +544,7 @@ components:
         total:
           type: integer
           description: Total number of claims
-    Parameter:
-      type: object
-      description: A parameter that can be passed into the invocation image
-      required:
-      - definition
-      - destination
-      properties:
-        definition:
-          type: string
-          description: The name of a definition describing the schema
-        description:
-          type: string
-          description: A user-friendly description of this parameter
-        destination:
-          $ref: '#/components/schemas/ParameterDestination'
-        required:
-          type: boolean
-          description: Indicates whether this parameter must be supplied
-          default: false
-        applyTo:
-          type: array
-          description: An optional list of actions handling this parameter
-          items:
-            type: string
-    BundleOutput:
-      type: object
-      description: A value produced by running an invocation image
-      required:
-      - definition
-      - path
-      properties:
-        definition:
-          type: string
-          description: The name of a definition describing the schema
-        description:
-          type: string
-          description: A user-friendly description of this output
-        path:
-          type: string
-          description: The path inside the invocation image where output is written
-          pattern: ^/cnab/app/outputs/.+$
-        applyTo:
-          type: array
-          description: An optional list of actions producing this output
-          items:
-            type: string
   examples:
-    ClaimListResponse:
-      summary: Claim list response
-      description: Example response for listing claims
-      value:
-        items:
-        - id: 01HQXYZ123456789ABCDEFGH
-          installation: my-wordpress-prod
-          action: install
-          revision: 01HQXYZ123456789ABCDEFGI
-          created: '2024-01-15T10:30:00Z'
-        - id: 01HQXYZ223456789ABCDEFGH
-          installation: my-wordpress-prod
-          action: upgrade
-          revision: 01HQXYZ223456789ABCDEFGI
-          created: '2024-02-20T14:45:00Z'
-        total: 2
     ClaimUpgrade:
       summary: Upgrade claim example
       description: Example claim for an upgrade action
@@ -583,6 +565,45 @@ components:
         parameters:
           site-name: My Production Blog
           replica-count: 5
+    ClaimListResponse:
+      summary: Claim list response
+      description: Example response for listing claims
+      value:
+        items:
+        - id: 01HQXYZ123456789ABCDEFGH
+          installation: my-wordpress-prod
+          action: install
+          revision: 01HQXYZ123456789ABCDEFGI
+          created: '2024-01-15T10:30:00Z'
+        - id: 01HQXYZ223456789ABCDEFGH
+          installation: my-wordpress-prod
+          action: upgrade
+          revision: 01HQXYZ223456789ABCDEFGI
+          created: '2024-02-20T14:45:00Z'
+        total: 2
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+    ErrorBadRequest:
+      summary: Bad request error
+      description: Example error for invalid input
+      value:
+        code: BAD_REQUEST
+        message: Invalid bundle schema
+        details:
+          field: version
+          error: Version must follow SemVer2 format
     ClaimInstall:
       summary: Install claim example
       description: Example claim for an install action
@@ -603,30 +624,41 @@ components:
         parameters:
           site-name: My Production Blog
           replica-count: 3
-    ErrorBadRequest:
-      summary: Bad request error
-      description: Example error for invalid input
-      value:
-        code: BAD_REQUEST
-        message: Invalid bundle schema
-        details:
-          field: version
-          error: Version must follow SemVer2 format
-    ErrorInternal:
-      summary: Internal error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-123456
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
+  parameters:
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    ClaimIdParam:
+      name: id
+      in: path
+      required: true
+      description: Claim ID (ULID)
+      schema:
+        type: string
   responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            invalidSchema:
+              $ref: '#/components/examples/ErrorBadRequest'
     InternalError:
       description: Internal server error
       content:
@@ -645,40 +677,6 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/ErrorNotFound'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            invalidSchema:
-              $ref: '#/components/examples/ErrorBadRequest'
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    ClaimIdParam:
-      name: id
-      in: path
-      required: true
-      description: Claim ID (ULID)
-      schema:
-        type: string
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
   securitySchemes:
     bearerAuth:
       type: http

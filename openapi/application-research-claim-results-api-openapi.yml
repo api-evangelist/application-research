@@ -7,9 +7,7 @@ info:
 
     This API provides endpoints for managing CNAB bundles, claims, claim results,
 
-    dependencies, parameter sources, relocation mappings, and installation status.
-
-    '
+    dependencies, parameter sources, relocation mappings, and installation status.'
   contact:
     name: CNAB Specification
     url: https://cnab.io
@@ -75,77 +73,25 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 components:
-  examples:
-    ClaimResultSuccess:
-      summary: Successful claim result
-      description: Example of a successful operation result
-      value:
-        id: 01HQABC123456789ABCDEFGH
-        claimId: 01HQXYZ123456789ABCDEFGH
-        status: succeeded
-        message: Installation completed successfully
-        created: '2024-01-15T10:35:00Z'
-        outputs:
-          db-connection-string:
-            contentDigest: sha256:conn123...
-    ErrorInternal:
-      summary: Internal error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-123456
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
-    ClaimResultListResponse:
-      summary: Claim result list response
-      description: Example response for listing claim results
-      value:
-      - id: 01HQABC123456789ABCDEFGH
-        claimId: 01HQXYZ123456789ABCDEFGH
-        status: succeeded
-        message: Installation completed successfully
-        created: '2024-01-15T10:35:00Z'
-      - id: 01HQABC223456789ABCDEFGH
-        claimId: 01HQXYZ123456789ABCDEFGH
-        status: running
-        message: Upgrading database schema...
-        created: '2024-01-16T09:00:00Z'
-    ClaimResultFailed:
-      summary: Failed claim result
-      description: Example of a failed operation result
-      value:
-        id: 01HQABC223456789ABCDEFGH
-        claimId: 01HQXYZ223456789ABCDEFGH
-        status: failed
-        message: 'Error: Unable to connect to database server'
-        created: '2024-02-20T14:50:00Z'
-        outputs: {}
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
   schemas:
+    ClaimResultStatus:
+      type: string
+      description: The status of the operation
+      enum:
+      - canceled
+      - failed
+      - succeeded
+      - pending
+      - running
+      - unknown
+    ClaimResultOutput:
+      type: object
+      description: An output value from a claim result
+      properties:
+        contentDigest:
+          type: string
+          description: A cryptographic hash digest of the output contents
+      additionalProperties: true
     ClaimResult:
       type: object
       description: CNAB Claim Result representing the outcome of an action
@@ -183,24 +129,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/ClaimResult'
-    ClaimResultStatus:
-      type: string
-      description: The status of the operation
-      enum:
-      - canceled
-      - failed
-      - succeeded
-      - pending
-      - running
-      - unknown
-    ClaimResultOutput:
-      type: object
-      description: An output value from a claim result
-      properties:
-        contentDigest:
-          type: string
-          description: A cryptographic hash digest of the output contents
-      additionalProperties: true
     Error:
       type: object
       description: Error response
@@ -233,6 +161,76 @@ components:
       description: Claim ID (ULID)
       schema:
         type: string
+  examples:
+    ClaimResultFailed:
+      summary: Failed claim result
+      description: Example of a failed operation result
+      value:
+        id: 01HQABC223456789ABCDEFGH
+        claimId: 01HQXYZ223456789ABCDEFGH
+        status: failed
+        message: 'Error: Unable to connect to database server'
+        created: '2024-02-20T14:50:00Z'
+        outputs: {}
+    ClaimResultListResponse:
+      summary: Claim result list response
+      description: Example response for listing claim results
+      value:
+      - id: 01HQABC123456789ABCDEFGH
+        claimId: 01HQXYZ123456789ABCDEFGH
+        status: succeeded
+        message: Installation completed successfully
+        created: '2024-01-15T10:35:00Z'
+      - id: 01HQABC223456789ABCDEFGH
+        claimId: 01HQXYZ123456789ABCDEFGH
+        status: running
+        message: Upgrading database schema...
+        created: '2024-01-16T09:00:00Z'
+    ClaimResultSuccess:
+      summary: Successful claim result
+      description: Example of a successful operation result
+      value:
+        id: 01HQABC123456789ABCDEFGH
+        claimId: 01HQXYZ123456789ABCDEFGH
+        status: succeeded
+        message: Installation completed successfully
+        created: '2024-01-15T10:35:00Z'
+        outputs:
+          db-connection-string:
+            contentDigest: sha256:conn123...
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
   securitySchemes:
     bearerAuth:
       type: http

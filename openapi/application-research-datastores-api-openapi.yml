@@ -1,7 +1,11 @@
 openapi: 3.2.0
 info:
   title: Application Research Radius Datastores API
-  description: "OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables \ndevelopers to define, deploy, and collaborate on cloud-native applications across public \nclouds and private infrastructure.\n"
+  description: 'OpenAPI 3.1 specification for Radius - a cloud-native application platform that enables
+
+    developers to define, deploy, and collaborate on cloud-native applications across public
+
+    clouds and private infrastructure.'
   version: 2023-10-01-preview
   contact:
     name: Radius Project
@@ -88,6 +92,54 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
+  parameters:
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    MongoDatabaseNameParameter:
+      name: mongoDatabaseName
+      in: path
+      required: true
+      description: The name of the MongoDB database
+      schema:
+        type: string
+    RedisCacheNameParameter:
+      name: redisCacheName
+      in: path
+      required: true
+      description: The name of the Redis cache
+      schema:
+        type: string
+    SqlDatabaseNameParameter:
+      name: sqlDatabaseName
+      in: path
+      required: true
+      description: The name of the SQL database
+      schema:
+        type: string
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
   schemas:
     ResourceReference:
       type: object
@@ -98,79 +150,25 @@ components:
           description: Resource id of an existing resource
       required:
       - id
-    SqlDatabaseProperties:
+    RecipeStatus:
       type: object
+      description: Recipe status at deployment time
       properties:
-        environment:
+        templateKind:
           type: string
-        application:
+        templatePath:
           type: string
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/ResourceStatus'
-          readOnly: true
-        database:
+        templateVersion:
           type: string
-        server:
-          type: string
-        port:
-          type: integer
-          format: int32
-        username:
-          type: string
-        resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceReference'
-        secrets:
-          $ref: '#/components/schemas/SqlDatabaseSecrets'
-        recipe:
-          $ref: '#/components/schemas/Recipe'
-        resourceProvisioning:
-          $ref: '#/components/schemas/ResourceProvisioning'
       required:
-      - environment
-    ProvisioningState:
+      - templateKind
+      - templatePath
+    ResourceProvisioning:
       type: string
-      description: Provisioning state of the resource at the time the operation was called
+      description: Specifies how the underlying service/resource is provisioned and managed
       enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    MongoDatabaseResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/MongoDatabaseProperties'
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
+      - recipe
+      - manual
     MongoDatabaseSecrets:
       type: object
       properties:
@@ -178,75 +176,18 @@ components:
           type: string
         connectionString:
           type: string
-    ResourceProvisioning:
-      type: string
-      description: Specifies how the underlying service/resource is provisioned and managed
-      enum:
-      - recipe
-      - manual
-    OutputResource:
+    Recipe:
       type: object
-      description: Properties of an output resource
+      description: The recipe used to automatically deploy underlying infrastructure
       properties:
-        localId:
+        name:
           type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    RedisCacheSecrets:
-      type: object
-      properties:
-        connectionString:
-          type: string
-        password:
-          type: string
-        url:
-          type: string
-    MongoDatabaseProperties:
-      type: object
-      properties:
-        environment:
-          type: string
-        application:
-          type: string
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/ResourceStatus'
-          readOnly: true
-        secrets:
-          $ref: '#/components/schemas/MongoDatabaseSecrets'
-        host:
-          type: string
-        port:
-          type: integer
-          format: int32
-        database:
-          type: string
-        resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceReference'
-        username:
-          type: string
-        recipe:
-          $ref: '#/components/schemas/Recipe'
-        resourceProvisioning:
-          $ref: '#/components/schemas/ResourceProvisioning'
+          description: The name of the recipe within the environment to use
+        parameters:
+          type: object
+          description: Key/value parameters to pass into the recipe at deployment
       required:
-      - environment
+      - name
     ResourceStatus:
       type: object
       description: Status of a resource
@@ -260,6 +201,49 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OutputResource'
+    RedisCacheSecrets:
+      type: object
+      properties:
+        connectionString:
+          type: string
+        password:
+          type: string
+        url:
+          type: string
+    RedisCacheProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        secrets:
+          $ref: '#/components/schemas/RedisCacheSecrets'
+        host:
+          type: string
+        port:
+          type: integer
+          format: int32
+        username:
+          type: string
+        tls:
+          type: boolean
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceReference'
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
     EnvironmentCompute:
       type: object
       description: Represents backing compute resource
@@ -303,56 +287,99 @@ components:
       required:
       - properties
       - location
-    SqlDatabaseSecrets:
+    MongoDatabaseResource:
       type: object
       properties:
-        password:
+        properties:
+          $ref: '#/components/schemas/MongoDatabaseProperties'
+        id:
           type: string
-        connectionString:
-          type: string
-    Recipe:
-      type: object
-      description: The recipe used to automatically deploy underlying infrastructure
-      properties:
+          readOnly: true
         name:
           type: string
-          description: The name of the recipe within the environment to use
-        parameters:
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
           type: object
-          description: Key/value parameters to pass into the recipe at deployment
-      required:
-      - name
-    RecipeStatus:
-      type: object
-      description: Recipe status at deployment time
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        templateVersion:
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
           type: string
       required:
-      - templateKind
-      - templatePath
-    IdentitySettings:
+      - properties
+      - location
+    OutputResource:
       type: object
-      description: IdentitySettings is the external identity setting
+      description: Properties of an output resource
       properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
+        localId:
           type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
+        id:
           type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
+        radiusManaged:
+          type: boolean
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    SqlDatabaseProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        database:
+          type: string
+        server:
+          type: string
+        port:
+          type: integer
+          format: int32
+        username:
+          type: string
+        resources:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/ResourceReference'
+        secrets:
+          $ref: '#/components/schemas/SqlDatabaseSecrets'
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
       required:
-      - kind
+      - environment
     SqlDatabaseResource:
       type: object
       properties:
@@ -379,7 +406,32 @@ components:
       required:
       - properties
       - location
-    RedisCacheProperties:
+    SqlDatabaseSecrets:
+      type: object
+      properties:
+        password:
+          type: string
+        connectionString:
+          type: string
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    MongoDatabaseProperties:
       type: object
       properties:
         environment:
@@ -393,91 +445,27 @@ components:
           $ref: '#/components/schemas/ResourceStatus'
           readOnly: true
         secrets:
-          $ref: '#/components/schemas/RedisCacheSecrets'
+          $ref: '#/components/schemas/MongoDatabaseSecrets'
         host:
           type: string
         port:
           type: integer
           format: int32
-        username:
+        database:
           type: string
-        tls:
-          type: boolean
         resources:
           type: array
           items:
             $ref: '#/components/schemas/ResourceReference'
+        username:
+          type: string
         recipe:
           $ref: '#/components/schemas/Recipe'
         resourceProvisioning:
           $ref: '#/components/schemas/ResourceProvisioning'
       required:
       - environment
-  parameters:
-    RedisCacheNameParameter:
-      name: redisCacheName
-      in: path
-      required: true
-      description: The name of the Redis cache
-      schema:
-        type: string
-    MongoDatabaseNameParameter:
-      name: mongoDatabaseName
-      in: path
-      required: true
-      description: The name of the MongoDB database
-      schema:
-        type: string
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    SqlDatabaseNameParameter:
-      name: sqlDatabaseName
-      in: path
-      required: true
-      description: The name of the SQL database
-      schema:
-        type: string
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
   examples:
-    BuildMetadataSqlDatabaseExample:
-      summary: Build metadata SQL database
-      value:
-        properties:
-          environment: /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
-          application: /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
-          resourceProvisioning: recipe
-          recipe:
-            name: default
-            parameters:
-              databaseName: build_metadata
-              collation: SQL_Latin1_General_CP1_CI_AS
-        location: westus2
-        tags:
-          datastore: sql-database
-          purpose: build-metadata
     OrdersMongoDatabaseExample:
       summary: Orders MongoDB database using recipe
       value:
@@ -494,6 +482,22 @@ components:
         tags:
           datastore: mongodb
           purpose: orders
+    BuildMetadataSqlDatabaseExample:
+      summary: Build metadata SQL database
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/cicd-rg/providers/Applications.Core/applications/cicd-platform
+          resourceProvisioning: recipe
+          recipe:
+            name: default
+            parameters:
+              databaseName: build_metadata
+              collation: SQL_Latin1_General_CP1_CI_AS
+        location: westus2
+        tags:
+          datastore: sql-database
+          purpose: build-metadata
     SessionCacheExample:
       summary: Session cache Redis (manual provisioning)
       value:
