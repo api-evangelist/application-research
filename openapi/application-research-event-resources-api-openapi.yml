@@ -82,6 +82,75 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    EventResourceList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResource'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    EntityTypeCorrelationIdTarget:
+      type: object
+      title: Entity Type Target (Correlation ID)
+      required:
+      - correlationId
+      properties:
+        correlationId:
+          $ref: '#/components/schemas/CorrelationId'
+    Industry:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    LineOfBusiness:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
     ConsumptionBundleReference:
       type: object
       title: Consumption Bundle Reference
@@ -96,65 +165,44 @@ components:
         defaultEntryPoint:
           type: string
           format: uri-reference
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
-    EntityTypeMapping:
+    Extensible:
       type: object
-      title: Entity Type Mapping
+      title: Extensible
       required:
-      - entityTypeTargets
+      - supported
       properties:
-        apiModelSelectors:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/ApiModelSelectorOData'
-            - $ref: '#/components/schemas/ApiModelSelectorJsonPointer'
-        entityTypeTargets:
-          type: array
-          minItems: 1
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/EntityTypeOrdIdTarget'
-            - $ref: '#/components/schemas/EntityTypeCorrelationIdTarget'
-    ApiModelSelectorJsonPointer:
-      type: object
-      title: API Model Selector (JSON Pointer)
-      required:
-      - type
-      - jsonPointer
-      properties:
-        type:
+        supported:
           type: string
-          const: json-pointer
-        jsonPointer:
-          type: string
-          minLength: 1
-    ReleaseStatus:
-      type: string
-      enum:
-      - beta
-      - active
-      - deprecated
-      - sunset
-    Link:
-      type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
+          enum:
+          - 'no'
+          - manual
+          - automatic
         description:
           type: string
           minLength: 1
+    ApiEventResourceLink:
+      type: object
+      title: API/Event Resource Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - api-documentation
+          - authentication
+          - client-registration
+          - console
+          - payment
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri-reference
     DocumentationLabels:
       type: object
       title: Documentation Labels
@@ -167,15 +215,43 @@ components:
       type: string
       pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
       description: Valid Group ID
-    CustomPolicyLevel:
+    EventResourceDefinition:
+      type: object
+      title: Event Resource Definition
+      description: Link and categorization of a machine-readable event definition
+      required:
+      - type
+      - mediaType
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - asyncapi-v2
+          - sap-csn-interop-effective-v1
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        mediaType:
+          type: string
+          enum:
+          - application/json
+          - application/xml
+          - text/yaml
+          - text/plain
+          - application/octet-stream
+        url:
+          type: string
+          format: uri-reference
+        accessStrategies:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AccessStrategy'
+    SemVer:
       type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    SpecificationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
     AccessStrategy:
       type: object
       title: Access Strategy
@@ -216,16 +292,76 @@ components:
         url:
           type: string
           format: uri
+    ApiModelSelectorJsonPointer:
+      type: object
+      title: API Model Selector (JSON Pointer)
+      required:
+      - type
+      - jsonPointer
+      properties:
+        type:
+          type: string
+          const: json-pointer
+        jsonPointer:
+          type: string
+          minLength: 1
+    EntityTypeMapping:
+      type: object
+      title: Entity Type Mapping
+      required:
+      - entityTypeTargets
+      properties:
+        apiModelSelectors:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ApiModelSelectorOData'
+            - $ref: '#/components/schemas/ApiModelSelectorJsonPointer'
+        entityTypeTargets:
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/EntityTypeOrdIdTarget'
+            - $ref: '#/components/schemas/EntityTypeCorrelationIdTarget'
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
     Visibility:
       type: string
       enum:
       - public
       - internal
       - private
-    Tag:
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    SpecificationId:
       type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    ReleaseStatus:
+      type: string
+      enum:
+      - beta
+      - active
+      - deprecated
+      - sunset
     EntityTypeOrdIdTarget:
       type: object
       title: Entity Type Target (ORD ID)
@@ -246,66 +382,24 @@ components:
           type: string
           pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(entityType):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
           maxLength: 255
-    EntityTypeCorrelationIdTarget:
-      type: object
-      title: Entity Type Target (Correlation ID)
-      required:
-      - correlationId
-      properties:
-        correlationId:
-          $ref: '#/components/schemas/CorrelationId'
-    ApiEventResourceLink:
-      type: object
-      title: API/Event Resource Link
-      required:
-      - type
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - api-documentation
-          - authentication
-          - client-registration
-          - console
-          - payment
-          - service-level-agreement
-          - support
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        url:
-          type: string
-          format: uri-reference
     CorrelationId:
       type: string
       pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
       maxLength: 255
       description: Correlation ID for referencing related data
-    Error:
+    ApiModelSelectorOData:
       type: object
+      title: API Model Selector (OData)
       required:
-      - code
-      - message
+      - type
+      - entitySetName
       properties:
-        code:
+        type:
           type: string
-          description: Error code
-        message:
+          const: odata
+        entitySetName:
           type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: object
-            properties:
-              field:
-                type: string
-              message:
-                type: string
-        requestId:
-          type: string
-          description: Request ID for troubleshooting
+          minLength: 1
     EventResource:
       type: object
       title: Event Resource
@@ -461,14 +555,6 @@ components:
         systemInstanceAware:
           type: boolean
           default: false
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
     PolicyLevel:
       type: string
       description: Policy level for compliance
@@ -479,121 +565,83 @@ components:
         enum:
         - none
         - custom
-    LineOfBusiness:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-    Extensible:
-      type: object
-      title: Extensible
-      required:
-      - supported
-      properties:
-        supported:
-          type: string
-          enum:
-          - 'no'
-          - manual
-          - automatic
-        description:
-          type: string
-          minLength: 1
-    PolicyLevelId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    ApiModelSelectorOData:
-      type: object
-      title: API Model Selector (OData)
-      required:
-      - type
-      - entitySetName
-      properties:
-        type:
-          type: string
-          const: odata
-        entitySetName:
-          type: string
-          minLength: 1
-    Industry:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-    EventResourceDefinition:
-      type: object
-      title: Event Resource Definition
-      description: Link and categorization of a machine-readable event definition
-      required:
-      - type
-      - mediaType
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - asyncapi-v2
-          - sap-csn-interop-effective-v1
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        mediaType:
-          type: string
-          enum:
-          - application/json
-          - application/xml
-          - text/yaml
-          - text/plain
-          - application/octet-stream
-        url:
-          type: string
-          format: uri-reference
-        accessStrategies:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/AccessStrategy'
-    EventResourceList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventResource'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    ReleaseStatusFilterParam:
+      name: releaseStatus
+      in: query
+      description: Filter by release status
+      schema:
+        type: string
+        enum:
+        - beta
+        - active
+        - deprecated
+        - sunset
+    VisibilityFilterParam:
+      name: visibility
+      in: query
+      description: Filter by visibility level
+      schema:
+        type: string
+        enum:
+        - public
+        - internal
+        - private
+    EventResourceOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Event Resource
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:eventResource:DeviceEvents:v1
   examples:
-    EventResourceListExample:
-      summary: List of Event Resources
-      value:
-        items:
-        - ordId: sap.iot:eventResource:DeviceEvents:v1
-          title: Device Lifecycle Events
-          shortDescription: Events for device status changes
-          version: 1.2.0
-          visibility: public
-          releaseStatus: active
-        - ordId: sap.iot:eventResource:AlertEvents:v1
-          title: Alert Events
-          shortDescription: Real-time alert notifications
-          version: 1.0.0
-          visibility: public
-          releaseStatus: active
-        totalCount: 2
-        limit: 20
-        offset: 0
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
     NotFoundErrorExample:
       summary: Not Found Error
       value:
@@ -623,88 +671,40 @@ components:
         eventResourceLinks:
         - type: api-documentation
           url: https://help.sap.com/iot/events
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
     InternalServerErrorExample:
       summary: Internal Server Error
       value:
         code: INTERNAL_SERVER_ERROR
         message: An unexpected error occurred. Please try again later.
         requestId: req-12345-abcde
-  parameters:
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    VisibilityFilterParam:
-      name: visibility
-      in: query
-      description: Filter by visibility level
-      schema:
-        type: string
-        enum:
-        - public
-        - internal
-        - private
-    ReleaseStatusFilterParam:
-      name: releaseStatus
-      in: query
-      description: Filter by release status
-      schema:
-        type: string
-        enum:
-        - beta
-        - active
-        - deprecated
-        - sunset
-    EventResourceOrdIdParam:
-      name: ordId
-      in: path
-      required: true
-      description: ORD ID of the Event Resource
-      schema:
-        type: string
-        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(eventResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      example: sap.iot:eventResource:DeviceEvents:v1
-  responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
+    EventResourceListExample:
+      summary: List of Event Resources
+      value:
+        items:
+        - ordId: sap.iot:eventResource:DeviceEvents:v1
+          title: Device Lifecycle Events
+          shortDescription: Events for device status changes
+          version: 1.2.0
+          visibility: public
+          releaseStatus: active
+        - ordId: sap.iot:eventResource:AlertEvents:v1
+          title: Alert Events
+          shortDescription: Real-time alert notifications
+          version: 1.0.0
+          visibility: public
+          releaseStatus: active
+        totalCount: 2
+        limit: 20
+        offset: 0
   securitySchemes:
     oauth2:
       type: oauth2

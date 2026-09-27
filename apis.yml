@@ -1,5 +1,6 @@
 aid: application-research
 name: Application Research
+kind: topic
 description: >-
   Application Research is a topic collection focused on specifications for declaring application service integration
   dependencies. It covers five specification formats: Score (platform-agnostic workload specs), Cloud Native Application

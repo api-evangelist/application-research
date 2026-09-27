@@ -119,11 +119,11 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   examples:
-    SignatureListResponse:
-      summary: Signature list
-      description: Example list of signatures
+    Signature:
+      summary: Component Signature
+      description: Example component signature
       value:
-      - name: acme-signing-authority
+        name: acme-signing-authority
         digest:
           hashAlgorithm: SHA-256
           normalisationAlgorithm: jsonNormalisation/v1
@@ -158,21 +158,6 @@ components:
         signatureName: acme-signing-authority
         componentName: github.com/acme.org/web-application
         version: 2.5.1
-    ErrorNotFound:
-      summary: Not Found Error
-      description: Example not found error
-      value:
-        code: NOT_FOUND
-        message: Component 'github.com/acme.org/unknown-component' not found
-    ErrorBadRequest:
-      summary: Bad Request Error
-      description: Example bad request error
-      value:
-        code: BAD_REQUEST
-        message: Invalid component name format
-        details:
-          field: component.name
-          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
     VerificationRequest:
       summary: Verification Request
       description: Example request to verify a signature
@@ -185,11 +170,20 @@ components:
         name: acme-signing-authority
         algorithm: RSASSA-PSS-SHA256
         privateKey: '-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBg...'
-    Signature:
-      summary: Component Signature
-      description: Example component signature
+    ErrorBadRequest:
+      summary: Bad Request Error
+      description: Example bad request error
       value:
-        name: acme-signing-authority
+        code: BAD_REQUEST
+        message: Invalid component name format
+        details:
+          field: component.name
+          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+    SignatureListResponse:
+      summary: Signature list
+      description: Example list of signatures
+      value:
+      - name: acme-signing-authority
         digest:
           hashAlgorithm: SHA-256
           normalisationAlgorithm: jsonNormalisation/v1
@@ -198,19 +192,13 @@ components:
           algorithm: RSASSA-PSS-SHA256
           value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
           mediaType: application/vnd.ocm.signature.rsa
+    ErrorNotFound:
+      summary: Not Found Error
+      description: Example not found error
+      value:
+        code: NOT_FOUND
+        message: Component 'github.com/acme.org/unknown-component' not found
   schemas:
-    VerificationRequest:
-      type: object
-      description: Request to verify a signature
-      required:
-      - publicKey
-      properties:
-        publicKey:
-          type: string
-          description: Public key (PEM encoded)
-        certificate:
-          type: string
-          description: Certificate for verification
     VerificationResult:
       type: object
       description: Signature verification result
@@ -229,6 +217,36 @@ components:
           $ref: '#/components/schemas/ComponentName'
         version:
           $ref: '#/components/schemas/Version'
+    SignatureListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Signature'
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+    VerificationRequest:
+      type: object
+      description: Request to verify a signature
+      required:
+      - publicKey
+      properties:
+        publicKey:
+          type: string
+          description: Public key (PEM encoded)
+        certificate:
+          type: string
+          description: Certificate for verification
     SignatureRequest:
       type: object
       description: Request to sign a component
@@ -251,42 +269,6 @@ components:
         certificate:
           type: string
           description: Certificate chain (PEM encoded)
-    Signature:
-      type: object
-      description: Component signature
-      required:
-      - name
-      - signature
-      properties:
-        name:
-          type: string
-          description: Signature name/identifier
-        digest:
-          $ref: '#/components/schemas/DigestSpec'
-        signature:
-          $ref: '#/components/schemas/SignatureSpec'
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
-    Version:
-      type: string
-      description: Semantic version string
-      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      examples:
-      - 1.0.0
-      - 2.5.1
-      - v1.0.0-beta.1
     DigestSpec:
       type: object
       description: Cryptographic digest specification
@@ -310,18 +292,6 @@ components:
         value:
           type: string
           description: The digest value
-    SignatureListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/Signature'
-    ComponentName:
-      type: string
-      description: Fully qualified component name
-      maxLength: 255
-      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-      examples:
-      - github.com/acme.org/web-application
-      - github.com/ailab.org/model-training-pipeline
     SignatureSpec:
       type: object
       description: Signature specification
@@ -344,13 +314,37 @@ components:
           description: Media type of the signature
           examples:
           - application/vnd.ocm.signature.rsa
+    Version:
+      type: string
+      description: Semantic version string
+      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      examples:
+      - 1.0.0
+      - 2.5.1
+      - v1.0.0-beta.1
+    Signature:
+      type: object
+      description: Component signature
+      required:
+      - name
+      - signature
+      properties:
+        name:
+          type: string
+          description: Signature name/identifier
+        digest:
+          $ref: '#/components/schemas/DigestSpec'
+        signature:
+          $ref: '#/components/schemas/SignatureSpec'
+    ComponentName:
+      type: string
+      description: Fully qualified component name
+      maxLength: 255
+      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+      examples:
+      - github.com/acme.org/web-application
+      - github.com/ailab.org/model-training-pipeline
   parameters:
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Component version (semver)
-      schema:
-        $ref: '#/components/schemas/Version'
     ComponentNameParam:
       name: name
       in: path
@@ -358,6 +352,12 @@ components:
       description: Component name (e.g., github.com/acme.org/web-application)
       schema:
         $ref: '#/components/schemas/ComponentName'
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Component version (semver)
+      schema:
+        $ref: '#/components/schemas/Version'
     SignatureNameParam:
       name: signatureName
       in: path
@@ -366,15 +366,6 @@ components:
       schema:
         type: string
   responses:
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
     NotFound:
       description: Resource not found
       content:
@@ -384,6 +375,15 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/ErrorNotFound'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
     InternalError:
       description: Internal server error
       content:

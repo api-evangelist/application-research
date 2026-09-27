@@ -80,70 +80,40 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
-  parameters:
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    GatewayNameParameter:
-      name: gatewayName
-      in: path
-      required: true
-      description: The name of the gateway
-      schema:
-        type: string
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
+  examples:
+    EcommerceGatewayExample:
+      summary: E-commerce gateway with TLS and routing
+      value:
+        properties:
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          internal: false
+          hostname:
+            fullyQualifiedHostname: api.ecommerce.example.com
+          routes:
+          - path: /api/orders
+            destination: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService
+            replacePrefix: /orders
+            enableWebsockets: false
+            timeoutPolicy:
+              request: 30s
+              backendRequest: 25s
+          - path: /api/products
+            destination: http://product-service:8080
+            enableWebsockets: false
+            timeoutPolicy:
+              request: 15s
+          - path: /ws
+            destination: http://notification-service:8080
+            enableWebsockets: true
+          tls:
+            sslPassthrough: false
+            minimumProtocolVersion: '1.2'
+            certificateFrom: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/tls-cert
+        location: eastus
+        tags:
+          component: ingress
+          tier: edge
   schemas:
-    GatewayHostname:
-      type: object
-      properties:
-        prefix:
-          type: string
-        fullyQualifiedHostname:
-          type: string
-    GatewayRouteTimeoutPolicy:
-      type: object
-      properties:
-        request:
-          type: string
-          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
-        backendRequest:
-          type: string
-          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
-    GatewayTls:
-      type: object
-      properties:
-        sslPassthrough:
-          type: boolean
-        minimumProtocolVersion:
-          type: string
-          default: '1.2'
-          enum:
-          - '1.2'
-          - '1.3'
-        certificateFrom:
-          type: string
     RecipeStatus:
       type: object
       description: Recipe status at deployment time
@@ -157,32 +127,25 @@ components:
       required:
       - templateKind
       - templatePath
-    GatewayResource:
+    GatewayRouteTimeoutPolicy:
       type: object
       properties:
-        properties:
-          $ref: '#/components/schemas/GatewayProperties'
-        id:
+        request:
           type: string
-          readOnly: true
-        name:
+          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
+        backendRequest:
           type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
+          pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
     ResourceStatus:
       type: object
       description: Status of a resource
@@ -196,19 +159,44 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OutputResource'
-    GatewayRoute:
+    GatewayHostname:
       type: object
       properties:
-        path:
+        prefix:
           type: string
-        destination:
+        fullyQualifiedHostname:
           type: string
-        replacePrefix:
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
           type: string
-        enableWebsockets:
-          type: boolean
-        timeoutPolicy:
-          $ref: '#/components/schemas/GatewayRouteTimeoutPolicy'
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
     EnvironmentCompute:
       type: object
       description: Represents backing compute resource
@@ -255,6 +243,32 @@ components:
       required:
       - application
       - routes
+    GatewayResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/GatewayProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
     OutputResource:
       type: object
       description: Properties of an output resource
@@ -265,47 +279,66 @@ components:
           type: string
         radiusManaged:
           type: boolean
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    IdentitySettings:
+    GatewayRoute:
       type: object
-      description: IdentitySettings is the external identity setting
       properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
+        path:
           type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
+        destination:
           type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
-      required:
-      - kind
+        replacePrefix:
+          type: string
+        enableWebsockets:
+          type: boolean
+        timeoutPolicy:
+          $ref: '#/components/schemas/GatewayRouteTimeoutPolicy'
+    GatewayTls:
+      type: object
+      properties:
+        sslPassthrough:
+          type: boolean
+        minimumProtocolVersion:
+          type: string
+          default: '1.2'
+          enum:
+          - '1.2'
+          - '1.3'
+        certificateFrom:
+          type: string
+  parameters:
+    GatewayNameParameter:
+      name: gatewayName
+      in: path
+      required: true
+      description: The name of the gateway
+      schema:
+        type: string
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
   responses:
     ErrorResponse:
       description: Error response
@@ -331,36 +364,3 @@ components:
                 - message
             required:
             - error
-  examples:
-    EcommerceGatewayExample:
-      summary: E-commerce gateway with TLS and routing
-      value:
-        properties:
-          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
-          internal: false
-          hostname:
-            fullyQualifiedHostname: api.ecommerce.example.com
-          routes:
-          - path: /api/orders
-            destination: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/containers/orderService
-            replacePrefix: /orders
-            enableWebsockets: false
-            timeoutPolicy:
-              request: 30s
-              backendRequest: 25s
-          - path: /api/products
-            destination: http://product-service:8080
-            enableWebsockets: false
-            timeoutPolicy:
-              request: 15s
-          - path: /ws
-            destination: http://notification-service:8080
-            enableWebsockets: true
-          tls:
-            sslPassthrough: false
-            minimumProtocolVersion: '1.2'
-            certificateFrom: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/secretStores/tls-cert
-        location: eastus
-        tags:
-          component: ingress
-          tier: edge

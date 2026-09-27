@@ -81,10 +81,14 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
     CredentialExchangeStrategy:
       type: object
       title: Credential Exchange Strategy
@@ -102,6 +106,91 @@ components:
         callbackUrl:
           type: string
           format: uri
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    ConsumptionBundleList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsumptionBundle'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    Visibility:
+      type: string
+      enum:
+      - public
+      - internal
+      - private
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
     ConsumptionBundle:
       type: object
       title: Consumption Bundle
@@ -155,154 +244,35 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
-    Link:
-      type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
-        description:
-          type: string
-          minLength: 1
-    DocumentationLabels:
-      type: object
-      title: Documentation Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    SpecificationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
-    ConsumptionBundleList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConsumptionBundle'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    Visibility:
-      type: string
-      enum:
-      - public
-      - internal
-      - private
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
-    CorrelationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
-      maxLength: 255
-      description: Correlation ID for referencing related data
-    Error:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: object
-            properties:
-              field:
-                type: string
-              message:
-                type: string
-        requestId:
-          type: string
-          description: Request ID for troubleshooting
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-  examples:
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    ConsumptionBundleListExample:
-      summary: List of Consumption Bundles
-      value:
-        items:
-        - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
-          title: IoT Platform API Bundle
-          shortDescription: Standard API access bundle
-          visibility: public
-        - ordId: sap.iot:consumptionBundle:HighVolumeIngestion:v1
-          title: High Volume Ingestion Bundle
-          shortDescription: Optimized for high-throughput data ingestion
-          visibility: internal
-        totalCount: 2
-        limit: 20
-        offset: 0
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-    ConsumptionBundleExample:
-      summary: IoT Platform API Bundle
-      value:
-        ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
-        title: IoT Platform API Bundle
-        shortDescription: Standard API access bundle
-        description: OAuth 2.0 protected access to all IoT Platform APIs with standard rate limits.
-        version: 1.0.0
-        credentialExchangeStrategies:
-        - type: custom
-          customType: sap.iot:oauth2-jwt:v1
-          customDescription: OAuth 2.0 with JWT bearer tokens for IoT Platform access
-        visibility: public
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
   parameters:
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
     LimitParam:
       name: limit
       in: query
@@ -312,6 +282,14 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
     VisibilityFilterParam:
       name: visibility
       in: query
@@ -331,34 +309,56 @@ components:
         type: string
         pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(consumptionBundle):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
       example: sap.iot:consumptionBundle:PlatformAPIs:v1
-  responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
+  examples:
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    ConsumptionBundleExample:
+      summary: IoT Platform API Bundle
+      value:
+        ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+        title: IoT Platform API Bundle
+        shortDescription: Standard API access bundle
+        description: OAuth 2.0 protected access to all IoT Platform APIs with standard rate limits.
+        version: 1.0.0
+        credentialExchangeStrategies:
+        - type: custom
+          customType: sap.iot:oauth2-jwt:v1
+          customDescription: OAuth 2.0 with JWT bearer tokens for IoT Platform access
+        visibility: public
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    ConsumptionBundleListExample:
+      summary: List of Consumption Bundles
+      value:
+        items:
+        - ordId: sap.iot:consumptionBundle:PlatformAPIs:v1
+          title: IoT Platform API Bundle
+          shortDescription: Standard API access bundle
+          visibility: public
+        - ordId: sap.iot:consumptionBundle:HighVolumeIngestion:v1
+          title: High Volume Ingestion Bundle
+          shortDescription: Optimized for high-throughput data ingestion
+          visibility: internal
+        totalCount: 2
+        limit: 20
+        offset: 0
   securitySchemes:
     oauth2:
       type: oauth2

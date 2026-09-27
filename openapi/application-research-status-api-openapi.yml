@@ -72,38 +72,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   examples:
-    StatusReady:
-      summary: Ready installation status
-      description: Example of a healthy installation
-      value:
-        status: Ready
-        message: All components are running
-        components:
-          wordpress:
-            status: Ready
-            message: 3/3 replicas available
-          mysql:
-            status: Ready
-            message: Primary and replica healthy
-    StatusPending:
-      summary: Pending installation status
-      description: Example of an installation in progress
-      value:
-        status: Pending
-        message: Installation in progress
-        components:
-          wordpress:
-            status: Pending
-            message: Waiting for database to be ready
-          mysql:
-            status: Ready
-            message: Database initialized
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
     StatusFailed:
       summary: Failed installation status
       description: Example of a failed installation
@@ -117,6 +85,19 @@ components:
           mysql:
             status: Ready
             message: Database is running
+    StatusPending:
+      summary: Pending installation status
+      description: Example of an installation in progress
+      value:
+        status: Pending
+        message: Installation in progress
+        components:
+          wordpress:
+            status: Pending
+            message: Waiting for database to be ready
+          mysql:
+            status: Ready
+            message: Database initialized
     ErrorInternal:
       summary: Internal error
       description: Example internal server error
@@ -143,6 +124,52 @@ components:
             status: Pending
           redis-cache:
             status: Ready
+    StatusReady:
+      summary: Ready installation status
+      description: Example of a healthy installation
+      value:
+        status: Ready
+        message: All components are running
+        components:
+          wordpress:
+            status: Ready
+            message: 3/3 replicas available
+          mysql:
+            status: Ready
+            message: Primary and replica healthy
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+  parameters:
+    InstallationNameParam:
+      name: name
+      in: path
+      required: true
+      description: Installation name
+      schema:
+        type: string
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
   schemas:
     Status:
       type: object
@@ -197,33 +224,6 @@ components:
           type: object
           description: Additional error details
           additionalProperties: true
-  parameters:
-    InstallationNameParam:
-      name: name
-      in: path
-      required: true
-      description: Installation name
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
   securitySchemes:
     bearerAuth:
       type: http

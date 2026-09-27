@@ -80,6 +80,14 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
     Vendor:
       type: object
       title: Vendor
@@ -109,14 +117,10 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
     VendorList:
       type: object
       properties:
@@ -130,10 +134,6 @@ components:
           type: integer
         offset:
           type: integer
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
     DocumentationLabels:
       type: object
       title: Documentation Labels
@@ -166,24 +166,49 @@ components:
         requestId:
           type: string
           description: Request ID for troubleshooting
+  examples:
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    VendorExample:
+      summary: SAP Vendor
+      value:
+        ordId: 'sap:vendor:SAP:'
+        title: SAP SE
+        partners:
+        - 'microsoft:vendor:Microsoft:'
+    VendorListExample:
+      summary: List of Vendors
+      value:
+        items:
+        - ordId: 'sap:vendor:SAP:'
+          title: SAP SE
+        - ordId: 'siemens:vendor:Siemens:'
+          title: Siemens AG
+          partners:
+          - 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
   parameters:
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
     VendorOrdIdParam:
       name: ordId
       in: path
@@ -193,16 +218,24 @@ components:
         type: string
         pattern: ^([a-z0-9]+):(vendor):([a-zA-Z0-9._\-]+):()$
       example: 'sap:vendor:SAP:'
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
   responses:
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
     BadRequest:
       description: Bad request - invalid input parameters
       content:
@@ -221,48 +254,15 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/NotFoundErrorExample'
-  examples:
-    VendorListExample:
-      summary: List of Vendors
-      value:
-        items:
-        - ordId: 'sap:vendor:SAP:'
-          title: SAP SE
-        - ordId: 'siemens:vendor:Siemens:'
-          title: Siemens AG
-          partners:
-          - 'sap:vendor:SAP:'
-        totalCount: 2
-        limit: 20
-        offset: 0
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    VendorExample:
-      summary: SAP Vendor
-      value:
-        ordId: 'sap:vendor:SAP:'
-        title: SAP SE
-        partners:
-        - 'microsoft:vendor:Microsoft:'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
   securitySchemes:
     oauth2:
       type: oauth2

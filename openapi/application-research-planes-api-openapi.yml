@@ -44,7 +44,38 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
   schemas:
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
     RadiusPlaneResourceProperties:
       type: object
       properties:
@@ -83,50 +114,6 @@ components:
       required:
       - properties
       - location
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-  parameters:
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-  examples:
-    RadiusPlaneExample:
-      summary: Radius plane with resource providers
-      value:
-        properties:
-          resourceProviders:
-            Applications.Core: http://applications-rp.radius-system:8080
-            Applications.Dapr: http://applications-rp.radius-system:8080
-            Applications.Datastores: http://applications-rp.radius-system:8080
-            Applications.Messaging: http://applications-rp.radius-system:8080
-        location: global
-        tags:
-          plane: radius
   responses:
     ErrorResponse:
       description: Error response
@@ -152,3 +139,16 @@ components:
                 - message
             required:
             - error
+  examples:
+    RadiusPlaneExample:
+      summary: Radius plane with resource providers
+      value:
+        properties:
+          resourceProviders:
+            Applications.Core: http://applications-rp.radius-system:8080
+            Applications.Dapr: http://applications-rp.radius-system:8080
+            Applications.Datastores: http://applications-rp.radius-system:8080
+            Applications.Messaging: http://applications-rp.radius-system:8080
+        location: global
+        tags:
+          plane: radius

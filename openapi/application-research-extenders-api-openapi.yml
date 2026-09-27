@@ -47,88 +47,23 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    ExtenderProperties:
+    EnvironmentCompute:
       type: object
-      properties:
-        environment:
-          type: string
-        application:
-          type: string
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/ResourceStatus'
-          readOnly: true
-        secrets:
-          type: object
-        recipe:
-          $ref: '#/components/schemas/Recipe'
-        resourceProvisioning:
-          $ref: '#/components/schemas/ResourceProvisioning'
-      required:
-      - environment
-      additionalProperties: true
-    ResourceStatus:
-      type: object
-      description: Status of a resource
-      properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
+      description: Represents backing compute resource
       properties:
         kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
           type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
+        resourceId:
           type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
       required:
       - kind
-    OutputResource:
-      type: object
-      description: Properties of an output resource
-      properties:
-        localId:
-          type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
-    ResourceProvisioning:
-      type: string
-      description: Specifies how the underlying service/resource is provisioned and managed
-      enum:
-      - recipe
-      - manual
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
     ExtenderResource:
       type: object
       properties:
@@ -155,45 +90,12 @@ components:
       required:
       - properties
       - location
-    IdentitySettingKind:
+    ResourceProvisioning:
       type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
+      description: Specifies how the underlying service/resource is provisioned and managed
       enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    EnvironmentCompute:
-      type: object
-      description: Represents backing compute resource
-      properties:
-        kind:
-          type: string
-        resourceId:
-          type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
-    Recipe:
-      type: object
-      description: The recipe used to automatically deploy underlying infrastructure
-      properties:
-        name:
-          type: string
-          description: The name of the recipe within the environment to use
-        parameters:
-          type: object
-          description: Key/value parameters to pass into the recipe at deployment
-      required:
-      - name
+      - recipe
+      - manual
     RecipeStatus:
       type: object
       description: Recipe status at deployment time
@@ -207,16 +109,105 @@ components:
       required:
       - templateKind
       - templatePath
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    ExtenderProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        secrets:
+          type: object
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+      additionalProperties: true
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    Recipe:
+      type: object
+      description: The recipe used to automatically deploy underlying infrastructure
+      properties:
+        name:
+          type: string
+          description: The name of the recipe within the environment to use
+        parameters:
+          type: object
+          description: Key/value parameters to pass into the recipe at deployment
+      required:
+      - name
   parameters:
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
     ResourceGroupNameParameter:
       name: resourceGroupName
       in: path
@@ -241,31 +232,15 @@ components:
       description: The name of the extender
       schema:
         type: string
-  examples:
-    StripeExtenderExample:
-      summary: Stripe payment gateway extender
-      value:
-        properties:
-          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
-          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
-          resourceProvisioning: recipe
-          recipe:
-            name: stripe-gateway
-            parameters:
-              apiVersion: '2023-10-16'
-              webhookEndpoint: /api/webhooks/stripe
-          stripeAccountId: acct_xxxxx
-          enabledPaymentMethods:
-          - card
-          - sepa_debit
-          - ideal
-          secrets:
-            apiKey: sk_live_xxxxx
-            webhookSecret: whsec_xxxxx
-        location: eastus
-        tags:
-          extender: payment-gateway
-          provider: stripe
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
   responses:
     ErrorResponse:
       description: Error response
@@ -291,3 +266,28 @@ components:
                 - message
             required:
             - error
+  examples:
+    StripeExtenderExample:
+      summary: Stripe payment gateway extender
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          resourceProvisioning: recipe
+          recipe:
+            name: stripe-gateway
+            parameters:
+              apiVersion: '2023-10-16'
+              webhookEndpoint: /api/webhooks/stripe
+          stripeAccountId: acct_xxxxx
+          enabledPaymentMethods:
+          - card
+          - sepa_debit
+          - ideal
+          secrets:
+            apiKey: sk_live_xxxxx
+            webhookSecret: whsec_xxxxx
+        location: eastus
+        tags:
+          extender: payment-gateway
+          provider: stripe

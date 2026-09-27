@@ -81,29 +81,9 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
-    Link:
+    Labels:
       type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
-        description:
-          type: string
-          minLength: 1
-    DocumentationLabels:
-      type: object
-      title: Documentation Labels
+      title: Labels
       additionalProperties:
         type: array
         items:
@@ -113,15 +93,33 @@ components:
       type: string
       pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
       maxLength: 255
-    SpecificationId:
+    Industry:
       type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
       minLength: 1
+    PackageLink:
+      type: object
+      title: Package Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - terms-of-service
+          - license
+          - client-registration
+          - payment
+          - sandbox
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri
     Error:
       type: object
       required:
@@ -146,55 +144,26 @@ components:
         requestId:
           type: string
           description: Request ID for troubleshooting
-    PackageLink:
+    LineOfBusiness:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    DocumentationLabels:
       type: object
-      title: Package Link
-      required:
-      - type
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - terms-of-service
-          - license
-          - client-registration
-          - payment
-          - sandbox
-          - service-level-agreement
-          - support
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        url:
-          type: string
-          format: uri
-    Labels:
-      type: object
-      title: Labels
+      title: Documentation Labels
       additionalProperties:
         type: array
         items:
           type: string
           minLength: 1
-    LineOfBusiness:
+    SemVer:
       type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-    PolicyLevel:
-      type: string
-      description: Policy level for compliance
-      oneOf:
-      - type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      - type: string
-        enum:
-        - none
-        - custom
-    PolicyLevelId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
     Package:
       type: object
       title: Package
@@ -294,6 +263,10 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
+    PolicyLevelId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
     PackageList:
       type: object
       properties:
@@ -307,54 +280,38 @@ components:
           type: integer
         offset:
           type: integer
-    Industry:
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    SpecificationId:
       type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-  parameters:
-    PackageOrdIdParam:
-      name: ordId
-      in: path
-      required: true
-      description: ORD ID of the Package
-      schema:
-        type: string
-        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      example: sap.iot:package:DeviceManagement:v1
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    VendorFilterParam:
-      name: vendor
-      in: query
-      description: Filter by vendor ORD ID
-      schema:
-        type: string
-      example: 'sap:vendor:SAP:'
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    PolicyLevel:
+      type: string
+      description: Policy level for compliance
+      oneOf:
+      - type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      - type: string
+        enum:
+        - none
+        - custom
   examples:
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
     PackageListExample:
       summary: List of Packages
       value:
@@ -402,31 +359,56 @@ components:
         - iot
         - devices
         - edge
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
     InternalServerErrorExample:
       summary: Internal Server Error
       value:
         code: INTERNAL_SERVER_ERROR
         message: An unexpected error occurred. Please try again later.
         requestId: req-12345-abcde
+  parameters:
+    VendorFilterParam:
+      name: vendor
+      in: query
+      description: Filter by vendor ORD ID
+      schema:
+        type: string
+      example: 'sap:vendor:SAP:'
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    PackageOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Package
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:package:DeviceManagement:v1
   responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
     InternalServerError:
       description: Internal server error
       content:
@@ -436,6 +418,24 @@ components:
           examples:
             serverError:
               $ref: '#/components/examples/InternalServerErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
   securitySchemes:
     oauth2:
       type: oauth2
