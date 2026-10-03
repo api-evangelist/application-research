@@ -119,87 +119,17 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
-  parameters:
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    ApplicationNameParameter:
-      name: applicationName
-      in: path
-      required: true
-      description: The name of the application
-      schema:
-        type: string
   schemas:
-    EnvironmentCompute:
+    OutputResource:
       type: object
-      description: Represents backing compute resource
+      description: Properties of an output resource
       properties:
-        kind:
+        localId:
           type: string
-        resourceId:
+        id:
           type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
-    Extension:
-      type: object
-      description: Extension of a environment/application resource
-      properties:
-        kind:
-          type: string
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetesMetadata: '#/components/schemas/KubernetesMetadataExtension'
-          kubernetesNamespace: '#/components/schemas/KubernetesNamespaceExtension'
-          manualScaling: '#/components/schemas/ManualScalingExtension'
-          daprSidecar: '#/components/schemas/DaprSidecarExtension'
-          aci: '#/components/schemas/AzureContainerInstanceExtension'
-    RecipeStatus:
-      type: object
-      description: Recipe status at deployment time
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        templateVersion:
-          type: string
-      required:
-      - templateKind
-      - templatePath
+        radiusManaged:
+          type: boolean
     ApplicationResource:
       type: object
       properties:
@@ -239,36 +169,6 @@ components:
       - Failed
       - Canceled
       readOnly: true
-    ApplicationResourceListResult:
-      type: object
-      properties:
-        value:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationResource'
-        nextLink:
-          type: string
-          format: uri
-      required:
-      - value
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
-      properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
-          type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
-          type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
-      required:
-      - kind
     IdentitySettingKind:
       type: string
       description: IdentitySettingKind is the kind of supported external identity setting
@@ -279,29 +179,6 @@ components:
       - userAssigned
       - systemAssigned
       - systemAssignedUserAssigned
-    OutputResource:
-      type: object
-      description: Properties of an output resource
-      properties:
-        localId:
-          type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
-    ResourceStatus:
-      type: object
-      description: Status of a resource
-      properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
     ApplicationProperties:
       type: object
       properties:
@@ -320,47 +197,129 @@ components:
           readOnly: true
       required:
       - environment
-  examples:
-    ApplicationListExample:
-      summary: List of applications
-      value:
+    RecipeStatus:
+      type: object
+      description: Recipe status at deployment time
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    ApplicationResourceListResult:
+      type: object
+      properties:
         value:
-        - properties:
-            environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
-            extensions:
-            - kind: kubernetesNamespace
-              namespace: ecommerce-app
-            - kind: kubernetesMetadata
-              annotations:
-                app.kubernetes.io/managed-by: radius
-              labels:
-                app.kubernetes.io/name: ecommerce-platform
-                app.kubernetes.io/version: 2.5.0
-          location: eastus
-          tags:
-            application: ecommerce-platform
-            version: 2.5.0
-          id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
-          name: ecommerce-platform
-          type: Applications.Core/applications
-    EcommerceApplicationExample:
-      summary: E-commerce application
-      value:
-        properties:
-          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
-          extensions:
-          - kind: kubernetesNamespace
-            namespace: ecommerce-app
-          - kind: kubernetesMetadata
-            annotations:
-              app.kubernetes.io/managed-by: radius
-            labels:
-              app.kubernetes.io/name: ecommerce-platform
-              app.kubernetes.io/version: 2.5.0
-        location: eastus
-        tags:
-          application: ecommerce-platform
-          version: 2.5.0
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationResource'
+        nextLink:
+          type: string
+          format: uri
+      required:
+      - value
+    Extension:
+      type: object
+      description: Extension of a environment/application resource
+      properties:
+        kind:
+          type: string
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetesMetadata: '#/components/schemas/KubernetesMetadataExtension'
+          kubernetesNamespace: '#/components/schemas/KubernetesNamespaceExtension'
+          manualScaling: '#/components/schemas/ManualScalingExtension'
+          daprSidecar: '#/components/schemas/DaprSidecarExtension'
+          aci: '#/components/schemas/AzureContainerInstanceExtension'
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    ApplicationNameParameter:
+      name: applicationName
+      in: path
+      required: true
+      description: The name of the application
+      schema:
+        type: string
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
   responses:
     ErrorResponse:
       description: Error response
@@ -386,3 +345,44 @@ components:
                 - message
             required:
             - error
+  examples:
+    EcommerceApplicationExample:
+      summary: E-commerce application
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          extensions:
+          - kind: kubernetesNamespace
+            namespace: ecommerce-app
+          - kind: kubernetesMetadata
+            annotations:
+              app.kubernetes.io/managed-by: radius
+            labels:
+              app.kubernetes.io/name: ecommerce-platform
+              app.kubernetes.io/version: 2.5.0
+        location: eastus
+        tags:
+          application: ecommerce-platform
+          version: 2.5.0
+    ApplicationListExample:
+      summary: List of applications
+      value:
+        value:
+        - properties:
+            environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+            extensions:
+            - kind: kubernetesNamespace
+              namespace: ecommerce-app
+            - kind: kubernetesMetadata
+              annotations:
+                app.kubernetes.io/managed-by: radius
+              labels:
+                app.kubernetes.io/name: ecommerce-platform
+                app.kubernetes.io/version: 2.5.0
+          location: eastus
+          tags:
+            application: ecommerce-platform
+            version: 2.5.0
+          id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          name: ecommerce-platform
+          type: Applications.Core/applications

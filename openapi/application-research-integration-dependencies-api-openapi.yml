@@ -80,15 +80,135 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  examples:
+    IntegrationDependencyExample:
+      summary: Sensor Data Ingestion Integration Dependency
+      value:
+        ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
+        localId: SensorDataIngestion
+        title: Sensor Data Ingestion
+        shortDescription: Integration for sensor data input
+        description: Integration dependency describing the requirements for ingesting sensor data from edge devices and gateways.
+        version: 1.0.0
+        releaseStatus: active
+        visibility: public
+        partOfPackage: sap.iot:package:TimeSeries:v2
+        mandatory: true
+        aspects:
+        - title: Time Series Ingestion
+          description: API endpoint for sensor data ingestion
+          mandatory: true
+          supportMultipleProviders: true
+          apiResources:
+          - ordId: sap.iot:apiResource:TimeSeriesIngestion:v2
+            minVersion: 2.0.0
+        - title: Device Events
+          description: Events for device connectivity status
+          mandatory: false
+          supportMultipleProviders: true
+          eventResources:
+          - ordId: sap.iot:eventResource:DeviceEvents:v1
+            minVersion: 1.0.0
+            subset:
+            - eventType: sap.iot.Device.Connected.v1
+            - eventType: sap.iot.Device.Disconnected.v1
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    IntegrationDependencyListExample:
+      summary: List of Integration Dependencies
+      value:
+        items:
+        - ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
+          title: Sensor Data Ingestion
+          shortDescription: Integration for sensor data input
+          mandatory: true
+          visibility: public
+          releaseStatus: active
+        - ordId: sap.iot:integrationDependency:ERPIntegration:v1
+          title: ERP System Integration
+          shortDescription: Integration with SAP S/4HANA
+          mandatory: false
+          visibility: public
+          releaseStatus: active
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
   schemas:
-    Labels:
+    DocumentationLabels:
       type: object
-      title: Labels
+      title: Documentation Labels
       additionalProperties:
         type: array
         items:
           type: string
           minLength: 1
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
+    ApiResourceIntegrationAspect:
+      type: object
+      title: API Resource Integration Aspect
+      required:
+      - ordId
+      properties:
+        ordId:
+          type: string
+          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+          maxLength: 255
+        minVersion:
+          $ref: '#/components/schemas/SemVer'
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
+    IntegrationAspect:
+      type: object
+      title: Integration Aspect
+      description: Constituent part of an Integration Dependency
+      required:
+      - title
+      - mandatory
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+        mandatory:
+          type: boolean
+        supportMultipleProviders:
+          type: boolean
+        apiResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiResourceIntegrationAspect'
+        eventResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResourceIntegrationAspect'
     EventResourceIntegrationAspect:
       type: object
       title: Event Resource Integration Aspect
@@ -220,65 +340,25 @@ components:
         requestId:
           type: string
           description: Request ID for troubleshooting
-    Tag:
+    SemVer:
       type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
-    DocumentationLabels:
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    ReleaseStatus:
+      type: string
+      enum:
+      - beta
+      - active
+      - deprecated
+      - sunset
+    Labels:
       type: object
-      title: Documentation Labels
+      title: Labels
       additionalProperties:
         type: array
         items:
           type: string
           minLength: 1
-    GroupId:
-      type: string
-      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      description: Valid Group ID
-    EventResourceIntegrationAspectSubset:
-      type: object
-      title: Event Resource Integration Aspect Subset
-      required:
-      - eventType
-      properties:
-        eventType:
-          type: string
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
-    IntegrationDependencyList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/IntegrationDependency'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    ApiResourceIntegrationAspect:
-      type: object
-      title: API Resource Integration Aspect
-      required:
-      - ordId
-      properties:
-        ordId:
-          type: string
-          pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(apiResource):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-          maxLength: 255
-        minVersion:
-          $ref: '#/components/schemas/SemVer'
-    Visibility:
-      type: string
-      enum:
-      - public
-      - internal
-      - private
     Link:
       type: object
       title: Link
@@ -295,46 +375,80 @@ components:
         description:
           type: string
           minLength: 1
-    ReleaseStatus:
+    EventResourceIntegrationAspectSubset:
+      type: object
+      title: Event Resource Integration Aspect Subset
+      required:
+      - eventType
+      properties:
+        eventType:
+          type: string
+    IntegrationDependencyList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationDependency'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Visibility:
       type: string
       enum:
-      - beta
-      - active
-      - deprecated
-      - sunset
-    IntegrationAspect:
-      type: object
-      title: Integration Aspect
-      description: Constituent part of an Integration Dependency
-      required:
-      - title
-      - mandatory
-      properties:
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
-        mandatory:
-          type: boolean
-        supportMultipleProviders:
-          type: boolean
-        apiResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiResourceIntegrationAspect'
-        eventResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventResourceIntegrationAspect'
-    CorrelationId:
+      - public
+      - internal
+      - private
+    Tag:
       type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
-      maxLength: 255
-      description: Correlation ID for referencing related data
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+  parameters:
+    IntegrationDependencyOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Integration Dependency
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      example: sap.iot:integrationDependency:SensorDataIngestion:v1
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    MandatoryFilterParam:
+      name: mandatory
+      in: query
+      description: Filter integration dependencies by mandatory flag
+      schema:
+        type: boolean
   responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
     InternalServerError:
       description: Internal server error
       content:
@@ -353,120 +467,6 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/NotFoundErrorExample'
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    IntegrationDependencyOrdIdParam:
-      name: ordId
-      in: path
-      required: true
-      description: ORD ID of the Integration Dependency
-      schema:
-        type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):(integrationDependency):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      example: sap.iot:integrationDependency:SensorDataIngestion:v1
-    MandatoryFilterParam:
-      name: mandatory
-      in: query
-      description: Filter integration dependencies by mandatory flag
-      schema:
-        type: boolean
-  examples:
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    IntegrationDependencyListExample:
-      summary: List of Integration Dependencies
-      value:
-        items:
-        - ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
-          title: Sensor Data Ingestion
-          shortDescription: Integration for sensor data input
-          mandatory: true
-          visibility: public
-          releaseStatus: active
-        - ordId: sap.iot:integrationDependency:ERPIntegration:v1
-          title: ERP System Integration
-          shortDescription: Integration with SAP S/4HANA
-          mandatory: false
-          visibility: public
-          releaseStatus: active
-        totalCount: 2
-        limit: 20
-        offset: 0
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-    IntegrationDependencyExample:
-      summary: Sensor Data Ingestion Integration Dependency
-      value:
-        ordId: sap.iot:integrationDependency:SensorDataIngestion:v1
-        localId: SensorDataIngestion
-        title: Sensor Data Ingestion
-        shortDescription: Integration for sensor data input
-        description: Integration dependency describing the requirements for ingesting sensor data from edge devices and gateways.
-        version: 1.0.0
-        releaseStatus: active
-        visibility: public
-        partOfPackage: sap.iot:package:TimeSeries:v2
-        mandatory: true
-        aspects:
-        - title: Time Series Ingestion
-          description: API endpoint for sensor data ingestion
-          mandatory: true
-          supportMultipleProviders: true
-          apiResources:
-          - ordId: sap.iot:apiResource:TimeSeriesIngestion:v2
-            minVersion: 2.0.0
-        - title: Device Events
-          description: Events for device connectivity status
-          mandatory: false
-          supportMultipleProviders: true
-          eventResources:
-          - ordId: sap.iot:eventResource:DeviceEvents:v1
-            minVersion: 1.0.0
-            subset:
-            - eventType: sap.iot.Device.Connected.v1
-            - eventType: sap.iot.Device.Disconnected.v1
   securitySchemes:
     oauth2:
       type: oauth2

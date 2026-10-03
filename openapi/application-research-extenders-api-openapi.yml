@@ -47,6 +47,123 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
+    Recipe:
+      type: object
+      description: The recipe used to automatically deploy underlying infrastructure
+      properties:
+        name:
+          type: string
+          description: The name of the recipe within the environment to use
+        parameters:
+          type: object
+          description: Key/value parameters to pass into the recipe at deployment
+      required:
+      - name
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    ResourceProvisioning:
+      type: string
+      description: Specifies how the underlying service/resource is provisioned and managed
+      enum:
+      - recipe
+      - manual
+    RecipeStatus:
+      type: object
+      description: Recipe status at deployment time
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    ExtenderProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        secrets:
+          type: object
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+      additionalProperties: true
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
     EnvironmentCompute:
       type: object
       description: Represents backing compute resource
@@ -90,133 +207,7 @@ components:
       required:
       - properties
       - location
-    ResourceProvisioning:
-      type: string
-      description: Specifies how the underlying service/resource is provisioned and managed
-      enum:
-      - recipe
-      - manual
-    RecipeStatus:
-      type: object
-      description: Recipe status at deployment time
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        templateVersion:
-          type: string
-      required:
-      - templateKind
-      - templatePath
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
-      properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
-          type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
-          type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
-      required:
-      - kind
-    ExtenderProperties:
-      type: object
-      properties:
-        environment:
-          type: string
-        application:
-          type: string
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/ResourceStatus'
-          readOnly: true
-        secrets:
-          type: object
-        recipe:
-          $ref: '#/components/schemas/Recipe'
-        resourceProvisioning:
-          $ref: '#/components/schemas/ResourceProvisioning'
-      required:
-      - environment
-      additionalProperties: true
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    OutputResource:
-      type: object
-      description: Properties of an output resource
-      properties:
-        localId:
-          type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
-    ResourceStatus:
-      type: object
-      description: Status of a resource
-      properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
-    Recipe:
-      type: object
-      description: The recipe used to automatically deploy underlying infrastructure
-      properties:
-        name:
-          type: string
-          description: The name of the recipe within the environment to use
-        parameters:
-          type: object
-          description: Key/value parameters to pass into the recipe at deployment
-      required:
-      - name
   parameters:
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
     ApiVersionParameter:
       name: api-version
       in: query
@@ -225,13 +216,6 @@ components:
       schema:
         type: string
         default: 2023-10-01-preview
-    ExtenderNameParameter:
-      name: extenderName
-      in: path
-      required: true
-      description: The name of the extender
-      schema:
-        type: string
     PlaneNameParameter:
       name: planeName
       in: path
@@ -241,6 +225,22 @@ components:
         type: string
         pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
         maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ExtenderNameParameter:
+      name: extenderName
+      in: path
+      required: true
+      description: The name of the extender
+      schema:
+        type: string
   responses:
     ErrorResponse:
       description: Error response

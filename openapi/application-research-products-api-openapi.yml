@@ -81,42 +81,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    Error:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: object
-            properties:
-              field:
-                type: string
-              message:
-                type: string
-        requestId:
-          type: string
-          description: Request ID for troubleshooting
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
     DocumentationLabels:
       type: object
       title: Documentation Labels
@@ -138,6 +102,11 @@ components:
           type: integer
         offset:
           type: integer
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
     Product:
       type: object
       title: Product
@@ -182,46 +151,49 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
-    CorrelationId:
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    Tag:
       type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
-      maxLength: 255
-      description: Correlation ID for referencing related data
-  parameters:
-    ProductOrdIdParam:
-      name: ordId
-      in: path
-      required: true
-      description: ORD ID of the Product
-      schema:
-        type: string
-        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
-      example: 'sap:product:IoTPlatform:'
-    VendorFilterParam:
-      name: vendor
-      in: query
-      description: Filter by vendor ORD ID
-      schema:
-        type: string
-      example: 'sap:vendor:SAP:'
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
   examples:
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
     ProductExample:
       summary: SAP IoT Platform Product
       value:
@@ -245,11 +217,11 @@ components:
         totalCount: 2
         limit: 20
         offset: 0
-    NotFoundErrorExample:
-      summary: Not Found Error
+    InternalServerErrorExample:
+      summary: Internal Server Error
       value:
-        code: NOT_FOUND
-        message: The requested resource was not found
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
         requestId: req-12345-abcde
     BadRequestErrorExample:
       summary: Bad Request Error
@@ -260,13 +232,50 @@ components:
         - field: ordId
           message: ORD ID must match the required pattern
         requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    VendorFilterParam:
+      name: vendor
+      in: query
+      description: Filter by vendor ORD ID
+      schema:
+        type: string
+      example: 'sap:vendor:SAP:'
+    ProductOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Product
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+      example: 'sap:product:IoTPlatform:'
   responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
     InternalServerError:
       description: Internal server error
       content:
@@ -285,15 +294,6 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/NotFoundErrorExample'
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
   securitySchemes:
     oauth2:
       type: oauth2

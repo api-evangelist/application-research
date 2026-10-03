@@ -118,157 +118,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 components:
-  examples:
-    Signature:
-      summary: Component Signature
-      description: Example component signature
-      value:
-        name: acme-signing-authority
-        digest:
-          hashAlgorithm: SHA-256
-          normalisationAlgorithm: jsonNormalisation/v1
-          value: 7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730
-        signature:
-          algorithm: RSASSA-PSS-SHA256
-          value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
-          mediaType: application/vnd.ocm.signature.rsa
-    VerificationResultSuccess:
-      summary: Successful Verification
-      description: Example successful verification result
-      value:
-        verified: true
-        message: Signature verification successful
-        signatureName: acme-signing-authority
-        componentName: github.com/acme.org/web-application
-        version: 2.5.1
-    ErrorInternal:
-      summary: Internal Error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-xyz789
-    VerificationResultFailed:
-      summary: Failed Verification
-      description: Example failed verification result
-      value:
-        verified: false
-        message: 'Signature verification failed: digest mismatch'
-        signatureName: acme-signing-authority
-        componentName: github.com/acme.org/web-application
-        version: 2.5.1
-    VerificationRequest:
-      summary: Verification Request
-      description: Example request to verify a signature
-      value:
-        publicKey: '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhki...'
-    SignatureRequest:
-      summary: Signature Request
-      description: Example request to sign a component
-      value:
-        name: acme-signing-authority
-        algorithm: RSASSA-PSS-SHA256
-        privateKey: '-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBg...'
-    ErrorBadRequest:
-      summary: Bad Request Error
-      description: Example bad request error
-      value:
-        code: BAD_REQUEST
-        message: Invalid component name format
-        details:
-          field: component.name
-          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-    SignatureListResponse:
-      summary: Signature list
-      description: Example list of signatures
-      value:
-      - name: acme-signing-authority
-        digest:
-          hashAlgorithm: SHA-256
-          normalisationAlgorithm: jsonNormalisation/v1
-          value: 7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730
-        signature:
-          algorithm: RSASSA-PSS-SHA256
-          value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
-          mediaType: application/vnd.ocm.signature.rsa
-    ErrorNotFound:
-      summary: Not Found Error
-      description: Example not found error
-      value:
-        code: NOT_FOUND
-        message: Component 'github.com/acme.org/unknown-component' not found
   schemas:
-    VerificationResult:
-      type: object
-      description: Signature verification result
-      required:
-      - verified
-      properties:
-        verified:
-          type: boolean
-          description: Whether verification succeeded
-        message:
-          type: string
-          description: Verification message or error
-        signatureName:
-          type: string
-        componentName:
-          $ref: '#/components/schemas/ComponentName'
-        version:
-          $ref: '#/components/schemas/Version'
-    SignatureListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/Signature'
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
-    VerificationRequest:
-      type: object
-      description: Request to verify a signature
-      required:
-      - publicKey
-      properties:
-        publicKey:
-          type: string
-          description: Public key (PEM encoded)
-        certificate:
-          type: string
-          description: Certificate for verification
-    SignatureRequest:
-      type: object
-      description: Request to sign a component
-      required:
-      - name
-      - algorithm
-      properties:
-        name:
-          type: string
-          description: Signature name
-        algorithm:
-          type: string
-          description: Signing algorithm
-          examples:
-          - RSASSA-PSS-SHA256
-          - ECDSA-SHA256
-        privateKey:
-          type: string
-          description: Private key (PEM encoded)
-        certificate:
-          type: string
-          description: Certificate chain (PEM encoded)
     DigestSpec:
       type: object
       description: Cryptographic digest specification
@@ -292,28 +142,6 @@ components:
         value:
           type: string
           description: The digest value
-    SignatureSpec:
-      type: object
-      description: Signature specification
-      required:
-      - algorithm
-      - value
-      - mediaType
-      properties:
-        algorithm:
-          type: string
-          description: Signature algorithm
-          examples:
-          - RSASSA-PSS-SHA256
-          - ECDSA-SHA256
-        value:
-          type: string
-          description: The signature value
-        mediaType:
-          type: string
-          description: Media type of the signature
-          examples:
-          - application/vnd.ocm.signature.rsa
     Version:
       type: string
       description: Semantic version string
@@ -336,6 +164,20 @@ components:
           $ref: '#/components/schemas/DigestSpec'
         signature:
           $ref: '#/components/schemas/SignatureSpec'
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
     ComponentName:
       type: string
       description: Fully qualified component name
@@ -344,6 +186,164 @@ components:
       examples:
       - github.com/acme.org/web-application
       - github.com/ailab.org/model-training-pipeline
+    VerificationRequest:
+      type: object
+      description: Request to verify a signature
+      required:
+      - publicKey
+      properties:
+        publicKey:
+          type: string
+          description: Public key (PEM encoded)
+        certificate:
+          type: string
+          description: Certificate for verification
+    VerificationResult:
+      type: object
+      description: Signature verification result
+      required:
+      - verified
+      properties:
+        verified:
+          type: boolean
+          description: Whether verification succeeded
+        message:
+          type: string
+          description: Verification message or error
+        signatureName:
+          type: string
+        componentName:
+          $ref: '#/components/schemas/ComponentName'
+        version:
+          $ref: '#/components/schemas/Version'
+    SignatureListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Signature'
+    SignatureRequest:
+      type: object
+      description: Request to sign a component
+      required:
+      - name
+      - algorithm
+      properties:
+        name:
+          type: string
+          description: Signature name
+        algorithm:
+          type: string
+          description: Signing algorithm
+          examples:
+          - RSASSA-PSS-SHA256
+          - ECDSA-SHA256
+        privateKey:
+          type: string
+          description: Private key (PEM encoded)
+        certificate:
+          type: string
+          description: Certificate chain (PEM encoded)
+    SignatureSpec:
+      type: object
+      description: Signature specification
+      required:
+      - algorithm
+      - value
+      - mediaType
+      properties:
+        algorithm:
+          type: string
+          description: Signature algorithm
+          examples:
+          - RSASSA-PSS-SHA256
+          - ECDSA-SHA256
+        value:
+          type: string
+          description: The signature value
+        mediaType:
+          type: string
+          description: Media type of the signature
+          examples:
+          - application/vnd.ocm.signature.rsa
+  examples:
+    SignatureRequest:
+      summary: Signature Request
+      description: Example request to sign a component
+      value:
+        name: acme-signing-authority
+        algorithm: RSASSA-PSS-SHA256
+        privateKey: '-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBg...'
+    ErrorInternal:
+      summary: Internal Error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-xyz789
+    SignatureListResponse:
+      summary: Signature list
+      description: Example list of signatures
+      value:
+      - name: acme-signing-authority
+        digest:
+          hashAlgorithm: SHA-256
+          normalisationAlgorithm: jsonNormalisation/v1
+          value: 7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730
+        signature:
+          algorithm: RSASSA-PSS-SHA256
+          value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+          mediaType: application/vnd.ocm.signature.rsa
+    VerificationResultFailed:
+      summary: Failed Verification
+      description: Example failed verification result
+      value:
+        verified: false
+        message: 'Signature verification failed: digest mismatch'
+        signatureName: acme-signing-authority
+        componentName: github.com/acme.org/web-application
+        version: 2.5.1
+    Signature:
+      summary: Component Signature
+      description: Example component signature
+      value:
+        name: acme-signing-authority
+        digest:
+          hashAlgorithm: SHA-256
+          normalisationAlgorithm: jsonNormalisation/v1
+          value: 7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730
+        signature:
+          algorithm: RSASSA-PSS-SHA256
+          value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+          mediaType: application/vnd.ocm.signature.rsa
+    VerificationResultSuccess:
+      summary: Successful Verification
+      description: Example successful verification result
+      value:
+        verified: true
+        message: Signature verification successful
+        signatureName: acme-signing-authority
+        componentName: github.com/acme.org/web-application
+        version: 2.5.1
+    VerificationRequest:
+      summary: Verification Request
+      description: Example request to verify a signature
+      value:
+        publicKey: '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhki...'
+    ErrorBadRequest:
+      summary: Bad Request Error
+      description: Example bad request error
+      value:
+        code: BAD_REQUEST
+        message: Invalid component name format
+        details:
+          field: component.name
+          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+    ErrorNotFound:
+      summary: Not Found Error
+      description: Example not found error
+      value:
+        code: NOT_FOUND
+        message: Component 'github.com/acme.org/unknown-component' not found
   parameters:
     ComponentNameParam:
       name: name
@@ -352,12 +352,6 @@ components:
       description: Component name (e.g., github.com/acme.org/web-application)
       schema:
         $ref: '#/components/schemas/ComponentName'
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Component version (semver)
-      schema:
-        $ref: '#/components/schemas/Version'
     SignatureNameParam:
       name: signatureName
       in: path
@@ -365,25 +359,13 @@ components:
       description: Signature name
       schema:
         type: string
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Component version (semver)
+      schema:
+        $ref: '#/components/schemas/Version'
   responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
     InternalError:
       description: Internal server error
       content:
@@ -393,6 +375,24 @@ components:
           examples:
             internalError:
               $ref: '#/components/examples/ErrorInternal'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
   securitySchemes:
     bearerAuth:
       type: http

@@ -81,77 +81,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    CustomPolicyLevel:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-    Industry:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-    PackageLink:
-      type: object
-      title: Package Link
-      required:
-      - type
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - terms-of-service
-          - license
-          - client-registration
-          - payment
-          - sandbox
-          - service-level-agreement
-          - support
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        url:
-          type: string
-          format: uri
-    Error:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: object
-            properties:
-              field:
-                type: string
-              message:
-                type: string
-        requestId:
-          type: string
-          description: Request ID for troubleshooting
-    LineOfBusiness:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/& ]*$
-      minLength: 1
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
     DocumentationLabels:
       type: object
       title: Documentation Labels
@@ -160,10 +89,19 @@ components:
         items:
           type: string
           minLength: 1
-    SemVer:
-      type: string
-      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      description: Semantic Version string following SemVer 2.0.0
+    PackageList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Package'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
     Package:
       type: object
       title: Package
@@ -267,19 +205,74 @@ components:
       type: string
       pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
       maxLength: 255
-    PackageList:
+    Error:
       type: object
+      required:
+      - code
+      - message
       properties:
-        items:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
           type: array
           items:
-            $ref: '#/components/schemas/Package'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    SemVer:
+      type: string
+      pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Semantic Version string following SemVer 2.0.0
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    Industry:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    PackageLink:
+      type: object
+      title: Package Link
+      required:
+      - type
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - terms-of-service
+          - license
+          - client-registration
+          - payment
+          - sandbox
+          - service-level-agreement
+          - support
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        url:
+          type: string
+          format: uri
     Link:
       type: object
       title: Link
@@ -296,11 +289,10 @@ components:
         description:
           type: string
           minLength: 1
-    SpecificationId:
+    LineOfBusiness:
       type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
+      pattern: ^[a-zA-Z0-9-_.\/& ]*$
+      minLength: 1
     PolicyLevel:
       type: string
       description: Policy level for compliance
@@ -311,24 +303,15 @@ components:
         enum:
         - none
         - custom
+    CustomPolicyLevel:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
   examples:
-    PackageListExample:
-      summary: List of Packages
-      value:
-        items:
-        - ordId: sap.iot:package:DeviceManagement:v1
-          title: Device Management Package
-          shortDescription: APIs for IoT device lifecycle management
-          version: 1.8.0
-          vendor: 'sap:vendor:SAP:'
-        - ordId: sap.iot:package:TimeSeries:v2
-          title: Time Series Data Package
-          shortDescription: APIs for sensor time series data
-          version: 2.0.0
-          vendor: 'sap:vendor:SAP:'
-        totalCount: 2
-        limit: 20
-        offset: 0
     NotFoundErrorExample:
       summary: Not Found Error
       value:
@@ -359,6 +342,29 @@ components:
         - iot
         - devices
         - edge
+    PackageListExample:
+      summary: List of Packages
+      value:
+        items:
+        - ordId: sap.iot:package:DeviceManagement:v1
+          title: Device Management Package
+          shortDescription: APIs for IoT device lifecycle management
+          version: 1.8.0
+          vendor: 'sap:vendor:SAP:'
+        - ordId: sap.iot:package:TimeSeries:v2
+          title: Time Series Data Package
+          shortDescription: APIs for sensor time series data
+          version: 2.0.0
+          vendor: 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
     BadRequestErrorExample:
       summary: Bad Request Error
       value:
@@ -368,20 +374,7 @@ components:
         - field: ordId
           message: ORD ID must match the required pattern
         requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
   parameters:
-    VendorFilterParam:
-      name: vendor
-      in: query
-      description: Filter by vendor ORD ID
-      schema:
-        type: string
-      example: 'sap:vendor:SAP:'
     LimitParam:
       name: limit
       in: query
@@ -399,6 +392,13 @@ components:
         type: integer
         minimum: 0
         default: 0
+    VendorFilterParam:
+      name: vendor
+      in: query
+      description: Filter by vendor ORD ID
+      schema:
+        type: string
+      example: 'sap:vendor:SAP:'
     PackageOrdIdParam:
       name: ordId
       in: path
@@ -409,6 +409,15 @@ components:
         pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(package):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
       example: sap.iot:package:DeviceManagement:v1
   responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
     InternalServerError:
       description: Internal server error
       content:
@@ -427,15 +436,6 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/NotFoundErrorExample'
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
   securitySchemes:
     oauth2:
       type: oauth2

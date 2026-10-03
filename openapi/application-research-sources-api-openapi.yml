@@ -84,59 +84,14 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
-    Labels:
-      type: array
-      items:
-        $ref: '#/components/schemas/Label'
-    ElementName:
+    Version:
       type: string
-      description: Element name for resources and sources
-      minLength: 2
-      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
+      description: Semantic version string
+      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
       examples:
-      - frontend-image
-      - backend-image
-      - helm-chart
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
-    Label:
-      type: object
-      description: A label with name-value pair
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: Label name
-        value: {}
-        version:
-          type: string
-          pattern: ^v[0-9]+$
-        signing:
-          type: boolean
-          description: Whether this label should be included in signing
-        merge:
-          $ref: '#/components/schemas/Merge'
-    Merge:
-      type: object
-      properties:
-        algorithm:
-          type: string
-          pattern: ^[a-z][a-z0-9/_-]+$
-        config: {}
+      - 1.0.0
+      - 2.5.1
+      - v1.0.0-beta.1
     Source:
       type: object
       description: Component source
@@ -163,23 +118,29 @@ components:
           $ref: '#/components/schemas/Access'
         input:
           $ref: '#/components/schemas/Input'
-    SourceListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/Source'
-    Version:
+    ElementName:
       type: string
-      description: Semantic version string
-      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      description: Element name for resources and sources
+      minLength: 2
+      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
       examples:
-      - 1.0.0
-      - 2.5.1
-      - v1.0.0-beta.1
-    IdentityAttribute:
+      - frontend-image
+      - backend-image
+      - helm-chart
+    Error:
       type: object
-      description: Identity attributes for element identification
-      additionalProperties:
-        type: string
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
     ComponentName:
       type: string
       description: Fully qualified component name
@@ -188,6 +149,36 @@ components:
       examples:
       - github.com/acme.org/web-application
       - github.com/ailab.org/model-training-pipeline
+    Merge:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          pattern: ^[a-z][a-z0-9/_-]+$
+        config: {}
+    Label:
+      type: object
+      description: A label with name-value pair
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Label name
+        value: {}
+        version:
+          type: string
+          pattern: ^v[0-9]+$
+        signing:
+          type: boolean
+          description: Whether this label should be included in signing
+        merge:
+          $ref: '#/components/schemas/Merge'
+    Labels:
+      type: array
+      items:
+        $ref: '#/components/schemas/Label'
     Input:
       type: object
       description: Input specification for local resources
@@ -196,6 +187,10 @@ components:
       properties:
         type:
           type: string
+    SourceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Source'
     Access:
       type: object
       description: Access specification for resources and sources
@@ -218,6 +213,11 @@ components:
           npm: '#/components/schemas/NpmAccess'
           wget: '#/components/schemas/WgetAccess'
           http: '#/components/schemas/HttpAccess'
+    IdentityAttribute:
+      type: object
+      description: Identity attributes for element identification
+      additionalProperties:
+        type: string
   parameters:
     ComponentNameParam:
       name: name
@@ -233,24 +233,6 @@ components:
       schema:
         $ref: '#/components/schemas/Version'
   responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
     InternalError:
       description: Internal server error
       content:
@@ -260,15 +242,25 @@ components:
           examples:
             internalError:
               $ref: '#/components/examples/ErrorInternal'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
   examples:
-    ErrorInternal:
-      summary: Internal Error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-xyz789
     SourceListResponse:
       summary: Source list
       description: Example list of component sources
@@ -287,6 +279,14 @@ components:
           type: helm
           helmRepository: https://charts.acme.org
           helmChart: web-app:1.2.0
+    ErrorInternal:
+      summary: Internal Error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-xyz789
     GitHubSource:
       summary: GitHub Source
       description: Example GitHub source

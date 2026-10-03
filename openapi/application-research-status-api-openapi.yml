@@ -72,32 +72,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   examples:
-    StatusFailed:
-      summary: Failed installation status
-      description: Example of a failed installation
-      value:
-        status: Failed
-        message: One or more components have failed
-        components:
-          wordpress:
-            status: Failed
-            message: CrashLoopBackOff - unable to connect to database
-          mysql:
-            status: Ready
-            message: Database is running
-    StatusPending:
-      summary: Pending installation status
-      description: Example of an installation in progress
-      value:
-        status: Pending
-        message: Installation in progress
-        components:
-          wordpress:
-            status: Pending
-            message: Waiting for database to be ready
-          mysql:
-            status: Ready
-            message: Database initialized
     ErrorInternal:
       summary: Internal error
       description: Example internal server error
@@ -124,6 +98,25 @@ components:
             status: Pending
           redis-cache:
             status: Ready
+    StatusFailed:
+      summary: Failed installation status
+      description: Example of a failed installation
+      value:
+        status: Failed
+        message: One or more components have failed
+        components:
+          wordpress:
+            status: Failed
+            message: CrashLoopBackOff - unable to connect to database
+          mysql:
+            status: Ready
+            message: Database is running
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
     StatusReady:
       summary: Ready installation status
       description: Example of a healthy installation
@@ -137,20 +130,73 @@ components:
           mysql:
             status: Ready
             message: Primary and replica healthy
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
+    StatusPending:
+      summary: Pending installation status
+      description: Example of an installation in progress
       value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
-  parameters:
-    InstallationNameParam:
-      name: name
-      in: path
-      required: true
-      description: Installation name
-      schema:
-        type: string
+        status: Pending
+        message: Installation in progress
+        components:
+          wordpress:
+            status: Pending
+            message: Waiting for database to be ready
+          mysql:
+            status: Ready
+            message: Database initialized
+  schemas:
+    StatusListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Status'
+    StatusComponent:
+      type: object
+      description: Status of a component in a CNAB installation
+      properties:
+        status:
+          type: string
+          description: Status identifier
+        message:
+          type: string
+          description: Details about the current status
+        components:
+          type: object
+          description: Nested components with their own status
+          additionalProperties:
+            $ref: '#/components/schemas/StatusComponent'
+      additionalProperties: true
+    Status:
+      type: object
+      description: Overall status of a CNAB installation
+      properties:
+        status:
+          type: string
+          description: Status identifier (Ready, Pending, Failed are well known)
+        message:
+          type: string
+          description: Details about the current status
+        components:
+          type: object
+          description: Map of component names to their status
+          additionalProperties:
+            $ref: '#/components/schemas/StatusComponent'
+      additionalProperties: true
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
   responses:
     InternalError:
       description: Internal server error
@@ -170,60 +216,14 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/ErrorNotFound'
-  schemas:
-    Status:
-      type: object
-      description: Overall status of a CNAB installation
-      properties:
-        status:
-          type: string
-          description: Status identifier (Ready, Pending, Failed are well known)
-        message:
-          type: string
-          description: Details about the current status
-        components:
-          type: object
-          description: Map of component names to their status
-          additionalProperties:
-            $ref: '#/components/schemas/StatusComponent'
-      additionalProperties: true
-    StatusComponent:
-      type: object
-      description: Status of a component in a CNAB installation
-      properties:
-        status:
-          type: string
-          description: Status identifier
-        message:
-          type: string
-          description: Details about the current status
-        components:
-          type: object
-          description: Nested components with their own status
-          additionalProperties:
-            $ref: '#/components/schemas/StatusComponent'
-      additionalProperties: true
-    StatusListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/Status'
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: object
-          description: Additional error details
-          additionalProperties: true
+  parameters:
+    InstallationNameParam:
+      name: name
+      in: path
+      required: true
+      description: Installation name
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

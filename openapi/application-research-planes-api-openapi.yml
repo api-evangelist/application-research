@@ -76,18 +76,6 @@ components:
       - Failed
       - Canceled
       readOnly: true
-    RadiusPlaneResourceProperties:
-      type: object
-      properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        resourceProviders:
-          type: object
-          additionalProperties:
-            type: string
-      required:
-      - resourceProviders
     RadiusPlaneResource:
       type: object
       properties:
@@ -114,6 +102,18 @@ components:
       required:
       - properties
       - location
+    RadiusPlaneResourceProperties:
+      type: object
+      properties:
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        resourceProviders:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+      - resourceProviders
   responses:
     ErrorResponse:
       description: Error response

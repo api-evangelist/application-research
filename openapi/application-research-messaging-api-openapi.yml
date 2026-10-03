@@ -46,30 +46,68 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
-  examples:
-    OrderEventsQueueExample:
-      summary: Order events RabbitMQ queue
-      value:
-        properties:
-          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
-          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
-          resourceProvisioning: recipe
-          recipe:
-            name: default
-            parameters:
-              queueName: order-events
-              durable: true
-        location: eastus
-        tags:
-          messaging: rabbitmq
-          purpose: order-events
   schemas:
+    Recipe:
+      type: object
+      description: The recipe used to automatically deploy underlying infrastructure
+      properties:
+        name:
+          type: string
+          description: The name of the recipe within the environment to use
+        parameters:
+          type: object
+          description: Key/value parameters to pass into the recipe at deployment
+      required:
+      - name
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
     ResourceProvisioning:
       type: string
       description: Specifies how the underlying service/resource is provisioned and managed
       enum:
       - recipe
       - manual
+    RecipeStatus:
+      type: object
+      description: Recipe status at deployment time
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
+    RabbitMQSecrets:
+      type: object
+      properties:
+        password:
+          type: string
+        uri:
+          type: string
     RabbitMQQueueProperties:
       type: object
       properties:
@@ -108,81 +146,6 @@ components:
           $ref: '#/components/schemas/ResourceProvisioning'
       required:
       - environment
-    RecipeStatus:
-      type: object
-      description: Recipe status at deployment time
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        templateVersion:
-          type: string
-      required:
-      - templateKind
-      - templatePath
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    RabbitMQQueueResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/RabbitMQQueueProperties'
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
-    ResourceStatus:
-      type: object
-      description: Status of a resource
-      properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
     IdentitySettings:
       type: object
       description: IdentitySettings is the external identity setting
@@ -228,6 +191,32 @@ components:
           type: string
         radiusManaged:
           type: boolean
+    RabbitMQQueueResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/RabbitMQQueueProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
     ResourceReference:
       type: object
       description: Describes a reference to an existing resource
@@ -237,31 +226,42 @@ components:
           description: Resource id of an existing resource
       required:
       - id
-    RabbitMQSecrets:
+    ResourceStatus:
       type: object
+      description: Status of a resource
       properties:
-        password:
-          type: string
-        uri:
-          type: string
-    Recipe:
-      type: object
-      description: The recipe used to automatically deploy underlying infrastructure
-      properties:
-        name:
-          type: string
-          description: The name of the recipe within the environment to use
-        parameters:
-          type: object
-          description: Key/value parameters to pass into the recipe at deployment
-      required:
-      - name
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
   parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
     PlaneNameParameter:
       name: planeName
       in: path
       required: true
       description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
       schema:
         type: string
         pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
@@ -273,23 +273,6 @@ components:
       description: The name of the RabbitMQ queue
       schema:
         type: string
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
   responses:
     ErrorResponse:
       description: Error response
@@ -315,3 +298,20 @@ components:
                 - message
             required:
             - error
+  examples:
+    OrderEventsQueueExample:
+      summary: Order events RabbitMQ queue
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          resourceProvisioning: recipe
+          recipe:
+            name: default
+            parameters:
+              queueName: order-events
+              durable: true
+        location: eastus
+        tags:
+          messaging: rabbitmq
+          purpose: order-events

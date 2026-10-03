@@ -125,63 +125,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
-    Labels:
-      type: array
-      items:
-        $ref: '#/components/schemas/Label'
-    ElementName:
-      type: string
-      description: Element name for resources and sources
-      minLength: 2
-      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
-      examples:
-      - frontend-image
-      - backend-image
-      - helm-chart
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
-    ResourceListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/Resource'
-    Label:
-      type: object
-      description: A label with name-value pair
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: Label name
-        value: {}
-        version:
-          type: string
-          pattern: ^v[0-9]+$
-        signing:
-          type: boolean
-          description: Whether this label should be included in signing
-        merge:
-          $ref: '#/components/schemas/Merge'
-    Merge:
-      type: object
-      properties:
-        algorithm:
-          type: string
-          pattern: ^[a-z][a-z0-9/_-]+$
-        config: {}
     DigestSpec:
       type: object
       description: Cryptographic digest specification
@@ -213,6 +156,42 @@ components:
       - 1.0.0
       - 2.5.1
       - v1.0.0-beta.1
+    IdentityAttribute:
+      type: object
+      description: Identity attributes for element identification
+      additionalProperties:
+        type: string
+    SrcRef:
+      type: object
+      description: Reference to a component-local source
+      properties:
+        identitySelector:
+          $ref: '#/components/schemas/IdentityAttribute'
+        labels:
+          $ref: '#/components/schemas/Labels'
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+    ElementName:
+      type: string
+      description: Element name for resources and sources
+      minLength: 2
+      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
+      examples:
+      - frontend-image
+      - backend-image
+      - helm-chart
     Resource:
       type: object
       description: Component resource
@@ -254,19 +233,6 @@ components:
           oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/DigestSpec'
-    IdentityAttribute:
-      type: object
-      description: Identity attributes for element identification
-      additionalProperties:
-        type: string
-    SrcRef:
-      type: object
-      description: Reference to a component-local source
-      properties:
-        identitySelector:
-          $ref: '#/components/schemas/IdentityAttribute'
-        labels:
-          $ref: '#/components/schemas/Labels'
     ComponentName:
       type: string
       description: Fully qualified component name
@@ -275,6 +241,36 @@ components:
       examples:
       - github.com/acme.org/web-application
       - github.com/ailab.org/model-training-pipeline
+    Merge:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          pattern: ^[a-z][a-z0-9/_-]+$
+        config: {}
+    Label:
+      type: object
+      description: A label with name-value pair
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Label name
+        value: {}
+        version:
+          type: string
+          pattern: ^v[0-9]+$
+        signing:
+          type: boolean
+          description: Whether this label should be included in signing
+        merge:
+          $ref: '#/components/schemas/Merge'
+    Labels:
+      type: array
+      items:
+        $ref: '#/components/schemas/Label'
     Input:
       type: object
       description: Input specification for local resources
@@ -305,6 +301,10 @@ components:
           npm: '#/components/schemas/NpmAccess'
           wget: '#/components/schemas/WgetAccess'
           http: '#/components/schemas/HttpAccess'
+    ResourceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Resource'
   parameters:
     ComponentNameParam:
       name: name
@@ -313,12 +313,6 @@ components:
       description: Component name (e.g., github.com/acme.org/web-application)
       schema:
         $ref: '#/components/schemas/ComponentName'
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Component version (semver)
-      schema:
-        $ref: '#/components/schemas/Version'
     ResourceNameParam:
       name: resourceName
       in: path
@@ -326,25 +320,41 @@ components:
       description: Resource element name
       schema:
         $ref: '#/components/schemas/ElementName'
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Component version (semver)
+      schema:
+        $ref: '#/components/schemas/Version'
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
   examples:
-    OciImageResource:
-      summary: OCI Image Resource
-      description: Example OCI image resource
-      value:
-        name: frontend-image
-        type: ociImage
-        version: 2.5.1
-        relation: local
-        access:
-          type: ociArtifact
-          imageReference: ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
-        labels:
-        - name: component
-          value: frontend
-        digest:
-          hashAlgorithm: SHA-256
-          normalisationAlgorithm: ociArtifactDigest/v1
-          value: 4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
     ErrorInternal:
       summary: Internal Error
       description: Example internal server error
@@ -353,15 +363,6 @@ components:
         message: An unexpected error occurred
         details:
           requestId: req-xyz789
-    ErrorBadRequest:
-      summary: Bad Request Error
-      description: Example bad request error
-      value:
-        code: BAD_REQUEST
-        message: Invalid component name format
-        details:
-          field: component.name
-          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
     ResourceListResponse:
       summary: Resource list
       description: Example list of component resources
@@ -387,6 +388,24 @@ components:
         access:
           type: ociArtifact
           imageReference: nginx:1.25.4
+    OciImageResource:
+      summary: OCI Image Resource
+      description: Example OCI image resource
+      value:
+        name: frontend-image
+        type: ociImage
+        version: 2.5.1
+        relation: local
+        access:
+          type: ociArtifact
+          imageReference: ghcr.io/acme-org/web-app-frontend:2.5.1@sha256:4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
+        labels:
+        - name: component
+          value: frontend
+        digest:
+          hashAlgorithm: SHA-256
+          normalisationAlgorithm: ociArtifactDigest/v1
+          value: 4f5d0d0684a1ed9f7ce482c87c2c4d3499468fdcea2711f0c3f6a69a7aa9147b
     HelmChartResource:
       summary: Helm Chart Resource
       description: Example Helm chart resource
@@ -399,40 +418,21 @@ components:
           localReference: sha256:fa7d95d13bcec2665ec944f005d0d7f28ba92c1fd7c128e9b7347d792ba5f291
           mediaType: application/x-tar+gzip
           referenceName: web-app-chart
+    ErrorBadRequest:
+      summary: Bad Request Error
+      description: Example bad request error
+      value:
+        code: BAD_REQUEST
+        message: Invalid component name format
+        details:
+          field: component.name
+          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
     ErrorNotFound:
       summary: Not Found Error
       description: Example not found error
       value:
         code: NOT_FOUND
         message: Component 'github.com/acme.org/unknown-component' not found
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
   securitySchemes:
     bearerAuth:
       type: http
