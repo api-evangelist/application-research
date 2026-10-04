@@ -120,6 +120,106 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
+    BicepConfigProperties:
+      type: object
+      properties:
+        authentication:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RegistrySecretConfig'
+    Providers:
+      type: object
+      description: The Cloud providers configuration
+      properties:
+        azure:
+          $ref: '#/components/schemas/ProvidersAzure'
+        aws:
+          $ref: '#/components/schemas/ProvidersAws'
+    GitAuthConfig:
+      type: object
+      properties:
+        pat:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SecretConfig'
+    SecretReference:
+      type: object
+      description: Reference to a secret in a secret store
+      properties:
+        source:
+          type: string
+          description: The ID of an Applications.Core/SecretStore resource
+        key:
+          type: string
+          description: The key for the secret in the secret store
+      required:
+      - source
+      - key
+    ProviderConfigProperties:
+      type: object
+      properties:
+        secrets:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SecretReference'
+      additionalProperties: true
+    EnvironmentResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/EnvironmentProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    RecipeProperties:
+      type: object
+      description: Recipe properties
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        parameters:
+          type: object
+      required:
+      - templateKind
+      - templatePath
     ProvisioningState:
       type: string
       description: Provisioning state of the resource at the time the operation was called
@@ -133,29 +233,6 @@ components:
       - Failed
       - Canceled
       readOnly: true
-    RecipeConfigProperties:
-      type: object
-      properties:
-        terraform:
-          $ref: '#/components/schemas/TerraformConfigProperties'
-        bicep:
-          $ref: '#/components/schemas/BicepConfigProperties'
-        env:
-          type: object
-          additionalProperties:
-            type: string
-        envSecrets:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/SecretReference'
-    ProvidersAzure:
-      type: object
-      properties:
-        scope:
-          type: string
-          description: Target scope for Azure resources
-      required:
-      - scope
     Extension:
       type: object
       description: Extension of a environment/application resource
@@ -172,40 +249,39 @@ components:
           manualScaling: '#/components/schemas/ManualScalingExtension'
           daprSidecar: '#/components/schemas/DaprSidecarExtension'
           aci: '#/components/schemas/AzureContainerInstanceExtension'
-    ProvidersAws:
+    EnvironmentCompute:
       type: object
+      description: Represents backing compute resource
       properties:
-        scope:
+        kind:
           type: string
-          description: Target scope for AWS resources
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
       required:
-      - scope
-    EnvironmentProperties:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+    TerraformConfigProperties:
       type: object
       properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
+        authentication:
+          $ref: '#/components/schemas/AuthConfig'
         providers:
-          $ref: '#/components/schemas/Providers'
-        simulated:
-          type: boolean
-        recipes:
           type: object
           additionalProperties:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/RecipeProperties'
-        recipeConfig:
-          $ref: '#/components/schemas/RecipeConfigProperties'
-        extensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Extension'
-      required:
-      - compute
+            type: array
+            items:
+              $ref: '#/components/schemas/ProviderConfigProperties'
+    RegistrySecretConfig:
+      type: object
+      properties:
+        secret:
+          type: string
     IdentitySettingKind:
       type: string
       description: IdentitySettingKind is the kind of supported external identity setting
@@ -233,160 +309,103 @@ components:
           format: uri
       required:
       - value
-    BicepConfigProperties:
+    EnvironmentProperties:
       type: object
       properties:
-        authentication:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RegistrySecretConfig'
-    Providers:
-      type: object
-      description: The Cloud providers configuration
-      properties:
-        azure:
-          $ref: '#/components/schemas/ProvidersAzure'
-        aws:
-          $ref: '#/components/schemas/ProvidersAws'
-    TerraformConfigProperties:
-      type: object
-      properties:
-        authentication:
-          $ref: '#/components/schemas/AuthConfig'
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
         providers:
+          $ref: '#/components/schemas/Providers'
+        simulated:
+          type: boolean
+        recipes:
           type: object
           additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/ProviderConfigProperties'
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
-      properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
-          type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
-          type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/RecipeProperties'
+        recipeConfig:
+          $ref: '#/components/schemas/RecipeConfigProperties'
+        extensions:
           type: array
           items:
+            $ref: '#/components/schemas/Extension'
+      required:
+      - compute
+    RecipeConfigProperties:
+      type: object
+      properties:
+        terraform:
+          $ref: '#/components/schemas/TerraformConfigProperties'
+        bicep:
+          $ref: '#/components/schemas/BicepConfigProperties'
+        env:
+          type: object
+          additionalProperties:
             type: string
-      required:
-      - kind
-    EnvironmentCompute:
-      type: object
-      description: Represents backing compute resource
-      properties:
-        kind:
-          type: string
-        resourceId:
-          type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
-    SecretReference:
-      type: object
-      description: Reference to a secret in a secret store
-      properties:
-        source:
-          type: string
-          description: The ID of an Applications.Core/SecretStore resource
-        key:
-          type: string
-          description: The key for the secret in the secret store
-      required:
-      - source
-      - key
-    ProviderConfigProperties:
-      type: object
-      properties:
-        secrets:
+        envSecrets:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/SecretReference'
-      additionalProperties: true
+    ProvidersAzure:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Target scope for Azure resources
+      required:
+      - scope
+    ProvidersAws:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Target scope for AWS resources
+      required:
+      - scope
     SecretConfig:
       type: object
       properties:
         secret:
           type: string
-    RegistrySecretConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-    EnvironmentResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/EnvironmentProperties'
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
-    RecipeProperties:
-      type: object
-      description: Recipe properties
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        parameters:
-          type: object
-      required:
-      - templateKind
-      - templatePath
-    GitAuthConfig:
-      type: object
-      properties:
-        pat:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/SecretConfig'
+  parameters:
+    EnvironmentNameParameter:
+      name: environmentName
+      in: path
+      required: true
+      description: The name of the environment
+      schema:
+        type: string
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
   examples:
-    EnvironmentListExample:
-      summary: List of environments
-      value:
-        value:
-        - properties:
-            compute:
-              kind: kubernetes
-              namespace: ecommerce-prod
-            provisioningState: Succeeded
-          location: eastus
-          tags:
-            environment: production
-          id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
-          name: prod
-          type: Applications.Core/environments
     KubernetesEnvironmentExample:
       summary: Kubernetes environment with Azure and AWS providers
       value:
@@ -439,40 +458,21 @@ components:
         tags:
           environment: production
           project: ecommerce
-  parameters:
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    EnvironmentNameParameter:
-      name: environmentName
-      in: path
-      required: true
-      description: The name of the environment
-      schema:
-        type: string
+    EnvironmentListExample:
+      summary: List of environments
+      value:
+        value:
+        - properties:
+            compute:
+              kind: kubernetes
+              namespace: ecommerce-prod
+            provisioningState: Succeeded
+          location: eastus
+          tags:
+            environment: production
+          id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          name: prod
+          type: Applications.Core/environments
   responses:
     ErrorResponse:
       description: Error response

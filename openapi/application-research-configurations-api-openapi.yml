@@ -113,6 +113,109 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
+    Provider:
+      type: object
+      description: Component provider information
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Provider name
+          examples:
+          - acme
+          - ailab
+          - enterprise
+        labels:
+          $ref: '#/components/schemas/Labels'
+    Version:
+      type: string
+      description: Semantic version string
+      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      examples:
+      - 1.0.0
+      - 2.5.1
+      - v1.0.0-beta.1
+    Merge:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          pattern: ^[a-z][a-z0-9/_-]+$
+        config: {}
+    Input:
+      type: object
+      description: Input specification for local resources
+      required:
+      - type
+      properties:
+        type:
+          type: string
+    Labels:
+      type: array
+      items:
+        $ref: '#/components/schemas/Label'
+    Access:
+      type: object
+      description: Access specification for resources and sources
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Access type identifier
+      discriminator:
+        propertyName: type
+        mapping:
+          localBlob: '#/components/schemas/LocalBlobAccess'
+          ociArtifact: '#/components/schemas/OciArtifactAccess'
+          ociBlob: '#/components/schemas/OciBlobAccess'
+          helm: '#/components/schemas/HelmAccess'
+          gitHub: '#/components/schemas/GitHubAccess'
+          github: '#/components/schemas/GitHubAccess'
+          s3: '#/components/schemas/S3Access'
+          npm: '#/components/schemas/NpmAccess'
+          wget: '#/components/schemas/WgetAccess'
+          http: '#/components/schemas/HttpAccess'
+    ConfigurationListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentConfiguration'
+        total:
+          type: integer
+    SrcRef:
+      type: object
+      description: Reference to a component-local source
+      properties:
+        identitySelector:
+          $ref: '#/components/schemas/IdentityAttribute'
+        labels:
+          $ref: '#/components/schemas/Labels'
+    ElementName:
+      type: string
+      description: Element name for resources and sources
+      minLength: 2
+      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
+      examples:
+      - frontend-image
+      - backend-image
+      - helm-chart
+    IdentityAttribute:
+      type: object
+      description: Identity attributes for element identification
+      additionalProperties:
+        type: string
+    ComponentName:
+      type: string
+      description: Fully qualified component name
+      maxLength: 255
+      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+      examples:
+      - github.com/acme.org/web-application
+      - github.com/ailab.org/model-training-pipeline
     DigestSpec:
       type: object
       description: Cryptographic digest specification
@@ -136,123 +239,16 @@ components:
         value:
           type: string
           description: The digest value
-    Version:
-      type: string
-      description: Semantic version string
-      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      examples:
-      - 1.0.0
-      - 2.5.1
-      - v1.0.0-beta.1
-    SrcRef:
+    ComponentConfiguration:
       type: object
-      description: Reference to a component-local source
-      properties:
-        identitySelector:
-          $ref: '#/components/schemas/IdentityAttribute'
-        labels:
-          $ref: '#/components/schemas/Labels'
-    Component:
-      type: object
-      description: Component definition
+      description: Configuration for multiple components
       required:
-      - name
-      - version
-      - provider
+      - components
       properties:
-        name:
-          $ref: '#/components/schemas/ComponentName'
-        version:
-          $ref: '#/components/schemas/Version'
-        creationTime:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        repositoryContexts:
+        components:
           type: array
           items:
-            $ref: '#/components/schemas/RepositoryContext'
-        provider:
-          oneOf:
-          - type: string
-          - $ref: '#/components/schemas/Provider'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        sources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Source'
-        resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Resource'
-        componentReferences:
-          type: array
-          items:
-            $ref: '#/components/schemas/ComponentReference'
-    Source:
-      type: object
-      description: Component source
-      required:
-      - name
-      - type
-      properties:
-        name:
-          $ref: '#/components/schemas/ElementName'
-        type:
-          type: string
-          description: Source type
-          examples:
-          - git
-          - helmChart
-          - yaml
-        extraIdentity:
-          $ref: '#/components/schemas/IdentityAttribute'
-        version:
-          $ref: '#/components/schemas/Version'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        access:
-          $ref: '#/components/schemas/Access'
-        input:
-          $ref: '#/components/schemas/Input'
-    ComponentReference:
-      type: object
-      description: Reference to another component
-      required:
-      - name
-      - componentName
-      - version
-      properties:
-        name:
-          $ref: '#/components/schemas/ElementName'
-        componentName:
-          $ref: '#/components/schemas/ComponentName'
-        version:
-          $ref: '#/components/schemas/Version'
-        extraIdentity:
-          $ref: '#/components/schemas/IdentityAttribute'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        digest:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/DigestSpec'
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
+            $ref: '#/components/schemas/Component'
     Resource:
       type: object
       description: Component resource
@@ -294,62 +290,68 @@ components:
           oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/DigestSpec'
-    ElementName:
-      type: string
-      description: Element name for resources and sources
-      minLength: 2
-      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
-      examples:
-      - frontend-image
-      - backend-image
-      - helm-chart
-    ComponentName:
-      type: string
-      description: Fully qualified component name
-      maxLength: 255
-      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-      examples:
-      - github.com/acme.org/web-application
-      - github.com/ailab.org/model-training-pipeline
-    Merge:
+    ComponentReference:
       type: object
-      properties:
-        algorithm:
-          type: string
-          pattern: ^[a-z][a-z0-9/_-]+$
-        config: {}
-    ConfigurationListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ComponentConfiguration'
-        total:
-          type: integer
-    Label:
-      type: object
-      description: A label with name-value pair
+      description: Reference to another component
       required:
       - name
-      - value
+      - componentName
+      - version
       properties:
         name:
-          type: string
-          description: Label name
-        value: {}
+          $ref: '#/components/schemas/ElementName'
+        componentName:
+          $ref: '#/components/schemas/ComponentName'
         version:
+          $ref: '#/components/schemas/Version'
+        extraIdentity:
+          $ref: '#/components/schemas/IdentityAttribute'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        digest:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/DigestSpec'
+    Source:
+      type: object
+      description: Component source
+      required:
+      - name
+      - type
+      properties:
+        name:
+          $ref: '#/components/schemas/ElementName'
+        type:
           type: string
-          pattern: ^v[0-9]+$
-        signing:
-          type: boolean
-          description: Whether this label should be included in signing
-        merge:
-          $ref: '#/components/schemas/Merge'
-    Labels:
-      type: array
-      items:
-        $ref: '#/components/schemas/Label'
+          description: Source type
+          examples:
+          - git
+          - helmChart
+          - yaml
+        extraIdentity:
+          $ref: '#/components/schemas/IdentityAttribute'
+        version:
+          $ref: '#/components/schemas/Version'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        access:
+          $ref: '#/components/schemas/Access'
+        input:
+          $ref: '#/components/schemas/Input'
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
     RepositoryContext:
       type: object
       description: Repository context for component storage
@@ -369,66 +371,92 @@ components:
           enum:
           - urlPath
           - sha256-digest
-    Input:
+    Label:
       type: object
-      description: Input specification for local resources
-      required:
-      - type
-      properties:
-        type:
-          type: string
-    Access:
-      type: object
-      description: Access specification for resources and sources
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Access type identifier
-      discriminator:
-        propertyName: type
-        mapping:
-          localBlob: '#/components/schemas/LocalBlobAccess'
-          ociArtifact: '#/components/schemas/OciArtifactAccess'
-          ociBlob: '#/components/schemas/OciBlobAccess'
-          helm: '#/components/schemas/HelmAccess'
-          gitHub: '#/components/schemas/GitHubAccess'
-          github: '#/components/schemas/GitHubAccess'
-          s3: '#/components/schemas/S3Access'
-          npm: '#/components/schemas/NpmAccess'
-          wget: '#/components/schemas/WgetAccess'
-          http: '#/components/schemas/HttpAccess'
-    ComponentConfiguration:
-      type: object
-      description: Configuration for multiple components
-      required:
-      - components
-      properties:
-        components:
-          type: array
-          items:
-            $ref: '#/components/schemas/Component'
-    Provider:
-      type: object
-      description: Component provider information
+      description: A label with name-value pair
       required:
       - name
+      - value
       properties:
         name:
           type: string
-          description: Provider name
-          examples:
-          - acme
-          - ailab
-          - enterprise
+          description: Label name
+        value: {}
+        version:
+          type: string
+          pattern: ^v[0-9]+$
+        signing:
+          type: boolean
+          description: Whether this label should be included in signing
+        merge:
+          $ref: '#/components/schemas/Merge'
+    Component:
+      type: object
+      description: Component definition
+      required:
+      - name
+      - version
+      - provider
+      properties:
+        name:
+          $ref: '#/components/schemas/ComponentName'
+        version:
+          $ref: '#/components/schemas/Version'
+        creationTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        repositoryContexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/RepositoryContext'
+        provider:
+          oneOf:
+          - type: string
+          - $ref: '#/components/schemas/Provider'
         labels:
           $ref: '#/components/schemas/Labels'
-    IdentityAttribute:
-      type: object
-      description: Identity attributes for element identification
-      additionalProperties:
-        type: string
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+        componentReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentReference'
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
   parameters:
     LimitParam:
       name: limit
@@ -439,6 +467,13 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+    ConfigurationIdParam:
+      name: id
+      in: path
+      required: true
+      description: Configuration ID
+      schema:
+        type: string
     OffsetParam:
       name: offset
       in: query
@@ -447,14 +482,21 @@ components:
         type: integer
         minimum: 0
         default: 0
-    ConfigurationIdParam:
-      name: id
-      in: path
-      required: true
-      description: Configuration ID
-      schema:
-        type: string
   examples:
+    ConfigurationListResponse:
+      summary: Configuration list
+      description: Example list of configurations
+      value:
+        items:
+        - components:
+          - name: github.com/ailab.org/model-training-pipeline
+            version: 4.2.0
+            provider: ailab
+        - components:
+          - name: github.com/enterprise.io/order-service
+            version: 3.1.0
+            provider: enterprise
+        total: 2
     MLPipelineConfiguration:
       summary: ML Pipeline Configuration
       description: Configuration for ML training and inference components
@@ -539,20 +581,6 @@ components:
               digest: sha256:41029839fa6ad57a33a4fe85a9f7c7127d37e42d6947317488b5de4c5dbeb20e
               mediaType: application/x-tar+gzip
               size: 524288000
-    ConfigurationListResponse:
-      summary: Configuration list
-      description: Example list of configurations
-      value:
-        items:
-        - components:
-          - name: github.com/ailab.org/model-training-pipeline
-            version: 4.2.0
-            provider: ailab
-        - components:
-          - name: github.com/enterprise.io/order-service
-            version: 3.1.0
-            provider: enterprise
-        total: 2
     ErrorInternal:
       summary: Internal Error
       description: Example internal server error
@@ -561,6 +589,15 @@ components:
         message: An unexpected error occurred
         details:
           requestId: req-xyz789
+    ErrorBadRequest:
+      summary: Bad Request Error
+      description: Example bad request error
+      value:
+        code: BAD_REQUEST
+        message: Invalid component name format
+        details:
+          field: component.name
+          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
     MicroservicesConfiguration:
       summary: Microservices Configuration
       description: Configuration for enterprise microservices
@@ -632,49 +669,12 @@ components:
               type: helm
               path: ./charts/payment-service
               version: 2.8.3
-    ErrorBadRequest:
-      summary: Bad Request Error
-      description: Example bad request error
-      value:
-        code: BAD_REQUEST
-        message: Invalid component name format
-        details:
-          field: component.name
-          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
     ErrorNotFound:
       summary: Not Found Error
       description: Example not found error
       value:
         code: NOT_FOUND
         message: Component 'github.com/acme.org/unknown-component' not found
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
   securitySchemes:
     bearerAuth:
       type: http

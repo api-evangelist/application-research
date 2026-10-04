@@ -45,34 +45,13 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
-  parameters:
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
   schemas:
+    ResourceGroupProperties:
+      type: object
+      properties:
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
     ProvisioningState:
       type: string
       description: Provisioning state of the resource at the time the operation was called
@@ -86,12 +65,6 @@ components:
       - Failed
       - Canceled
       readOnly: true
-    ResourceGroupProperties:
-      type: object
-      properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
     ResourceGroupResource:
       type: object
       properties:
@@ -115,15 +88,33 @@ components:
             type: string
         location:
           type: string
-  examples:
-    ResourceGroupExample:
-      summary: Resource group
-      value:
-        properties: {}
-        location: westus2
-        tags:
-          resource-group: cicd-rg
-          environment: production
+  parameters:
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
   responses:
     ErrorResponse:
       description: Error response
@@ -149,3 +140,12 @@ components:
                 - message
             required:
             - error
+  examples:
+    ResourceGroupExample:
+      summary: Resource group
+      value:
+        properties: {}
+        location: westus2
+        tags:
+          resource-group: cicd-rg
+          environment: production

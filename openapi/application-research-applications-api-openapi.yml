@@ -120,83 +120,6 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
-    OutputResource:
-      type: object
-      description: Properties of an output resource
-      properties:
-        localId:
-          type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
-    ApplicationResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/ApplicationProperties'
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    ApplicationProperties:
-      type: object
-      properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        environment:
-          type: string
-          description: Fully qualified resource ID for the environment
-        extensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Extension'
-        status:
-          $ref: '#/components/schemas/ResourceStatus'
-          readOnly: true
-      required:
-      - environment
     RecipeStatus:
       type: object
       description: Recipe status at deployment time
@@ -223,6 +146,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OutputResource'
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
     ApplicationResourceListResult:
       type: object
       properties:
@@ -235,22 +181,6 @@ components:
           format: uri
       required:
       - value
-    Extension:
-      type: object
-      description: Extension of a environment/application resource
-      properties:
-        kind:
-          type: string
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetesMetadata: '#/components/schemas/KubernetesMetadataExtension'
-          kubernetesNamespace: '#/components/schemas/KubernetesNamespaceExtension'
-          manualScaling: '#/components/schemas/ManualScalingExtension'
-          daprSidecar: '#/components/schemas/DaprSidecarExtension'
-          aci: '#/components/schemas/AzureContainerInstanceExtension'
     IdentitySettings:
       type: object
       description: IdentitySettings is the external identity setting
@@ -269,6 +199,66 @@ components:
             type: string
       required:
       - kind
+    Extension:
+      type: object
+      description: Extension of a environment/application resource
+      properties:
+        kind:
+          type: string
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetesMetadata: '#/components/schemas/KubernetesMetadataExtension'
+          kubernetesNamespace: '#/components/schemas/KubernetesNamespaceExtension'
+          manualScaling: '#/components/schemas/ManualScalingExtension'
+          daprSidecar: '#/components/schemas/DaprSidecarExtension'
+          aci: '#/components/schemas/AzureContainerInstanceExtension'
+    ApplicationProperties:
+      type: object
+      properties:
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        environment:
+          type: string
+          description: Fully qualified resource ID for the environment
+        extensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Extension'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+      required:
+      - environment
+    ApplicationResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/ApplicationProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
     EnvironmentCompute:
       type: object
       description: Represents backing compute resource
@@ -286,7 +276,24 @@ components:
         mapping:
           kubernetes: '#/components/schemas/KubernetesCompute'
           aci: '#/components/schemas/AzureContainerInstanceCompute'
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
   parameters:
+    ApplicationNameParameter:
+      name: applicationName
+      in: path
+      required: true
+      description: The name of the application
+      schema:
+        type: string
     ApiVersionParameter:
       name: api-version
       in: query
@@ -295,13 +302,6 @@ components:
       schema:
         type: string
         default: 2023-10-01-preview
-    ApplicationNameParameter:
-      name: applicationName
-      in: path
-      required: true
-      description: The name of the application
-      schema:
-        type: string
     PlaneNameParameter:
       name: planeName
       in: path
@@ -320,31 +320,6 @@ components:
         type: string
         pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
         maxLength: 63
-  responses:
-    ErrorResponse:
-      description: Error response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: Error code
-                  message:
-                    type: string
-                    description: Error message
-                  target:
-                    type: string
-                    description: Error target
-                required:
-                - code
-                - message
-            required:
-            - error
   examples:
     EcommerceApplicationExample:
       summary: E-commerce application
@@ -386,3 +361,28 @@ components:
           id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
           name: ecommerce-platform
           type: Applications.Core/applications
+  responses:
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Error code
+                  message:
+                    type: string
+                    description: Error message
+                  target:
+                    type: string
+                    description: Error target
+                required:
+                - code
+                - message
+            required:
+            - error

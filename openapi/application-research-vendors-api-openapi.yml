@@ -79,10 +79,76 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  examples:
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    VendorExample:
+      summary: SAP Vendor
+      value:
+        ordId: 'sap:vendor:SAP:'
+        title: SAP SE
+        partners:
+        - 'microsoft:vendor:Microsoft:'
+    VendorListExample:
+      summary: List of Vendors
+      value:
+        items:
+        - ordId: 'sap:vendor:SAP:'
+          title: SAP SE
+        - ordId: 'siemens:vendor:Siemens:'
+          title: Siemens AG
+          partners:
+          - 'sap:vendor:SAP:'
+        totalCount: 2
+        limit: 20
+        offset: 0
   schemas:
-    DocumentationLabels:
+    Error:
       type: object
-      title: Documentation Labels
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        requestId:
+          type: string
+          description: Request ID for troubleshooting
+    Labels:
+      type: object
+      title: Labels
       additionalProperties:
         type: array
         items:
@@ -121,9 +187,9 @@ components:
       type: string
       pattern: ^[a-zA-Z0-9-_.\/ ]*$
       minLength: 1
-    Labels:
+    DocumentationLabels:
       type: object
-      title: Labels
+      title: Documentation Labels
       additionalProperties:
         type: array
         items:
@@ -142,31 +208,16 @@ components:
           type: integer
         offset:
           type: integer
-    Error:
-      type: object
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: array
-          items:
-            type: object
-            properties:
-              field:
-                type: string
-              message:
-                type: string
-        requestId:
-          type: string
-          description: Request ID for troubleshooting
   responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
     InternalServerError:
       description: Internal server error
       content:
@@ -185,57 +236,6 @@ components:
           examples:
             badRequest:
               $ref: '#/components/examples/BadRequestErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-  examples:
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    VendorExample:
-      summary: SAP Vendor
-      value:
-        ordId: 'sap:vendor:SAP:'
-        title: SAP SE
-        partners:
-        - 'microsoft:vendor:Microsoft:'
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-    VendorListExample:
-      summary: List of Vendors
-      value:
-        items:
-        - ordId: 'sap:vendor:SAP:'
-          title: SAP SE
-        - ordId: 'siemens:vendor:Siemens:'
-          title: Siemens AG
-          partners:
-          - 'sap:vendor:SAP:'
-        totalCount: 2
-        limit: 20
-        offset: 0
   parameters:
     OffsetParam:
       name: offset

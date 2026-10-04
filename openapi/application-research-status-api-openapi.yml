@@ -72,14 +72,12 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   examples:
-    ErrorInternal:
-      summary: Internal error
-      description: Example internal server error
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
       value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-123456
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
     StatusListResponse:
       summary: Installation list response
       description: Example response for listing installations
@@ -98,38 +96,6 @@ components:
             status: Pending
           redis-cache:
             status: Ready
-    StatusFailed:
-      summary: Failed installation status
-      description: Example of a failed installation
-      value:
-        status: Failed
-        message: One or more components have failed
-        components:
-          wordpress:
-            status: Failed
-            message: CrashLoopBackOff - unable to connect to database
-          mysql:
-            status: Ready
-            message: Database is running
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
-    StatusReady:
-      summary: Ready installation status
-      description: Example of a healthy installation
-      value:
-        status: Ready
-        message: All components are running
-        components:
-          wordpress:
-            status: Ready
-            message: 3/3 replicas available
-          mysql:
-            status: Ready
-            message: Primary and replica healthy
     StatusPending:
       summary: Pending installation status
       description: Example of an installation in progress
@@ -143,7 +109,74 @@ components:
           mysql:
             status: Ready
             message: Database initialized
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    StatusFailed:
+      summary: Failed installation status
+      description: Example of a failed installation
+      value:
+        status: Failed
+        message: One or more components have failed
+        components:
+          wordpress:
+            status: Failed
+            message: CrashLoopBackOff - unable to connect to database
+          mysql:
+            status: Ready
+            message: Database is running
+    StatusReady:
+      summary: Ready installation status
+      description: Example of a healthy installation
+      value:
+        status: Ready
+        message: All components are running
+        components:
+          wordpress:
+            status: Ready
+            message: 3/3 replicas available
+          mysql:
+            status: Ready
+            message: Primary and replica healthy
   schemas:
+    Error:
+      type: object
+      description: Error response
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true
+    Status:
+      type: object
+      description: Overall status of a CNAB installation
+      properties:
+        status:
+          type: string
+          description: Status identifier (Ready, Pending, Failed are well known)
+        message:
+          type: string
+          description: Details about the current status
+        components:
+          type: object
+          description: Map of component names to their status
+          additionalProperties:
+            $ref: '#/components/schemas/StatusComponent'
+      additionalProperties: true
     StatusListResponse:
       type: array
       items:
@@ -164,49 +197,7 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/StatusComponent'
       additionalProperties: true
-    Status:
-      type: object
-      description: Overall status of a CNAB installation
-      properties:
-        status:
-          type: string
-          description: Status identifier (Ready, Pending, Failed are well known)
-        message:
-          type: string
-          description: Details about the current status
-        components:
-          type: object
-          description: Map of component names to their status
-          additionalProperties:
-            $ref: '#/components/schemas/StatusComponent'
-      additionalProperties: true
-    Error:
-      type: object
-      description: Error response
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error message
-        details:
-          type: object
-          description: Additional error details
-          additionalProperties: true
   responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
     NotFound:
       description: Resource not found
       content:
@@ -216,6 +207,15 @@ components:
           examples:
             notFound:
               $ref: '#/components/examples/ErrorNotFound'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
   parameters:
     InstallationNameParam:
       name: name

@@ -67,22 +67,40 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
-    ResourceMetadata:
+    ContainerFile:
       type: object
-      description: The metadata for the Resource
-      additionalProperties: true
-      properties:
-        annotations:
-          $ref: '#/components/schemas/Annotations'
-    ContainerResources:
-      type: object
-      description: The compute resources for the container
+      description: The details of a file to mount in the container. One of 'source', 'content', or 'binaryContent' must be provided.
       additionalProperties: false
+      oneOf:
+      - required:
+        - content
+      - required:
+        - binaryContent
+      - required:
+        - source
       properties:
-        limits:
-          $ref: '#/components/schemas/ResourcesLimits'
-        requests:
-          $ref: '#/components/schemas/ResourcesLimits'
+        mode:
+          type: string
+          description: The optional file access mode in octal encoding
+          pattern: ^0?[0-7]{3}$
+          examples:
+          - '0644'
+          - '0600'
+          - '0444'
+        source:
+          type: string
+          description: The relative or absolute path to the content file
+          minLength: 1
+        content:
+          type: string
+          description: The inline content for the file. Only supports valid utf-8.
+        binaryContent:
+          type: string
+          description: Inline standard-base64 encoded content for the file. Does not support placeholder expansion.
+          contentEncoding: base64
+        noExpand:
+          type: boolean
+          description: If set to true, the placeholders expansion will not occur in the contents of the file.
     ContainerProbe:
       type: object
       description: The probe may be defined as either http, command execution, or both. The execProbe should be preferred if the Score implementation supports both types.
@@ -92,42 +110,27 @@ components:
           $ref: '#/components/schemas/HttpProbe'
         exec:
           $ref: '#/components/schemas/ExecProbe'
-    HttpProbe:
+    ContainerVolume:
       type: object
-      description: An HTTP probe details
+      description: Volume mount specification
       additionalProperties: false
       required:
-      - port
-      - path
+      - source
       properties:
-        host:
+        source:
           type: string
-          description: Host name to connect to. Defaults to the workload IP. This is equivalent to a Host HTTP header.
-          minLength: 1
-        scheme:
-          type: string
-          description: Scheme to use for connecting to the host (HTTP or HTTPS). Defaults to HTTP.
-          enum:
-          - HTTP
-          - HTTPS
-          default: HTTP
+          description: The external volume reference
         path:
           type: string
-          description: The path to access on the HTTP server
-          examples:
-          - /health
-          - /ready
-          - /health/live
-        port:
-          type: integer
-          description: The port to access on the workload
-          minimum: 1
-          maximum: 65535
-        httpHeaders:
-          type: array
-          description: Additional HTTP headers to send with the request
-          items:
-            $ref: '#/components/schemas/HttpHeader'
+          description: An optional sub path in the volume
+        readOnly:
+          type: boolean
+          description: Indicates if the volume should be mounted in a read-only mode
+    ContainerFileMap:
+      type: object
+      description: The extra files to mount into the container as a map of target paths to file details
+      additionalProperties:
+        $ref: '#/components/schemas/ContainerFile'
     ServicePortMap:
       type: object
       description: The set of named network ports published by the service. Port names must be valid RFC1123 Label Names.
@@ -137,47 +140,75 @@ components:
         pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
       additionalProperties:
         $ref: '#/components/schemas/ServicePort'
-    ResourceMap:
+    WorkloadMetadata:
       type: object
-      description: The Resource dependencies needed by the Workload. Resource names must be valid RFC1123 Label Names.
-      propertyNames:
-        minLength: 2
-        maxLength: 63
-        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
-      additionalProperties:
-        $ref: '#/components/schemas/Resource'
-    ValidationResult:
-      type: object
-      description: Result of workload validation
+      description: The metadata description of the Workload
+      required:
+      - name
+      additionalProperties: true
       properties:
-        valid:
-          type: boolean
-          description: Whether the workload is valid
-        errors:
-          type: array
-          description: List of validation errors
-          items:
-            $ref: '#/components/schemas/ValidationError'
-        warnings:
-          type: array
-          description: List of validation warnings
-          items:
-            $ref: '#/components/schemas/ValidationWarning'
-    EnvironmentVariables:
+        name:
+          type: string
+          description: A string that can describe the Workload. Must be a valid RFC1123 Label Name of up to 63 characters.
+          minLength: 2
+          maxLength: 63
+          pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+          examples:
+          - ecommerce-frontend
+          - data-pipeline-worker
+          - ml-inference-service
+        annotations:
+          $ref: '#/components/schemas/Annotations'
+    ValidationWarning:
       type: object
-      description: The environment variables for the container
-      propertyNames:
-        minLength: 1
-        pattern: ^[^=]+$
-      additionalProperties:
-        type: string
-    Service:
+      description: A validation warning
+      properties:
+        path:
+          type: string
+          description: JSON path to the warning location
+        message:
+          type: string
+          description: Warning message
+        code:
+          type: string
+          description: Warning code
+    ServicePort:
       type: object
-      description: The service that the workload provides
+      description: The network port description
+      required:
+      - port
       additionalProperties: false
       properties:
-        ports:
-          $ref: '#/components/schemas/ServicePortMap'
+        port:
+          type: integer
+          description: The public service port
+          minimum: 1
+          maximum: 65535
+          examples:
+          - 80
+          - 443
+          - 8080
+        protocol:
+          type: string
+          description: The transport level protocol. Defaults to TCP.
+          enum:
+          - TCP
+          - UDP
+          default: TCP
+        targetPort:
+          type: integer
+          description: The internal service port. This will default to 'port' if not provided.
+          minimum: 1
+          maximum: 65535
+    Annotations:
+      type: object
+      description: Annotations that apply to the Workload or Resource. Keys can contain A-Z, a-z, 0-9, and '-' and may contain an optional /-separated RFC1123 Host Name prefix.
+      additionalProperties:
+        type: string
+      propertyNames:
+        minLength: 2
+        maxLength: 316
+        pattern: ^(([a-z0-9][a-z0-9-]{0,61}[a-z0-9])(\.[a-z0-9][a-z0-9-]{0,61}[a-z0-9])*/)?[A-Za-z0-9][A-Za-z0-9._-]{0,61}[A-Za-z0-9]$
     ErrorResponse:
       type: object
       description: Standard error response
@@ -195,6 +226,119 @@ components:
               type: object
               description: Additional error details
               additionalProperties: true
+    HttpHeader:
+      type: object
+      description: HTTP header for probe requests
+      additionalProperties: false
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: The HTTP header name
+          pattern: ^[A-Za-z0-9_-]+$
+        value:
+          type: string
+          description: The HTTP header value
+          minLength: 1
+    ValidationError:
+      type: object
+      description: A validation error
+      properties:
+        path:
+          type: string
+          description: JSON path to the error location
+        message:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+    EnvironmentVariables:
+      type: object
+      description: The environment variables for the container
+      propertyNames:
+        minLength: 1
+        pattern: ^[^=]+$
+      additionalProperties:
+        type: string
+    ContainerVolumeMap:
+      type: object
+      description: The volumes to mount as a map of target paths to volume details
+      additionalProperties:
+        $ref: '#/components/schemas/ContainerVolume'
+    Service:
+      type: object
+      description: The service that the workload provides
+      additionalProperties: false
+      properties:
+        ports:
+          $ref: '#/components/schemas/ServicePortMap'
+    ResourcesLimits:
+      type: object
+      description: The compute and memory resource limits
+      additionalProperties: false
+      properties:
+        memory:
+          type: string
+          description: The memory limit in bytes with optional unit specifier. For example 125M or 1Gi.
+          pattern: ^[1-9]\d*(K|M|G|T|Ki|Mi|Gi|Ti)?$
+          examples:
+          - 256M
+          - 1Gi
+          - 512Mi
+        cpu:
+          type: string
+          description: The CPU limit as whole or fractional CPUs. 'm' indicates milli-CPUs. For example 2 or 125m.
+          pattern: ^\d*(?:m|\.\d+)?$
+          examples:
+          - '1'
+          - 250m
+          - '0.5'
+    ResourceMetadata:
+      type: object
+      description: The metadata for the Resource
+      additionalProperties: true
+      properties:
+        annotations:
+          $ref: '#/components/schemas/Annotations'
+    Container:
+      type: object
+      description: The specification of a Container within the Workload
+      required:
+      - image
+      additionalProperties: false
+      properties:
+        image:
+          type: string
+          description: The container image name and tag
+          minLength: 1
+          examples:
+          - nginx:1.25-alpine
+          - ghcr.io/myorg/app:2.5.0
+        command:
+          type: array
+          description: If specified, overrides the entrypoint defined in the container image
+          items:
+            type: string
+        args:
+          type: array
+          description: If specified, overrides the arguments passed to the container entrypoint
+          items:
+            type: string
+        variables:
+          $ref: '#/components/schemas/EnvironmentVariables'
+        files:
+          $ref: '#/components/schemas/ContainerFileMap'
+        volumes:
+          $ref: '#/components/schemas/ContainerVolumeMap'
+        resources:
+          $ref: '#/components/schemas/ContainerResources'
+        livenessProbe:
+          $ref: '#/components/schemas/ContainerProbe'
+        readinessProbe:
+          $ref: '#/components/schemas/ContainerProbe'
     Resource:
       type: object
       description: The set of Resources associated with this Workload
@@ -241,106 +385,15 @@ components:
           type: object
           description: Optional parameters used to provision the Resource in the environment
           additionalProperties: true
-    ServicePort:
+    ResourceMap:
       type: object
-      description: The network port description
-      required:
-      - port
-      additionalProperties: false
-      properties:
-        port:
-          type: integer
-          description: The public service port
-          minimum: 1
-          maximum: 65535
-          examples:
-          - 80
-          - 443
-          - 8080
-        protocol:
-          type: string
-          description: The transport level protocol. Defaults to TCP.
-          enum:
-          - TCP
-          - UDP
-          default: TCP
-        targetPort:
-          type: integer
-          description: The internal service port. This will default to 'port' if not provided.
-          minimum: 1
-          maximum: 65535
-    ContainerMap:
-      type: object
-      description: The set of named containers in the Workload. Container names must be valid RFC1123 Label Names.
-      minProperties: 1
+      description: The Resource dependencies needed by the Workload. Resource names must be valid RFC1123 Label Names.
       propertyNames:
         minLength: 2
         maxLength: 63
         pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
       additionalProperties:
-        $ref: '#/components/schemas/Container'
-    Container:
-      type: object
-      description: The specification of a Container within the Workload
-      required:
-      - image
-      additionalProperties: false
-      properties:
-        image:
-          type: string
-          description: The container image name and tag
-          minLength: 1
-          examples:
-          - nginx:1.25-alpine
-          - ghcr.io/myorg/app:2.5.0
-        command:
-          type: array
-          description: If specified, overrides the entrypoint defined in the container image
-          items:
-            type: string
-        args:
-          type: array
-          description: If specified, overrides the arguments passed to the container entrypoint
-          items:
-            type: string
-        variables:
-          $ref: '#/components/schemas/EnvironmentVariables'
-        files:
-          $ref: '#/components/schemas/ContainerFileMap'
-        volumes:
-          $ref: '#/components/schemas/ContainerVolumeMap'
-        resources:
-          $ref: '#/components/schemas/ContainerResources'
-        livenessProbe:
-          $ref: '#/components/schemas/ContainerProbe'
-        readinessProbe:
-          $ref: '#/components/schemas/ContainerProbe'
-    ResourcesLimits:
-      type: object
-      description: The compute and memory resource limits
-      additionalProperties: false
-      properties:
-        memory:
-          type: string
-          description: The memory limit in bytes with optional unit specifier. For example 125M or 1Gi.
-          pattern: ^[1-9]\d*(K|M|G|T|Ki|Mi|Gi|Ti)?$
-          examples:
-          - 256M
-          - 1Gi
-          - 512Mi
-        cpu:
-          type: string
-          description: The CPU limit as whole or fractional CPUs. 'm' indicates milli-CPUs. For example 2 or 125m.
-          pattern: ^\d*(?:m|\.\d+)?$
-          examples:
-          - '1'
-          - 250m
-          - '0.5'
-    ContainerFileMap:
-      type: object
-      description: The extra files to mount into the container as a map of target paths to file details
-      additionalProperties:
-        $ref: '#/components/schemas/ContainerFile'
+        $ref: '#/components/schemas/Resource'
     ScoreWorkload:
       type: object
       description: Score workload specification
@@ -364,131 +417,61 @@ components:
           $ref: '#/components/schemas/ContainerMap'
         resources:
           $ref: '#/components/schemas/ResourceMap'
-    HttpHeader:
+    ContainerMap:
       type: object
-      description: HTTP header for probe requests
-      additionalProperties: false
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: The HTTP header name
-          pattern: ^[A-Za-z0-9_-]+$
-        value:
-          type: string
-          description: The HTTP header value
-          minLength: 1
-    ContainerVolume:
-      type: object
-      description: Volume mount specification
-      additionalProperties: false
-      required:
-      - source
-      properties:
-        source:
-          type: string
-          description: The external volume reference
-        path:
-          type: string
-          description: An optional sub path in the volume
-        readOnly:
-          type: boolean
-          description: Indicates if the volume should be mounted in a read-only mode
-    Annotations:
-      type: object
-      description: Annotations that apply to the Workload or Resource. Keys can contain A-Z, a-z, 0-9, and '-' and may contain an optional /-separated RFC1123 Host Name prefix.
-      additionalProperties:
-        type: string
+      description: The set of named containers in the Workload. Container names must be valid RFC1123 Label Names.
+      minProperties: 1
       propertyNames:
         minLength: 2
-        maxLength: 316
-        pattern: ^(([a-z0-9][a-z0-9-]{0,61}[a-z0-9])(\.[a-z0-9][a-z0-9-]{0,61}[a-z0-9])*/)?[A-Za-z0-9][A-Za-z0-9._-]{0,61}[A-Za-z0-9]$
-    ValidationWarning:
-      type: object
-      description: A validation warning
-      properties:
-        path:
-          type: string
-          description: JSON path to the warning location
-        message:
-          type: string
-          description: Warning message
-        code:
-          type: string
-          description: Warning code
-    ContainerFile:
-      type: object
-      description: The details of a file to mount in the container. One of 'source', 'content', or 'binaryContent' must be provided.
-      additionalProperties: false
-      oneOf:
-      - required:
-        - content
-      - required:
-        - binaryContent
-      - required:
-        - source
-      properties:
-        mode:
-          type: string
-          description: The optional file access mode in octal encoding
-          pattern: ^0?[0-7]{3}$
-          examples:
-          - '0644'
-          - '0600'
-          - '0444'
-        source:
-          type: string
-          description: The relative or absolute path to the content file
-          minLength: 1
-        content:
-          type: string
-          description: The inline content for the file. Only supports valid utf-8.
-        binaryContent:
-          type: string
-          description: Inline standard-base64 encoded content for the file. Does not support placeholder expansion.
-          contentEncoding: base64
-        noExpand:
-          type: boolean
-          description: If set to true, the placeholders expansion will not occur in the contents of the file.
-    ValidationError:
-      type: object
-      description: A validation error
-      properties:
-        path:
-          type: string
-          description: JSON path to the error location
-        message:
-          type: string
-          description: Error message
-        code:
-          type: string
-          description: Error code
-    ContainerVolumeMap:
-      type: object
-      description: The volumes to mount as a map of target paths to volume details
+        maxLength: 63
+        pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
       additionalProperties:
-        $ref: '#/components/schemas/ContainerVolume'
-    WorkloadMetadata:
+        $ref: '#/components/schemas/Container'
+    ContainerResources:
       type: object
-      description: The metadata description of the Workload
-      required:
-      - name
-      additionalProperties: true
+      description: The compute resources for the container
+      additionalProperties: false
       properties:
-        name:
+        limits:
+          $ref: '#/components/schemas/ResourcesLimits'
+        requests:
+          $ref: '#/components/schemas/ResourcesLimits'
+    HttpProbe:
+      type: object
+      description: An HTTP probe details
+      additionalProperties: false
+      required:
+      - port
+      - path
+      properties:
+        host:
           type: string
-          description: A string that can describe the Workload. Must be a valid RFC1123 Label Name of up to 63 characters.
-          minLength: 2
-          maxLength: 63
-          pattern: ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+          description: Host name to connect to. Defaults to the workload IP. This is equivalent to a Host HTTP header.
+          minLength: 1
+        scheme:
+          type: string
+          description: Scheme to use for connecting to the host (HTTP or HTTPS). Defaults to HTTP.
+          enum:
+          - HTTP
+          - HTTPS
+          default: HTTP
+        path:
+          type: string
+          description: The path to access on the HTTP server
           examples:
-          - ecommerce-frontend
-          - data-pipeline-worker
-          - ml-inference-service
-        annotations:
-          $ref: '#/components/schemas/Annotations'
+          - /health
+          - /ready
+          - /health/live
+        port:
+          type: integer
+          description: The port to access on the workload
+          minimum: 1
+          maximum: 65535
+        httpHeaders:
+          type: array
+          description: Additional HTTP headers to send with the request
+          items:
+            $ref: '#/components/schemas/HttpHeader'
     ExecProbe:
       type: object
       description: An executable health probe
@@ -501,7 +484,59 @@ components:
           description: The command and arguments to execute within the container
           items:
             type: string
+    ValidationResult:
+      type: object
+      description: Result of workload validation
+      properties:
+        valid:
+          type: boolean
+          description: Whether the workload is valid
+        errors:
+          type: array
+          description: List of validation errors
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        warnings:
+          type: array
+          description: List of validation warnings
+          items:
+            $ref: '#/components/schemas/ValidationWarning'
   examples:
+    ValidationSuccessExample:
+      summary: Successful validation
+      description: Example response when workload validation succeeds
+      value:
+        valid: true
+        errors: []
+        warnings:
+        - path: /containers/frontend/resources/limits/memory
+          message: Memory limit is relatively high, consider if this is necessary
+          code: RESOURCE_HIGH
+    InternalErrorExample:
+      summary: Internal server error
+      description: Example error response for server errors
+      value:
+        error:
+          code: INTERNAL_ERROR
+          message: An unexpected error occurred
+          details:
+            requestId: req-abc123
+    ValidationFailureExample:
+      summary: Failed validation
+      description: Example response when workload validation fails
+      value:
+        valid: false
+        errors:
+        - path: /metadata/name
+          message: Name 'Invalid_Name' does not match required pattern ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
+          code: PATTERN_MISMATCH
+        - path: /containers/app/image
+          message: Container image is required
+          code: REQUIRED_FIELD
+        - path: /service/ports/web/port
+          message: Port must be between 1 and 65535
+          code: VALUE_OUT_OF_RANGE
+        warnings: []
     EcommerceFrontendExample:
       summary: E-commerce Frontend Workload
       description: A complete e-commerce frontend application with nginx sidecar
@@ -682,41 +717,6 @@ components:
             id: shared.feature-flags
             params:
               environment: production
-    ValidationSuccessExample:
-      summary: Successful validation
-      description: Example response when workload validation succeeds
-      value:
-        valid: true
-        errors: []
-        warnings:
-        - path: /containers/frontend/resources/limits/memory
-          message: Memory limit is relatively high, consider if this is necessary
-          code: RESOURCE_HIGH
-    InternalErrorExample:
-      summary: Internal server error
-      description: Example error response for server errors
-      value:
-        error:
-          code: INTERNAL_ERROR
-          message: An unexpected error occurred
-          details:
-            requestId: req-abc123
-    ValidationFailureExample:
-      summary: Failed validation
-      description: Example response when workload validation fails
-      value:
-        valid: false
-        errors:
-        - path: /metadata/name
-          message: Name 'Invalid_Name' does not match required pattern ^[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$
-          code: PATTERN_MISMATCH
-        - path: /containers/app/image
-          message: Container image is required
-          code: REQUIRED_FIELD
-        - path: /service/ports/web/port
-          message: Port must be between 1 and 65535
-          code: VALUE_OUT_OF_RANGE
-        warnings: []
   responses:
     InternalError:
       description: Internal server error

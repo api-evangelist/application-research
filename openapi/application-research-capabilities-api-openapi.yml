@@ -80,7 +80,102 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
   schemas:
+    Link:
+      type: object
+      title: Link
+      required:
+      - title
+      - url
+      properties:
+        title:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+        description:
+          type: string
+          minLength: 1
+    Visibility:
+      type: string
+      enum:
+      - public
+      - internal
+      - private
+    CapabilityDefinition:
+      type: object
+      title: Capability Definition
+      description: Link and categorization of a machine-readable capability definition
+      required:
+      - type
+      - mediaType
+      - url
+      properties:
+        type:
+          type: string
+          enum:
+          - sap.mdo:mdi-capability-definition:v1
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        mediaType:
+          type: string
+          enum:
+          - application/json
+          - application/xml
+          - text/yaml
+          - text/plain
+          - application/octet-stream
+        url:
+          type: string
+          format: uri-reference
+        accessStrategies:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AccessStrategy'
+    SpecificationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
+      maxLength: 255
+      description: Valid Specification ID
+    DocumentationLabels:
+      type: object
+      title: Documentation Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
     Capability:
       type: object
       title: Capability
@@ -167,23 +262,61 @@ components:
         systemInstanceAware:
           type: boolean
           default: false
-    DocumentationLabels:
+    Labels:
       type: object
-      title: Documentation Labels
+      title: Labels
       additionalProperties:
         type: array
         items:
           type: string
           minLength: 1
-    GroupId:
-      type: string
-      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      description: Valid Group ID
+    AccessStrategy:
+      type: object
+      title: Access Strategy
+      description: Defines the access strategy for accessing resource definitions
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - open
+          - basic-auth
+          - custom
+        customType:
+          $ref: '#/components/schemas/SpecificationId'
+        customDescription:
+          type: string
+          minLength: 1
     CorrelationId:
       type: string
       pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
       maxLength: 255
       description: Correlation ID for referencing related data
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
+    CapabilityList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Capability'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    ReleaseStatus:
+      type: string
+      enum:
+      - beta
+      - active
+      - deprecated
+      - sunset
     Error:
       type: object
       required:
@@ -212,178 +345,10 @@ components:
       type: string
       pattern: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
       description: Semantic Version string following SemVer 2.0.0
-    ReleaseStatus:
+    GroupId:
       type: string
-      enum:
-      - beta
-      - active
-      - deprecated
-      - sunset
-    AccessStrategy:
-      type: object
-      title: Access Strategy
-      description: Defines the access strategy for accessing resource definitions
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          enum:
-          - open
-          - basic-auth
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        customDescription:
-          type: string
-          minLength: 1
-    SpecificationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-]+):(v0|v[1-9][0-9]*)$
-      maxLength: 255
-      description: Valid Specification ID
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
-    Link:
-      type: object
-      title: Link
-      required:
-      - title
-      - url
-      properties:
-        title:
-          type: string
-          minLength: 1
-        url:
-          type: string
-          format: uri
-        description:
-          type: string
-          minLength: 1
-    CapabilityDefinition:
-      type: object
-      title: Capability Definition
-      description: Link and categorization of a machine-readable capability definition
-      required:
-      - type
-      - mediaType
-      - url
-      properties:
-        type:
-          type: string
-          enum:
-          - sap.mdo:mdi-capability-definition:v1
-          - custom
-        customType:
-          $ref: '#/components/schemas/SpecificationId'
-        mediaType:
-          type: string
-          enum:
-          - application/json
-          - application/xml
-          - text/yaml
-          - text/plain
-          - application/octet-stream
-        url:
-          type: string
-          format: uri-reference
-        accessStrategies:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/AccessStrategy'
-    CapabilityList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Capability'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    Visibility:
-      type: string
-      enum:
-      - public
-      - internal
-      - private
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
-  examples:
-    NotFoundErrorExample:
-      summary: Not Found Error
-      value:
-        code: NOT_FOUND
-        message: The requested resource was not found
-        requestId: req-12345-abcde
-    CapabilityListExample:
-      summary: List of Capabilities
-      value:
-        items:
-        - ordId: sap.iot:capability:EdgeProcessing:v1
-          title: Edge Processing Capability
-          shortDescription: Process data at the edge
-          type: custom
-          visibility: public
-          releaseStatus: active
-        - ordId: sap.iot:capability:AnomalyDetection:v1
-          title: ML Anomaly Detection
-          shortDescription: Machine learning-based anomaly detection
-          type: custom
-          visibility: public
-          releaseStatus: active
-        totalCount: 2
-        limit: 20
-        offset: 0
-    CapabilityExample:
-      summary: Edge Processing Capability
-      value:
-        ordId: sap.iot:capability:EdgeProcessing:v1
-        localId: EdgeProcessing
-        title: Edge Processing Capability
-        shortDescription: Process data at the edge
-        description: Capability to deploy and execute data processing rules on edge gateways for low-latency processing and reduced bandwidth.
-        type: custom
-        customType: sap.iot:edge-capability:v1
-        version: 1.0.0
-        releaseStatus: active
-        visibility: public
-        partOfPackage: sap.iot:package:DeviceManagement:v1
-        definitions:
-        - type: custom
-          customType: sap.iot:edge-spec:v1
-          mediaType: application/json
-          url: /capabilities/edge-processing.json
-        links:
-        - title: Edge Gateway Documentation
-          url: https://help.sap.com/iot/edge
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-    BadRequestErrorExample:
-      summary: Bad Request Error
-      value:
-        code: BAD_REQUEST
-        message: Invalid request parameters
-        details:
-        - field: ordId
-          message: ORD ID must match the required pattern
-        requestId: req-12345-abcde
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
   parameters:
     LimitParam:
       name: limit
@@ -417,34 +382,69 @@ components:
       description: Filter capabilities by type
       schema:
         type: string
-  responses:
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
+  examples:
+    BadRequestErrorExample:
+      summary: Bad Request Error
+      value:
+        code: BAD_REQUEST
+        message: Invalid request parameters
+        details:
+        - field: ordId
+          message: ORD ID must match the required pattern
+        requestId: req-12345-abcde
+    NotFoundErrorExample:
+      summary: Not Found Error
+      value:
+        code: NOT_FOUND
+        message: The requested resource was not found
+        requestId: req-12345-abcde
+    CapabilityExample:
+      summary: Edge Processing Capability
+      value:
+        ordId: sap.iot:capability:EdgeProcessing:v1
+        localId: EdgeProcessing
+        title: Edge Processing Capability
+        shortDescription: Process data at the edge
+        description: Capability to deploy and execute data processing rules on edge gateways for low-latency processing and reduced bandwidth.
+        type: custom
+        customType: sap.iot:edge-capability:v1
+        version: 1.0.0
+        releaseStatus: active
+        visibility: public
+        partOfPackage: sap.iot:package:DeviceManagement:v1
+        definitions:
+        - type: custom
+          customType: sap.iot:edge-spec:v1
+          mediaType: application/json
+          url: /capabilities/edge-processing.json
+        links:
+        - title: Edge Gateway Documentation
+          url: https://help.sap.com/iot/edge
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
+    CapabilityListExample:
+      summary: List of Capabilities
+      value:
+        items:
+        - ordId: sap.iot:capability:EdgeProcessing:v1
+          title: Edge Processing Capability
+          shortDescription: Process data at the edge
+          type: custom
+          visibility: public
+          releaseStatus: active
+        - ordId: sap.iot:capability:AnomalyDetection:v1
+          title: ML Anomaly Detection
+          shortDescription: Machine learning-based anomaly detection
+          type: custom
+          visibility: public
+          releaseStatus: active
+        totalCount: 2
+        limit: 20
+        offset: 0
   securitySchemes:
     oauth2:
       type: oauth2

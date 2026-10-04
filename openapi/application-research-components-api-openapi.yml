@@ -257,6 +257,230 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   schemas:
+    Provider:
+      type: object
+      description: Component provider information
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Provider name
+          examples:
+          - acme
+          - ailab
+          - enterprise
+        labels:
+          $ref: '#/components/schemas/Labels'
+    ComponentReferenceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ComponentReference'
+    Version:
+      type: string
+      description: Semantic version string
+      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+      examples:
+      - 1.0.0
+      - 2.5.1
+      - v1.0.0-beta.1
+    ComponentDescriptorListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentDescriptor'
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Signature:
+      type: object
+      description: Component signature
+      required:
+      - name
+      - signature
+      properties:
+        name:
+          type: string
+          description: Signature name/identifier
+        digest:
+          $ref: '#/components/schemas/DigestSpec'
+        signature:
+          $ref: '#/components/schemas/SignatureSpec'
+    Merge:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          pattern: ^[a-z][a-z0-9/_-]+$
+        config: {}
+    NestedDigestSpec:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        extraIdentity:
+          $ref: '#/components/schemas/IdentityAttribute'
+        digest:
+          $ref: '#/components/schemas/DigestSpec'
+    TransferResult:
+      type: object
+      description: Result of transfer operation
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+        transferId:
+          type: string
+        componentsTransferred:
+          type: integer
+        message:
+          type: string
+    Input:
+      type: object
+      description: Input specification for local resources
+      required:
+      - type
+      properties:
+        type:
+          type: string
+    ComponentDescriptor:
+      type: object
+      description: Complete component descriptor
+      required:
+      - meta
+      - component
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        component:
+          $ref: '#/components/schemas/Component'
+        signatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Signature'
+        nestedDigests:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedComponentDigests'
+    NestedComponentDigests:
+      type: object
+      description: Digests for nested components
+      required:
+      - name
+      - version
+      properties:
+        name:
+          $ref: '#/components/schemas/ComponentName'
+        version:
+          $ref: '#/components/schemas/Version'
+        digest:
+          $ref: '#/components/schemas/DigestSpec'
+        resourceDigests:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedDigestSpec'
+    Labels:
+      type: array
+      items:
+        $ref: '#/components/schemas/Label'
+    Access:
+      type: object
+      description: Access specification for resources and sources
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Access type identifier
+      discriminator:
+        propertyName: type
+        mapping:
+          localBlob: '#/components/schemas/LocalBlobAccess'
+          ociArtifact: '#/components/schemas/OciArtifactAccess'
+          ociBlob: '#/components/schemas/OciBlobAccess'
+          helm: '#/components/schemas/HelmAccess'
+          gitHub: '#/components/schemas/GitHubAccess'
+          github: '#/components/schemas/GitHubAccess'
+          s3: '#/components/schemas/S3Access'
+          npm: '#/components/schemas/NpmAccess'
+          wget: '#/components/schemas/WgetAccess'
+          http: '#/components/schemas/HttpAccess'
+    SrcRef:
+      type: object
+      description: Reference to a component-local source
+      properties:
+        identitySelector:
+          $ref: '#/components/schemas/IdentityAttribute'
+        labels:
+          $ref: '#/components/schemas/Labels'
+    ElementName:
+      type: string
+      description: Element name for resources and sources
+      minLength: 2
+      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
+      examples:
+      - frontend-image
+      - backend-image
+      - helm-chart
+    IdentityAttribute:
+      type: object
+      description: Identity attributes for element identification
+      additionalProperties:
+        type: string
+    ComponentName:
+      type: string
+      description: Fully qualified component name
+      maxLength: 255
+      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+      examples:
+      - github.com/acme.org/web-application
+      - github.com/ailab.org/model-training-pipeline
+    SignatureSpec:
+      type: object
+      description: Signature specification
+      required:
+      - algorithm
+      - value
+      - mediaType
+      properties:
+        algorithm:
+          type: string
+          description: Signature algorithm
+          examples:
+          - RSASSA-PSS-SHA256
+          - ECDSA-SHA256
+        value:
+          type: string
+          description: The signature value
+        mediaType:
+          type: string
+          description: Media type of the signature
+          examples:
+          - application/vnd.ocm.signature.rsa
+    Meta:
+      type: object
+      description: Component descriptor metadata
+      required:
+      - schemaVersion
+      properties:
+        schemaVersion:
+          type: string
+          description: Schema version identifier
+          examples:
+          - v2
     DigestSpec:
       type: object
       description: Cryptographic digest specification
@@ -280,156 +504,6 @@ components:
         value:
           type: string
           description: The digest value
-    Version:
-      type: string
-      description: Semantic version string
-      pattern: ^[v]?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?(?:\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-      examples:
-      - 1.0.0
-      - 2.5.1
-      - v1.0.0-beta.1
-    SrcRef:
-      type: object
-      description: Reference to a component-local source
-      properties:
-        identitySelector:
-          $ref: '#/components/schemas/IdentityAttribute'
-        labels:
-          $ref: '#/components/schemas/Labels'
-    Signature:
-      type: object
-      description: Component signature
-      required:
-      - name
-      - signature
-      properties:
-        name:
-          type: string
-          description: Signature name/identifier
-        digest:
-          $ref: '#/components/schemas/DigestSpec'
-        signature:
-          $ref: '#/components/schemas/SignatureSpec'
-    Component:
-      type: object
-      description: Component definition
-      required:
-      - name
-      - version
-      - provider
-      properties:
-        name:
-          $ref: '#/components/schemas/ComponentName'
-        version:
-          $ref: '#/components/schemas/Version'
-        creationTime:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        repositoryContexts:
-          type: array
-          items:
-            $ref: '#/components/schemas/RepositoryContext'
-        provider:
-          oneOf:
-          - type: string
-          - $ref: '#/components/schemas/Provider'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        sources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Source'
-        resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/Resource'
-        componentReferences:
-          type: array
-          items:
-            $ref: '#/components/schemas/ComponentReference'
-    Source:
-      type: object
-      description: Component source
-      required:
-      - name
-      - type
-      properties:
-        name:
-          $ref: '#/components/schemas/ElementName'
-        type:
-          type: string
-          description: Source type
-          examples:
-          - git
-          - helmChart
-          - yaml
-        extraIdentity:
-          $ref: '#/components/schemas/IdentityAttribute'
-        version:
-          $ref: '#/components/schemas/Version'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        access:
-          $ref: '#/components/schemas/Access'
-        input:
-          $ref: '#/components/schemas/Input'
-    TransferRequest:
-      type: object
-      description: Request to transfer components
-      required:
-      - components
-      - targetRepository
-      properties:
-        components:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                $ref: '#/components/schemas/ComponentName'
-              version:
-                $ref: '#/components/schemas/Version'
-        sourceRepository:
-          $ref: '#/components/schemas/RepositoryContext'
-        targetRepository:
-          $ref: '#/components/schemas/RepositoryContext'
-        recursive:
-          type: boolean
-          default: true
-          description: Transfer referenced components
-    ComponentReference:
-      type: object
-      description: Reference to another component
-      required:
-      - name
-      - componentName
-      - version
-      properties:
-        name:
-          $ref: '#/components/schemas/ElementName'
-        componentName:
-          $ref: '#/components/schemas/ComponentName'
-        version:
-          $ref: '#/components/schemas/Version'
-        extraIdentity:
-          $ref: '#/components/schemas/IdentityAttribute'
-        labels:
-          $ref: '#/components/schemas/Labels'
-        digest:
-          oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/DigestSpec'
-    ElementName:
-      type: string
-      description: Element name for resources and sources
-      minLength: 2
-      pattern: ^[a-z0-9]([-_+a-z0-9]*[a-z0-9])?$
-      examples:
-      - frontend-image
-      - backend-image
-      - helm-chart
     Resource:
       type: object
       description: Component resource
@@ -471,19 +545,54 @@ components:
           oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/DigestSpec'
-    NestedDigestSpec:
+    ComponentReference:
       type: object
+      description: Reference to another component
       required:
       - name
+      - componentName
+      - version
       properties:
         name:
-          type: string
+          $ref: '#/components/schemas/ElementName'
+        componentName:
+          $ref: '#/components/schemas/ComponentName'
         version:
-          type: string
+          $ref: '#/components/schemas/Version'
         extraIdentity:
           $ref: '#/components/schemas/IdentityAttribute'
+        labels:
+          $ref: '#/components/schemas/Labels'
         digest:
-          $ref: '#/components/schemas/DigestSpec'
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/DigestSpec'
+    Source:
+      type: object
+      description: Component source
+      required:
+      - name
+      - type
+      properties:
+        name:
+          $ref: '#/components/schemas/ElementName'
+        type:
+          type: string
+          description: Source type
+          examples:
+          - git
+          - helmChart
+          - yaml
+        extraIdentity:
+          $ref: '#/components/schemas/IdentityAttribute'
+        version:
+          $ref: '#/components/schemas/Version'
+        labels:
+          $ref: '#/components/schemas/Labels'
+        access:
+          $ref: '#/components/schemas/Access'
+        input:
+          $ref: '#/components/schemas/Input'
     Error:
       type: object
       description: Error response
@@ -498,51 +607,6 @@ components:
         details:
           type: object
           additionalProperties: true
-    ComponentDescriptorListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ComponentDescriptor'
-        total:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    ComponentName:
-      type: string
-      description: Fully qualified component name
-      maxLength: 255
-      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-      examples:
-      - github.com/acme.org/web-application
-      - github.com/ailab.org/model-training-pipeline
-    NestedComponentDigests:
-      type: object
-      description: Digests for nested components
-      required:
-      - name
-      - version
-      properties:
-        name:
-          $ref: '#/components/schemas/ComponentName'
-        version:
-          $ref: '#/components/schemas/Version'
-        digest:
-          $ref: '#/components/schemas/DigestSpec'
-        resourceDigests:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedDigestSpec'
-    Merge:
-      type: object
-      properties:
-        algorithm:
-          type: string
-          pattern: ^[a-z][a-z0-9/_-]+$
-        config: {}
     VersionListResponse:
       type: object
       properties:
@@ -552,46 +616,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Version'
-    Label:
-      type: object
-      description: A label with name-value pair
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: Label name
-        value: {}
-        version:
-          type: string
-          pattern: ^v[0-9]+$
-        signing:
-          type: boolean
-          description: Whether this label should be included in signing
-        merge:
-          $ref: '#/components/schemas/Merge'
-    TransferResult:
-      type: object
-      description: Result of transfer operation
-      properties:
-        status:
-          type: string
-          enum:
-          - pending
-          - running
-          - completed
-          - failed
-        transferId:
-          type: string
-        componentsTransferred:
-          type: integer
-        message:
-          type: string
-    Labels:
-      type: array
-      items:
-        $ref: '#/components/schemas/Label'
     RepositoryContext:
       type: object
       description: Repository context for component storage
@@ -611,135 +635,163 @@ components:
           enum:
           - urlPath
           - sha256-digest
-    Input:
+    Label:
       type: object
-      description: Input specification for local resources
-      required:
-      - type
-      properties:
-        type:
-          type: string
-    Access:
-      type: object
-      description: Access specification for resources and sources
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Access type identifier
-      discriminator:
-        propertyName: type
-        mapping:
-          localBlob: '#/components/schemas/LocalBlobAccess'
-          ociArtifact: '#/components/schemas/OciArtifactAccess'
-          ociBlob: '#/components/schemas/OciBlobAccess'
-          helm: '#/components/schemas/HelmAccess'
-          gitHub: '#/components/schemas/GitHubAccess'
-          github: '#/components/schemas/GitHubAccess'
-          s3: '#/components/schemas/S3Access'
-          npm: '#/components/schemas/NpmAccess'
-          wget: '#/components/schemas/WgetAccess'
-          http: '#/components/schemas/HttpAccess'
-    SignatureSpec:
-      type: object
-      description: Signature specification
-      required:
-      - algorithm
-      - value
-      - mediaType
-      properties:
-        algorithm:
-          type: string
-          description: Signature algorithm
-          examples:
-          - RSASSA-PSS-SHA256
-          - ECDSA-SHA256
-        value:
-          type: string
-          description: The signature value
-        mediaType:
-          type: string
-          description: Media type of the signature
-          examples:
-          - application/vnd.ocm.signature.rsa
-    ComponentReferenceListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/ComponentReference'
-    Meta:
-      type: object
-      description: Component descriptor metadata
-      required:
-      - schemaVersion
-      properties:
-        schemaVersion:
-          type: string
-          description: Schema version identifier
-          examples:
-          - v2
-    ComponentDescriptor:
-      type: object
-      description: Complete component descriptor
-      required:
-      - meta
-      - component
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        component:
-          $ref: '#/components/schemas/Component'
-        signatures:
-          type: array
-          items:
-            $ref: '#/components/schemas/Signature'
-        nestedDigests:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedComponentDigests'
-    Provider:
-      type: object
-      description: Component provider information
+      description: A label with name-value pair
       required:
       - name
+      - value
       properties:
         name:
           type: string
-          description: Provider name
-          examples:
-          - acme
-          - ailab
-          - enterprise
+          description: Label name
+        value: {}
+        version:
+          type: string
+          pattern: ^v[0-9]+$
+        signing:
+          type: boolean
+          description: Whether this label should be included in signing
+        merge:
+          $ref: '#/components/schemas/Merge'
+    TransferRequest:
+      type: object
+      description: Request to transfer components
+      required:
+      - components
+      - targetRepository
+      properties:
+        components:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                $ref: '#/components/schemas/ComponentName'
+              version:
+                $ref: '#/components/schemas/Version'
+        sourceRepository:
+          $ref: '#/components/schemas/RepositoryContext'
+        targetRepository:
+          $ref: '#/components/schemas/RepositoryContext'
+        recursive:
+          type: boolean
+          default: true
+          description: Transfer referenced components
+    Component:
+      type: object
+      description: Component definition
+      required:
+      - name
+      - version
+      - provider
+      properties:
+        name:
+          $ref: '#/components/schemas/ComponentName'
+        version:
+          $ref: '#/components/schemas/Version'
+        creationTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        repositoryContexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/RepositoryContext'
+        provider:
+          oneOf:
+          - type: string
+          - $ref: '#/components/schemas/Provider'
         labels:
           $ref: '#/components/schemas/Labels'
-    IdentityAttribute:
-      type: object
-      description: Identity attributes for element identification
-      additionalProperties:
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+        componentReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentReference'
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    Conflict:
+      description: Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            conflict:
+              $ref: '#/components/examples/ErrorConflict'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
+  parameters:
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    ComponentNameParam:
+      name: name
+      in: path
+      required: true
+      description: Component name (e.g., github.com/acme.org/web-application)
+      schema:
+        $ref: '#/components/schemas/ComponentName'
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    ProviderFilterParam:
+      name: provider
+      in: query
+      description: Filter by provider name
+      schema:
         type: string
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Component version (semver)
+      schema:
+        $ref: '#/components/schemas/Version'
   examples:
-    ErrorNotFound:
-      summary: Not Found Error
-      description: Example not found error
-      value:
-        code: NOT_FOUND
-        message: Component 'github.com/acme.org/unknown-component' not found
-    ErrorConflict:
-      summary: Conflict Error
-      description: Example conflict error
-      value:
-        code: CONFLICT
-        message: Component 'github.com/acme.org/web-application' version '2.5.1' already exists
-    ComponentReferenceDatabase:
-      summary: Database Component Reference
-      description: Example component reference to a database
-      value:
-        name: database
-        componentName: github.com/acme.org/postgresql-cluster
-        version: 15.2.0
-        labels:
-        - name: dependency-type
-          value: runtime
     WebApplicationComponentDescriptor:
       summary: Web Application Component Descriptor
       description: Complete component descriptor for a web application
@@ -854,6 +906,19 @@ components:
             algorithm: RSASSA-PSS-SHA256
             value: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
             mediaType: application/vnd.ocm.signature.rsa
+    ComponentReferenceListResponse:
+      summary: Component reference list
+      description: Example list of component references
+      value:
+      - name: database
+        componentName: github.com/acme.org/postgresql-cluster
+        version: 15.2.0
+        labels:
+        - name: dependency-type
+          value: runtime
+      - name: redis-cache
+        componentName: github.com/acme.org/redis
+        version: 7.0.5
     TransferRequest:
       summary: Transfer Request
       description: Example request to transfer components
@@ -870,6 +935,45 @@ components:
           baseUrl: registry.internal.company.com/ocm
           componentNameMapping: urlPath
         recursive: true
+    ErrorConflict:
+      summary: Conflict Error
+      description: Example conflict error
+      value:
+        code: CONFLICT
+        message: Component 'github.com/acme.org/web-application' version '2.5.1' already exists
+    ErrorInternal:
+      summary: Internal Error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-xyz789
+    ComponentReferenceDatabase:
+      summary: Database Component Reference
+      description: Example component reference to a database
+      value:
+        name: database
+        componentName: github.com/acme.org/postgresql-cluster
+        version: 15.2.0
+        labels:
+        - name: dependency-type
+          value: runtime
+    ErrorBadRequest:
+      summary: Bad Request Error
+      description: Example bad request error
+      value:
+        code: BAD_REQUEST
+        message: Invalid component name format
+        details:
+          field: component.name
+          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+    ErrorNotFound:
+      summary: Not Found Error
+      description: Example not found error
+      value:
+        code: NOT_FOUND
+        message: Component 'github.com/acme.org/unknown-component' not found
     VersionListResponse:
       summary: Version list
       description: Example list of component versions
@@ -889,14 +993,6 @@ components:
         transferId: tr-abc123def456
         componentsTransferred: 3
         message: Successfully transferred 3 components including dependencies
-    ErrorInternal:
-      summary: Internal Error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-xyz789
     ComponentDescriptorListResponse:
       summary: Component descriptor list
       description: Example list of component descriptors
@@ -919,102 +1015,6 @@ components:
         total: 2
         limit: 20
         offset: 0
-    ComponentReferenceListResponse:
-      summary: Component reference list
-      description: Example list of component references
-      value:
-      - name: database
-        componentName: github.com/acme.org/postgresql-cluster
-        version: 15.2.0
-        labels:
-        - name: dependency-type
-          value: runtime
-      - name: redis-cache
-        componentName: github.com/acme.org/redis
-        version: 7.0.5
-    ErrorBadRequest:
-      summary: Bad Request Error
-      description: Example bad request error
-      value:
-        code: BAD_REQUEST
-        message: Invalid component name format
-        details:
-          field: component.name
-          pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-  parameters:
-    ComponentNameParam:
-      name: name
-      in: path
-      required: true
-      description: Component name (e.g., github.com/acme.org/web-application)
-      schema:
-        $ref: '#/components/schemas/ComponentName'
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Component version (semver)
-      schema:
-        $ref: '#/components/schemas/Version'
-    ProviderFilterParam:
-      name: provider
-      in: query
-      description: Filter by provider name
-      schema:
-        type: string
-  responses:
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    Conflict:
-      description: Resource already exists
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            conflict:
-              $ref: '#/components/examples/ErrorConflict'
   securitySchemes:
     bearerAuth:
       type: http

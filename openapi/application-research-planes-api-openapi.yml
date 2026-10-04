@@ -63,6 +63,18 @@ components:
         pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
         maxLength: 63
   schemas:
+    RadiusPlaneResourceProperties:
+      type: object
+      properties:
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        resourceProviders:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+      - resourceProviders
     ProvisioningState:
       type: string
       description: Provisioning state of the resource at the time the operation was called
@@ -102,18 +114,6 @@ components:
       required:
       - properties
       - location
-    RadiusPlaneResourceProperties:
-      type: object
-      properties:
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        resourceProviders:
-          type: object
-          additionalProperties:
-            type: string
-      required:
-      - resourceProviders
   responses:
     ErrorResponse:
       description: Error response
