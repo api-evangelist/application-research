@@ -128,24 +128,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    GroupType:
-      type: object
-      title: Group Type
-      description: Defines the semantics of group assignments
-      required:
-      - groupTypeId
-      - title
-      properties:
-        groupTypeId:
-          type: string
-          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-        title:
-          type: string
-          minLength: 1
-          maxLength: 255
-        description:
-          type: string
-          minLength: 1
     GroupList:
       type: object
       properties:
@@ -153,19 +135,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Group'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
-    GroupTypeList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/GroupType'
         totalCount:
           type: integer
         limit:
@@ -193,6 +162,41 @@ components:
         description:
           type: string
           minLength: 1
+    GroupType:
+      type: object
+      title: Group Type
+      description: Defines the semantics of group assignments
+      required:
+      - groupTypeId
+      - title
+      properties:
+        groupTypeId:
+          type: string
+          pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          minLength: 1
+    GroupTypeList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupType'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    GroupId:
+      type: string
+      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      description: Valid Group ID
     Error:
       type: object
       required:
@@ -217,81 +221,19 @@ components:
         requestId:
           type: string
           description: Request ID for troubleshooting
-    GroupId:
-      type: string
-      pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      description: Valid Group ID
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    GroupTypeIdParam:
-      name: groupTypeId
-      in: path
-      required: true
-      description: Group Type ID
-      schema:
-        type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      example: sap.iot:capability-area
-    GroupIdParam:
-      name: groupId
-      in: path
-      required: true
-      description: Group ID
-      schema:
-        type: string
-        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
-      example: sap.iot:capability-area:sap.iot:Connectivity
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    GroupTypeFilterParam:
-      name: groupTypeId
-      in: query
-      description: Filter groups by group type ID
-      schema:
-        type: string
   examples:
+    GroupExample:
+      summary: Connectivity Capability Area Group
+      value:
+        groupId: sap.iot:capability-area:sap.iot:Connectivity
+        groupTypeId: sap.iot:capability-area
+        title: Connectivity
+    GroupTypeExample:
+      summary: IoT Capability Area Group Type
+      value:
+        groupTypeId: sap.iot:capability-area
+        title: IoT Capability Area
+        description: Logical grouping of IoT platform capabilities
     GroupListExample:
       summary: List of Groups
       value:
@@ -305,6 +247,12 @@ components:
         totalCount: 2
         limit: 20
         offset: 0
+    InternalServerErrorExample:
+      summary: Internal Server Error
+      value:
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
     BadRequestErrorExample:
       summary: Bad Request Error
       value:
@@ -333,24 +281,76 @@ components:
         code: NOT_FOUND
         message: The requested resource was not found
         requestId: req-12345-abcde
-    GroupTypeExample:
-      summary: IoT Capability Area Group Type
-      value:
-        groupTypeId: sap.iot:capability-area
-        title: IoT Capability Area
-        description: Logical grouping of IoT platform capabilities
-    GroupExample:
-      summary: Connectivity Capability Area Group
-      value:
-        groupId: sap.iot:capability-area:sap.iot:Connectivity
-        groupTypeId: sap.iot:capability-area
-        title: Connectivity
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
+  parameters:
+    GroupIdParam:
+      name: groupId
+      in: path
+      required: true
+      description: Group ID
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+):([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      example: sap.iot:capability-area:sap.iot:Connectivity
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    GroupTypeIdParam:
+      name: groupTypeId
+      in: path
+      required: true
+      description: Group Type ID
+      schema:
+        type: string
+        pattern: ^([a-z0-9-]+(?:[.][a-z0-9-]+)*):([a-zA-Z0-9._\-\/]+)$
+      example: sap.iot:capability-area
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    GroupTypeFilterParam:
+      name: groupTypeId
+      in: query
+      description: Filter groups by group type ID
+      schema:
+        type: string
   securitySchemes:
     oauth2:
       type: oauth2

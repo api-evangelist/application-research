@@ -116,6 +116,100 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
+    ResourceProvisioning:
+      type: string
+      description: Specifies how the underlying service/resource is provisioned and managed
+      enum:
+      - recipe
+      - manual
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
+    MetadataValueFromSecret:
+      type: object
+      properties:
+        name:
+          type: string
+        key:
+          type: string
+      required:
+      - name
+      - key
+    DaprStateStoreProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        componentName:
+          type: string
+          readOnly: true
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MetadataValue'
+        type:
+          type: string
+        version:
+          type: string
+        auth:
+          $ref: '#/components/schemas/DaprResourceAuth'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceReference'
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ResourceReference:
+      type: object
+      description: Describes a reference to an existing resource
+      properties:
+        id:
+          type: string
+          description: Resource id of an existing resource
+      required:
+      - id
     ResourceStatus:
       type: object
       description: Status of a resource
@@ -155,51 +249,18 @@ components:
       required:
       - properties
       - location
-    DaprSecretStoreProperties:
+    Recipe:
       type: object
+      description: The recipe used to automatically deploy underlying infrastructure
       properties:
-        environment:
+        name:
           type: string
-        application:
-          type: string
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/ResourceStatus'
-          readOnly: true
-        componentName:
-          type: string
-          readOnly: true
-        metadata:
+          description: The name of the recipe within the environment to use
+        parameters:
           type: object
-          additionalProperties:
-            $ref: '#/components/schemas/MetadataValue'
-        type:
-          type: string
-        version:
-          type: string
-        recipe:
-          $ref: '#/components/schemas/Recipe'
-        resourceProvisioning:
-          $ref: '#/components/schemas/ResourceProvisioning'
+          description: Key/value parameters to pass into the recipe at deployment
       required:
-      - environment
-    ResourceProvisioning:
-      type: string
-      description: Specifies how the underlying service/resource is provisioned and managed
-      enum:
-      - recipe
-      - manual
-    ResourceReference:
-      type: object
-      description: Describes a reference to an existing resource
-      properties:
-        id:
-          type: string
-          description: Resource id of an existing resource
-      required:
-      - id
+      - name
     DaprSecretStoreResource:
       type: object
       properties:
@@ -226,16 +287,32 @@ components:
       required:
       - properties
       - location
-    MetadataValueFromSecret:
+    DaprStateStoreResource:
       type: object
       properties:
+        properties:
+          $ref: '#/components/schemas/DaprStateStoreProperties'
+        id:
+          type: string
+          readOnly: true
         name:
           type: string
-        key:
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
           type: string
       required:
-      - name
-      - key
+      - properties
+      - location
     RecipeStatus:
       type: object
       description: Recipe status at deployment time
@@ -256,25 +333,7 @@ components:
           type: string
         secretKeyRef:
           $ref: '#/components/schemas/MetadataValueFromSecret'
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
-      properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
-          type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
-          type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
-      required:
-      - kind
-    DaprPubSubBrokerProperties:
+    DaprConfigurationStoreProperties:
       type: object
       properties:
         environment:
@@ -315,63 +374,7 @@ components:
       properties:
         secretStore:
           type: string
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    DaprStateStoreResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/DaprStateStoreProperties'
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
-    EnvironmentCompute:
-      type: object
-      description: Represents backing compute resource
-      properties:
-        kind:
-          type: string
-        resourceId:
-          type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
-    DaprStateStoreProperties:
+    DaprPubSubBrokerProperties:
       type: object
       properties:
         environment:
@@ -407,6 +410,71 @@ components:
           $ref: '#/components/schemas/ResourceProvisioning'
       required:
       - environment
+    DaprSecretStoreProperties:
+      type: object
+      properties:
+        environment:
+          type: string
+        application:
+          type: string
+        provisioningState:
+          $ref: '#/components/schemas/ProvisioningState'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+          readOnly: true
+        componentName:
+          type: string
+          readOnly: true
+        metadata:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MetadataValue'
+        type:
+          type: string
+        version:
+          type: string
+        recipe:
+          $ref: '#/components/schemas/Recipe'
+        resourceProvisioning:
+          $ref: '#/components/schemas/ResourceProvisioning'
+      required:
+      - environment
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
     DaprPubSubBrokerResource:
       type: object
       properties:
@@ -433,130 +501,51 @@ components:
       required:
       - properties
       - location
-    OutputResource:
-      type: object
-      description: Properties of an output resource
-      properties:
-        localId:
-          type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    Recipe:
-      type: object
-      description: The recipe used to automatically deploy underlying infrastructure
-      properties:
-        name:
-          type: string
-          description: The name of the recipe within the environment to use
-        parameters:
-          type: object
-          description: Key/value parameters to pass into the recipe at deployment
-      required:
-      - name
-    DaprConfigurationStoreProperties:
-      type: object
-      properties:
-        environment:
-          type: string
-        application:
-          type: string
-        provisioningState:
-          $ref: '#/components/schemas/ProvisioningState'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/ResourceStatus'
-          readOnly: true
-        componentName:
-          type: string
-          readOnly: true
-        metadata:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/MetadataValue'
-        type:
-          type: string
-        version:
-          type: string
-        auth:
-          $ref: '#/components/schemas/DaprResourceAuth'
-        resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceReference'
-        recipe:
-          $ref: '#/components/schemas/Recipe'
-        resourceProvisioning:
-          $ref: '#/components/schemas/ResourceProvisioning'
-      required:
-      - environment
-  parameters:
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    DaprSecretStoreNameParameter:
-      name: daprSecretStoreName
-      in: path
-      required: true
-      description: The name of the Dapr secret store
-      schema:
-        type: string
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    StateStoreNameParameter:
-      name: stateStoreName
-      in: path
-      required: true
-      description: The name of the Dapr state store
-      schema:
-        type: string
-    ConfigurationStoreNameParameter:
-      name: configurationStoreName
-      in: path
-      required: true
-      description: The name of the Dapr configuration store
-      schema:
-        type: string
-    PubSubBrokerNameParameter:
-      name: pubSubBrokerName
-      in: path
-      required: true
-      description: The name of the Dapr pub/sub broker
-      schema:
-        type: string
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
   examples:
+    RabbitMQPubSubExample:
+      summary: RabbitMQ pub/sub for e-commerce
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          resourceProvisioning: manual
+          type: pubsub.rabbitmq
+          version: v1
+          metadata:
+            host:
+              value: amqps://ecommerce-rabbitmq.servicebus.windows.net:5671
+            durable:
+              value: 'true'
+            deletedWhenUnused:
+              value: 'false'
+            autoAck:
+              value: 'false'
+          resources:
+          - id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Messaging/rabbitMQQueues/order-events
+        location: eastus
+        tags:
+          dapr-component: pubsub
+    AppConfigConfigurationStoreExample:
+      summary: Azure App Configuration store
+      value:
+        properties:
+          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
+          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
+          resourceProvisioning: manual
+          type: configuration.azure.appconfig
+          version: v1
+          metadata:
+            host:
+              value: https://ecommerce-config.azconfig.io
+            maxRetries:
+              value: '3'
+            retryDelay:
+              value: 5s
+          auth:
+            secretStore: order-secrets
+        location: eastus
+        tags:
+          dapr-component: config-store
     RedisStateStoreExample:
       summary: Redis state store for e-commerce
       value:
@@ -584,50 +573,6 @@ components:
         location: eastus
         tags:
           dapr-component: state-store
-    AppConfigConfigurationStoreExample:
-      summary: Azure App Configuration store
-      value:
-        properties:
-          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
-          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
-          resourceProvisioning: manual
-          type: configuration.azure.appconfig
-          version: v1
-          metadata:
-            host:
-              value: https://ecommerce-config.azconfig.io
-            maxRetries:
-              value: '3'
-            retryDelay:
-              value: 5s
-          auth:
-            secretStore: order-secrets
-        location: eastus
-        tags:
-          dapr-component: config-store
-    RabbitMQPubSubExample:
-      summary: RabbitMQ pub/sub for e-commerce
-      value:
-        properties:
-          environment: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/environments/prod
-          application: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Core/applications/ecommerce-platform
-          resourceProvisioning: manual
-          type: pubsub.rabbitmq
-          version: v1
-          metadata:
-            host:
-              value: amqps://ecommerce-rabbitmq.servicebus.windows.net:5671
-            durable:
-              value: 'true'
-            deletedWhenUnused:
-              value: 'false'
-            autoAck:
-              value: 'false'
-          resources:
-          - id: /planes/radius/local/resourceGroups/ecommerce-rg/providers/Applications.Messaging/rabbitMQQueues/order-events
-        location: eastus
-        tags:
-          dapr-component: pubsub
     KeyVaultSecretStoreExample:
       summary: Azure Key Vault secret store
       value:
@@ -645,6 +590,61 @@ components:
         location: eastus
         tags:
           dapr-component: secret-store
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    StateStoreNameParameter:
+      name: stateStoreName
+      in: path
+      required: true
+      description: The name of the Dapr state store
+      schema:
+        type: string
+    PubSubBrokerNameParameter:
+      name: pubSubBrokerName
+      in: path
+      required: true
+      description: The name of the Dapr pub/sub broker
+      schema:
+        type: string
+    ConfigurationStoreNameParameter:
+      name: configurationStoreName
+      in: path
+      required: true
+      description: The name of the Dapr configuration store
+      schema:
+        type: string
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    DaprSecretStoreNameParameter:
+      name: daprSecretStoreName
+      in: path
+      required: true
+      description: The name of the Dapr secret store
+      schema:
+        type: string
   responses:
     ErrorResponse:
       description: Error response

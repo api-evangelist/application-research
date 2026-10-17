@@ -81,142 +81,6 @@ paths:
           $ref: '#/components/responses/ErrorResponse'
 components:
   schemas:
-    ResourceStatus:
-      type: object
-      description: Status of a resource
-      properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
-    GatewayRoute:
-      type: object
-      properties:
-        path:
-          type: string
-        destination:
-          type: string
-        replacePrefix:
-          type: string
-        enableWebsockets:
-          type: boolean
-        timeoutPolicy:
-          $ref: '#/components/schemas/GatewayRouteTimeoutPolicy'
-    RecipeStatus:
-      type: object
-      description: Recipe status at deployment time
-      properties:
-        templateKind:
-          type: string
-        templatePath:
-          type: string
-        templateVersion:
-          type: string
-      required:
-      - templateKind
-      - templatePath
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
-      properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
-          type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
-          type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
-      required:
-      - kind
-    GatewayResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/GatewayProperties'
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
-      required:
-      - properties
-      - location
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    GatewayTls:
-      type: object
-      properties:
-        sslPassthrough:
-          type: boolean
-        minimumProtocolVersion:
-          type: string
-          default: '1.2'
-          enum:
-          - '1.2'
-          - '1.3'
-        certificateFrom:
-          type: string
-    EnvironmentCompute:
-      type: object
-      description: Represents backing compute resource
-      properties:
-        kind:
-          type: string
-        resourceId:
-          type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
-    OutputResource:
-      type: object
-      description: Properties of an output resource
-      properties:
-        localId:
-          type: string
-        id:
-          type: string
-        radiusManaged:
-          type: boolean
     GatewayProperties:
       type: object
       properties:
@@ -253,6 +117,55 @@ components:
           type: string
         fullyQualifiedHostname:
           type: string
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    GatewayResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/GatewayProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
     IdentitySettingKind:
       type: string
       description: IdentitySettingKind is the kind of supported external identity setting
@@ -263,6 +176,58 @@ components:
       - userAssigned
       - systemAssigned
       - systemAssignedUserAssigned
+    GatewayRoute:
+      type: object
+      properties:
+        path:
+          type: string
+        destination:
+          type: string
+        replacePrefix:
+          type: string
+        enableWebsockets:
+          type: boolean
+        timeoutPolicy:
+          $ref: '#/components/schemas/GatewayRouteTimeoutPolicy'
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
+    GatewayTls:
+      type: object
+      properties:
+        sslPassthrough:
+          type: boolean
+        minimumProtocolVersion:
+          type: string
+          default: '1.2'
+          enum:
+          - '1.2'
+          - '1.3'
+        certificateFrom:
+          type: string
+    RecipeStatus:
+      type: object
+      description: Recipe status at deployment time
+      properties:
+        templateKind:
+          type: string
+        templatePath:
+          type: string
+        templateVersion:
+          type: string
+      required:
+      - templateKind
+      - templatePath
     GatewayRouteTimeoutPolicy:
       type: object
       properties:
@@ -272,16 +237,50 @@ components:
         backendRequest:
           type: string
           pattern: ^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
+    EnvironmentCompute:
+      type: object
+      description: Represents backing compute resource
+      properties:
+        kind:
+          type: string
+        resourceId:
+          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
   parameters:
-    PlaneNameParameter:
-      name: planeName
-      in: path
+    ApiVersionParameter:
+      name: api-version
+      in: query
       required: true
-      description: The name of the plane
+      description: The API version to use for this operation
       schema:
         type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
+        default: 2023-10-01-preview
     GatewayNameParameter:
       name: gatewayName
       in: path
@@ -298,14 +297,15 @@ components:
         type: string
         pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
         maxLength: 63
-    ApiVersionParameter:
-      name: api-version
-      in: query
+    PlaneNameParameter:
+      name: planeName
+      in: path
       required: true
-      description: The API version to use for this operation
+      description: The name of the plane
       schema:
         type: string
-        default: 2023-10-01-preview
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
   examples:
     EcommerceGatewayExample:
       summary: E-commerce gateway with TLS and routing

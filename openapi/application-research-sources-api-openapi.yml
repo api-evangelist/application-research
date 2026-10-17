@@ -83,35 +83,30 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 components:
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
-    BadRequest:
-      description: Bad request - invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/ErrorBadRequest'
   schemas:
+    Label:
+      type: object
+      description: A label with name-value pair
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Label name
+        value: {}
+        version:
+          type: string
+          pattern: ^v[0-9]+$
+        signing:
+          type: boolean
+          description: Whether this label should be included in signing
+        merge:
+          $ref: '#/components/schemas/Merge'
+    SourceListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Source'
     Version:
       type: string
       description: Semantic version string
@@ -120,25 +115,6 @@ components:
       - 1.0.0
       - 2.5.1
       - v1.0.0-beta.1
-    Merge:
-      type: object
-      properties:
-        algorithm:
-          type: string
-          pattern: ^[a-z][a-z0-9/_-]+$
-        config: {}
-    Input:
-      type: object
-      description: Input specification for local resources
-      required:
-      - type
-      properties:
-        type:
-          type: string
-    Labels:
-      type: array
-      items:
-        $ref: '#/components/schemas/Label'
     Access:
       type: object
       description: Access specification for resources and sources
@@ -161,6 +137,21 @@ components:
           npm: '#/components/schemas/NpmAccess'
           wget: '#/components/schemas/WgetAccess'
           http: '#/components/schemas/HttpAccess'
+    Merge:
+      type: object
+      properties:
+        algorithm:
+          type: string
+          pattern: ^[a-z][a-z0-9/_-]+$
+        config: {}
+    Input:
+      type: object
+      description: Input specification for local resources
+      required:
+      - type
+      properties:
+        type:
+          type: string
     ElementName:
       type: string
       description: Element name for resources and sources
@@ -170,23 +161,10 @@ components:
       - frontend-image
       - backend-image
       - helm-chart
-    SourceListResponse:
+    Labels:
       type: array
       items:
-        $ref: '#/components/schemas/Source'
-    IdentityAttribute:
-      type: object
-      description: Identity attributes for element identification
-      additionalProperties:
-        type: string
-    ComponentName:
-      type: string
-      description: Fully qualified component name
-      maxLength: 255
-      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
-      examples:
-      - github.com/acme.org/web-application
-      - github.com/ailab.org/model-training-pipeline
+        $ref: '#/components/schemas/Label'
     Source:
       type: object
       description: Component source
@@ -227,48 +205,20 @@ components:
         details:
           type: object
           additionalProperties: true
-    Label:
+    IdentityAttribute:
       type: object
-      description: A label with name-value pair
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: Label name
-        value: {}
-        version:
-          type: string
-          pattern: ^v[0-9]+$
-        signing:
-          type: boolean
-          description: Whether this label should be included in signing
-        merge:
-          $ref: '#/components/schemas/Merge'
-  parameters:
-    ComponentNameParam:
-      name: name
-      in: path
-      required: true
-      description: Component name (e.g., github.com/acme.org/web-application)
-      schema:
-        $ref: '#/components/schemas/ComponentName'
-    VersionQueryParam:
-      name: version
-      in: query
-      description: Component version (semver)
-      schema:
-        $ref: '#/components/schemas/Version'
+      description: Identity attributes for element identification
+      additionalProperties:
+        type: string
+    ComponentName:
+      type: string
+      description: Fully qualified component name
+      maxLength: 255
+      pattern: ^[a-z][-a-z0-9]*([.][a-z][-a-z0-9]*)*[.][a-z]{2,}(/[a-z][-a-z0-9_]*([.][a-z][-a-z0-9_]*)*)+$
+      examples:
+      - github.com/acme.org/web-application
+      - github.com/ailab.org/model-training-pipeline
   examples:
-    ErrorInternal:
-      summary: Internal Error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-xyz789
     ErrorBadRequest:
       summary: Bad Request Error
       description: Example bad request error
@@ -284,6 +234,20 @@ components:
       value:
         code: NOT_FOUND
         message: Component 'github.com/acme.org/unknown-component' not found
+    GitHubSource:
+      summary: GitHub Source
+      description: Example GitHub source
+      value:
+        name: application-source
+        type: git
+        version: 2.5.1
+        access:
+          type: gitHub
+          repoUrl: https://github.com/acme-org/web-application
+          commit: a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7
+        labels:
+        - name: language
+          value: javascript
     SourceListResponse:
       summary: Source list
       description: Example list of component sources
@@ -302,20 +266,56 @@ components:
           type: helm
           helmRepository: https://charts.acme.org
           helmChart: web-app:1.2.0
-    GitHubSource:
-      summary: GitHub Source
-      description: Example GitHub source
+    ErrorInternal:
+      summary: Internal Error
+      description: Example internal server error
       value:
-        name: application-source
-        type: git
-        version: 2.5.1
-        access:
-          type: gitHub
-          repoUrl: https://github.com/acme-org/web-application
-          commit: a7f8d9e1c2b3a4f5e6d7c8b9a0f1e2d3c4b5a6f7
-        labels:
-        - name: language
-          value: javascript
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-xyz789
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/ErrorBadRequest'
+  parameters:
+    ComponentNameParam:
+      name: name
+      in: path
+      required: true
+      description: Component name (e.g., github.com/acme.org/web-application)
+      schema:
+        $ref: '#/components/schemas/ComponentName'
+    VersionQueryParam:
+      name: version
+      in: query
+      description: Component version (semver)
+      schema:
+        $ref: '#/components/schemas/Version'
   securitySchemes:
     bearerAuth:
       type: http

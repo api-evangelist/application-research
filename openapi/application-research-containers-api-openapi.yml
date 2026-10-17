@@ -119,76 +119,100 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 components:
-  parameters:
-    ContainerNameParameter:
-      name: containerName
-      in: path
-      required: true
-      description: The name of the container
-      schema:
-        type: string
-    PlaneNameParameter:
-      name: planeName
-      in: path
-      required: true
-      description: The name of the plane
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ResourceGroupNameParameter:
-      name: resourceGroupName
-      in: path
-      required: true
-      description: The name of the resource group
-      schema:
-        type: string
-        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
-        maxLength: 63
-    ApiVersionParameter:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation
-      schema:
-        type: string
-        default: 2023-10-01-preview
   schemas:
-    ResourceStatus:
+    RuntimesProperties:
       type: object
-      description: Status of a resource
       properties:
-        compute:
-          $ref: '#/components/schemas/EnvironmentCompute'
-        recipe:
-          $ref: '#/components/schemas/RecipeStatus'
-          readOnly: true
-        outputResources:
-          type: array
-          items:
-            $ref: '#/components/schemas/OutputResource'
-    HealthProbeProperties:
+        kubernetes:
+          $ref: '#/components/schemas/KubernetesRuntimeProperties'
+        aci:
+          $ref: '#/components/schemas/ACIRuntimeProperties'
+    EnvironmentVariableReference:
+      type: object
+      properties:
+        secretRef:
+          $ref: '#/components/schemas/SecretReference'
+      required:
+      - secretRef
+    ACIRuntimeProperties:
+      type: object
+      properties:
+        gatewayID:
+          type: string
+    IamProperties:
       type: object
       properties:
         kind:
           type: string
-        initialDelaySeconds:
-          type: number
-        failureThreshold:
-          type: number
-        periodSeconds:
-          type: number
-        timeoutSeconds:
-          type: number
-          default: 5
+          enum:
+          - azure
+          - aws
+        roles:
+          type: array
+          items:
+            type: string
       required:
       - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          httpGet: '#/components/schemas/HttpGetHealthProbeProperties'
-          tcp: '#/components/schemas/TcpHealthProbeProperties'
-          exec: '#/components/schemas/ExecHealthProbeProperties'
+    ConnectionProperties:
+      type: object
+      properties:
+        source:
+          type: string
+        disableDefaultEnvVars:
+          type: boolean
+        iam:
+          $ref: '#/components/schemas/IamProperties'
+      required:
+      - source
+    ProvisioningState:
+      type: string
+      description: Provisioning state of the resource at the time the operation was called
+      enum:
+      - Creating
+      - Updating
+      - Deleting
+      - Accepted
+      - Provisioning
+      - Succeeded
+      - Failed
+      - Canceled
+      readOnly: true
+    ContainerResource:
+      type: object
+      properties:
+        properties:
+          $ref: '#/components/schemas/ContainerProperties'
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        systemData:
+          type: object
+          readOnly: true
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: string
+      required:
+      - properties
+      - location
+    OutputResource:
+      type: object
+      description: Properties of an output resource
+      properties:
+        localId:
+          type: string
+        id:
+          type: string
+        radiusManaged:
+          type: boolean
     ContainerProperties:
       type: object
       properties:
@@ -234,20 +258,38 @@ components:
       required:
       - application
       - container
-    ACIRuntimeProperties:
+    IdentitySettingKind:
+      type: string
+      description: IdentitySettingKind is the kind of supported external identity setting
+      enum:
+      - undefined
+      - azure.com.workload
+      - aws.com.irsa
+      - userAssigned
+      - systemAssigned
+      - systemAssignedUserAssigned
+    ResourceReference:
       type: object
+      description: Describes a reference to an existing resource
       properties:
-        gatewayID:
+        id:
           type: string
-    Volume:
-      type: object
-      properties:
-        kind:
-          type: string
-        mountPath:
-          type: string
+          description: Resource id of an existing resource
       required:
-      - kind
+      - id
+    ResourceStatus:
+      type: object
+      description: Status of a resource
+      properties:
+        compute:
+          $ref: '#/components/schemas/EnvironmentCompute'
+        recipe:
+          $ref: '#/components/schemas/RecipeStatus'
+          readOnly: true
+        outputResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutputResource'
     ContainerResourceListResult:
       type: object
       properties:
@@ -260,28 +302,14 @@ components:
           format: uri
       required:
       - value
-    ResourceReference:
+    KubernetesRuntimeProperties:
       type: object
-      description: Describes a reference to an existing resource
       properties:
-        id:
+        base:
           type: string
-          description: Resource id of an existing resource
-      required:
-      - id
-    SecretReference:
-      type: object
-      description: Reference to a secret in a secret store
-      properties:
-        source:
-          type: string
-          description: The ID of an Applications.Core/SecretStore resource
-        key:
-          type: string
-          description: The key for the secret in the secret store
-      required:
-      - source
-      - key
+        pod:
+          type: object
+          additionalProperties: true
     RecipeStatus:
       type: object
       description: Recipe status at deployment time
@@ -295,85 +323,6 @@ components:
       required:
       - templateKind
       - templatePath
-    EnvironmentVariable:
-      type: object
-      properties:
-        value:
-          type: string
-        valueFrom:
-          $ref: '#/components/schemas/EnvironmentVariableReference'
-    IdentitySettings:
-      type: object
-      description: IdentitySettings is the external identity setting
-      properties:
-        kind:
-          $ref: '#/components/schemas/IdentitySettingKind'
-        oidcIssuer:
-          type: string
-          description: The URI for your compute platform's OIDC issuer
-        resource:
-          type: string
-          description: The resource ID of the provisioned identity
-        managedIdentity:
-          type: array
-          items:
-            type: string
-      required:
-      - kind
-    ProvisioningState:
-      type: string
-      description: Provisioning state of the resource at the time the operation was called
-      enum:
-      - Creating
-      - Updating
-      - Deleting
-      - Accepted
-      - Provisioning
-      - Succeeded
-      - Failed
-      - Canceled
-      readOnly: true
-    Extension:
-      type: object
-      description: Extension of a environment/application resource
-      properties:
-        kind:
-          type: string
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetesMetadata: '#/components/schemas/KubernetesMetadataExtension'
-          kubernetesNamespace: '#/components/schemas/KubernetesNamespaceExtension'
-          manualScaling: '#/components/schemas/ManualScalingExtension'
-          daprSidecar: '#/components/schemas/DaprSidecarExtension'
-          aci: '#/components/schemas/AzureContainerInstanceExtension'
-    KubernetesRuntimeProperties:
-      type: object
-      properties:
-        base:
-          type: string
-        pod:
-          type: object
-          additionalProperties: true
-    EnvironmentCompute:
-      type: object
-      description: Represents backing compute resource
-      properties:
-        kind:
-          type: string
-        resourceId:
-          type: string
-        identity:
-          $ref: '#/components/schemas/IdentitySettings'
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          kubernetes: '#/components/schemas/KubernetesCompute'
-          aci: '#/components/schemas/AzureContainerInstanceCompute'
     Container:
       type: object
       properties:
@@ -413,16 +362,69 @@ components:
           type: string
       required:
       - image
-    OutputResource:
+    SecretReference:
       type: object
-      description: Properties of an output resource
+      description: Reference to a secret in a secret store
       properties:
-        localId:
+        source:
           type: string
-        id:
+          description: The ID of an Applications.Core/SecretStore resource
+        key:
           type: string
-        radiusManaged:
-          type: boolean
+          description: The key for the secret in the secret store
+      required:
+      - source
+      - key
+    EnvironmentVariable:
+      type: object
+      properties:
+        value:
+          type: string
+        valueFrom:
+          $ref: '#/components/schemas/EnvironmentVariableReference'
+    Volume:
+      type: object
+      properties:
+        kind:
+          type: string
+        mountPath:
+          type: string
+      required:
+      - kind
+    Extension:
+      type: object
+      description: Extension of a environment/application resource
+      properties:
+        kind:
+          type: string
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetesMetadata: '#/components/schemas/KubernetesMetadataExtension'
+          kubernetesNamespace: '#/components/schemas/KubernetesNamespaceExtension'
+          manualScaling: '#/components/schemas/ManualScalingExtension'
+          daprSidecar: '#/components/schemas/DaprSidecarExtension'
+          aci: '#/components/schemas/AzureContainerInstanceExtension'
+    IdentitySettings:
+      type: object
+      description: IdentitySettings is the external identity setting
+      properties:
+        kind:
+          $ref: '#/components/schemas/IdentitySettingKind'
+        oidcIssuer:
+          type: string
+          description: The URI for your compute platform's OIDC issuer
+        resource:
+          type: string
+          description: The resource ID of the provisioned identity
+        managedIdentity:
+          type: array
+          items:
+            type: string
+      required:
+      - kind
     ContainerPortProperties:
       type: object
       properties:
@@ -441,81 +443,79 @@ components:
           format: int32
       required:
       - containerPort
-    RuntimesProperties:
+    EnvironmentCompute:
       type: object
+      description: Represents backing compute resource
       properties:
-        kubernetes:
-          $ref: '#/components/schemas/KubernetesRuntimeProperties'
-        aci:
-          $ref: '#/components/schemas/ACIRuntimeProperties'
-    ContainerResource:
-      type: object
-      properties:
-        properties:
-          $ref: '#/components/schemas/ContainerProperties'
-        id:
+        kind:
           type: string
-          readOnly: true
-        name:
+        resourceId:
           type: string
-          readOnly: true
-        type:
-          type: string
-          readOnly: true
-        systemData:
-          type: object
-          readOnly: true
-        tags:
-          type: object
-          additionalProperties:
-            type: string
-        location:
-          type: string
+        identity:
+          $ref: '#/components/schemas/IdentitySettings'
       required:
-      - properties
-      - location
-    IdentitySettingKind:
-      type: string
-      description: IdentitySettingKind is the kind of supported external identity setting
-      enum:
-      - undefined
-      - azure.com.workload
-      - aws.com.irsa
-      - userAssigned
-      - systemAssigned
-      - systemAssignedUserAssigned
-    ConnectionProperties:
-      type: object
-      properties:
-        source:
-          type: string
-        disableDefaultEnvVars:
-          type: boolean
-        iam:
-          $ref: '#/components/schemas/IamProperties'
-      required:
-      - source
-    EnvironmentVariableReference:
-      type: object
-      properties:
-        secretRef:
-          $ref: '#/components/schemas/SecretReference'
-      required:
-      - secretRef
-    IamProperties:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          kubernetes: '#/components/schemas/KubernetesCompute'
+          aci: '#/components/schemas/AzureContainerInstanceCompute'
+    HealthProbeProperties:
       type: object
       properties:
         kind:
           type: string
-          enum:
-          - azure
-          - aws
-        roles:
-          type: array
-          items:
-            type: string
+        initialDelaySeconds:
+          type: number
+        failureThreshold:
+          type: number
+        periodSeconds:
+          type: number
+        timeoutSeconds:
+          type: number
+          default: 5
       required:
       - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          httpGet: '#/components/schemas/HttpGetHealthProbeProperties'
+          tcp: '#/components/schemas/TcpHealthProbeProperties'
+          exec: '#/components/schemas/ExecHealthProbeProperties'
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      required: true
+      description: The API version to use for this operation
+      schema:
+        type: string
+        default: 2023-10-01-preview
+    ContainerNameParameter:
+      name: containerName
+      in: path
+      required: true
+      description: The name of the container
+      schema:
+        type: string
+    ResourceGroupNameParameter:
+      name: resourceGroupName
+      in: path
+      required: true
+      description: The name of the resource group
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
+    PlaneNameParameter:
+      name: planeName
+      in: path
+      required: true
+      description: The name of the plane
+      schema:
+        type: string
+        pattern: ^[A-Za-z]([-A-Za-z0-9]*[A-Za-z0-9])?$
+        maxLength: 63
   examples:
     OrderServiceContainerExample:
       summary: Order service container with full configuration

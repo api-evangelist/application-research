@@ -80,20 +80,74 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    ProductOrdIdParam:
+      name: ordId
+      in: path
+      required: true
+      description: ORD ID of the Product
+      schema:
+        type: string
+        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
+      example: 'sap:product:IoTPlatform:'
+    VendorFilterParam:
+      name: vendor
+      in: query
+      description: Filter by vendor ORD ID
+      schema:
+        type: string
+      example: 'sap:vendor:SAP:'
+    OffsetParam:
+      name: offset
+      in: query
+      description: Number of items to skip
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    LimitParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  responses:
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            serverError:
+              $ref: '#/components/examples/InternalServerErrorExample'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/NotFoundErrorExample'
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            badRequest:
+              $ref: '#/components/examples/BadRequestErrorExample'
   schemas:
-    ProductList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        totalCount:
-          type: integer
-        limit:
-          type: integer
-        offset:
-          type: integer
+    CorrelationId:
+      type: string
+      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
+      maxLength: 255
+      description: Correlation ID for referencing related data
     DocumentationLabels:
       type: object
       title: Documentation Labels
@@ -102,14 +156,10 @@ components:
         items:
           type: string
           minLength: 1
-    Labels:
-      type: object
-      title: Labels
-      additionalProperties:
-        type: array
-        items:
-          type: string
-          minLength: 1
+    Tag:
+      type: string
+      pattern: ^[a-zA-Z0-9-_.\/ ]*$
+      minLength: 1
     Product:
       type: object
       title: Product
@@ -154,15 +204,27 @@ components:
           $ref: '#/components/schemas/Labels'
         documentationLabels:
           $ref: '#/components/schemas/DocumentationLabels'
-    CorrelationId:
-      type: string
-      pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):([a-zA-Z0-9._\-\/]+):([a-zA-Z0-9._\-\/]+)$
-      maxLength: 255
-      description: Correlation ID for referencing related data
-    Tag:
-      type: string
-      pattern: ^[a-zA-Z0-9-_.\/ ]*$
-      minLength: 1
+    Labels:
+      type: object
+      title: Labels
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          minLength: 1
+    ProductList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        totalCount:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
     Error:
       type: object
       required:
@@ -203,14 +265,12 @@ components:
         totalCount: 2
         limit: 20
         offset: 0
-    ProductExample:
-      summary: SAP IoT Platform Product
+    InternalServerErrorExample:
+      summary: Internal Server Error
       value:
-        ordId: 'sap:product:IoTPlatform:'
-        title: SAP IoT Platform
-        shortDescription: Enterprise IoT platform for industrial applications
-        description: SAP IoT Platform provides connectivity, data ingestion, device management, and analytics capabilities for industrial IoT scenarios.
-        vendor: 'sap:vendor:SAP:'
+        code: INTERNAL_SERVER_ERROR
+        message: An unexpected error occurred. Please try again later.
+        requestId: req-12345-abcde
     BadRequestErrorExample:
       summary: Bad Request Error
       value:
@@ -220,80 +280,20 @@ components:
         - field: ordId
           message: ORD ID must match the required pattern
         requestId: req-12345-abcde
+    ProductExample:
+      summary: SAP IoT Platform Product
+      value:
+        ordId: 'sap:product:IoTPlatform:'
+        title: SAP IoT Platform
+        shortDescription: Enterprise IoT platform for industrial applications
+        description: SAP IoT Platform provides connectivity, data ingestion, device management, and analytics capabilities for industrial IoT scenarios.
+        vendor: 'sap:vendor:SAP:'
     NotFoundErrorExample:
       summary: Not Found Error
       value:
         code: NOT_FOUND
         message: The requested resource was not found
         requestId: req-12345-abcde
-    InternalServerErrorExample:
-      summary: Internal Server Error
-      value:
-        code: INTERNAL_SERVER_ERROR
-        message: An unexpected error occurred. Please try again later.
-        requestId: req-12345-abcde
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/NotFoundErrorExample'
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            serverError:
-              $ref: '#/components/examples/InternalServerErrorExample'
-    BadRequest:
-      description: Bad request - invalid input parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            badRequest:
-              $ref: '#/components/examples/BadRequestErrorExample'
-  parameters:
-    LimitParam:
-      name: limit
-      in: query
-      description: Maximum number of items to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    OffsetParam:
-      name: offset
-      in: query
-      description: Number of items to skip
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    ProductOrdIdParam:
-      name: ordId
-      in: path
-      required: true
-      description: ORD ID of the Product
-      schema:
-        type: string
-        pattern: ^([a-z0-9]+(?:[.][a-z0-9]+)*):(product):([a-zA-Z0-9._\-]+):()$
-      example: 'sap:product:IoTPlatform:'
-    VendorFilterParam:
-      name: vendor
-      in: query
-      description: Filter by vendor ORD ID
-      schema:
-        type: string
-      example: 'sap:vendor:SAP:'
   securitySchemes:
     oauth2:
       type: oauth2

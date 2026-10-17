@@ -72,51 +72,6 @@ paths:
           $ref: '#/components/responses/InternalError'
 components:
   examples:
-    ErrorNotFound:
-      summary: Not found error
-      description: Example error when resource is not found
-      value:
-        code: NOT_FOUND
-        message: Bundle 'my-bundle' not found
-    StatusListResponse:
-      summary: Installation list response
-      description: Example response for listing installations
-      value:
-      - status: Ready
-        message: All components are running
-        components:
-          wordpress:
-            status: Ready
-          mysql:
-            status: Ready
-      - status: Pending
-        message: Upgrade in progress
-        components:
-          inference-server:
-            status: Pending
-          redis-cache:
-            status: Ready
-    StatusPending:
-      summary: Pending installation status
-      description: Example of an installation in progress
-      value:
-        status: Pending
-        message: Installation in progress
-        components:
-          wordpress:
-            status: Pending
-            message: Waiting for database to be ready
-          mysql:
-            status: Ready
-            message: Database initialized
-    ErrorInternal:
-      summary: Internal error
-      description: Example internal server error
-      value:
-        code: INTERNAL_ERROR
-        message: An unexpected error occurred
-        details:
-          requestId: req-123456
     StatusFailed:
       summary: Failed installation status
       description: Example of a failed installation
@@ -143,6 +98,70 @@ components:
           mysql:
             status: Ready
             message: Primary and replica healthy
+    ErrorInternal:
+      summary: Internal error
+      description: Example internal server error
+      value:
+        code: INTERNAL_ERROR
+        message: An unexpected error occurred
+        details:
+          requestId: req-123456
+    StatusListResponse:
+      summary: Installation list response
+      description: Example response for listing installations
+      value:
+      - status: Ready
+        message: All components are running
+        components:
+          wordpress:
+            status: Ready
+          mysql:
+            status: Ready
+      - status: Pending
+        message: Upgrade in progress
+        components:
+          inference-server:
+            status: Pending
+          redis-cache:
+            status: Ready
+    ErrorNotFound:
+      summary: Not found error
+      description: Example error when resource is not found
+      value:
+        code: NOT_FOUND
+        message: Bundle 'my-bundle' not found
+    StatusPending:
+      summary: Pending installation status
+      description: Example of an installation in progress
+      value:
+        status: Pending
+        message: Installation in progress
+        components:
+          wordpress:
+            status: Pending
+            message: Waiting for database to be ready
+          mysql:
+            status: Ready
+            message: Database initialized
+  responses:
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            internalError:
+              $ref: '#/components/examples/ErrorInternal'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            notFound:
+              $ref: '#/components/examples/ErrorNotFound'
   schemas:
     Error:
       type: object
@@ -161,26 +180,6 @@ components:
           type: object
           description: Additional error details
           additionalProperties: true
-    Status:
-      type: object
-      description: Overall status of a CNAB installation
-      properties:
-        status:
-          type: string
-          description: Status identifier (Ready, Pending, Failed are well known)
-        message:
-          type: string
-          description: Details about the current status
-        components:
-          type: object
-          description: Map of component names to their status
-          additionalProperties:
-            $ref: '#/components/schemas/StatusComponent'
-      additionalProperties: true
-    StatusListResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/Status'
     StatusComponent:
       type: object
       description: Status of a component in a CNAB installation
@@ -197,25 +196,26 @@ components:
           additionalProperties:
             $ref: '#/components/schemas/StatusComponent'
       additionalProperties: true
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            notFound:
-              $ref: '#/components/examples/ErrorNotFound'
-    InternalError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          examples:
-            internalError:
-              $ref: '#/components/examples/ErrorInternal'
+    StatusListResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Status'
+    Status:
+      type: object
+      description: Overall status of a CNAB installation
+      properties:
+        status:
+          type: string
+          description: Status identifier (Ready, Pending, Failed are well known)
+        message:
+          type: string
+          description: Details about the current status
+        components:
+          type: object
+          description: Map of component names to their status
+          additionalProperties:
+            $ref: '#/components/schemas/StatusComponent'
+      additionalProperties: true
   parameters:
     InstallationNameParam:
       name: name
