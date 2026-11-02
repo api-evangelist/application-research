@@ -1,0 +1,72 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Application Research
+providerId: application-research
+created: '2026-05-04'
+# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
+# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
+method: generated
+modified: '2026-05-05'
+reconciled: true
+tags:
+  - Open Source
+  - Specifications
+  - Cloud Native
+  - Research
+  - Workload Specifications
+description: Application Research is an index of five open-source specifications (Score, Cloud Native
+  Application Bundle / CNAB, Open Component Model / OCM, Open Resource Discovery / ORD, Radius) for declaring
+  application service-integration dependencies. None of these specifications charge license fees; all
+  are governed by their respective open-source foundations or sponsoring vendors (CNCF, Linux Foundation,
+  SAP, Microsoft) and released under permissive licenses. The base URLs in apis.yml are illustrative and
+  do not represent commercial endpoints.
+notes: This is a research-index collection of free OSS specs; there is no commercial pricing to reconcile.
+sources:
+  - https://score.dev
+  - https://cnab.io
+  - https://ocm.software
+  - https://sap.github.io/open-resource-discovery/
+  - https://radapp.io
+plans:
+  - id: application-research-open-source
+    name: Open Source Specifications
+    type: freemium
+    description: Free, open-source specifications for declaring application workload, bundle, component,
+      resource discovery, and platform dependencies.
+    entries:
+      - label: Specification access
+        name: spec_access
+        type: quota
+        metric: spec
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Score (CNCF Sandbox)
+      - name: CNAB (CNCF)
+      - name: Open Component Model (CNCF)
+      - name: Open Resource Discovery (SAP)
+      - name: Radius (CNCF / Microsoft)
+      - name: All released under permissive open-source licenses
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Open Source Specifications
+    access: freemium
+    model: free
+    model_how: derived
+    units:
+    - other
+    periods:
+    - per-use
